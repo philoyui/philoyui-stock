@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link href="/resources/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/lib/icheck/icheck.css" rel="stylesheet" type="text/css" />
+    <link href="/resources/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+    <title>应用详情</title>
+</head>
+<body>
+<div class="pd-20">
+    <article class="page-container">
+        <div class="row cl" th:each="entity,iterStat:${detailFields}">
+            <label class="form-label col-xs-4 col-sm-3">
+                <th:block th:text="${entity.fieldDefinition.description}+'：'"/>
+            </label>
+            <div class="formControls col-xs-6 col-sm-7">
+                <th:block th:utext="${entity.detailHtml}"/>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </article>
+</div>
+</body>
+</html>

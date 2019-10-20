@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment='paginationbar'>
+    <div style="text-align: right">
+        <ul class='pagination pagination-centered'>
+            <input type="hidden" th:value="${page.url}" id="pageUrl"/>
+            <li th:class="${page.first}?'disabled':''">
+                <span th:if='${page.first}'>← First</span>
+                <a th:if='${not page.first}' href='#'  th:onclick="'javascript:page('+${page.pagenumber}+',0);'">← First</a>
+            </li>
+            <li th:class="${page.hasPrevious}? '' : 'disabled'">
+                <span th:if='${not page.hasPrevious}'>«</span>
+                <a th:if='${page.hasPrevious}' href='#' title='Go to previous page'
+                   th:onclick="'javascript:page('+${page.pagenumber-1}+','+${page.pagesize}+');'">«</a>
+            </li>
+            <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                <a th:if='${not item.current}' href='#'
+                   th:onclick="'javascript:page('+${item.number-1}+','+${page.pagesize}+');'"><span th:text='${item.number}'>1</span></a>
+            </li>
+            <li th:class="${page.hasNext}? '' : 'disabled'">
+                <span th:if='${not page.hasNext}'>»</span>
+                <a th:if='${page.hasNext}' href='#' title='Go to next page'
+                   th:onclick="'javascript:page('+${page.pagenumber+1}+','+${page.pagesize}+');'">»</a>
+            </li>
+            <li th:class="${page.last}? 'disabled' : ''">
+                <span th:if='${page.last}'>Last →</span>
+                <a th:if='${not page.last}' href='#'
+                   th:onclick="'javascript:page('+${page.totalPages - 1}+','+${page.pagesize}+');'">Last →</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
