@@ -1,0 +1,3 @@
+cn\com\gome\cloud\openplatform\domain\CustomSpecification.class
+cn\com\gome\cloud\openplatform\repository\GenericDao.class
+cn\com\gome\cloud\openplatform\service\impl\GenericServiceImpl.class
