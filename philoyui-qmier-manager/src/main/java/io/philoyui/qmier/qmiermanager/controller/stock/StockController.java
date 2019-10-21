@@ -2,8 +2,7 @@ package io.philoyui.qmier.qmiermanager.controller.stock;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.philoyui.qmier.qmiermanager.client.StockResponse;
-import io.philoyui.qmier.qmiermanager.entity.stock.StockEntity;
+import io.philoyui.qmier.qmiermanager.client.east.StockResponse;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;

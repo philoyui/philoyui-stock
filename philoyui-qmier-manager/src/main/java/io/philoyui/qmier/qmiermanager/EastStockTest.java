@@ -2,7 +2,7 @@ package io.philoyui.qmier.qmiermanager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.philoyui.qmier.qmiermanager.client.StockResponse;
+import io.philoyui.qmier.qmiermanager.client.east.StockResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QmierTest {
+public class EastStockTest {
 
     public static void main(String[] args){
 

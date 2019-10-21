@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.client;
+package io.philoyui.qmier.qmiermanager.client.east;
 
 import io.philoyui.qmier.qmiermanager.entity.stock.StockEntity;
 

@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.client;
+package io.philoyui.qmier.qmiermanager.client.east;
 
 import java.io.Serializable;
 
