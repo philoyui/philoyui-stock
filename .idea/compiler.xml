@@ -6,10 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="philoyui-qmier-common" />
         <module name="philoyui-qmier-jpa" />
-        <module name="philoyui-qmier-page" />
         <module name="philoyui-qmier-manager" />
+        <module name="philoyui-qmier-page" />
+        <module name="philoyui-qmier-common" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8" />
