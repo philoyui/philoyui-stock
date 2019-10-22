@@ -10,7 +10,6 @@ public class XueqiuList implements Serializable {
     @SerializedName("report_date")
     private Long reportDate;
 
-
     /**
      * 报告名称
      */

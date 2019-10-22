@@ -8,7 +8,7 @@ import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> implements StockService {
@@ -22,7 +22,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
     }
 
     @Override
-    public void insertAll(StockEntity[] stockEntity) {
-        stockDao.saveAll(Arrays.asList(stockEntity));
+    public void insertAll(List<StockEntity> stockEntity) {
+        stockDao.saveAll(stockEntity);
     }
 }
