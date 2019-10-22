@@ -3,6 +3,7 @@ package io.philoyui.qmier.qmiermanager.controller.stock;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.client.east.StockResponse;
+import io.philoyui.qmier.qmiermanager.entity.stock.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/stock")
@@ -80,7 +84,23 @@ public class StockController {
             String text = EntityUtils.toString(entity);
             text = text.replaceAll("\"-\"", "0");
             StockResponse stockResponse = gson.fromJson(text, StockResponse.class);
-            stockService.insertAll(stockResponse.getData().getDiff());
+
+            List<StockEntity> stockEntities = Arrays.stream(stockResponse.getData().getDiff()).map(new Function<StockEntity, StockEntity>() {
+                @Override
+                public StockEntity apply(StockEntity stockEntity) {
+                    String code = stockEntity.getCode();
+                    String codeWithMark;
+                    if (code.startsWith("6")) {
+                        codeWithMark = "SH" + code;
+                    } else {
+                        codeWithMark = "SZ" + code;
+                    }
+                    stockEntity.setCodeWithMark(codeWithMark);
+                    return stockEntity;
+                }
+            }).collect(Collectors.toList());
+
+            stockService.insertAll(stockEntities);
         } catch (IOException e) {
             e.printStackTrace();
         }

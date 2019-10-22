@@ -74,7 +74,8 @@ public class StockPageService extends PageService<StockEntity,Long> {
                 .withSortDefinitions("roe_desc","roe_asc","changeRange_desc","changeRange_asc","grossMargin_asc","grossMargin_desc","salesRevenue_asc","salesRevenue_desc","debtRatio_asc","debtRatio_desc","volume_asc","volume_desc")
                 .withTableAction(
                         new CreateOperation(),
-                        new TableOperation("抓取","fetch", ButtonStyle.Orange)
+                        new TableOperation("抓取即时数据","fetch", ButtonStyle.Orange),
+                        new TableOperation("抓取年报信息","fetchAnnualReport", ButtonStyle.Blue)
                 )
                 .withColumnAction(
                         new EditOperation(),

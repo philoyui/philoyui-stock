@@ -29,7 +29,9 @@ public class EastStockTest {
 
         try {
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet("http://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=10&po=0&np=1&fltt=2&invt=2&fid0=f4001&fid=f12&fs=m:0+t:6+f:!2,m:0+t:13+f:!2,m:0+t:80+f:!2,m:1+t:2+f:!2,m:1+t:23+f:!2,m:0+t:7+f:!2,m:1+t:3+f:!2&stat=1&fields="+ StringUtils.join(elements,",") +"&rt=52385340&_=1571560224479");
+            String fetchUrl = "http://push2.eastmoney.com/api/qt/clist/get?pn=1&pz=10&po=0&np=1&fltt=2&invt=2&fid0=f4001&fid=f12&fs=m:0+t:6+f:!2,m:0+t:13+f:!2,m:0+t:80+f:!2,m:1+t:2+f:!2,m:1+t:23+f:!2,m:0+t:7+f:!2,m:1+t:3+f:!2&stat=1&fields=" + StringUtils.join(elements, ",") + "&rt=52385340&_=1571560224479";
+            System.out.println(fetchUrl);
+            HttpGet httpGet = new HttpGet(fetchUrl);
             CloseableHttpResponse response = httpClient.execute(httpGet);
             HttpEntity entity = response.getEntity();
             String text = EntityUtils.toString(entity);

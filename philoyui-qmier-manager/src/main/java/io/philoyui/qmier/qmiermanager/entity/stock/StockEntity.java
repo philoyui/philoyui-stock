@@ -27,6 +27,7 @@ public class StockEntity implements Serializable {
     @SerializedName("f12")
     private String code;
 
+    private String codeWithMark;
 
     /**
      * 最新价 f2
@@ -485,5 +486,13 @@ public class StockEntity implements Serializable {
 
     public void setSalesRevenue(Double salesRevenue) {
         this.salesRevenue = salesRevenue;
+    }
+
+    public String getCodeWithMark() {
+        return codeWithMark;
+    }
+
+    public void setCodeWithMark(String codeWithMark) {
+        this.codeWithMark = codeWithMark;
     }
 }
