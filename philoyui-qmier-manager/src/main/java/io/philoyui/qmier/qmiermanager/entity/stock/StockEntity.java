@@ -16,205 +16,93 @@ public class StockEntity implements Serializable {
     private Long id;
 
     /**
-     * 股票名称 f14
+     * 股票名称
      */
-    @SerializedName("f14")
     private String name;
 
     /**
-     * 股票代码 f12
+     * 股票代码
      */
-    @SerializedName("f12")
+    @SerializedName("symbol")
     private String code;
 
-    private String codeWithMark;
+    /**
+     * 涨跌幅
+     */
+    private Double percent;
 
     /**
-     * 最新价 f2
+     * 流通股
      */
-    @SerializedName("f2")
+    @SerializedName("float_shares")
+    private Long floatShares;
+
+    /**
+     * 当前价
+     */
+    @SerializedName("current")
     private Double currentPrice;
 
     /**
-     * 涨跌幅 f3
+     * 振幅
      */
-    @SerializedName("f3")
-    private Double changeRange;
-
-    /**
-     * 涨跌额 f4
-     */
-    @SerializedName("f4")
-    private Double changePrice;
-
-    /**
-     * 成交量 f5
-     */
-    @SerializedName("f5")
-    private long volume;
-
-    /**
-     * 成交额 f6
-     */
-    @SerializedName("f6")
-    private long turnover;
-
-    /**
-     * 总市值 f20
-     */
-    @SerializedName("f20")
-    private long marketCapitalization;
-
-    /**
-     * 振幅 f7
-     */
-    @SerializedName("f7")
     private Double amplitude;
 
     /**
-     * 最高价 f15
+     * 市值
      */
-    @SerializedName("f15")
-    private Double highPrice;
+    @SerializedName("market_capital")
+    private Long marketCapital;
 
     /**
-     * 最低价 f16
+     * 股息率
      */
-    @SerializedName("f16")
-    private Double lowPrice;
+    @SerializedName("dividend_yield")
+    private Double dividendYield;
 
     /**
-     * 开盘价 f17
+     * 成交额
      */
-    @SerializedName("f17")
-    private Double startPrice;
+    private Double amount;
 
     /**
-     * 昨天收盘价 f18
+     * 涨跌额
      */
-    @SerializedName("f18")
-    private Double yesterdayPrice;
+    private Double chg;
 
     /**
-     * 量比 f10
+     * 成交量
      */
-    @SerializedName("f10")
-    private Double quantityRelativeRatio;
+    private Long volume;
 
     /**
-     * 换手率 f8
+     * 量比
      */
-    @SerializedName("f8")
+    @SerializedName("volume_ratio")
+    private Double volumeRatio;
+
+    /**
+     * 市净率
+     */
+    private Double pb;
+
+    /**
+     * 换手率
+     */
+    @SerializedName("turnover_rate")
     private Double turnoverRate;
 
     /**
-     * 市盈率 f9
+     * 市盈率
      */
-    @SerializedName("f9")
-    private Double priceEarningsRatio;
+    @SerializedName("pe_ttm")
+    private Double peTtm;
 
     /**
-     * 市净率 f23
+     * 总股本
      */
-    @SerializedName("f23")
-    private Double priceToBookRatio;
-
-    /**
-     * 主力净流入额 f62
-     */
-    @SerializedName("f62")
-    private long mainNetInflowOfFunds;
-
-    /**
-     * 今日主力净流入占比 f184
-     */
-    @SerializedName("f184")
-    private Double mainNetInflowOfFundsRatio;
-
-    /**
-     * 超大单净流入额 f66
-     */
-    @SerializedName("f66")
-    private long oversizeInflowOfFunds;
-
-    /**
-     * 超大单净流入占比 f69
-     */
-    @SerializedName("f69")
-    private Double oversizeInflowOfFundsRatio;
-
-    /**
-     * 大单净流入额 f72
-     */
-    @SerializedName("f72")
-    private long bigSizeInflowOfFunds;
-
-    /**
-     * 大单净流入占比 f75
-     */
-    @SerializedName("f75")
-    private Double bigSizeInflowOfFundsRatio;
-
-    /**
-     * 中单净流入额 f78
-     */
-    @SerializedName("f78")
-    private long middleSizeInflowOfFunds;
-
-    /**
-     * 中单净流入占比 f81
-     */
-    @SerializedName("f81")
-    private Double middleSizeInflowOfFundsRatio;
-
-    /**
-     * 小单净流入额 f84
-     */
-    @SerializedName("f84")
-    private long smallSizeInflowOfFunds;
-
-    /**
-     * 小单净流入占比 f87
-     */
-    @SerializedName("f87")
-    private Double smallSizeInflowOfFundsRatio;
-
-
-    /**
-     * 净资产收益率 f37
-     */
-    @SerializedName("f37")
-    private Double roe;
-
-    /**
-     * 每股收益 f55
-     */
-    @SerializedName("f55")
-    private Double earningsPerShare;
-
-    /**
-     * 负债率 f57
-     */
-    @SerializedName("f57")
-    private Double debtRatio;
-
-    /**
-     * 毛利率 f49
-     */
-    @SerializedName("f49")
-    private Double grossMargin;
-
-    /**
-     * 主营业务收入 f41
-     */
-    @SerializedName("f41")
-    private Double salesRevenue;
-
-    /**
-     * 行业 f127
-     */
-    @SerializedName("f100")
-    private String industry;
+    @SerializedName("total_shares")
+    private Long totalShares;
 
     public Long getId() {
         return id;
@@ -240,52 +128,28 @@ public class StockEntity implements Serializable {
         this.code = code;
     }
 
+    public Double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Double percent) {
+        this.percent = percent;
+    }
+
+    public Long getFloatShares() {
+        return floatShares;
+    }
+
+    public void setFloatShares(Long floatShares) {
+        this.floatShares = floatShares;
+    }
+
     public Double getCurrentPrice() {
         return currentPrice;
     }
 
     public void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
-    }
-
-    public Double getChangeRange() {
-        return changeRange;
-    }
-
-    public void setChangeRange(Double changeRange) {
-        this.changeRange = changeRange;
-    }
-
-    public Double getChangePrice() {
-        return changePrice;
-    }
-
-    public void setChangePrice(Double changePrice) {
-        this.changePrice = changePrice;
-    }
-
-    public long getVolume() {
-        return volume;
-    }
-
-    public void setVolume(long volume) {
-        this.volume = volume;
-    }
-
-    public long getTurnover() {
-        return turnover;
-    }
-
-    public void setTurnover(long turnover) {
-        this.turnover = turnover;
-    }
-
-    public long getMarketCapitalization() {
-        return marketCapitalization;
-    }
-
-    public void setMarketCapitalization(long marketCapitalization) {
-        this.marketCapitalization = marketCapitalization;
     }
 
     public Double getAmplitude() {
@@ -296,44 +160,52 @@ public class StockEntity implements Serializable {
         this.amplitude = amplitude;
     }
 
-    public Double getHighPrice() {
-        return highPrice;
+    public Long getMarketCapital() {
+        return marketCapital;
     }
 
-    public void setHighPrice(Double highPrice) {
-        this.highPrice = highPrice;
+    public void setMarketCapital(Long marketCapital) {
+        this.marketCapital = marketCapital;
     }
 
-    public Double getLowPrice() {
-        return lowPrice;
+    public Double getDividendYield() {
+        return dividendYield;
     }
 
-    public void setLowPrice(Double lowPrice) {
-        this.lowPrice = lowPrice;
+    public void setDividendYield(Double dividendYield) {
+        this.dividendYield = dividendYield;
     }
 
-    public Double getStartPrice() {
-        return startPrice;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setStartPrice(Double startPrice) {
-        this.startPrice = startPrice;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
-    public Double getYesterdayPrice() {
-        return yesterdayPrice;
+    public Double getChg() {
+        return chg;
     }
 
-    public void setYesterdayPrice(Double yesterdayPrice) {
-        this.yesterdayPrice = yesterdayPrice;
+    public void setChg(Double chg) {
+        this.chg = chg;
     }
 
-    public Double getQuantityRelativeRatio() {
-        return quantityRelativeRatio;
+    public Long getVolume() {
+        return volume;
     }
 
-    public void setQuantityRelativeRatio(Double quantityRelativeRatio) {
-        this.quantityRelativeRatio = quantityRelativeRatio;
+    public void setVolume(Long volume) {
+        this.volume = volume;
+    }
+
+    public Double getPb() {
+        return pb;
+    }
+
+    public void setPb(Double pb) {
+        this.pb = pb;
     }
 
     public Double getTurnoverRate() {
@@ -344,155 +216,27 @@ public class StockEntity implements Serializable {
         this.turnoverRate = turnoverRate;
     }
 
-    public Double getPriceEarningsRatio() {
-        return priceEarningsRatio;
+    public Double getPeTtm() {
+        return peTtm;
     }
 
-    public void setPriceEarningsRatio(Double priceEarningsRatio) {
-        this.priceEarningsRatio = priceEarningsRatio;
+    public void setPeTtm(Double peTtm) {
+        this.peTtm = peTtm;
     }
 
-    public Double getPriceToBookRatio() {
-        return priceToBookRatio;
+    public Long getTotalShares() {
+        return totalShares;
     }
 
-    public void setPriceToBookRatio(Double priceToBookRatio) {
-        this.priceToBookRatio = priceToBookRatio;
+    public void setTotalShares(Long totalShares) {
+        this.totalShares = totalShares;
     }
 
-    public long getMainNetInflowOfFunds() {
-        return mainNetInflowOfFunds;
+    public Double getVolumeRatio() {
+        return volumeRatio;
     }
 
-    public void setMainNetInflowOfFunds(long mainNetInflowOfFunds) {
-        this.mainNetInflowOfFunds = mainNetInflowOfFunds;
-    }
-
-    public Double getMainNetInflowOfFundsRatio() {
-        return mainNetInflowOfFundsRatio;
-    }
-
-    public void setMainNetInflowOfFundsRatio(Double mainNetInflowOfFundsRatio) {
-        this.mainNetInflowOfFundsRatio = mainNetInflowOfFundsRatio;
-    }
-
-    public long getOversizeInflowOfFunds() {
-        return oversizeInflowOfFunds;
-    }
-
-    public void setOversizeInflowOfFunds(long oversizeInflowOfFunds) {
-        this.oversizeInflowOfFunds = oversizeInflowOfFunds;
-    }
-
-    public Double getOversizeInflowOfFundsRatio() {
-        return oversizeInflowOfFundsRatio;
-    }
-
-    public void setOversizeInflowOfFundsRatio(Double oversizeInflowOfFundsRatio) {
-        this.oversizeInflowOfFundsRatio = oversizeInflowOfFundsRatio;
-    }
-
-    public long getBigSizeInflowOfFunds() {
-        return bigSizeInflowOfFunds;
-    }
-
-    public void setBigSizeInflowOfFunds(long bigSizeInflowOfFunds) {
-        this.bigSizeInflowOfFunds = bigSizeInflowOfFunds;
-    }
-
-    public Double getBigSizeInflowOfFundsRatio() {
-        return bigSizeInflowOfFundsRatio;
-    }
-
-    public void setBigSizeInflowOfFundsRatio(Double bigSizeInflowOfFundsRatio) {
-        this.bigSizeInflowOfFundsRatio = bigSizeInflowOfFundsRatio;
-    }
-
-    public long getMiddleSizeInflowOfFunds() {
-        return middleSizeInflowOfFunds;
-    }
-
-    public void setMiddleSizeInflowOfFunds(long middleSizeInflowOfFunds) {
-        this.middleSizeInflowOfFunds = middleSizeInflowOfFunds;
-    }
-
-    public Double getMiddleSizeInflowOfFundsRatio() {
-        return middleSizeInflowOfFundsRatio;
-    }
-
-    public void setMiddleSizeInflowOfFundsRatio(Double middleSizeInflowOfFundsRatio) {
-        this.middleSizeInflowOfFundsRatio = middleSizeInflowOfFundsRatio;
-    }
-
-    public long getSmallSizeInflowOfFunds() {
-        return smallSizeInflowOfFunds;
-    }
-
-    public void setSmallSizeInflowOfFunds(long smallSizeInflowOfFunds) {
-        this.smallSizeInflowOfFunds = smallSizeInflowOfFunds;
-    }
-
-    public Double getSmallSizeInflowOfFundsRatio() {
-        return smallSizeInflowOfFundsRatio;
-    }
-
-    public void setSmallSizeInflowOfFundsRatio(Double smallSizeInflowOfFundsRatio) {
-        this.smallSizeInflowOfFundsRatio = smallSizeInflowOfFundsRatio;
-    }
-
-    public Double getRoe() {
-        return roe;
-    }
-
-    public void setRoe(Double roe) {
-        this.roe = roe;
-    }
-
-    public Double getEarningsPerShare() {
-        return earningsPerShare;
-    }
-
-    public void setEarningsPerShare(Double earningsPerShare) {
-        this.earningsPerShare = earningsPerShare;
-    }
-
-    public Double getDebtRatio() {
-        return debtRatio;
-    }
-
-    public void setDebtRatio(Double debtRatio) {
-        this.debtRatio = debtRatio;
-    }
-
-    public Double getGrossMargin() {
-        return grossMargin;
-    }
-
-    public void setGrossMargin(Double grossMargin) {
-        this.grossMargin = grossMargin;
-    }
-
-    public String getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(String industry) {
-        this.industry = industry;
-    }
-
-    public Double getSalesRevenue() {
-        return salesRevenue;
-    }
-
-    public void setSalesRevenue(Double salesRevenue) {
-        this.salesRevenue = salesRevenue;
-    }
-
-    public String getCodeWithMark() {
-        return codeWithMark;
-    }
-
-    public void setCodeWithMark(String codeWithMark) {
-        this.codeWithMark = codeWithMark;
+    public void setVolumeRatio(Double volumeRatio) {
+        this.volumeRatio = volumeRatio;
     }
 }

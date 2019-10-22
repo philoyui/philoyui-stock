@@ -38,8 +38,9 @@ public class XueQiuClientImpl implements XueQiuClient{
             fetchUrlBuilder.append("?");
         }
         for (Map.Entry<String, String> stringStringEntry : mapParameters.entrySet()) {
-            fetchUrlBuilder.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue());
+            fetchUrlBuilder.append(stringStringEntry.getKey()).append("=").append(stringStringEntry.getValue()).append("&");
         }
+        fetchUrlBuilder.deleteCharAt(fetchUrlBuilder.lastIndexOf("&"));
         return fetchUrlBuilder.toString();
     }
 }

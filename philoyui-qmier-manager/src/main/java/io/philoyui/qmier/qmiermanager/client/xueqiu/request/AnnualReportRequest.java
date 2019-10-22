@@ -1,8 +1,10 @@
 package io.philoyui.qmier.qmiermanager.client.xueqiu.request;
 
+import com.google.gson.annotations.SerializedName;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.XueQiuRequest;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.response.AnnualReportResponse;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class AnnualReportRequest implements XueQiuRequest<AnnualReportResponse> {
@@ -21,7 +23,8 @@ public class AnnualReportRequest implements XueQiuRequest<AnnualReportResponse> 
     /**
      * 按那个字段排序
      */
-    private String orderby;
+    @SerializedName("order_by")
+    private String orderBy;
 
     /**
      * 市场
@@ -35,7 +38,14 @@ public class AnnualReportRequest implements XueQiuRequest<AnnualReportResponse> 
 
     @Override
     public Map<String, String> getMapParameters() {
-        return null;
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("page",String.valueOf(page));
+        parameters.put("size",String.valueOf(size));
+        parameters.put("order",order);
+        parameters.put("order_by",orderBy);
+        parameters.put("market",market);
+        parameters.put("type",type);
+        return parameters;
     }
 
     @Override
@@ -46,5 +56,53 @@ public class AnnualReportRequest implements XueQiuRequest<AnnualReportResponse> 
     @Override
     public Class<AnnualReportResponse> getResponseClass() {
         return AnnualReportResponse.class;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getMarket() {
+        return market;
+    }
+
+    public void setMarket(String market) {
+        this.market = market;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
