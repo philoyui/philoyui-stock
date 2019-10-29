@@ -6,6 +6,7 @@ import io.philoyui.qmier.qmiermanager.client.tradingview.TradingViewResponse;
 import java.util.Map;
 
 public class StockGetRequest implements TradingViewRequest<TradingViewResponse> {
+
     @Override
     public Map<String, String> getMapParameters() {
         return null;
