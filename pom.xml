@@ -12,19 +12,19 @@
     </parent>
 
     <groupId>io.philoyui</groupId>
-    <artifactId>philoyui-qmier</artifactId>
+    <artifactId>philoyui-stock</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>philoyui-qmier-page</module>
-        <module>philoyui-qmier-manager</module>
-        <module>philoyui-qmier-jpa</module>
-        <module>philoyui-qmier-common</module>
+        <module>philoyui-stock-page</module>
+        <module>philoyui-stock-manager</module>
+        <module>philoyui-stock-jpa</module>
+        <module>philoyui-stock-common</module>
     </modules>
 
     <properties>
         <java.version>1.8</java.version>
-        <philoyui.qmier.version>1.0-SNAPSHOT</philoyui.qmier.version>
+        <philoyui.stock.version>1.0-SNAPSHOT</philoyui.stock.version>
     </properties>
 
 
@@ -32,18 +32,18 @@
         <dependencies>
             <dependency>
                 <groupId>io.philoyui</groupId>
-                <artifactId>philoyui-qmier-common</artifactId>
-                <version>${philoyui.qmier.version}</version>
+                <artifactId>philoyui-stock-common</artifactId>
+                <version>${philoyui.stock.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.philoyui</groupId>
-                <artifactId>philoyui-qmier-jpa</artifactId>
-                <version>${philoyui.qmier.version}</version>
+                <artifactId>philoyui-stock-jpa</artifactId>
+                <version>${philoyui.stock.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.philoyui</groupId>
-                <artifactId>philoyui-qmier-page</artifactId>
-                <version>${philoyui.qmier.version}</version>
+                <artifactId>philoyui-stock-page</artifactId>
+                <version>${philoyui.stock.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

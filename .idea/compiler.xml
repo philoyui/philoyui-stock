@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="philoyui-stock-manager" />
+        <module name="philoyui-stock-page" />
+        <module name="philoyui-stock-common" />
+        <module name="philoyui-stock-jpa" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="philoyui-stock" target="1.8" />
+      <module name="philoyui-stock-common" target="1.8" />
+      <module name="philoyui-stock-jpa" target="1.8" />
+      <module name="philoyui-stock-manager" target="1.8" />
+      <module name="philoyui-stock-page" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="philoyui-stock-common" options="-parameters" />
+      <module name="philoyui-stock-jpa" options="-parameters" />
+      <module name="philoyui-stock-manager" options="-parameters" />
+      <module name="philoyui-stock-page" options="-parameters" />
+    </option>
+  </component>
+</project>

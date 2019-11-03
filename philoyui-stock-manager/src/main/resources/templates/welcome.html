@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" th:src="@{/lib/html5shiv.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/respond.min.js}"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.1/iconfont.css"/>
+
+    <link rel="stylesheet" type="text/css" id="skin" href="/h-ui.admin/skin/default/skin.css"/>
+    <link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css"/>
+
+    <!--[if IE 6]>
+    <script type="text/javascript" th:src="@{/lib/DD_belatedPNG_0.0.8a-min.js}"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+
+    <title th:text="${welcomePage.title}"></title>
+    <link rel="stylesheet" href="http://localhost:7018/lib/layer/2.4/skin/layer.css" id="layui_layer_skinlayercss"/>
+    <link href="/lib/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+    <script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+    <script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script>
+</head>
+<body>
+
+<nav class="breadcrumb"><i class="Hui-iconfont"></i><a href="/welcome">首页</a>
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="Hui-iconfont"></i>
+    </a>
+</nav>
+
+<!-- loop sections -->
+<div th:each="section : ${welcomePage.sections}" class="bg-1 bk-gray">
+    <div class="cl pd-5">
+        <span class="l">
+            <span class="radius" style="margin-left:10px;font-size:15px" th:text="${section.sectionTitle}"></span>
+        </span>
+        <span class="r" th:if="${!#strings.isEmpty(section.moduleUrl)}">
+            <a class="btn btn-primary radius" style="margin-left:5px" th:text="更多" th:href="${section.moduleUrl}">
+
+            </a>
+        </span>
+    </div>
+    <div>
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+            <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
+                <tbody>
+                <!-- loop table rows -->
+                <tr class="text-c" th:each="sectionItem : ${section.items}">
+                    <td style="border:none; width:50%; text-align:left">
+                        <a th:onclick="'layer_show(\'查看消息\',\'' + ${sectionItem.getUrlOnLeft()} + '\')'"
+                           th:text="${sectionItem.getTextOnLeft()}">
+                        </a>
+                    </td>
+                    <td style="border:none; width:50%; text-align:left">
+                        <span th:text="${sectionItem.getTextOnRight()}">
+                            <a th:if="${!#strings.isEmpty(sectionItem.getUrlOnRight())}"
+                               th:href="${sectionItem.getUrlOnRight()}">
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br/>
+</body>
+</html>

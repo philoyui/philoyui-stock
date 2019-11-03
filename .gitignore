@@ -1,5 +1,6 @@
-/philoyui-qmier-page/target/
-/philoyui-qmier-manager/target/
-/philoyui-qmier-jpa/target/
-/philoyui-qmier-common/target/
+/philoyui-stock-page/target/
+/philoyui-stock-manager/target/
+/philoyui-stock-jpa/target/
+/philoyui-stock-common/target/
 /.idea/
+/philoyui-stock-manager/src/main/resources/static/upload/voice/
