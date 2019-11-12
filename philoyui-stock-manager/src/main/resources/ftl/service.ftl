@@ -1,9 +1,7 @@
-package ${basePath}.service;
+package ${basePackage}.service;
 
 import cn.com.gome.cloud.openplatform.service.GenericService;
-import ${basePath}.${entityFolder}.${EntityName}Entity;
-
-import java.util.List;
+import ${basePackage}.${entityFolder}.${EntityName}Entity;
 
 public interface ${EntityName}Service extends GenericService<${EntityName}Entity,Long> {
 }

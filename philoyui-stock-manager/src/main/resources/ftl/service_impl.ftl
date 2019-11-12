@@ -1,10 +1,10 @@
-package ${basePath}.service.impl;
+package ${basePackage}.service.impl;
 
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
-import ${basePath}.dao.${EntityName}Dao;
-import ${basePath}.entity.${EntityName}Entity;
-import ${basePath}.service.${EntityName}Service;
+import ${basePackage}.dao.${EntityName}Dao;
+import ${basePackage}.entity.${EntityName}Entity;
+import ${basePackage}.service.${EntityName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
