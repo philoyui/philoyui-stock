@@ -1,38 +1,30 @@
-package io.philoyui.qmier.qmiermanager.entity;
+package io.philoyui.qmier.qmiermanager.domain;
 
-import java.util.Date;
+import io.philoyui.qmier.qmiermanager.Desc;
+import io.philoyui.qmier.qmiermanager.DescEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
 
-@Entity
-public class DayDataEntity implements Serializable {
+/**
+ * 日线数据
+ */
+@DescEntity(name="日线数据",domainName="day_data")
+public class DayData implements Serializable {
 
-    /**
-     * ID
-     */
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Desc(name = "ID")
     private Long id;
 
-    /**
-     * 代码
-     */
+    @Desc(name = "代码", require=true)
     private String code;
 
-    /**
-     * 时间戳
-     */
+    @Desc(name="时间戳",order = true)
     private String dayString;
 
-    /**
-     * 当前价
-     */
+    @Desc(name="当前价",writable=false)
     private Double currentPrice;
 
+    public DayData() {
+    }
 
     public Long getId() {
         return id;
@@ -41,6 +33,7 @@ public class DayDataEntity implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
     public String getCode() {
         return code;
     }
@@ -48,6 +41,7 @@ public class DayDataEntity implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
     public String getDayString() {
         return dayString;
     }
@@ -55,6 +49,7 @@ public class DayDataEntity implements Serializable {
     public void setDayString(String dayString) {
         this.dayString = dayString;
     }
+
     public Double getCurrentPrice() {
         return currentPrice;
     }
@@ -62,5 +57,4 @@ public class DayDataEntity implements Serializable {
     public void setCurrentPrice(Double currentPrice) {
         this.currentPrice = currentPrice;
     }
-
 }

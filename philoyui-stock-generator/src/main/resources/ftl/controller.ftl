@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-@RequestMapping("/admin/${entityName}")
+@RequestMapping("/admin/${domainName}")
 public class ${EntityName}Controller {
 
     @Autowired

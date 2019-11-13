@@ -1,15 +1,27 @@
-package ${basePackage}.vo;
+package ${basePackage}.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class ${EntityName} implements Serializable {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+@Entity
+public class ${EntityName}Entity implements Serializable {
 
     <#list fieldConfigs as fieldConfig>
     /**
      * ${fieldConfig.desc}
      */
+    <#if fieldConfig.name='id'>
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private ${fieldConfig.type} ${fieldConfig.name};
+    <#else>
+    private ${fieldConfig.type} ${fieldConfig.name};
+    </#if>
 
     </#list>
 
@@ -21,7 +33,6 @@ public class ${EntityName} implements Serializable {
     public void set${fieldConfig.name?cap_first}(${fieldConfig.type} ${fieldConfig.name}) {
         this.${fieldConfig.name} = ${fieldConfig.name};
     }
-
     </#list>
 
 }

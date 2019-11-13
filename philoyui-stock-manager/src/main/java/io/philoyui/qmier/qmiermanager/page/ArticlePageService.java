@@ -46,7 +46,6 @@ public class ArticlePageService extends PageService<ArticleEntity,Long> {
                         new StringFieldDefinition("prediction", "预测").required(),
                         new IntFieldDefinition("score", "得分").required(),
                         new DateFieldDefinition("createdTime", "创建时间").required()
-
                 )
                 .withTableColumnDefinitions(
                         "#checkbox_3",

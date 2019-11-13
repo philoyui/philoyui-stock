@@ -20,6 +20,7 @@
         <module>philoyui-stock-manager</module>
         <module>philoyui-stock-jpa</module>
         <module>philoyui-stock-common</module>
+        <module>philoyui-stock-generator</module>
     </modules>
 
     <properties>
@@ -43,6 +44,11 @@
             <dependency>
                 <groupId>io.philoyui</groupId>
                 <artifactId>philoyui-stock-page</artifactId>
+                <version>${philoyui.stock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.philoyui</groupId>
+                <artifactId>philoyui-stock-generator</artifactId>
                 <version>${philoyui.stock.version}</version>
             </dependency>
         </dependencies>

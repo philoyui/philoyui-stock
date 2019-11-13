@@ -30,7 +30,7 @@ public class ${EntityName}PageService extends PageService<${EntityName}Entity,Lo
     @Override
     protected PageConfig initializePageConfig(PageContext pageContext) {
         PageConfig pageConfig = new PageConfig(pageContext)
-                .withDomainName("${entityName}")
+                .withDomainName("${domainName}")
                 .withDomainClass(${EntityName}Entity.class)
                 .withDomainChineseName("${EntityChineseName}")
                 .withFieldDefinitions(

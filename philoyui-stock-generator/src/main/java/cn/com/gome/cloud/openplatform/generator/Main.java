@@ -1,10 +1,6 @@
-package io.philoyui.qmier.qmiermanager;
+package cn.com.gome.cloud.openplatform.generator;
 
-import cn.com.gome.cloud.openplatform.generator.CodeTemplate;
-import cn.com.gome.cloud.openplatform.generator.PageProjectInitializer;
 import cn.com.gome.cloud.openplatform.generator.request.PageCodeRequest;
-import com.google.common.collect.Lists;
-import io.philoyui.qmier.qmiermanager.domain.DayData;
 
 public class Main {
 
@@ -18,7 +14,7 @@ public class Main {
         request.setAppName("gmos");
         request.setBasePackage("io.philoyui.qmier.qmiermanager");
         request.setCodeTemplates(CodeTemplate.Page);
-        request.setEntityClasses(Lists.newArrayList(DayData.class));
+//        request.setEntityClasses(Lists.newArrayList());
         request.setBasePath("E:\\opencloud\\philoyui-stock\\philoyui-stock-manager\\src\\main\\java\\io\\philoyui\\qmier\\qmiermanager");
         new PageProjectInitializer().generateCode(request);
 

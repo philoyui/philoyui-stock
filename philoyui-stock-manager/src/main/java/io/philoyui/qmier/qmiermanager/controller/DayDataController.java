@@ -1,6 +1,6 @@
-package ${basePackage}.controller;
+package io.philoyui.qmier.qmiermanager.controller;
 
-import ${basePackage}.service.${EntityName}Service;
+import io.philoyui.qmier.qmiermanager.service.DayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 
 @Controller
-@RequestMapping("/admin/${entityName}")
-public class ${EntityName}Controller {
+@RequestMapping("/admin/dayData")
+public class DayDataController {
 
     @Autowired
-    private ${EntityName}Service ${entityName}Service;
+    private DayDataService dayDataService;
 
     @RequestMapping("/hello")
     public ResponseEntity<String> fetch(@RequestParam Long id) {

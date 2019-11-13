@@ -11,27 +11,27 @@ import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.validator.IntFieldDefinition;
 import com.alibaba.dubbo.config.annotation.Reference;
-import ${basePackage}.entity.${EntityName}Entity;
+import ${basePackage}.vo.${EntityName};
+import ${basePackage}.dubbo.${EntityName}DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ${basePackage}.service.${EntityName}Service;
 
 @Component
-public class ${EntityName}PageService extends PageService<${EntityName}Entity,Long> {
+public class ${EntityName}PageService extends PageService<${EntityName},Long> {
 
-    @Autowired
-    private ${EntityName}Service ${entityName}Service;
+    @Reference(group = "${appName}")
+    private ${EntityName}DubboService ${entityName}DubboService;
 
     @Override
-    public PageObject<${EntityName}Entity> paged(SearchFilter searchFilter) {
-        return ${entityName}Service.paged(searchFilter);
+    public PageObject<${EntityName}> paged(SearchFilter searchFilter) {
+        return ${entityName}DubboService.paged(searchFilter);
     }
 
     @Override
     protected PageConfig initializePageConfig(PageContext pageContext) {
         PageConfig pageConfig = new PageConfig(pageContext)
                 .withDomainName("${entityName}")
-                .withDomainClass(${EntityName}Entity.class)
+                .withDomainClass(${EntityName}.class)
                 .withDomainChineseName("${EntityChineseName}")
                 .withFieldDefinitions(
                     <#list fieldConfigs as fieldConfig>
@@ -70,23 +70,22 @@ public class ${EntityName}PageService extends PageService<${EntityName}Entity,Lo
     }
 
     @Override
-    public ${EntityName}Entity get(String id) {
-        return ${entityName}Service.get(Long.parseLong(id));
+    public ${EntityName} get(String id) {
+        return ${entityName}DubboService.get(Long.parseLong(id));
     }
 
     @Override
-    public ${EntityName}Entity get(SearchFilter searchFilter) {
-        return ${entityName}Service.get(searchFilter);
+    public ${EntityName} get(SearchFilter searchFilter) {
+        return ${entityName}DubboService.get(searchFilter);
     }
 
     @Override
-    public void saveOrUpdate(${EntityName}Entity ${entityName}) {
-        ${entityName}Service.insert(${entityName});
+    public void saveOrUpdate(${EntityName} ${entityName}) {
+        ${entityName}DubboService.saveOrUpdate(${entityName});
     }
 
     @Override
-    public void delete(${EntityName}Entity ${entityName}) {
-        ${entityName}Service.delete(${entityName}.getId());
+    public void delete(${EntityName} ${entityName}) {
+        ${entityName}DubboService.delete(${entityName}.getId());
     }
 }
-
