@@ -17,6 +17,8 @@ import io.philoyui.qmier.qmiermanager.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class ArticlePageService extends PageService<ArticleEntity,Long> {
 
@@ -88,6 +90,7 @@ public class ArticlePageService extends PageService<ArticleEntity,Long> {
 
     @Override
     public void saveOrUpdate(ArticleEntity articleEntity) {
+        articleEntity.setCreatedTime(new Date());
         articleService.insert(articleEntity);
     }
 

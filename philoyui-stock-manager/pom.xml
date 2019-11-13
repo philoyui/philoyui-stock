@@ -71,12 +71,20 @@
             <version>2.7.0</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.alibaba.nls</groupId>
             <artifactId>nls-sdk-tts</artifactId>
             <version>2.1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.29</version>
+        </dependency>
     </dependencies>
 </project>

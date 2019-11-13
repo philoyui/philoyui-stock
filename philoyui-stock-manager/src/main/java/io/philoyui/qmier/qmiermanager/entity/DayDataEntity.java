@@ -5,5 +5,5 @@ import java.io.Serializable;
 /**
  * 日线数据
  */
-public class StockDayEntity implements Serializable {
+public class DayDataEntity implements Serializable {
 }
