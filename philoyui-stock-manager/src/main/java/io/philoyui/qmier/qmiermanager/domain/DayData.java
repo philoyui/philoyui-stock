@@ -1,7 +1,7 @@
 package io.philoyui.qmier.qmiermanager.domain;
 
-import io.philoyui.qmier.qmiermanager.Desc;
-import io.philoyui.qmier.qmiermanager.DescEntity;
+import cn.com.gome.cloud.openplatform.generator.anno.Desc;
+import cn.com.gome.cloud.openplatform.generator.anno.DescEntity;
 
 import java.io.Serializable;
 
