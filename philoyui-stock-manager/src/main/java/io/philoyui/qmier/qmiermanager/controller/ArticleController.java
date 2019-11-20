@@ -5,6 +5,7 @@ import io.philoyui.qmier.qmiermanager.entity.ArticleEntity;
 import io.philoyui.qmier.qmiermanager.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -14,6 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 @RequestMapping("/admin/article")
 public class ArticleController {
+
+    @Value("${application.voice.base-url}")
+    private String invoiceBaseUrl;
+
+    @Value("${application.voice.store-path}")
+    private String invoiceBasePath;
 
     @Autowired
     private ArticleService articleService;
@@ -36,7 +43,7 @@ public class ArticleController {
     public String detailContent(Model model, @RequestParam Long id){
         ArticleEntity articleEntity = articleService.get(id);
         model.addAttribute("article",articleEntity);
-        model.addAttribute("voicePath","/upload/voice/article_" + articleEntity.getId() + ".wav");
+        model.addAttribute("voicePath",invoiceBaseUrl + "/article_" + articleEntity.getId() + ".wav");
         return "article/detailContent";
     }
 
@@ -46,7 +53,7 @@ public class ArticleController {
      * @return
      */
     private String buildInvoicePath(ArticleEntity articleEntity) {
-        return "article_" + articleEntity.getId();
+        return invoiceBasePath + "article_" + articleEntity.getId() + ".wav";
     }
 
 }
