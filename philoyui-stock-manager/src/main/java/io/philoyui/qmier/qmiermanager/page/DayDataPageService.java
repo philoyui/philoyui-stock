@@ -8,13 +8,13 @@ import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.*;
-import cn.com.gome.page.field.validator.IntFieldDefinition;
-import com.alibaba.dubbo.config.annotation.Reference;
+import cn.com.gome.page.field.DoubleFieldDefinition;
+import cn.com.gome.page.field.LongFieldDefinition;
+import cn.com.gome.page.field.StringFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.DayDataEntity;
+import io.philoyui.qmier.qmiermanager.service.DayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import io.philoyui.qmier.qmiermanager.service.DayDataService;
 
 @Component
 public class DayDataPageService extends PageService<DayDataEntity,Long> {
