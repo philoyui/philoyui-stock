@@ -43,7 +43,7 @@ public class ArticleController {
     public String detailContent(Model model, @RequestParam Long id){
         ArticleEntity articleEntity = articleService.get(id);
         model.addAttribute("article",articleEntity);
-        model.addAttribute("voicePath",invoiceBaseUrl + "/article_" + articleEntity.getId() + ".wav");
+        model.addAttribute("voicePath",invoiceBaseUrl + "article_" + articleEntity.getId() + ".wav");
         return "article/detailContent";
     }
 
