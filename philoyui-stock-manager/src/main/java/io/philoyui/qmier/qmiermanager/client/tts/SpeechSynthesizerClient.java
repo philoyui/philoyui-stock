@@ -96,9 +96,9 @@ public class SpeechSynthesizerClient {
     /**
      * 正文转wav文件
      * @param content
-     * @param fileName
+     * @param filePath
      */
-    public void process(String content,String fileName) {
+    public void process(String content,String filePath) {
 
         List<String> listArr = new ArrayList<>();
 
@@ -106,7 +106,7 @@ public class SpeechSynthesizerClient {
 
         for (String partContent : Splitter.fixedLength(299).split(content)) {
 
-            listArr.add(generateTempWav(fileName, index, partContent));
+            listArr.add(generateTempWav(filePath, index, partContent));
 
             index++;
 
@@ -116,7 +116,7 @@ public class SpeechSynthesizerClient {
             return;
         }
 
-        joinTempFile(listArr, fileName);
+        joinTempFile(listArr, filePath);
 
         for (String file : listArr) {
             new File(file).delete();
@@ -127,10 +127,9 @@ public class SpeechSynthesizerClient {
     /**
      * 合并音频文件
      * @param listArr
-     * @param fileName
      */
-    private void joinTempFile(List<String> listArr, String fileName) {
-        File fileOut = new File(UploadUtils.getImgDirFile() + "/" + fileName + ".wav");
+    private void joinTempFile(List<String> listArr, String filePath) {
+        File fileOut = new File(filePath);
         if(listArr.size()==1){
             new File(listArr.get(0)).renameTo(fileOut);
         }else{
