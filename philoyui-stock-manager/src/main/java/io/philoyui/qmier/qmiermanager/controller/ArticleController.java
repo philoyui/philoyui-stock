@@ -33,7 +33,7 @@ public class ArticleController {
         String accessKeyId = "LTAI4Fx36HdmB3g4KyR8dWxJ";
         String secret = "HobPTtHrgCgx0E1BlhQvIJYxWIGIWs";
         String url = ""; // 默认即可，默认值：wss://nls-gateway.cn-shanghai.aliyuncs.com/ws/v1
-        SpeechSynthesizerClient client = new SpeechSynthesizerClient(appKey, accessKeyId, secret, url);
+        SpeechSynthesizerClient client = new SpeechSynthesizerClient(appKey, accessKeyId, secret, url,invoiceBasePath);
         client.process(text, buildInvoicePath(articleEntity));
         return ResponseEntity.ok("success");
     }
@@ -53,7 +53,7 @@ public class ArticleController {
      * @return
      */
     private String buildInvoicePath(ArticleEntity articleEntity) {
-        return invoiceBasePath + "article_" + articleEntity.getId() + ".wav";
+        return "article_" + articleEntity.getId() + ".wav";
     }
 
 }

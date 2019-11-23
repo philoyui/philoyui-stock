@@ -35,10 +35,13 @@ public class SpeechSynthesizerClient {
 
     private String appKey;
 
+    private String invoiceBasePath;
+
     private NlsClient client;
 
-    public SpeechSynthesizerClient(String appKey, String accessKeyId, String accessKeySecret, String url) {
+    public SpeechSynthesizerClient(String appKey, String accessKeyId, String accessKeySecret, String url, String invoiceBasePath) {
         this.appKey = appKey;
+        this.invoiceBasePath = invoiceBasePath;
         AccessToken accessToken = new AccessToken(accessKeyId, accessKeySecret);
         try {
             accessToken.apply();
@@ -129,7 +132,8 @@ public class SpeechSynthesizerClient {
      * @param listArr
      */
     private void joinTempFile(List<String> listArr, String filePath) {
-        File fileOut = new File(filePath);
+        String tempFile = invoiceBasePath + "/" + filePath;
+        File fileOut = new File(tempFile);
         if(listArr.size()==1){
             new File(listArr.get(0)).renameTo(fileOut);
         }else{
@@ -161,7 +165,7 @@ public class SpeechSynthesizerClient {
     }
 
     private String generateTempWav(String filePath, int index, String substring) {
-        String tempFile = UploadUtils.getImgDirFile() + "/temp_" + filePath  + "_" + index + ".wav";
+        String tempFile = invoiceBasePath + "/temp_" + filePath  + "_" + index + ".wav";
         SpeechSynthesizer synthesizer = null;
         try {
             synthesizer = new SpeechSynthesizer(client, getSynthesizerListener(tempFile));

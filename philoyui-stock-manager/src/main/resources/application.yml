@@ -6,6 +6,7 @@ logging:
 application:
   voice.base-url: http://114.67.84.99/upload/voice/
   voice.store-path: /app/data/voice/article/
+#  voice.store-path: C:/voice/
 spring:
   jpa:
     hibernate.ddl-auto: update
