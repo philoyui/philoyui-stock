@@ -47,7 +47,7 @@ public class StockYearDataController {
 //            HttpEntity entity = response.getEntity();
 //            String text = EntityUtils.toString(entity);
 //            text = text.replaceAll("\"-\"", "0");
-//            XueQiuResponse xueqiuBaseResponse = gson.fromJson(text, XueQiuesponse.class);
+//            XueQiuBaseResponse xueqiuBaseResponse = gson.fromJson(text, XueQiuBaseResponse.class);
 //            for (XueqiuList xueqiuList : xueqiuBaseResponse.getData().getList()) {
 //                StockYearDataEntity stockYearData = new StockYearDataEntity();
 //                stockYearData.setCode(codeWithMark);
