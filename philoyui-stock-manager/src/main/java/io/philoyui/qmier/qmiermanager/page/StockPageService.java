@@ -2,9 +2,7 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
-import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
@@ -17,8 +15,6 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class StockPageService extends PageService<StockEntity,Long> {
@@ -33,68 +29,89 @@ public class StockPageService extends PageService<StockEntity,Long> {
 
     @Override
     protected PageConfig initializePageConfig(PageContext pageContext) {
-        return new PageConfig(pageContext)
+        PageConfig pageConfig = new PageConfig(pageContext)
                 .withDomainName("stock")
                 .withDomainClass(StockEntity.class)
-                .withDomainChineseName("股票")
+                .withDomainChineseName("股票数据")
                 .withFieldDefinitions(
-                        new LongFieldDefinition("id", "ID"),
-                        new StringFieldDefinition("name", "名称").required(),
-                        new StringFieldDefinition("code", "代码").required(),
-                        new DoubleFieldDefinition("roe", "ROE净资产收益率").required(),
-                        new DoubleFieldDefinition("volume", "成交量").required(),
-                        new DoubleFieldDefinition("currentPrice", "最新价").required(),
-                        new DoubleFieldDefinition("changeRange", "涨跌幅").required(),
-                        new StringFieldDefinition("industry", "板块").required(),
-                        new DoubleFieldDefinition("grossMargin", "毛利率").required(),
-                        new DoubleFieldDefinition("debtRatio", "负债率").required(),
-                        new DoubleFieldDefinition("salesRevenue", "营业利润率").required(),
-                        new DoubleFieldDefinition("mainNetInflowOfFundsRatio", "今日主力净流入占比").required(),
-                        new DoubleFieldDefinition("oversizeInflowOfFundsRatio", "超大单净流入占比").required(),
-                        new DoubleFieldDefinition("bigSizeInflowOfFundsRatio", "大单净流入占比").required()
-
-
+                        new LongFieldDefinition("id", "id"),
+                        new StringFieldDefinition("name", "股票名称"),
+                        new StringFieldDefinition("code", "股票代码"),
+                        new DoubleFieldDefinition("percent", "涨跌幅"),
+                        new LongFieldDefinition("floatShares", "流通股"),
+                        new DoubleFieldDefinition("currentPrice", "当前价"),
+                        new DoubleFieldDefinition("amplitude", "振幅"),
+                        new LongFieldDefinition("marketCapital", "市值"),
+                        new DoubleFieldDefinition("dividendYield", "股息率"),
+                        new DoubleFieldDefinition("amount", "成交额"),
+                        new DoubleFieldDefinition("chg", "涨跌额"),
+                        new LongFieldDefinition("volume", "成交量"),
+                        new DoubleFieldDefinition("volumeRatio", "量比"),
+                        new DoubleFieldDefinition("pb", "市净率"),
+                        new DoubleFieldDefinition("turnoverRate", "换手率"),
+                        new DoubleFieldDefinition("peTtm", "市盈率"),
+                        new LongFieldDefinition("totalShares", "总股本")
                 )
                 .withTableColumnDefinitions(
-                        "name_8",
-                        "code_8",
+                        "name_6",
+                        "code_6",
+                        "percent_6",
+                        "floatShares_6",
                         "currentPrice_6",
-                        "changeRange_6",
-                        "roe_6",
-                        "grossMargin_8",
-                        "salesRevenue_8",
-                        "debtRatio_10",
-                        "mainNetInflowOfFundsRatio_8",
-                        "oversizeInflowOfFundsRatio_8",
-                        "bigSizeInflowOfFundsRatio_8",
-                        "industry_6",
-                        "#operation_10"
+                        "marketCapital_6",
+                        "dividendYield_6",
+                        "amount_6",
+                        "chg_6",
+                        "volume_6",
+                        "volumeRatio_6",
+                        "pb_6",
+                        "turnoverRate_6",
+                        "peTtm_6",
+                        "#operation_16"
                 )
-                .withFilterDefinitions("name_like","code","industry","roe","grossMargin","salesRevenue","debtRatio","mainNetInflowOfFundsRatio","oversizeInflowOfFundsRatio","bigSizeInflowOfFundsRatio","volume")
-                .withSortDefinitions("roe_desc","roe_asc","changeRange_desc","changeRange_asc","grossMargin_asc","grossMargin_desc","salesRevenue_asc","salesRevenue_desc","debtRatio_asc","debtRatio_desc","volume_asc","volume_desc")
+                .withFilterDefinitions(
+                    "name",
+                    "code",
+                    "percent"
+                )
+                .withSortDefinitions(
+                    "code_desc","code_asc",
+                    "percent_desc","percent_asc",
+                    "floatShares_desc","floatShares_asc",
+                    "marketCapital_desc","marketCapital_asc",
+                    "amount_desc","amount_asc",
+                    "volume_desc","volume_asc",
+                    "volumeRatio_desc","volumeRatio_asc",
+                    "turnoverRate_desc","turnoverRate_asc",
+                    "peTtm_desc","peTtm_asc"
+                )
                 .withTableAction(
-                        new CreateOperation(),
-                        new TableOperation("抓取即时数据","fetch", ButtonStyle.Orange),
-                        new TableOperation("抓取年报信息","fetchAnnualReport", ButtonStyle.Blue)
+                        new CreateOperation()
                 )
                 .withColumnAction(
                         new EditOperation(),
                         new DeleteOperation()
                 )
                 .withFormItemDefinition(
+                        "id_rw",
                         "name_rw",
                         "code_rw",
-                        "roe_rw",
-                        "industry_rw",
-                        "changeRange_rw",
+                        "percent_rw",
+                        "floatShares_rw",
                         "currentPrice_rw",
-                        "grossMargin_rw",
-                        "salesRevenue_rw",
-                        "debtRatio_rw",
-                        "mainNetInflowOfFundsRatio_rw",
-                        "oversizeInflowOfFundsRatio_rw",
-                        "bigSizeInflowOfFundsRatio_rw"
+                        "amplitude_rw",
+                        "marketCapital_rw",
+                        "dividendYield_rw",
+                        "amount_rw",
+                        "chg_rw",
+                        "volume_rw",
+                        "volumeRatio_rw",
+                        "pb_rw",
+                        "turnoverRate_rw",
+                        "peTtm_rw",
+                        "totalShares_rw"
                 );
+        return pageConfig;
     }
 
     @Override
@@ -108,17 +125,13 @@ public class StockPageService extends PageService<StockEntity,Long> {
     }
 
     @Override
-    public void saveOrUpdate(StockEntity stockEntity) {
-        stockService.insert(stockEntity);
+    public void saveOrUpdate(StockEntity stock) {
+        stockService.insert(stock);
     }
 
     @Override
-    public void delete(StockEntity stockEntity) {
-        stockService.delete(stockEntity.getId());
-    }
-
-    @Override
-    public void delete(List<StockEntity> entities) {
-        stockService.delete(entities);
+    public void delete(StockEntity stock) {
+        stockService.delete(stock.getId());
     }
 }
+

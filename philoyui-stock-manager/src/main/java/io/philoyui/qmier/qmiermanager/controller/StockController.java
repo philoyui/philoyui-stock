@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.controller;
 
+import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.XueQiuClient;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.XueQiuClientImpl;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.request.AnnualReportRequest;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/admin/stock")
@@ -26,18 +28,19 @@ public class StockController {
 
         XueQiuClient client = new XueQiuClientImpl();
 
-        AnnualReportRequest request = new AnnualReportRequest();
-        request.setPage(1);
-        request.setSize(5000);
-        request.setOrder("desc");
-        request.setOrderBy("percent");
-        request.setMarket("CN");
-        request.setType("sh_sz");
+        for (int i = 1; i < 10; i++) {
+            AnnualReportRequest request = new AnnualReportRequest();
+            request.setPage(i);
+            request.setSize(500);
+            request.setOrder("desc");
+            request.setOrderBy("percent");
+            request.setMarket("CN");
+            request.setType("sh_sz");
 
-        AnnualReportResponse response = client.execute(request);
+            AnnualReportResponse response = client.execute(request);
 
-        for (StockEntity stockEntity : response.getData().getList()) {
-            stockService.insert(stockEntity);
+            stockService.insertAll(Arrays.asList(response.getData().getList()));
+
         }
 
         return ResponseEntity.ok("success");

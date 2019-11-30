@@ -32,7 +32,8 @@ public class FrontPageConfig {
                         new LeafItem("分类管理", "/admin/article_category/page")
                 )
                 .addRootItem("股票管理","stock",
-                        new LeafItem("股票管理", "/admin/stock/page")
+                        new LeafItem("市场管理", "/admin/financial_market/page"),
+                        new LeafItem("金融产品管理", "/admin/financial_product/page")
                 )
                 .build();
 

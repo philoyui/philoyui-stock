@@ -1,18 +1,21 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import com.google.gson.annotations.SerializedName;
+import cn.com.gome.cloud.openplatform.open.OpenConvertible;
+import io.philoyui.qmier.qmiermanager.Stock;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
 
 @Entity
-public class StockEntity implements Serializable {
+public class StockEntity implements OpenConvertible<Stock> {
 
+    /**
+     * id
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -23,7 +26,6 @@ public class StockEntity implements Serializable {
     /**
      * 股票代码
      */
-    @SerializedName("symbol")
     private String code;
 
     /**
@@ -34,13 +36,11 @@ public class StockEntity implements Serializable {
     /**
      * 流通股
      */
-    @SerializedName("float_shares")
     private Long floatShares;
 
     /**
      * 当前价
      */
-    @SerializedName("current")
     private Double currentPrice;
 
     /**
@@ -51,13 +51,11 @@ public class StockEntity implements Serializable {
     /**
      * 市值
      */
-    @SerializedName("market_capital")
     private Long marketCapital;
 
     /**
      * 股息率
      */
-    @SerializedName("dividend_yield")
     private Double dividendYield;
 
     /**
@@ -78,7 +76,6 @@ public class StockEntity implements Serializable {
     /**
      * 量比
      */
-    @SerializedName("volume_ratio")
     private Double volumeRatio;
 
     /**
@@ -89,20 +86,18 @@ public class StockEntity implements Serializable {
     /**
      * 换手率
      */
-    @SerializedName("turnover_rate")
     private Double turnoverRate;
 
     /**
      * 市盈率
      */
-    @SerializedName("pe_ttm")
     private Double peTtm;
 
     /**
      * 总股本
      */
-    @SerializedName("total_shares")
     private Long totalShares;
+
 
     public Long getId() {
         return id;
@@ -200,6 +195,14 @@ public class StockEntity implements Serializable {
         this.volume = volume;
     }
 
+    public Double getVolumeRatio() {
+        return volumeRatio;
+    }
+
+    public void setVolumeRatio(Double volumeRatio) {
+        this.volumeRatio = volumeRatio;
+    }
+
     public Double getPb() {
         return pb;
     }
@@ -232,11 +235,49 @@ public class StockEntity implements Serializable {
         this.totalShares = totalShares;
     }
 
-    public Double getVolumeRatio() {
-        return volumeRatio;
+
+    @Override
+    public Stock converter() {
+        Stock stock = new Stock();
+        stock.setId(id);
+        stock.setName(name);
+        stock.setCode(code);
+        stock.setPercent(percent);
+        stock.setFloatShares(floatShares);
+        stock.setCurrentPrice(currentPrice);
+        stock.setAmplitude(amplitude);
+        stock.setMarketCapital(marketCapital);
+        stock.setDividendYield(dividendYield);
+        stock.setAmount(amount);
+        stock.setChg(chg);
+        stock.setVolume(volume);
+        stock.setVolumeRatio(volumeRatio);
+        stock.setPb(pb);
+        stock.setTurnoverRate(turnoverRate);
+        stock.setPeTtm(peTtm);
+        stock.setTotalShares(totalShares);
+        return stock;
     }
 
-    public void setVolumeRatio(Double volumeRatio) {
-        this.volumeRatio = volumeRatio;
+    public static StockEntity constructFrom(Stock stock) {
+        StockEntity stockEntity = new StockEntity();
+        stockEntity.setId(stock.getId());
+        stockEntity.setName(stock.getName());
+        stockEntity.setCode(stock.getCode());
+        stockEntity.setPercent(stock.getPercent());
+        stockEntity.setFloatShares(stock.getFloatShares());
+        stockEntity.setCurrentPrice(stock.getCurrentPrice());
+        stockEntity.setAmplitude(stock.getAmplitude());
+        stockEntity.setMarketCapital(stock.getMarketCapital());
+        stockEntity.setDividendYield(stock.getDividendYield());
+        stockEntity.setAmount(stock.getAmount());
+        stockEntity.setChg(stock.getChg());
+        stockEntity.setVolume(stock.getVolume());
+        stockEntity.setVolumeRatio(stock.getVolumeRatio());
+        stockEntity.setPb(stock.getPb());
+        stockEntity.setTurnoverRate(stock.getTurnoverRate());
+        stockEntity.setPeTtm(stock.getPeTtm());
+        stockEntity.setTotalShares(stock.getTotalShares());
+        return stockEntity;
     }
 }

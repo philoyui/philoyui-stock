@@ -6,5 +6,5 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import java.util.List;
 
 public interface StockService extends GenericService<StockEntity,Long> {
-    void insertAll(List<StockEntity> stockEntity);
+    void insertAll(List<StockEntity> asList);
 }

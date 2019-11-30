@@ -22,7 +22,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
     }
 
     @Override
-    public void insertAll(List<StockEntity> stockEntity) {
-        stockDao.saveAll(stockEntity);
+    public void insertAll(List<StockEntity> stockEntities) {
+        stockDao.saveAll(stockEntities);
     }
 }
