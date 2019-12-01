@@ -40,12 +40,12 @@ public class ArticlePageService extends PageService<ArticleEntity,Long> {
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new DisplayStringFieldDefinition("title", "标题").required(),
-                        new StringFieldDefinition("siteIdentifier", "网站标识").required(),
+                        new StringFieldDefinition("siteIdentifier", "网站标识"),
                         new EditorFieldDefinition("content", "描述").required(),
-                        new StringFieldDefinition("analyst", "分析师").required(),
-                        new StringFieldDefinition("prediction", "预测").required(),
-                        new IntFieldDefinition("score", "得分").required(),
-                        new DateFieldDefinition("createdTime", "创建时间").required()
+                        new StringFieldDefinition("analyst", "分析师"),
+                        new StringFieldDefinition("prediction", "预测"),
+                        new IntFieldDefinition("score", "得分"),
+                        new DateFieldDefinition("createdTime", "创建时间")
                 )
                 .withTableColumnDefinitions(
                         "#checkbox_3",

@@ -45,16 +45,19 @@ public class DataDayPageService extends PageService<DataDayEntity,Long> {
                         new DoubleFieldDefinition("high", "最高价"),
                         new DoubleFieldDefinition("low", "最低价"),
                         new DoubleFieldDefinition("close", "收盘价"),
-                        new LongFieldDefinition("volume", "成交量")
+                        new LongFieldDefinition("volume", "成交量"),
+                        new DateFieldDefinition("recordTime","记录时间")
+
                 )
                 .withTableColumnDefinitions(
-                        "symbol_15",
-                        "dateString_15",
+                        "symbol_10",
+                        "dateString_10",
                         "open_10",
                         "high_10",
                         "low_10",
                         "close_10",
                         "volume_10",
+                        "recordTime_10",
                         "#operation_10"
                 )
                 .withFilterDefinitions(
