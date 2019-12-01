@@ -6,7 +6,10 @@ import io.philoyui.qmier.qmiermanager.entity.DataHourEntity;
 import java.util.List;
 
 public interface DataHourService extends GenericService<DataHourEntity,Long> {
+
     void deleteBySymbol(String symbol);
 
     void insertAll(List<DataHourEntity> dataHourEntityList);
+
+    void downloadHistory();
 }

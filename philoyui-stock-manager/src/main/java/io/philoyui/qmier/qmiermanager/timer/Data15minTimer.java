@@ -1,54 +1,23 @@
 package io.philoyui.qmier.qmiermanager.timer;
 
-import cn.com.gome.cloud.openplatform.common.PageObject;
-import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
-import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
+import io.philoyui.qmier.qmiermanager.service.Data15minService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class Data15minTimer {
 
     @Autowired
-    private FinancialProductService financialProductService;
+    private Data15minService data15minService;
 
     /**
-     * 读取15min股票列表
+     * 读取30min股票列表
      * @param args
      */
-    public void main(String[] args){
-
-        SearchFilter searchFilter = SearchFilter.getPagedSearchFilter(0, 80);
-
-        PageObject<FinancialProductEntity> financialProductEntities = financialProductService.paged(searchFilter);
-
-        List<String> idList = new ArrayList<>();
-        for (FinancialProductEntity financialProductEntity : financialProductEntities.getContent()) {
-            idList.add(financialProductEntity.getSymbol());
-        }
-
-        String fetchUrl = "";
-
-        Connection.Response response = null;
-        try {
-            response = Jsoup.connect(fetchUrl)
-                    .header("Content-Type", "application/json")
-                    .ignoreContentType(true)
-                    .method(Connection.Method.GET)
-                    .execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        response.body();
-
+    @Scheduled(cron="* * 16 * * ? ") //下午4点
+    public void fetcher(){
+        data15minService.downloadHistory();
     }
 
 }

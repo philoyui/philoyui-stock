@@ -1,23 +1,23 @@
 package io.philoyui.qmier.qmiermanager.timer;
 
-import io.philoyui.qmier.qmiermanager.service.Data30minService;
+import io.philoyui.qmier.qmiermanager.service.DataDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Data30minTimer {
+public class DataDayTimer {
 
     @Autowired
-    private Data30minService data30minService;
+    private DataDayService dataDayService;
 
     /**
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="* * 18 * * ? ") //下午6点
+    @Scheduled(cron="* * 21 * * ?") //每晚9点
     public void fetcher(){
-        data30minService.downloadHistory();
+        dataDayService.downloadHistory();
     }
 
 }

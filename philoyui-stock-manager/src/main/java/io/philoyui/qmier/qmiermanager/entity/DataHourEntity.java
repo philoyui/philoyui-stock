@@ -1,12 +1,11 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class DataHourEntity implements Serializable {
@@ -58,6 +57,10 @@ public class DataHourEntity implements Serializable {
      */
     private Long volume;
 
+    /**
+     * 记录时间
+     */
+    private Date recordTime = new Date();
 
     public Long getId() {
         return id;
@@ -131,5 +134,11 @@ public class DataHourEntity implements Serializable {
         this.volume = volume;
     }
 
+    public Date getRecordTime() {
+        return recordTime;
+    }
 
+    public void setRecordTime(Date recordTime) {
+        this.recordTime = recordTime;
+    }
 }

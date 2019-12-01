@@ -34,27 +34,7 @@ public class DataWeekController extends DataController{
 
     @RequestMapping("/download_history")
     public ResponseEntity<String> downloadHistory() {
-        dataDownloader.process(DataType.Week, new DataDownloadInterface() {
-            @Override
-            public void process(HistoryData[] historyDataArray, FinancialProductEntity financialProductEntity) {
-                dataWeekService.deleteBySymbol(financialProductEntity.getSymbol());
-                List<DataWeekEntity> dataWeekEntityList = new ArrayList<>();
-                for (HistoryData historyData : historyDataArray) {
-                    DataWeekEntity dataWeekEntity = new DataWeekEntity();
-                    dataWeekEntity.setSymbol(financialProductEntity.getSymbol());
-                    dataWeekEntity.setDay(historyData.getDay());
-                    dataWeekEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                    dataWeekEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                    dataWeekEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                    dataWeekEntity.setLow(Double.parseDouble(historyData.getLow()));
-                    dataWeekEntity.setClose(Double.parseDouble(historyData.getClose()));
-                    dataWeekEntity.setVolume(Long.parseLong(historyData.getVolume()));
-                    dataWeekEntityList.add(dataWeekEntity);
-                }
-                dataWeekService.insertAll(dataWeekEntityList);
-            }
-        });
-
+        dataWeekService.downloadHistory();
         return ResponseEntity.ok("success");
     }
 

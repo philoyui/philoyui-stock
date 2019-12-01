@@ -6,7 +6,11 @@ import io.philoyui.qmier.qmiermanager.entity.DataWeekEntity;
 import java.util.List;
 
 public interface DataWeekService extends GenericService<DataWeekEntity,Long> {
+
     void insertAll(List<DataWeekEntity> dataWeekEntityList);
 
     void deleteBySymbol(String symbol);
+
+    void downloadHistory();
+
 }
