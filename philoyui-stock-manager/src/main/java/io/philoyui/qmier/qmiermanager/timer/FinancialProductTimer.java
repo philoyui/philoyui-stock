@@ -96,6 +96,7 @@ public class FinancialProductTimer {
                         financialProductEntity.setName(productData.getName());
                         financialProductEntity.setMarketId(financialMarket.getId());
                         financialProductEntity.setModifyTime(new Date());
+                        financialProductEntity.setEnable(true);
                         financialProductService.insert(financialProductEntity);
                     }
                 }
