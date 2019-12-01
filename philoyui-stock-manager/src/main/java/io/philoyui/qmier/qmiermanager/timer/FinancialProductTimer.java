@@ -42,7 +42,7 @@ public class FinancialProductTimer {
      * page=3&num=40&sort=symbol&asc=1&node=sh_a&symbol=&_s_r_a=page
      *
      */
-    @Scheduled(cron="0 0/30 * * * ?") //每30分钟执行一次
+    @Scheduled(cron="0 0 0,8 * * ? *") //早晨八点
     public void fetch(){
         fetchProductDataArray("sh_a",80);
         fetchProductDataArray("sz_a",80);
