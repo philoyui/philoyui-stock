@@ -28,4 +28,18 @@ public class FinancialProductServiceImpl extends GenericServiceImpl<FinancialPro
     public FinancialProductEntity findBySymbol(String symbol) {
         return financialProductDao.findBySymbol(symbol);
     }
+
+    @Override
+    public void enable(Long id) {
+        FinancialProductEntity financialProductEntity = this.get(id);
+        financialProductEntity.setEnable(true);
+        financialProductDao.saveAndFlush(financialProductEntity);
+    }
+
+    @Override
+    public void disable(Long id) {
+        FinancialProductEntity financialProductEntity = this.get(id);
+        financialProductEntity.setEnable(false);
+        financialProductDao.saveAndFlush(financialProductEntity);
+    }
 }

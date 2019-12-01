@@ -8,4 +8,8 @@ public interface FinancialProductService extends GenericService<FinancialProduct
     boolean existsBySymbol(String symbol);
 
     Object findBySymbol(String symbol);
+
+    void enable(Long id);
+
+    void disable(Long id);
 }

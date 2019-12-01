@@ -5,13 +5,11 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
+import cn.com.gome.page.button.column.EnableOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.DomainLongFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
@@ -46,14 +44,16 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
                         new DomainLongFieldDefinition("marketId", "交易所",financialMarketPageService),
                         new StringFieldDefinition("code", "代码"),
                         new StringFieldDefinition("name", "名称"),
-                        new DateFieldDefinition("modifyTime", "修改时间")
+                        new DateFieldDefinition("modifyTime", "修改时间"),
+                        new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
                         "symbol_15",
-                        "code_15",
+                        "code_10",
                         "name_15",
-                        "marketId_15",
+                        "marketId_10",
                         "modifyTime_15",
+                        "enable_10",
                         "#operation_25"
                 )
                 .withFilterDefinitions(
@@ -69,6 +69,7 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
                         new CreateOperation()
                 )
                 .withColumnAction(
+                        new EnableOperation("enable"),
                         new EditOperation(),
                         new DeleteOperation()
                 )
@@ -100,6 +101,16 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
     @Override
     public void delete(FinancialProductEntity financialProduct) {
         financialProductService.delete(financialProduct.getId());
+    }
+
+    @Override
+    public void enable(String id) {
+        financialProductService.enable(Long.parseLong(id));
+    }
+
+    @Override
+    public void disable(String id) {
+        financialProductService.disable(Long.parseLong(id));
     }
 
     @Override

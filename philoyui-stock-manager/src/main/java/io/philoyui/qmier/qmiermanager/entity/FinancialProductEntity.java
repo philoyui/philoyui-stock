@@ -42,6 +42,11 @@ public class FinancialProductEntity implements Serializable {
      */
     private Date modifyTime;
 
+    /**
+     * 是否启动
+     */
+    private Boolean enable;
+
 
     public Long getId() {
         return id;
@@ -91,4 +96,11 @@ public class FinancialProductEntity implements Serializable {
         this.modifyTime = modifyTime;
     }
 
+    public Boolean getEnable() {
+        return enable;
+    }
+
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
+    }
 }
