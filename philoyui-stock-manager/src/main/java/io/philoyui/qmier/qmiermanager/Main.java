@@ -17,8 +17,8 @@ public class Main {
         PageCodeRequest request = new PageCodeRequest();
         request.setAppName("gmos");
         request.setBasePackage("io.philoyui.qmier.qmiermanager");
-        request.setCodeTemplates(CodeTemplate.Page,CodeTemplate.Dao,CodeTemplate.Entity,CodeTemplate.Service,CodeTemplate.ServiceImpl);
-        request.setEntityClasses(Lists.newArrayList(FinancialMarket.class));
+        request.setCodeTemplates(CodeTemplate.Page,CodeTemplate.Dao,CodeTemplate.Entity,CodeTemplate.Service,CodeTemplate.ServiceImpl,CodeTemplate.Controller);
+        request.setEntityClasses(Lists.newArrayList(DataHour.class,Data15min.class,Data30min.class));
         request.setBasePath("C:\\workplace\\philoyui-stock\\philoyui-stock-manager\\src\\main\\java\\io\\philoyui\\qmier\\qmiermanager");
         new PageProjectInitializer().generateCode(request);
 

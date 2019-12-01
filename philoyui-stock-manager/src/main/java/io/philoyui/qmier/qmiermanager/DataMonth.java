@@ -6,8 +6,8 @@ import cn.com.gome.cloud.openplatform.generator.anno.DescEntity;
 import java.io.Serializable;
 import java.util.Date;
 
-@DescEntity(name = "15分钟数据", domainName = "data_15min")
-public class Data15min implements Serializable {
+@DescEntity(name = "月数据", domainName = "data_month")
+public class DataMonth implements Serializable {
 
     @Desc(name="ID")
     private Long id;

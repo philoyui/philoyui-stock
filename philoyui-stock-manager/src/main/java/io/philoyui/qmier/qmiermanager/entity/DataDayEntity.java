@@ -1,40 +1,63 @@
-package io.philoyui.qmier.qmiermanager;
+package io.philoyui.qmier.qmiermanager.entity;
 
-import cn.com.gome.cloud.openplatform.generator.anno.Desc;
-import cn.com.gome.cloud.openplatform.generator.anno.DescEntity;
-
-import java.io.Serializable;
 import java.util.Date;
 
-@DescEntity(name = "15分钟数据", domainName = "data_15min")
-public class Data15min implements Serializable {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-    @Desc(name="ID")
+@Entity
+public class DataDayEntity implements Serializable {
+
+    /**
+     * ID
+     */
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Desc(name="代码",filter = true)
+    /**
+     * 代码
+     */
     private String symbol;
 
-    @Desc(name = "时间")
+    /**
+     * 时间
+     */
     private Date day;
 
-    @Desc(name="时间格式")
+    /**
+     * 时间格式
+     */
     private String dateString;
 
-    @Desc(name = "开盘价")
+    /**
+     * 开盘价
+     */
     private Double open;
 
-    @Desc(name="最高价")
+    /**
+     * 最高价
+     */
     private Double high;
 
-    @Desc(name = "最低价")
+    /**
+     * 最低价
+     */
     private Double low;
 
-    @Desc(name = "收盘价")
+    /**
+     * 收盘价
+     */
     private Double close;
 
-    @Desc(name="成交量",order = true)
+    /**
+     * 成交量
+     */
     private Long volume;
+
 
     public Long getId() {
         return id;
@@ -107,5 +130,6 @@ public class Data15min implements Serializable {
     public void setVolume(Long volume) {
         this.volume = volume;
     }
+
 
 }

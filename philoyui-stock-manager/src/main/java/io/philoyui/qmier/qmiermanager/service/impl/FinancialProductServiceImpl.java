@@ -23,4 +23,9 @@ public class FinancialProductServiceImpl extends GenericServiceImpl<FinancialPro
     public boolean existsBySymbol(String symbol) {
         return financialProductDao.existsBySymbol(symbol);
     }
+
+    @Override
+    public FinancialProductEntity findBySymbol(String symbol) {
+        return financialProductDao.findBySymbol(symbol);
+    }
 }

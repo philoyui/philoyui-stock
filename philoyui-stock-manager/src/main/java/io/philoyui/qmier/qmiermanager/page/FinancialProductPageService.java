@@ -12,13 +12,16 @@ import cn.com.gome.page.field.DateFieldDefinition;
 import cn.com.gome.page.field.DomainLongFieldDefinition;
 import cn.com.gome.page.field.LongFieldDefinition;
 import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class FinancialProductPageService extends PageService<FinancialProductEntity,Long> {
+public class FinancialProductPageService extends PageService<FinancialProductEntity,Long> implements PageDomainProvider<FinancialProductEntity> {
 
     @Autowired
     private FinancialProductService financialProductService;
@@ -97,6 +100,31 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
     @Override
     public void delete(FinancialProductEntity financialProduct) {
         financialProductService.delete(financialProduct.getId());
+    }
+
+    @Override
+    public Object findByReferId(String referId) {
+        return financialProductService.findBySymbol(referId);
+    }
+
+    @Override
+    public String getDomainName() {
+        return "data_day";
+    }
+
+    @Override
+    public String getDomainChineseName() {
+        return "日数据";
+    }
+
+    @Override
+    public String getDisplayFieldName() {
+        return "name";
+    }
+
+    @Override
+    public List<FinancialProductEntity> findAll() {
+        return financialProductService.list(SearchFilter.getDefault());
     }
 }
 

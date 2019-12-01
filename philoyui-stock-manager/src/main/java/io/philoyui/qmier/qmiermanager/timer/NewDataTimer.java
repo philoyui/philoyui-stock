@@ -13,8 +13,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 获取股票最近数据
+ */
 @Component
-public class Data15minTimer {
+public class NewDataTimer {
 
     @Autowired
     private FinancialProductService financialProductService;
@@ -50,5 +53,6 @@ public class Data15minTimer {
         response.body();
 
     }
+
 
 }

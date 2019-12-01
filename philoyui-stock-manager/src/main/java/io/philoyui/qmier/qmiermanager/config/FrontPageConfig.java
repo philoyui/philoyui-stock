@@ -33,8 +33,14 @@ public class FrontPageConfig {
                 )
                 .addRootItem("股票管理","stock",
                         new LeafItem("市场管理", "/admin/financial_market/page"),
-                        new LeafItem("金融产品管理", "/admin/financial_product/page")
-                )
+                        new LeafItem("金融产品管理", "/admin/financial_product/page"),
+                        new LeafItem("日线数据", "/admin/data_day/page"),
+                        new LeafItem("周线数据", "/admin/data_week/page"),
+                        new LeafItem("月线数据", "/admin/data_month/page"),
+                        new LeafItem("15min数据", "/admin/data_15min/page"),
+                        new LeafItem("30min数据", "/admin/data_30min/page"),
+                        new LeafItem("60min数据", "/admin/data_hour/page")
+                        )
                 .build();
 
         PageSettings pageSettings = new PageSettings();
