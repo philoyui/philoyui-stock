@@ -3,7 +3,6 @@ package io.philoyui.qmier.qmiermanager.timer;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.philoyui.qmier.qmiermanager.Data30min;
 import io.philoyui.qmier.qmiermanager.entity.Data30minEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.service.Data30minService;

@@ -32,7 +32,7 @@ public class DataDownloader {
             .create();
 
     public void process(DataType dataType, DataDownloadInterface dataDownloadInterface) {
-        List<FinancialProductEntity> financialProductEntities = financialProductService.list(SearchFilter.getDefault());
+        List<FinancialProductEntity> financialProductEntities = financialProductService.findEnable();
         for (FinancialProductEntity financialProductEntity : financialProductEntities) {
             String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProductEntity.getSymbol()+"&scale="+dataType.getMinute()+"&ma=no&datalen=100";
             try {

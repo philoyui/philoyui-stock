@@ -89,8 +89,9 @@ public class FinancialProductTimer {
                     break;
                 }
                 for (ProductData productData : productDataArray) {
-                    if(!financialProductService.existsBySymbol(productData.getSymbol())){
-                        FinancialProductEntity financialProductEntity = new FinancialProductEntity();
+                    FinancialProductEntity financialProductEntity = financialProductService.findBySymbol(productData.getSymbol());
+                    if(financialProductEntity==null){
+                        financialProductEntity = new FinancialProductEntity();
                         financialProductEntity.setSymbol(productData.getSymbol());
                         financialProductEntity.setCode(productData.getCode());
                         financialProductEntity.setName(productData.getName());
@@ -98,6 +99,10 @@ public class FinancialProductTimer {
                         financialProductEntity.setModifyTime(new Date());
                         financialProductEntity.setEnable(true);
                         financialProductService.insert(financialProductEntity);
+                    }else if(!financialProductEntity.getName().equalsIgnoreCase(productData.getName())){
+                        financialProductEntity.setName(productData.getName());
+                        financialProductEntity.setModifyTime(new Date());
+                        financialProductService.update(financialProductEntity);
                     }
                 }
                 LOG.info("抓取数据成功，地址为：" + fetchUrl);

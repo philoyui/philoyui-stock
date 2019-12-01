@@ -21,6 +21,7 @@
         <module>philoyui-stock-jpa</module>
         <module>philoyui-stock-common</module>
         <module>philoyui-stock-generator</module>
+        <module>philoyui-stock-cache</module>
     </modules>
 
     <properties>
@@ -52,6 +53,11 @@
             <dependency>
                 <groupId>io.philoyui</groupId>
                 <artifactId>philoyui-stock-generator</artifactId>
+                <version>${philoyui.stock.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.philoyui</groupId>
+                <artifactId>philoyui-stock-cache</artifactId>
                 <version>${philoyui.stock.version}</version>
             </dependency>
         </dependencies>

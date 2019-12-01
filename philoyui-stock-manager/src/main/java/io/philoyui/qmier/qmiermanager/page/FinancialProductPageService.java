@@ -48,18 +48,19 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
                         new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_15",
+                        "#checkbox_3",
+                        "symbol_14",
                         "code_10",
                         "name_15",
                         "marketId_10",
                         "modifyTime_15",
-                        "enable_10",
+                        "enable_8",
                         "#operation_25"
                 )
                 .withFilterDefinitions(
                     "symbol",
                     "code",
-                    "name",
+                    "name_like",
                     "marketId"
                 )
                 .withSortDefinitions(
