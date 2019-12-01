@@ -1,6 +1,7 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.field.DoubleFieldDefinition;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
@@ -10,6 +11,8 @@ import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
 import io.philoyui.qmier.qmiermanager.to.HistoryData;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +21,8 @@ import java.util.List;
 
 @Component
 public class DataDownloader {
+
+    private static final Logger LOG = LoggerFactory.getLogger(DataDownloader.class);
 
     @Autowired
     private FinancialProductService financialProductService;
@@ -40,6 +45,8 @@ public class DataDownloader {
                 HistoryData[] historyDataArray = gson.fromJson(response.body(), HistoryData[].class);
 
                 dataDownloadInterface.process(historyDataArray,financialProductEntity);
+
+                LOG.info("下载历史数据成功：" + dataType + " " + financialProductEntity.getSymbol());
 
             } catch (IOException e) {
                 e.printStackTrace();
