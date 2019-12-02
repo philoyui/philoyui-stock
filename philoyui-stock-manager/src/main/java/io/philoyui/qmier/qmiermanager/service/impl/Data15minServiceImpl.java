@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.generator.anno.Desc;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.Data15minDao;
@@ -26,6 +27,9 @@ public class Data15minServiceImpl extends GenericServiceImpl<Data15minEntity,Lon
     @Autowired
     private DataDownloader dataDownloader;
 
+    @Autowired
+    private TaskTracer taskTracer;
+
     @Override
     protected GenericDao<Data15minEntity, Long> getDao() {
         return data15minDao;
@@ -44,25 +48,31 @@ public class Data15minServiceImpl extends GenericServiceImpl<Data15minEntity,Lon
 
     @Override
     public void downloadHistory() {
-        dataDownloader.process(DataType.Min_15, new DataDownloadInterface() {
+
+        taskTracer.trace("15分钟K线数据抓取（From 新浪）",new TaskExecutor(){
             @Override
-            public void process(HistoryData[] historyDataArray, FinancialProductEntity financialProductEntity) {
-                deleteBySymbol(financialProductEntity.getSymbol());
-                List<Data15minEntity> data15minEntityList = new ArrayList<>();
-                for (HistoryData historyData : historyDataArray) {
-                    Data15minEntity data15minEntity = new Data15minEntity();
-                    data15minEntity.setSymbol(financialProductEntity.getSymbol());
-                    data15minEntity.setDay(historyData.getDay());
-                    data15minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                    data15minEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                    data15minEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                    data15minEntity.setLow(Double.parseDouble(historyData.getLow()));
-                    data15minEntity.setClose(Double.parseDouble(historyData.getClose()));
-                    data15minEntity.setVolume(Long.parseLong(historyData.getVolume()));
-                    data15minEntityList.add(data15minEntity);
-                }
-                insertAll(data15minEntityList);
+            public void execute(TaskCounter taskCounter) {
+                dataDownloader.process(DataType.Min_15, (historyDataArray, financialProductEntity) -> {
+                    deleteBySymbol(financialProductEntity.getSymbol());
+                    List<Data15minEntity> data15minEntityList = new ArrayList<>();
+                    for (HistoryData historyData : historyDataArray) {
+                        Data15minEntity data15minEntity = new Data15minEntity();
+                        data15minEntity.setSymbol(financialProductEntity.getSymbol());
+                        data15minEntity.setDay(historyData.getDay());
+                        data15minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                        data15minEntity.setOpen(Double.parseDouble(historyData.getOpen()));
+                        data15minEntity.setHigh(Double.parseDouble(historyData.getHigh()));
+                        data15minEntity.setLow(Double.parseDouble(historyData.getLow()));
+                        data15minEntity.setClose(Double.parseDouble(historyData.getClose()));
+                        data15minEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                        data15minEntityList.add(data15minEntity);
+                    }
+                    insertAll(data15minEntityList);
+                    taskCounter.increase();
+                });
             }
         });
+
+
     }
 }
