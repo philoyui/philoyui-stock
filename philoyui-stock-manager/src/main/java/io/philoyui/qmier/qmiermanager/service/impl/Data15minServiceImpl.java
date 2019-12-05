@@ -52,6 +52,7 @@ public class Data15minServiceImpl extends GenericServiceImpl<Data15minEntity,Lon
             for (HistoryData historyData : historyDataArray) {
                 Data15minEntity data15minEntity = new Data15minEntity();
                 data15minEntity.setSymbol(financialProductEntity.getSymbol());
+                data15minEntity.setName(financialProductEntity.getName());
                 data15minEntity.setDay(historyData.getDay());
                 data15minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 data15minEntity.setOpen(Double.parseDouble(historyData.getOpen()));

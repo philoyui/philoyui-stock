@@ -2,7 +2,10 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.BatchActionOperation;
+import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
+import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.button.column.EnableOperation;
@@ -59,7 +62,7 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
                 )
                 .withFilterDefinitions(
                     "symbol",
-                    "code",
+                    "enable",
                     "name_like",
                     "marketId"
                 )
@@ -67,7 +70,8 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
                     "modifyTime_desc","modifyTime_asc"
                 )
                 .withTableAction(
-                        new CreateOperation()
+                        new CreateOperation(),
+                        new TableOperation("下载历史数据","downloadHistory", ButtonStyle.Orange)
                 )
                 .withColumnAction(
                         new EnableOperation("enable"),
@@ -131,7 +135,7 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
 
     @Override
     public String getDisplayFieldName() {
-        return "symbol";
+        return "name";
     }
 
     @Override

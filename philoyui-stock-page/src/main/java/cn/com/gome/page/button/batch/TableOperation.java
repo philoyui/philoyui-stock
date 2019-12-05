@@ -26,7 +26,7 @@ public class TableOperation extends TableAction {
         String link = String.format("/admin/%s/%s", domainName,path);
 
         StylePlugin stylePlugin = pageConfig.getStylePlugin();
-        String htmlContent = stylePlugin.getTableActionHtml();
+        String htmlContent = stylePlugin.getConfirmTableActionHtml();
         htmlContent = htmlContent.replaceAll("#名字#",name);
         htmlContent = htmlContent.replaceAll("#操作链接#",link);
         htmlContent = htmlContent.replaceAll("#Class样式#",buttonStyle.getButtonStyleClass());

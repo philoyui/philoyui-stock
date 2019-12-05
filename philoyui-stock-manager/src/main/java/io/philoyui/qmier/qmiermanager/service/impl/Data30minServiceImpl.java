@@ -52,6 +52,7 @@ public class Data30minServiceImpl extends GenericServiceImpl<Data30minEntity,Lon
             for (HistoryData historyData : historyDataArray) {
                 Data30minEntity data30minEntity = new Data30minEntity();
                 data30minEntity.setSymbol(financialProductEntity.getSymbol());
+                data30minEntity.setName(financialProductEntity.getName());
                 data30minEntity.setDay(historyData.getDay());
                 data30minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 data30minEntity.setOpen(Double.parseDouble(historyData.getOpen()));

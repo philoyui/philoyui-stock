@@ -54,6 +54,8 @@ public class DataHourServiceImpl extends GenericServiceImpl<DataHourEntity,Long>
             for (HistoryData historyData : historyDataArray) {
                 DataHourEntity dataHourEntity = new DataHourEntity();
                 dataHourEntity.setSymbol(financialProductEntity.getSymbol());
+                dataHourEntity.setName(financialProductEntity.getName());
+
                 dataHourEntity.setDay(historyData.getDay());
                 dataHourEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 dataHourEntity.setOpen(Double.parseDouble(historyData.getOpen()));

@@ -54,6 +54,8 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
             for (HistoryData historyData : historyDataArray) {
                 DataDayEntity dataDayEntity = new DataDayEntity();
                 dataDayEntity.setSymbol(financialProductEntity.getSymbol());
+                dataDayEntity.setName(financialProductEntity.getName());
+
                 dataDayEntity.setDay(historyData.getDay());
                 dataDayEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 dataDayEntity.setOpen(Double.parseDouble(historyData.getOpen()));

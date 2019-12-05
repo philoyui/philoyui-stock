@@ -41,7 +41,7 @@ public interface StylePlugin {
      */
     String getBatchActionHtml();
 
-    String getTableActionHtml();
+    String getConfirmTableActionHtml();
 
     /**
      * 批量删除的HTML

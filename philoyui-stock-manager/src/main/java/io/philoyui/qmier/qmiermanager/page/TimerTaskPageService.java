@@ -41,7 +41,7 @@ public class TimerTaskPageService extends PageService<TimerTaskEntity,Long> {
                         new EnableFieldDefinition("success", "是否成功"),
                         new StringFieldDefinition("executeResult", "执行结果"),
                         new LongFieldDefinition("completeCount", "完成个数"),
-                        new LongFieldDefinition("periodMinute","持续时长")
+                        new LongFieldDefinition("periodMinute","持续时长(分钟)")
                 )
                 .withTableColumnDefinitions(
                         "name_10",

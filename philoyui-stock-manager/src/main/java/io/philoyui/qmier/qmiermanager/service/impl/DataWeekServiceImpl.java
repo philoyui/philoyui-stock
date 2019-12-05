@@ -54,6 +54,8 @@ public class DataWeekServiceImpl extends GenericServiceImpl<DataWeekEntity,Long>
             for (HistoryData historyData : historyDataArray) {
                 DataWeekEntity dataWeekEntity = new DataWeekEntity();
                 dataWeekEntity.setSymbol(financialProductEntity.getSymbol());
+                dataWeekEntity.setName(financialProductEntity.getName());
+
                 dataWeekEntity.setDay(historyData.getDay());
                 dataWeekEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 dataWeekEntity.setOpen(Double.parseDouble(historyData.getOpen()));

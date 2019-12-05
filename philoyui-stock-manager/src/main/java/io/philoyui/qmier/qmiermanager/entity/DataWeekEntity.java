@@ -23,6 +23,11 @@ public class DataWeekEntity implements Serializable {
     private String symbol;
 
     /**
+     * 代码名称
+     */
+    private String name;
+
+    /**
      * 时间
      */
     private Date day;
@@ -141,5 +146,13 @@ public class DataWeekEntity implements Serializable {
 
     public void setRecordTime(Date recordTime) {
         this.recordTime = recordTime;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

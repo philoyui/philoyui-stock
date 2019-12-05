@@ -38,7 +38,8 @@ public class Data30minPageService extends PageService<Data30minEntity,Long> {
                 .withDomainChineseName("30分钟数据")
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
-                        new DomainStringFieldDefinition("symbol", "代码",financialProductPageService),
+                        new StringFieldDefinition("name", "股票名称"),
+                        new StringFieldDefinition("symbol", "代码"),
                         new DateFieldDefinition("day", "时间"),
                         new StringFieldDefinition("dateString", "时间格式"),
                         new DoubleFieldDefinition("open", "开盘价"),
@@ -49,13 +50,14 @@ public class Data30minPageService extends PageService<Data30minEntity,Long> {
                         new DateFieldDefinition("recordTime","记录时间")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_10",
-                        "day_10",
-                        "open_10",
-                        "high_10",
-                        "low_10",
-                        "close_10",
-                        "volume_10",
+                        "name_12",
+                        "symbol_12",
+                        "day_12",
+                        "open_8",
+                        "high_8",
+                        "low_8",
+                        "close_8",
+                        "volume_12",
                         "recordTime_10",
                         "#operation_10"
                 )

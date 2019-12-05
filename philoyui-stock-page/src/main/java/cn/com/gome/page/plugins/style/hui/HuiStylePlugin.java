@@ -86,10 +86,9 @@ public class HuiStylePlugin implements StylePlugin {
     }
 
     @Override
-    public String getTableActionHtml() {
+    public String getConfirmTableActionHtml() {
         return "<a href=\"javascript:;\" onclick=\"confirm_link(\'确认#名字#吗？','put','#操作链接#')\" style=\"margin-left:5px\" class=\"#Class样式#\"><i class=\"Hui-iconfont\">\uE6E2</i>#名字#</a>";
     }
-
 
     @Override
     public String getBatchDeleteActionHtml() {

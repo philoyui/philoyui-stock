@@ -54,6 +54,8 @@ public class DataMonthServiceImpl extends GenericServiceImpl<DataMonthEntity,Lon
             for (HistoryData historyData : historyDataArray) {
                 DataMonthEntity dataMonthEntity = new DataMonthEntity();
                 dataMonthEntity.setSymbol(financialProductEntity.getSymbol());
+                dataMonthEntity.setName(financialProductEntity.getName());
+
                 dataMonthEntity.setDay(historyData.getDay());
                 dataMonthEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
                 dataMonthEntity.setOpen(Double.parseDouble(historyData.getOpen()));
