@@ -153,7 +153,7 @@ Class Uploader
         Set xml = Server.CreateObject("MSXML2.DOMDocument")
         Set stream = Server.CreateObject("ADODB.Stream")
         Set node = xml.CreateElement("tmpNode")
-        node.dataType = "bin.base64"
+        node.taskType = "bin.base64"
         node.Text = content
         stream.Charset = CURRENT_ENCODING
         stream.Type = 1

@@ -23,6 +23,8 @@ public class TimerTask {
     @Desc(name = "结束时间",order = true)
     private Date endTime;
 
+    private Long periodSecond;
+
     @Desc(name= "是否成功")
     private Boolean success;
 

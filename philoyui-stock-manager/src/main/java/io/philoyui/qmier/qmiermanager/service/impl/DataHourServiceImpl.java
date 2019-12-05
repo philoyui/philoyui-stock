@@ -5,7 +5,7 @@ import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataHourDao;
 import io.philoyui.qmier.qmiermanager.entity.DataHourEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
-import io.philoyui.qmier.qmiermanager.entity.enu.DataType;
+import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
 import io.philoyui.qmier.qmiermanager.service.DataHourService;
 import io.philoyui.qmier.qmiermanager.to.HistoryData;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -25,6 +26,9 @@ public class DataHourServiceImpl extends GenericServiceImpl<DataHourEntity,Long>
 
     @Autowired
     private DataDownloader dataDownloader;
+
+    @Autowired
+    private TaskTracer taskTracer;
 
     @Override
     protected GenericDao<DataHourEntity, Long> getDao() {
@@ -44,25 +48,24 @@ public class DataHourServiceImpl extends GenericServiceImpl<DataHourEntity,Long>
 
     @Override
     public void downloadHistory() {
-        dataDownloader.process(DataType.Hour, new DataDownloadInterface() {
-            @Override
-            public void process(HistoryData[] historyDataArray, FinancialProductEntity financialProductEntity) {
-                deleteBySymbol(financialProductEntity.getSymbol());
-                List<DataHourEntity> dataHourEntityList = new ArrayList<>();
-                for (HistoryData historyData : historyDataArray) {
-                    DataHourEntity dataHourEntity = new DataHourEntity();
-                    dataHourEntity.setSymbol(financialProductEntity.getSymbol());
-                    dataHourEntity.setDay(historyData.getDay());
-                    dataHourEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                    dataHourEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                    dataHourEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                    dataHourEntity.setLow(Double.parseDouble(historyData.getLow()));
-                    dataHourEntity.setClose(Double.parseDouble(historyData.getClose()));
-                    dataHourEntity.setVolume(Long.parseLong(historyData.getVolume()));
-                    dataHourEntityList.add(dataHourEntity);
-                }
-                insertAll(dataHourEntityList);
+        dataHourDao.deleteAll();
+        taskTracer.trace(TaskType.Hour, taskCounter -> dataDownloader.process(TaskType.Hour, (historyDataArray, financialProductEntity) -> {
+            List<DataHourEntity> dataHourEntityList = new ArrayList<>();
+            for (HistoryData historyData : historyDataArray) {
+                DataHourEntity dataHourEntity = new DataHourEntity();
+                dataHourEntity.setSymbol(financialProductEntity.getSymbol());
+                dataHourEntity.setDay(historyData.getDay());
+                dataHourEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                dataHourEntity.setOpen(Double.parseDouble(historyData.getOpen()));
+                dataHourEntity.setHigh(Double.parseDouble(historyData.getHigh()));
+                dataHourEntity.setLow(Double.parseDouble(historyData.getLow()));
+                dataHourEntity.setClose(Double.parseDouble(historyData.getClose()));
+                dataHourEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                dataHourEntity.setRecordTime(new Date());
+                dataHourEntityList.add(dataHourEntity);
             }
-        });
+            insertAll(dataHourEntityList);
+            taskCounter.increase();
+        }));
     }
 }

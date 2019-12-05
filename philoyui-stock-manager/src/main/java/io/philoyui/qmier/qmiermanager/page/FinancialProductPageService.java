@@ -131,7 +131,7 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
 
     @Override
     public String getDisplayFieldName() {
-        return "name";
+        return "symbol";
     }
 
     @Override

@@ -139,7 +139,7 @@
             $.ajax({
                 type: 'GET',
                 url: link,
-                dataType: 'json',
+                taskType: 'json',
                 success: function (data) {
                     layer.msg('操作已成功!', {icon: 1, time: 1000});
                     location.reload(true);

@@ -1,12 +1,13 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import java.util.Date;
+import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class TimerTaskEntity implements Serializable {
@@ -26,7 +27,7 @@ public class TimerTaskEntity implements Serializable {
     /**
      * 任务ID
      */
-    private Long taskTypeId;
+    private TaskType taskType;
 
     /**
      * 启动时间
@@ -39,6 +40,11 @@ public class TimerTaskEntity implements Serializable {
     private Date endTime;
 
     /**
+     * 持续多少分钟
+     */
+    private Long periodMinute;
+
+    /**
      * 是否成功
      */
     private Boolean success;
@@ -49,14 +55,9 @@ public class TimerTaskEntity implements Serializable {
     private String executeResult;
 
     /**
-     * 全部个数
-     */
-    private Long totalCount;
-
-    /**
      * 完成个数
      */
-    private Long completeTimes;
+    private Long completeCount;
 
 
     public Long getId() {
@@ -73,14 +74,6 @@ public class TimerTaskEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Long getTaskTypeId() {
-        return taskTypeId;
-    }
-
-    public void setTaskTypeId(Long taskTypeId) {
-        this.taskTypeId = taskTypeId;
     }
 
     public Date getStartTime() {
@@ -115,21 +108,27 @@ public class TimerTaskEntity implements Serializable {
         this.executeResult = executeResult;
     }
 
-    public Long getTotalCount() {
-        return totalCount;
+    public Long getCompleteCount() {
+        return completeCount;
     }
 
-    public void setTotalCount(Long totalCount) {
-        this.totalCount = totalCount;
+    public void setCompleteCount(Long completeCount) {
+        this.completeCount = completeCount;
     }
 
-    public Long getCompleteTimes() {
-        return completeTimes;
+    public Long getPeriodMinute() {
+        return periodMinute;
     }
 
-    public void setCompleteTimes(Long completeTimes) {
-        this.completeTimes = completeTimes;
+    public void setPeriodMinute(Long periodMinute) {
+        this.periodMinute = periodMinute;
     }
 
+    public TaskType getTaskType() {
+        return taskType;
+    }
 
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
+    }
 }

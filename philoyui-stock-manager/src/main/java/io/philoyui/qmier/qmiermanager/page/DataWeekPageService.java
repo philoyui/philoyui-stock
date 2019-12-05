@@ -50,7 +50,7 @@ public class DataWeekPageService extends PageService<DataWeekEntity,Long> {
                 )
                 .withTableColumnDefinitions(
                         "symbol_10",
-                        "dateString_10",
+                        "day_10",
                         "open_10",
                         "high_10",
                         "low_10",
@@ -63,7 +63,9 @@ public class DataWeekPageService extends PageService<DataWeekEntity,Long> {
                     "symbol"
                 )
                 .withSortDefinitions(
-                    "volume_desc","volume_asc"
+                        "volume_desc","volume_asc",
+                        "recordTime_desc","recordTime_asc",
+                        "day_desc","day_asc"
                 )
                 .withTableAction(
                         new CreateOperation(),

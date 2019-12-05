@@ -41,6 +41,9 @@ public class FrontPageConfig {
                         new LeafItem("30min数据", "/admin/data_30min/page"),
                         new LeafItem("60min数据", "/admin/data_hour/page")
                         )
+                .addRootItem("系统管理","system",
+                        new LeafItem("任务管理", "/admin/timer_task/page")
+                )
                 .build();
 
         PageSettings pageSettings = new PageSettings();

@@ -1,11 +1,9 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
-import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.field.DoubleFieldDefinition;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
-import io.philoyui.qmier.qmiermanager.entity.enu.DataType;
+import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
 import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
 import io.philoyui.qmier.qmiermanager.to.HistoryData;
@@ -31,10 +29,10 @@ public class DataDownloader {
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
 
-    public void process(DataType dataType, DataDownloadInterface dataDownloadInterface) {
+    public void process(TaskType taskType, DataDownloadInterface dataDownloadInterface) {
         List<FinancialProductEntity> financialProductEntities = financialProductService.findEnable();
         for (FinancialProductEntity financialProductEntity : financialProductEntities) {
-            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProductEntity.getSymbol()+"&scale="+dataType.getMinute()+"&ma=no&datalen=100";
+            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProductEntity.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
             try {
                 Connection.Response response = Jsoup.connect(fetchUrl)
                         .header("Content-Type", "application/json")
@@ -46,13 +44,13 @@ public class DataDownloader {
 
                 dataDownloadInterface.process(historyDataArray,financialProductEntity);
 
-                LOG.info("下载历史数据成功：" + dataType + " " + financialProductEntity.getSymbol());
+                LOG.info("下载历史数据成功：" + taskType + " " + financialProductEntity.getSymbol());
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
