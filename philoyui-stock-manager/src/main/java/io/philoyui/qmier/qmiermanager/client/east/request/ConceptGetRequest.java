@@ -13,7 +13,6 @@ public class ConceptGetRequest implements EastMoneyRequest<ConceptGetResponse> {
 
     private int pageSize;
 
-
     @Override
     public Map<String, String> getMapParameters() {
         Map<String, String> parameters = Maps.newHashMap();
@@ -38,6 +37,11 @@ public class ConceptGetRequest implements EastMoneyRequest<ConceptGetResponse> {
     @Override
     public Class<ConceptGetResponse> getResponseClass() {
         return ConceptGetResponse.class;
+    }
+
+    @Override
+    public String formatContent(String body) {
+        return body;
     }
 
     public int getPageNo() {

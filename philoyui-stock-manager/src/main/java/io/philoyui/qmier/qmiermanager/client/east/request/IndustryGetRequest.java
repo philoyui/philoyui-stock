@@ -39,6 +39,11 @@ public class IndustryGetRequest implements EastMoneyRequest<IndustryGetResponse>
         return IndustryGetResponse.class;
     }
 
+    @Override
+    public String formatContent(String body) {
+        return body;
+    }
+
 
     public int getPageNo() {
         return pageNo;

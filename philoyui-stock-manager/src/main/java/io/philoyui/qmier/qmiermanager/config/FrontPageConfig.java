@@ -40,7 +40,10 @@ public class FrontPageConfig {
                         new LeafItem("15min数据", "/admin/data_15min/page"),
                         new LeafItem("30min数据", "/admin/data_30min/page"),
                         new LeafItem("60min数据", "/admin/data_hour/page")
-                        )
+                )
+                .addRootItem("财报管理","announce",
+                        new LeafItem("公告管理", "/admin/announce/page")
+                )
                 .addRootItem("系统管理","system",
                         new LeafItem("任务管理", "/admin/timer_task/page")
                 )

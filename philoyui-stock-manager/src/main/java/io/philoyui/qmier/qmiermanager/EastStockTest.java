@@ -37,7 +37,7 @@ public class EastStockTest {
             String text = EntityUtils.toString(entity);
             text = text.replaceAll("\"-\"", "0");
             StockResponse stockResponse = gson.fromJson(text, StockResponse.class);
-            System.out.println(stockResponse);
+            System.out.println(gson.toJson(stockResponse));
         } catch (IOException e) {
             e.printStackTrace();
         }

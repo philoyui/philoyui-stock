@@ -11,4 +11,5 @@ public interface EastMoneyRequest<T extends EastMoneyResponse> extends Serializa
 
     Class<T> getResponseClass();
 
+    String formatContent(String body);
 }

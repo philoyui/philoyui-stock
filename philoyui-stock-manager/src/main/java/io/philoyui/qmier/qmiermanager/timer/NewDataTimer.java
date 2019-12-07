@@ -23,7 +23,16 @@ public class NewDataTimer {
     private FinancialProductService financialProductService;
 
     /**
-     * 读取15min股票列表
+     * 获取关注股票的最新价格，每隔5秒钟获取最新数据，记录到数据库中，同时发送时间
+     *
+     * 如果抓取时间为9:00,9:15,9:30,9:45,10:00，记录15分钟数据库中
+     *
+     * 如果抓取时间为9:00,9:30,10:00
+     *
+     * 每天15:00
+     *
+     * 如何选股，季报
+     *
      * @param args
      */
     public void main(String[] args){

@@ -25,3 +25,6 @@ spring:
     test-on-borrow: false
     test-while-idle: true
     time-between-eviction-runs-millis: 18800
+  data:
+    mongodb:
+      uri: mongodb://114.67.84.99:27777/stock

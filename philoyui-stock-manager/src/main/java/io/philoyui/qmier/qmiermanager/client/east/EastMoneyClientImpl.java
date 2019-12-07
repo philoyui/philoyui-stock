@@ -21,7 +21,7 @@ public class EastMoneyClientImpl implements EastMoneyClient {
                     .ignoreContentType(true)
                     .method(Connection.Method.GET)
                     .execute();
-            return gson.fromJson(response.body(),request.getResponseClass());
+            return gson.fromJson(request.formatContent(response.body()),request.getResponseClass());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,7 +29,7 @@ public class EastMoneyClientImpl implements EastMoneyClient {
     }
 
     private <T extends EastMoneyResponse> String buildFetchUrl(EastMoneyRequest<T> request) {
-        String fetchUrl = "http://63.push2.eastmoney.com" + request.getMethodUrl();
+        String fetchUrl = request.getMethodUrl();
         StringBuilder fetchUrlBuilder = new StringBuilder(fetchUrl);
         Map<String, String> mapParameters = request.getMapParameters();
         if(mapParameters.size()>0){
