@@ -5,4 +5,6 @@ import io.philoyui.qmier.qmiermanager.entity.AnnounceEntity;
 
 public interface AnnounceService extends GenericService<AnnounceEntity,Long> {
     boolean existsByDetailUrl(String detailUrl);
+
+    void downloadAnnounce(int pageNo);
 }

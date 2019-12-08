@@ -24,7 +24,7 @@ public class Fx678FetcherTimer {
     @Autowired
     private ArticleService articleService;
 
-    @Scheduled(cron="0 0/30 * * * ?") //每30分钟执行一次
+//    @Scheduled(cron="0 0/30 * * * ?") //每30分钟执行一次
     public void fetcher(){
 
         //读取文章列表

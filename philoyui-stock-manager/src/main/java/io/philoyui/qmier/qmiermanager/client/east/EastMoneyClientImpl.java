@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.client.east;
 
+import cn.com.gome.page.excp.GmosException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.jsoup.Connection;
@@ -23,9 +24,8 @@ public class EastMoneyClientImpl implements EastMoneyClient {
                     .execute();
             return gson.fromJson(request.formatContent(response.body()),request.getResponseClass());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new GmosException("抓取数据失败：" + fetchUrl);
         }
-        return null;
     }
 
     private <T extends EastMoneyResponse> String buildFetchUrl(EastMoneyRequest<T> request) {
