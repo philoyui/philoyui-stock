@@ -31,7 +31,7 @@ public class XueQiuClientImpl implements XueQiuClient{
     }
 
     private <T extends XueQiuResponse> String buildFetchUrl(XueQiuRequest<T> request) {
-        String fetchUrl = "https://xueqiu.com" + request.getMethodUrl();
+        String fetchUrl = request.getMethodUrl();
         StringBuilder fetchUrlBuilder = new StringBuilder(fetchUrl);
         Map<String, String> mapParameters = request.getMapParameters();
         if(mapParameters.size()>0){

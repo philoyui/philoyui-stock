@@ -3,9 +3,18 @@ package io.philoyui.qmier.qmiermanager.controller;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.philoyui.qmier.qmiermanager.client.xueqiu.XueqiuList;
+import io.philoyui.qmier.qmiermanager.client.xueqiu.response.FinancialReportResponse;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockYearDataEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.service.StockYearDataService;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -47,8 +56,8 @@ public class StockYearDataController {
 //            HttpEntity entity = response.getEntity();
 //            String text = EntityUtils.toString(entity);
 //            text = text.replaceAll("\"-\"", "0");
-//            XueQiuBaseResponse xueqiuBaseResponse = gson.fromJson(text, XueQiuBaseResponse.class);
-//            for (XueqiuList xueqiuList : xueqiuBaseResponse.getData().getList()) {
+//            FinancialReportResponse financialReportResponse = gson.fromJson(text, FinancialReportResponse.class);
+//            for (XueqiuList xueqiuList : financialReportResponse.getData().getList()) {
 //                StockYearDataEntity stockYearData = new StockYearDataEntity();
 //                stockYearData.setCode(codeWithMark);
 //                stockYearData.setYear(xueqiuList.getReportName().substring(0,4));
