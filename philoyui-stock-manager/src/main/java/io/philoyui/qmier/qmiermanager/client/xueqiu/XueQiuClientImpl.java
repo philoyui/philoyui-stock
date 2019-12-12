@@ -18,8 +18,8 @@ public class XueQiuClientImpl implements XueQiuClient{
         try {
             Connection.Response response = Jsoup.connect(fetchUrl)
                     .header("Content-Type", "application/json")
-                    .cookie("xq_r_token", "5d9da1b897618a378ec339215420c06ac7674a3a")
-                    .cookie("xq_a_token", "63de0d2b2c9432d0675782fcd02ec6182112bffd")
+                    .cookie("xq_r_token", "a4d08b15013b25dbd48edc595136989c7c471aa4")
+                    .cookie("xq_a_token", "6bcf5383a71f0c5bdd54bae291e2ba227f78c04e")
                     .ignoreContentType(true)
                     .method(Connection.Method.GET)
                     .execute();

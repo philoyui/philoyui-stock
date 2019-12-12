@@ -15,7 +15,7 @@ public class Data15minTimer {
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="* * 16 * * ? ") //下午4点
+//    @Scheduled(cron="* * 16 * * ? ") //下午4点
     public void fetcher(){
         data15minService.downloadHistory();
     }

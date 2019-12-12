@@ -2,7 +2,9 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
+import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
@@ -73,51 +75,27 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                         new DoubleFieldDefinition("currentAssetTurnoverRate", "流动资产周转率")
                 )
                 .withTableColumnDefinitions(
-                        "id_10",
-                        "symbol_10",
-                        "roe_10",
-                        "year_10",
-                        "season_10",
-                        "earningsPerShare_10",
-                        "debtRatio_10",
-                        "reportName_10",
-                        "npPerShare_10",
-                        "operateCashFlowPs_10",
-                        "capitalReserve_10",
-                        "undistriProfitPs_10",
-                        "netInterestOfTotalAssets_10",
-                        "netSellingRate_10",
-                        "grossSellingRate_10",
-                        "totalRevenue_10",
-                        "operatingIncomeYoy_10",
-                        "netProfitAtsopc_10",
-                        "netProfit_10",
-                        "netProfitAfterNrgalAtsolc_10",
-                        "npAtsopcNrgalYoy_10",
-                        "currentRatio_10",
-                        "quickRatio_10",
-                        "equityMultiplier_10",
-                        "equityRatio_10",
-                        "holderEquity_10",
-                        "ncfFromOaToTotalLiab_10",
-                        "inventoryTurnoverDays_10",
-                        "receivableTurnoverDays_10",
-                        "accountsPayableTurnoverDays_10",
-                        "cashCycle_10",
-                        "operatingCycle_10",
-                        "totalCapitalTurnover_10",
-                        "inventoryTurnover_10",
-                        "accountReceivableTurnover_10",
-                        "accountsPayableTurnover_10",
-                        "currentAssetTurnoverRate_10",
-                        "#operation_10"
+                        "symbol_8",
+                        "year_8",
+                        "season_8",
+                        "roe_8",
+                        "debtRatio_8",
+                        "operatingIncomeYoy_8",
+                        "grossSellingRate_8",
+                        "netProfit_8",
+                        "currentRatio_8",
+                        "inventoryTurnover_8",
+                        "currentAssetTurnoverRate_8",
+                        "#operation_12"
                 )
                 .withFilterDefinitions(
+                        "symbol","year","season","roe","debtRatio","grossSellingRate","netProfit"
                 )
                 .withSortDefinitions(
                 )
                 .withTableAction(
-                        new CreateOperation()
+                        new CreateOperation(),
+                        new TableOperation("下载历史数据","download_history", ButtonStyle.Green)
                 )
                 .withColumnAction(
                         new EditOperation(),

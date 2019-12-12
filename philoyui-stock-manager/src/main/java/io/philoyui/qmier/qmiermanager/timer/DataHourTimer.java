@@ -15,7 +15,7 @@ public class DataHourTimer {
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="* * 1 * * ? ") //凌晨1点
+//    @Scheduled(cron="* * 1 * * ? ") //凌晨1点
     public void fetcher(){
         dataHourService.downloadHistory();
     }

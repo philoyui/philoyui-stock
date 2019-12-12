@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.page;
 
+import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
@@ -27,6 +28,8 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
 
     @Override
     public PageObject<AnnounceEntity> paged(SearchFilter searchFilter) {
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Order.desc("publishTime"));
         return announceService.paged(searchFilter);
     }
 
@@ -58,6 +61,7 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
                     "announceType"
                 )
                 .withSortDefinitions(
+                    "publishTime_desc"
                 )
                 .withTableAction(
                         new CreateOperation(),

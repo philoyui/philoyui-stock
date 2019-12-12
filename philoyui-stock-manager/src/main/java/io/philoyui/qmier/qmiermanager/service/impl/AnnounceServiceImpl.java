@@ -8,7 +8,6 @@ import io.philoyui.qmier.qmiermanager.client.east.EastMoneyClientImpl;
 import io.philoyui.qmier.qmiermanager.client.east.data.AnnounceGetData;
 import io.philoyui.qmier.qmiermanager.client.east.request.AnnounceGetRequest;
 import io.philoyui.qmier.qmiermanager.client.east.response.AnnounceGetResponse;
-import io.philoyui.qmier.qmiermanager.controller.AnnounceController;
 import io.philoyui.qmier.qmiermanager.dao.AnnounceDao;
 import io.philoyui.qmier.qmiermanager.entity.AnnounceEntity;
 import io.philoyui.qmier.qmiermanager.service.AnnounceService;
@@ -23,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AnnounceServiceImpl extends GenericServiceImpl<AnnounceEntity,Long> implements AnnounceService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AnnounceController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AnnounceServiceImpl.class);
 
     @Autowired
     private AnnounceDao announceDao;
@@ -38,7 +37,7 @@ public class AnnounceServiceImpl extends GenericServiceImpl<AnnounceEntity,Long>
         return announceDao.existsByDetailUrl(detailUrl);
     }
 
-    @Retryable(value = {GmosException.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000L, multiplier = 2))
+    @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000L, multiplier = 2))
     @Override
     public void downloadAnnounce(int pageNo) {
         EastMoneyClient client = new EastMoneyClientImpl();

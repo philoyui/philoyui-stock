@@ -20,7 +20,7 @@ public class AnnounceController {
      */
     @RequestMapping("/downloadHistory")
     public ResponseEntity<String> fetch() {
-        for (int pageNo = 1; pageNo <= 80; pageNo++) {
+        for (int pageNo = 60; pageNo <= 90; pageNo++) {
             announceService.downloadAnnounce(pageNo);
         }
         return ResponseEntity.ok("success");
