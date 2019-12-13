@@ -12,9 +12,7 @@ import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.AnnounceEntity;
 import io.philoyui.qmier.qmiermanager.service.AnnounceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,11 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
     @Autowired
     private AnnounceService announceService;
 
+    @Autowired
+    private FinancialProductPageService financialProductPageService;
+
     @Override
     public PageObject<AnnounceEntity> paged(SearchFilter searchFilter) {
-        searchFilter = SearchFilter.getDefault();
         searchFilter.add(Order.desc("publishTime"));
         return announceService.paged(searchFilter);
     }
@@ -43,12 +43,14 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("title", "标题"),
                         new StringFieldDefinition("symbol", "股票编码"),
+                        new DomainStringFieldDefinition("symbol", "股票名称",financialProductPageService).aliasName("stockName"),
                         new DateFieldDefinition("publishTime", "发布时间"),
                         new StringFieldDefinition("detailUrl", "详细页链接"),
                         new StringFieldDefinition("announceType", "公告类型")
                 )
                 .withTableColumnDefinitions(
                         "symbol_10",
+                        "stockName_10",
                         "title_40",
                         "announceType_15",
                         "publishTime_15",

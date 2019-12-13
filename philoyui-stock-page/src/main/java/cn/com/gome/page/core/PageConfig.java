@@ -112,7 +112,7 @@ public class PageConfig {
     public PageConfig withFieldDefinitions(FieldDefinition... fieldDefinitions) {
         for (FieldDefinition fieldDefinition : fieldDefinitions) {
             fieldDefinition.setPageContext(pageContext);
-            fieldNameDefinitionMap.put(fieldDefinition.getFieldName(),fieldDefinition);
+            fieldNameDefinitionMap.put(fieldDefinition.getDefinitionName(),fieldDefinition);
 
             if(fieldDefinition.getFieldType() == FieldType.LinkIn){
                 LinkInFieldDefinition linkInFieldDefinition = (LinkInFieldDefinition) fieldDefinition;

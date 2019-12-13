@@ -9,7 +9,7 @@ import java.util.Map;
 
 public abstract class TableColumn {
 
-    protected String fieldName;
+    protected String definitionName;
 
     /**
      * 列名，默认为FieldDefinition中的FieldName,
@@ -24,8 +24,8 @@ public abstract class TableColumn {
     protected FieldDefinition fieldDefinition;
 
 
-    public TableColumn(Map<String, FieldDefinition> fieldNameDefinitionMap,String fieldName, int width) {
-        this.fieldName = fieldName;
+    public TableColumn(Map<String, FieldDefinition> fieldNameDefinitionMap, String definitionName, int width) {
+        this.definitionName = definitionName;
         this.width = width;
         this.fieldNameDefinitionMap = fieldNameDefinitionMap;
     }
@@ -46,12 +46,12 @@ public abstract class TableColumn {
         this.width = width;
     }
 
-    public String getFieldName() {
-        return fieldName;
+    public String getDefinitionName() {
+        return definitionName;
     }
 
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setDefinitionName(String definitionName) {
+        this.definitionName = definitionName;
     }
 
     public abstract String generateTableValueHtml(HttpServletRequest request, PageConfig pageConfig, TableColumn tableColumn, Object entity);

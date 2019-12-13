@@ -18,6 +18,11 @@ import java.util.List;
 public abstract class FieldDefinition {
 
     /**
+     * 定义名称
+     */
+    private String definitionName;
+
+    /**
      * 字段名
      */
     protected String fieldName;
@@ -54,9 +59,11 @@ public abstract class FieldDefinition {
     private List<FieldValidator> fieldValidators = Lists.newArrayList();
 
 
+
     public FieldDefinition(String fieldName, String description) {
         this.fieldName = fieldName;
         this.description = description;
+        this.definitionName = fieldName;
     }
 
 
@@ -115,4 +122,13 @@ public abstract class FieldDefinition {
     }
 
     public abstract Object transferType(Serializable entity, FormField formField, String parameterValue);
+
+    public String getDefinitionName() {
+        return definitionName;
+    }
+
+    public FieldDefinition aliasName(String aliasName){
+        this.definitionName = aliasName;
+        return this;
+    }
 }

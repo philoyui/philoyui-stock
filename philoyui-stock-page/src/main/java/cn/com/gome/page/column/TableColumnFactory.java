@@ -15,13 +15,16 @@ public class TableColumnFactory {
             throw new GmosException("表格列tableColumn设置出错，格式出错，有且必须有一个_：" + columnDefinition);
         }
 
-        switch (columnParts[0]){
+        String fieldDefinition = columnParts[0];
+        int width = Integer.parseInt(columnParts[1]);
+
+        switch (fieldDefinition){
             case "#checkbox":
-                return new CheckboxTableColumn(fieldNameDefinitionMap,columnParts[0],Integer.parseInt(columnParts[1]));
+                return new CheckboxTableColumn(fieldNameDefinitionMap, fieldDefinition, width);
             case "#operation":
-                return new OperationTableColumn(fieldNameDefinitionMap,columnParts[0],Integer.parseInt(columnParts[1]));
+                return new OperationTableColumn(fieldNameDefinitionMap, fieldDefinition, width);
             default:
-                return new DataTableColumn(fieldNameDefinitionMap,columnParts[0],Integer.parseInt(columnParts[1]));
+                return new DataTableColumn(fieldNameDefinitionMap, fieldDefinition, width);
         }
 
     }

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class FinancialProductPageService extends PageService<FinancialProductEntity,Long> implements PageDomainProvider<FinancialProductEntity> {
+public class FinancialProductPageService extends PageService<FinancialProductEntity,String> implements PageDomainProvider<FinancialProductEntity> {
 
     @Autowired
     private FinancialProductService financialProductService;
@@ -125,12 +125,12 @@ public class FinancialProductPageService extends PageService<FinancialProductEnt
 
     @Override
     public String getDomainName() {
-        return "data_day";
+        return "financial_product";
     }
 
     @Override
     public String getDomainChineseName() {
-        return "日数据";
+        return "金融产品";
     }
 
     @Override

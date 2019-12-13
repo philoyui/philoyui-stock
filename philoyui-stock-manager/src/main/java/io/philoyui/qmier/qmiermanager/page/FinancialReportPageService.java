@@ -10,6 +10,7 @@ import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
+import cn.com.gome.page.field.DomainStringFieldDefinition;
 import cn.com.gome.page.field.DoubleFieldDefinition;
 import cn.com.gome.page.field.LongFieldDefinition;
 import cn.com.gome.page.field.StringFieldDefinition;
@@ -23,6 +24,9 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
 
     @Autowired
     private FinancialReportService financialReportService;
+
+    @Autowired
+    private FinancialProductPageService financialProductPageService;
 
     @Override
     public PageObject<FinancialReportEntity> paged(SearchFilter searchFilter) {
@@ -38,6 +42,7 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "代码"),
+                        new DomainStringFieldDefinition("symbol", "股票名称",financialProductPageService).aliasName("stockName"),
                         new DoubleFieldDefinition("roe", "资产收益率"),
                         new StringFieldDefinition("year", "年"),
                         new StringFieldDefinition("season", "季度"),
@@ -76,6 +81,7 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                 )
                 .withTableColumnDefinitions(
                         "symbol_8",
+                        "stockName_8",
                         "year_8",
                         "season_8",
                         "roe_8",
@@ -85,13 +91,13 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                         "netProfit_8",
                         "currentRatio_8",
                         "inventoryTurnover_8",
-                        "currentAssetTurnoverRate_8",
                         "#operation_12"
                 )
                 .withFilterDefinitions(
                         "symbol","year","season","roe","debtRatio","grossSellingRate","netProfit"
                 )
                 .withSortDefinitions(
+                        "debtRatio_desc","roe_desc","grossSellingRate_desc","netProfit_desc"
                 )
                 .withTableAction(
                         new CreateOperation(),
