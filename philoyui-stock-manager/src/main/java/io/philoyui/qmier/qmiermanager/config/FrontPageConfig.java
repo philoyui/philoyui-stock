@@ -32,8 +32,6 @@ public class FrontPageConfig {
                         new LeafItem("分类管理", "/admin/article_category/page")
                 )
                 .addRootItem("股票管理","stock",
-                        new LeafItem("市场管理", "/admin/financial_market/page"),
-                        new LeafItem("金融产品管理", "/admin/financial_product/page"),
                         new LeafItem("日线数据", "/admin/data_day/page"),
                         new LeafItem("周线数据", "/admin/data_week/page"),
                         new LeafItem("月线数据", "/admin/data_month/page"),
@@ -48,7 +46,12 @@ public class FrontPageConfig {
                         new LeafItem("财报管理", "/admin/financial_report/page")
                 )
                 .addRootItem("系统管理","system",
+                        new LeafItem("市场管理", "/admin/financial_market/page"),
                         new LeafItem("任务管理", "/admin/timer_task/page")
+                )
+                .addRootItem("选股管理","filter",
+                        new LeafItem("选股策略", "/admin/filter_definition/page"),
+                        new LeafItem("选股管理", "/admin/financial_product/page")
                 )
                 .build();
 

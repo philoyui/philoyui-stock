@@ -18,4 +18,6 @@ public interface FinancialProductService extends GenericService<FinancialProduct
     List<FinancialProductEntity> findEnable();
 
     void downloadHistoryData();
+
+    void markAllDisable();
 }

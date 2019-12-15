@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -81,6 +82,12 @@ public class FinancialProductServiceImpl extends GenericServiceImpl<FinancialPro
 //        fetchProductDataArray("cyb",80);
         fetchProductDataArray("sgt_hk",80);
         fetchProductDataArray("hgt_hk",80);
+    }
+
+    @Transactional
+    @Override
+    public void markAllDisable() {
+        financialProductDao.markAllEnable();
     }
 
     private void fetchProductDataArray(String identifier,int pageSize) {

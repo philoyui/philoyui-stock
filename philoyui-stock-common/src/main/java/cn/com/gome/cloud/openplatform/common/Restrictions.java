@@ -83,13 +83,10 @@ public class Restrictions implements Serializable {
      * @Description : 包含于
      */
     @SuppressWarnings("rawtypes")
-    public static LogicalExpression in(String fieldName, Collection<Serializable> value) {
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
+    public static LogicalExpression in(String fieldName, Serializable[] ids) {
         List<SimpleExpression> expressions = new ArrayList<>();
-        for (Serializable obj : value) {
-            expressions.add(new SimpleExpression(fieldName, obj, Operator.EQ));
+        for (Serializable id : ids) {
+            expressions.add(new SimpleExpression(fieldName, id, Operator.EQ));
         }
         return new LogicalExpression(expressions.toArray(new SimpleExpression[expressions.size()]), Operator.OR);
     }
