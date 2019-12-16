@@ -41,13 +41,16 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                         new StringFieldDefinition("identifier", "唯一标识"),
                         new StringFieldDefinition("name", "名字"),
                         new StringFieldDefinition("description", "描述"),
+                        new StringFieldDefinition("param1", "参数1"),
+                        new StringFieldDefinition("param2", "参数2"),
+                        new StringFieldDefinition("param3", "参数3"),
                         new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
-                        "identifier_20",
-                        "name_20",
-                        "enable_10",
-                        "#operation_20"
+                        "identifier_25",
+                        "name_40",
+                        "enable_15",
+                        "#operation_30"
                 )
                 .withFilterDefinitions(
                 )
@@ -65,7 +68,10 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                 .withFormItemDefinition(
                         "identifier_rw",
                         "name_rw",
-                        "enable_rw"
+                        "enable_rw",
+                        "param1_rw",
+                        "param2_rw",
+                        "param3_rw"
                 );
         return pageConfig;
     }

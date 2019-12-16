@@ -26,20 +26,22 @@ public class RoeIncreasingFilter implements StockFilter{
      * 最近（year）大于18%，筛选出所有的股票，前三年股票是递增状态
      *
      * @return
+     * @param param1
+     * @param param2
+     * @param param3
      */
     @Override
-    public Set<String> filterSymbol() {
+    public Set<String> filterSymbol(String param1, String param2, String param3) {
 
-        Double lastMinimumRoe = 18.0;
-        String startYear = "2016";
-        String endYear = "2018";
-        String season = "年报";
+        String startYear = param1;
+        String endYear = String.valueOf(Integer.parseInt(param1)+2);
+        String season = param2;
+        String lastMinimumRoe = param3;
 
         Map<String, TreeMap<String,Double>> symbolRoeMap = Maps.newHashMap();
 
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("season",season));
-
         searchFilter.add(Restrictions.eq("year",endYear));
         searchFilter.add(Restrictions.gte("roe",lastMinimumRoe));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);

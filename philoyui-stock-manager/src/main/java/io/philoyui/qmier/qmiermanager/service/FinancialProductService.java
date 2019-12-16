@@ -20,4 +20,6 @@ public interface FinancialProductService extends GenericService<FinancialProduct
     void downloadHistoryData();
 
     void markAllDisable();
+
+    void updateAll(List<FinancialProductEntity> financialProductEntityList);
 }

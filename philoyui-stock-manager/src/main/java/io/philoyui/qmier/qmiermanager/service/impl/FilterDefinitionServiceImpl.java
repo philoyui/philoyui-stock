@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
@@ -44,15 +45,15 @@ public class FilterDefinitionServiceImpl extends GenericServiceImpl<FilterDefini
 
         List<FilterDefinitionEntity> filterDefinitions = filterDefinitionDao.findByEnable(true);
         for (FilterDefinitionEntity filterDefinition : filterDefinitions) {
-            Set<String> symbolSet = stockFilters.select(filterDefinition.getIdentifier()).filterSymbol();
+            Set<String> symbolSet = stockFilters.select(filterDefinition.getIdentifier()).filterSymbol(filterDefinition.getParam1(),filterDefinition.getParam2() ,filterDefinition.getParam3());
             resultSet = Sets.intersection(resultSet,symbolSet);
         }
 
-        for (String resultSymbol : resultSet) {
-            FinancialProductEntity financialProductEntity = financialProductService.findBySymbol(resultSymbol);
-            financialProductEntity.setEnable(true);
-            financialProductService.update(financialProductEntity);
-        }
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.in("symbol",resultSet.toArray(new String[0])));
+        List<FinancialProductEntity> financialProductEntityList = financialProductService.list(searchFilter);
+        financialProductEntityList.forEach(financialProductEntity -> financialProductEntity.setEnable(true));
+        financialProductService.updateAll(financialProductEntityList);
 
     }
 

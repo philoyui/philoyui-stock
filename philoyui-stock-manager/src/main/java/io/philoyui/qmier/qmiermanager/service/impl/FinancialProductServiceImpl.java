@@ -90,6 +90,11 @@ public class FinancialProductServiceImpl extends GenericServiceImpl<FinancialPro
         financialProductDao.markAllEnable();
     }
 
+    @Override
+    public void updateAll(List<FinancialProductEntity> financialProductEntityList) {
+        financialProductDao.saveAll(financialProductEntityList);
+    }
+
     private void fetchProductDataArray(String identifier,int pageSize) {
         int pageNo = 1;
         while(true){
