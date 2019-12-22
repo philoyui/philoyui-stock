@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataMonthTimer {
+public class DataMonthTimer implements TimeScheduler{
 
     @Autowired
     private DataMonthService dataMonthService;
@@ -16,7 +16,8 @@ public class DataMonthTimer {
      * @param args
      */
     @Scheduled(cron="0 0 0 1 * ?") //每月1号0点
-    public void fetcher(){
+    @Override
+    public void schedule(){
         dataMonthService.downloadHistory();
     }
 

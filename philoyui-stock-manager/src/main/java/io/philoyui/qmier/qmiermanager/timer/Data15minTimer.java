@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Data15minTimer {
+public class Data15minTimer implements TimeScheduler{
 
     @Autowired
     private Data15minService data15minService;
@@ -15,8 +15,9 @@ public class Data15minTimer {
      * 读取30min股票列表
      * @param args
      */
-//    @Scheduled(cron="* * 16 * * ? ") //下午4点
-    public void fetcher(){
+//    @Scheduled(cron="* * 22 * * ?") //下午4点
+    @Override
+    public void schedule(){
         data15minService.downloadHistory();
     }
 

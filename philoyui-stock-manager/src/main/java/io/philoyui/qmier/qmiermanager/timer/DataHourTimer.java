@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataHourTimer {
+public class DataHourTimer implements TimeScheduler{
 
     @Autowired
     private DataHourService dataHourService;
@@ -15,8 +15,9 @@ public class DataHourTimer {
      * 读取30min股票列表
      * @param args
      */
-//    @Scheduled(cron="* * 1 * * ? ") //凌晨1点
-    public void fetcher(){
+//    @Scheduled(cron="* * 20 * * ?") //凌晨1点
+    @Override
+    public void schedule(){
         dataHourService.downloadHistory();
     }
 

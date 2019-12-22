@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataWeekTimer {
+public class DataWeekTimer implements TimeScheduler{
 
     @Autowired
     private DataWeekService dataWeekService;
@@ -16,7 +16,8 @@ public class DataWeekTimer {
      * @param args
      */
     @Scheduled(cron="0 10 3 ? * 1") //每周日
-    public void fetcher(){
+    @Override
+    public void schedule(){
         dataWeekService.downloadHistory();
     }
 

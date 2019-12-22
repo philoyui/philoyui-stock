@@ -29,9 +29,9 @@ public class TimerTaskEntity implements Serializable {
     private String cron;
 
     /**
-     * 描述
+     * Bean name
      */
-    private String description;
+    private String beanName;
 
     /**
      * 上次执行时间
@@ -63,14 +63,6 @@ public class TimerTaskEntity implements Serializable {
         this.cron = cron;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Date getLastExecuteTime() {
         return lastExecuteTime;
     }
@@ -79,5 +71,11 @@ public class TimerTaskEntity implements Serializable {
         this.lastExecuteTime = lastExecuteTime;
     }
 
+    public String getBeanName() {
+        return beanName;
+    }
 
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
 }

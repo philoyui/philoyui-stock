@@ -38,12 +38,13 @@ public class TimerTaskPageService extends PageService<TimerTaskEntity,Long> {
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("name", "名字"),
                         new StringFieldDefinition("cron", "CRON表达式"),
-                        new StringFieldDefinition("description", "描述"),
+                        new StringFieldDefinition("beanName", "BeanName"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间")
                 )
                 .withTableColumnDefinitions(
-                        "name_30",
-                        "cron_30",
+                        "name_20",
+                        "beanName_10",
+                        "cron_20",
                         "lastExecuteTime_20",
                         "#operation_20"
                 )
@@ -61,7 +62,8 @@ public class TimerTaskPageService extends PageService<TimerTaskEntity,Long> {
                 )
                 .withFormItemDefinition(
                         "name_rw",
-                        "cron_rw"
+                        "cron_rw",
+                        "beanName_rw"
                 );
         return pageConfig;
     }
