@@ -1,7 +1,7 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
-import io.philoyui.qmier.qmiermanager.entity.TimerTaskEntity;
-import io.philoyui.qmier.qmiermanager.service.TimerTaskService;
+import io.philoyui.qmier.qmiermanager.entity.TimerTaskLogEntity;
+import io.philoyui.qmier.qmiermanager.service.TimerTaskLogService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -9,12 +9,12 @@ public class TaskCounter {
 
     private AtomicLong counter = new AtomicLong(0);
 
-    private TimerTaskService timerTaskService;
+    private TimerTaskLogService timerTaskLogService;
 
-    private TimerTaskEntity newTaskEntity;
+    private TimerTaskLogEntity newTaskEntity;
 
-    public TaskCounter(TimerTaskService timerTaskService, TimerTaskEntity newTaskEntity) {
-        this.timerTaskService = timerTaskService;
+    public TaskCounter(TimerTaskLogService timerTaskLogService, TimerTaskLogEntity newTaskEntity) {
+        this.timerTaskLogService = timerTaskLogService;
         this.newTaskEntity = newTaskEntity;
     }
 
@@ -22,7 +22,7 @@ public class TaskCounter {
         long currentCount = counter.incrementAndGet();
         if(currentCount%10==0){
             newTaskEntity.setCompleteCount(currentCount);
-            timerTaskService.update(newTaskEntity);
+            timerTaskLogService.update(newTaskEntity);
         }
     }
 

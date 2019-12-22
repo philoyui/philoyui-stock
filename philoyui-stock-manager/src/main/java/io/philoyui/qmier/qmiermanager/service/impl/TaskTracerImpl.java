@@ -1,25 +1,27 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
 import cn.com.gome.page.excp.GmosException;
-import io.philoyui.qmier.qmiermanager.entity.TimerTaskEntity;
+import io.philoyui.qmier.qmiermanager.entity.TimerTaskLogEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.TimerTaskService;
+import io.philoyui.qmier.qmiermanager.service.TaskTracer;
+import io.philoyui.qmier.qmiermanager.service.TimerTaskLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
-public class TaskTracer {
+public class TaskTracerImpl implements TaskTracer {
 
     @Autowired
-    private TimerTaskService timerTaskService;
+    private TimerTaskLogService timerTaskLogService;
 
+    @Override
     public void trace(TaskType taskType, TaskExecutor taskExecutor) {
         boolean success = true;
         String executeResult = "成功";
-        TimerTaskEntity newTaskEntity = startTimerTask(taskType);
-        TaskCounter taskCounter = new TaskCounter(timerTaskService,newTaskEntity);
+        TimerTaskLogEntity newTaskEntity = startTimerTask(taskType);
+        TaskCounter taskCounter = new TaskCounter(timerTaskLogService,newTaskEntity);
         try {
             taskExecutor.execute(taskCounter);
         }catch (GmosException e){
@@ -30,23 +32,28 @@ public class TaskTracer {
         }
     }
 
-    private void endTimerTask(TimerTaskEntity newTaskEntity, TaskCounter taskCounter, boolean success, String executeResult) {
+    private void endTimerTask(TimerTaskLogEntity newTaskEntity, TaskCounter taskCounter, boolean success, String executeResult) {
         long endTimeMillis = System.currentTimeMillis();
         newTaskEntity.setEndTime(new Date(endTimeMillis));
         newTaskEntity.setPeriodMinute((endTimeMillis-newTaskEntity.getStartTime().getTime())/60000);
         newTaskEntity.setSuccess(success);
         newTaskEntity.setExecuteResult(executeResult);
         newTaskEntity.setCompleteCount(taskCounter.getCompleteCount());
-        timerTaskService.update(newTaskEntity);
+        timerTaskLogService.update(newTaskEntity);
     }
 
-    private TimerTaskEntity startTimerTask(TaskType taskType) {
+    /**
+     * 标记定时任务已启动
+     * @param taskType
+     * @return
+     */
+    private TimerTaskLogEntity startTimerTask(TaskType taskType) {
         long startTimeMillis = System.currentTimeMillis();
-        TimerTaskEntity timerTask = new TimerTaskEntity();
+        TimerTaskLogEntity timerTask = new TimerTaskLogEntity();
         timerTask.setName(taskType.getTaskName());
         timerTask.setStartTime(new Date(startTimeMillis));
         timerTask.setCompleteCount(0L);
         timerTask.setTaskType(taskType);
-        return timerTaskService.insert(timerTask);
+        return timerTaskLogService.insert(timerTask);
     }
 }

@@ -6,7 +6,9 @@ import io.philoyui.qmier.qmiermanager.dao.Data15minDao;
 import io.philoyui.qmier.qmiermanager.entity.Data15minEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.Data15minService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.service.KLineDataDownloader;
+import io.philoyui.qmier.qmiermanager.service.TaskTracer;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +25,7 @@ public class Data15minServiceImpl extends GenericServiceImpl<Data15minEntity,Lon
     private Data15minDao data15minDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloader kLineDataDownloader;
 
     @Autowired
     private TaskTracer taskTracer;
@@ -47,19 +49,19 @@ public class Data15minServiceImpl extends GenericServiceImpl<Data15minEntity,Lon
     @Override
     public void downloadHistory() {
         data15minDao.deleteAll();
-        taskTracer.trace(TaskType.Min_15, taskCounter -> dataDownloader.process(TaskType.Min_15, (historyDataArray, financialProductEntity) -> {
+        taskTracer.trace(TaskType.Min_15, taskCounter -> kLineDataDownloader.download(TaskType.Min_15, (financialProduct, kLineDataArray) -> {
             List<Data15minEntity> data15minEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData KLineData : kLineDataArray) {
                 Data15minEntity data15minEntity = new Data15minEntity();
-                data15minEntity.setSymbol(financialProductEntity.getSymbol());
-                data15minEntity.setName(financialProductEntity.getName());
-                data15minEntity.setDay(historyData.getDay());
-                data15minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                data15minEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                data15minEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                data15minEntity.setLow(Double.parseDouble(historyData.getLow()));
-                data15minEntity.setClose(Double.parseDouble(historyData.getClose()));
-                data15minEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                data15minEntity.setSymbol(financialProduct.getSymbol());
+                data15minEntity.setName(financialProduct.getName());
+                data15minEntity.setDay(KLineData.getDay());
+                data15minEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                data15minEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                data15minEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                data15minEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                data15minEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                data15minEntity.setVolume(Long.parseLong(KLineData.getVolume()));
                 data15minEntity.setRecordTime(new Date());
                 data15minEntityList.add(data15minEntity);
             }

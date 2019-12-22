@@ -47,7 +47,8 @@ public class FrontPageConfig {
                 )
                 .addRootItem("系统管理","system",
                         new LeafItem("市场管理", "/admin/financial_market/page"),
-                        new LeafItem("任务管理", "/admin/timer_task/page")
+                        new LeafItem("任务管理", "/admin/timer_task/page"),
+                        new LeafItem("任务日志管理", "/admin/timer_task_log/page")
                 )
                 .addRootItem("选股管理","filter",
                         new LeafItem("选股策略", "/admin/filter_definition/page"),

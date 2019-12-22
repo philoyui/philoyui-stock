@@ -4,9 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
+import io.philoyui.qmier.qmiermanager.service.DownloadDataCallback;
+import io.philoyui.qmier.qmiermanager.service.KLineDataDownloader;
 import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.slf4j.Logger;
@@ -18,9 +19,9 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
-public class DataDownloader {
+public class KLineDataDownloaderImpl implements KLineDataDownloader {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DataDownloader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KLineDataDownloaderImpl.class);
 
     @Autowired
     private FinancialProductService financialProductService;
@@ -29,10 +30,11 @@ public class DataDownloader {
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
 
-    public void process(TaskType taskType, DataDownloadInterface dataDownloadInterface) {
+    @Override
+    public void download(TaskType taskType, DownloadDataCallback downloadDataCallback) {
         List<FinancialProductEntity> financialProductEntities = financialProductService.findEnable();
-        for (FinancialProductEntity financialProductEntity : financialProductEntities) {
-            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProductEntity.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
+        for (FinancialProductEntity financialProduct : financialProductEntities) {
+            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProduct.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
             try {
                 Connection.Response response = Jsoup.connect(fetchUrl)
                         .header("Content-Type", "application/json")
@@ -40,11 +42,11 @@ public class DataDownloader {
                         .method(Connection.Method.GET)
                         .execute();
 
-                HistoryData[] historyDataArray = gson.fromJson(response.body(), HistoryData[].class);
+                KLineData[] KLineDataArray = gson.fromJson(response.body(), KLineData[].class);
 
-                dataDownloadInterface.process(historyDataArray,financialProductEntity);
+                downloadDataCallback.process(financialProduct, KLineDataArray);
 
-                LOG.info("下载历史数据成功：" + taskType + " " + financialProductEntity.getSymbol());
+                LOG.info("下载历史数据成功：" + taskType + " " + financialProduct.getSymbol());
 
             } catch (IOException e) {
                 e.printStackTrace();

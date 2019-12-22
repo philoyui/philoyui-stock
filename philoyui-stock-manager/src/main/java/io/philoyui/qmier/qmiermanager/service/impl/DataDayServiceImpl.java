@@ -4,11 +4,9 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataDayDao;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DataDayService;
-import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +23,10 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
     private DataDayDao dataDayDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     @Autowired
-    private TaskTracer taskTracer;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<DataDayEntity, Long> getDao() {
@@ -49,20 +47,19 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
     @Override
     public void downloadHistory() {
         dataDayDao.deleteAll();
-        taskTracer.trace(TaskType.Day, taskCounter -> dataDownloader.process(TaskType.Day, (historyDataArray, financialProductEntity) -> {
+        taskTracerImpl.trace(TaskType.Day, taskCounter -> dataDownloaderImpl.download(TaskType.Day, (financialProductEntity, kLineDataArray) -> {
             List<DataDayEntity> dataDayEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData KLineData : kLineDataArray) {
                 DataDayEntity dataDayEntity = new DataDayEntity();
                 dataDayEntity.setSymbol(financialProductEntity.getSymbol());
                 dataDayEntity.setName(financialProductEntity.getName());
-
-                dataDayEntity.setDay(historyData.getDay());
-                dataDayEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                dataDayEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                dataDayEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                dataDayEntity.setLow(Double.parseDouble(historyData.getLow()));
-                dataDayEntity.setClose(Double.parseDouble(historyData.getClose()));
-                dataDayEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                dataDayEntity.setDay(KLineData.getDay());
+                dataDayEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                dataDayEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                dataDayEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                dataDayEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                dataDayEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                dataDayEntity.setVolume(Long.parseLong(KLineData.getVolume()));
                 dataDayEntity.setRecordTime(new Date());
                 dataDayEntityList.add(dataDayEntity);
             }

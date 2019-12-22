@@ -3,7 +3,7 @@ package io.philoyui.qmier.qmiermanager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -29,19 +29,19 @@ public class SinaStockGetTest {
                     .method(Connection.Method.GET)
                     .execute();
 
-            HistoryData[] historyDataArray = gson.fromJson(response.body(), HistoryData[].class);
+            KLineData[] KLineDataArray = gson.fromJson(response.body(), KLineData[].class);
 
         List<DataDayEntity> dataDayEntityList = new ArrayList<>();
-        for (HistoryData historyData : historyDataArray) {
+        for (KLineData KLineData : KLineDataArray) {
             DataDayEntity DataDayEntity = new DataDayEntity();
             DataDayEntity.setSymbol("sh000001");
-            DataDayEntity.setDay(historyData.getDay());
-            DataDayEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-            DataDayEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-            DataDayEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-            DataDayEntity.setLow(Double.parseDouble(historyData.getLow()));
-            DataDayEntity.setClose(Double.parseDouble(historyData.getClose()));
-            DataDayEntity.setVolume(Long.parseLong(historyData.getVolume()));
+            DataDayEntity.setDay(KLineData.getDay());
+            DataDayEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+            DataDayEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+            DataDayEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+            DataDayEntity.setLow(Double.parseDouble(KLineData.getLow()));
+            DataDayEntity.setClose(Double.parseDouble(KLineData.getClose()));
+            DataDayEntity.setVolume(Long.parseLong(KLineData.getVolume()));
             dataDayEntityList.add(DataDayEntity);
         }
         System.out.println(gson.toJson(dataDayEntityList));

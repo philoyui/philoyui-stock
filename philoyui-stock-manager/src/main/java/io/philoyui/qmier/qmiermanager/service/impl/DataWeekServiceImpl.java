@@ -4,11 +4,9 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataWeekDao;
 import io.philoyui.qmier.qmiermanager.entity.DataWeekEntity;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
 import io.philoyui.qmier.qmiermanager.service.DataWeekService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +23,10 @@ public class DataWeekServiceImpl extends GenericServiceImpl<DataWeekEntity,Long>
     private DataWeekDao dataWeekDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     @Autowired
-    private TaskTracer taskTracer;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<DataWeekEntity, Long> getDao() {
@@ -49,20 +47,20 @@ public class DataWeekServiceImpl extends GenericServiceImpl<DataWeekEntity,Long>
     @Override
     public void downloadHistory() {
         dataWeekDao.deleteAll();
-        taskTracer.trace(TaskType.Week, taskCounter -> dataDownloader.process(TaskType.Week, (historyDataArray, financialProductEntity) -> {
+        taskTracerImpl.trace(TaskType.Week, taskCounter -> dataDownloaderImpl.download(TaskType.Week, (financialProductEntity, historyDataArray) -> {
             List<DataWeekEntity> dataWeekEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData KLineData : historyDataArray) {
                 DataWeekEntity dataWeekEntity = new DataWeekEntity();
                 dataWeekEntity.setSymbol(financialProductEntity.getSymbol());
                 dataWeekEntity.setName(financialProductEntity.getName());
 
-                dataWeekEntity.setDay(historyData.getDay());
-                dataWeekEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                dataWeekEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                dataWeekEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                dataWeekEntity.setLow(Double.parseDouble(historyData.getLow()));
-                dataWeekEntity.setClose(Double.parseDouble(historyData.getClose()));
-                dataWeekEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                dataWeekEntity.setDay(KLineData.getDay());
+                dataWeekEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                dataWeekEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                dataWeekEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                dataWeekEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                dataWeekEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                dataWeekEntity.setVolume(Long.parseLong(KLineData.getVolume()));
                 dataWeekEntity.setRecordTime(new Date());
                 dataWeekEntityList.add(dataWeekEntity);
             }

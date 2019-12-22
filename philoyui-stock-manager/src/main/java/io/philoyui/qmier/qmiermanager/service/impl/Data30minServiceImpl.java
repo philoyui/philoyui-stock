@@ -6,7 +6,7 @@ import io.philoyui.qmier.qmiermanager.dao.Data30minDao;
 import io.philoyui.qmier.qmiermanager.entity.Data30minEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.Data30minService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,10 +23,10 @@ public class Data30minServiceImpl extends GenericServiceImpl<Data30minEntity,Lon
     private Data30minDao data30minDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     @Autowired
-    private TaskTracer taskTracer;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<Data30minEntity, Long> getDao() {
@@ -47,19 +47,19 @@ public class Data30minServiceImpl extends GenericServiceImpl<Data30minEntity,Lon
     @Override
     public void downloadHistory() {
         data30minDao.deleteAll();
-        taskTracer.trace(TaskType.Min_30, taskCounter -> dataDownloader.process(TaskType.Min_30, (historyDataArray, financialProductEntity) -> {
+        taskTracerImpl.trace(TaskType.Min_30, taskCounter -> dataDownloaderImpl.download(TaskType.Min_30, (financialProductEntity, kLineDataArray) -> {
             List<Data30minEntity> data30minEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData kLineData : kLineDataArray) {
                 Data30minEntity data30minEntity = new Data30minEntity();
                 data30minEntity.setSymbol(financialProductEntity.getSymbol());
                 data30minEntity.setName(financialProductEntity.getName());
-                data30minEntity.setDay(historyData.getDay());
-                data30minEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                data30minEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                data30minEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                data30minEntity.setLow(Double.parseDouble(historyData.getLow()));
-                data30minEntity.setClose(Double.parseDouble(historyData.getClose()));
-                data30minEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                data30minEntity.setDay(kLineData.getDay());
+                data30minEntity.setDateString(DateFormatUtils.format(kLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                data30minEntity.setOpen(Double.parseDouble(kLineData.getOpen()));
+                data30minEntity.setHigh(Double.parseDouble(kLineData.getHigh()));
+                data30minEntity.setLow(Double.parseDouble(kLineData.getLow()));
+                data30minEntity.setClose(Double.parseDouble(kLineData.getClose()));
+                data30minEntity.setVolume(Long.parseLong(kLineData.getVolume()));
                 data30minEntity.setRecordTime(new Date());
                 data30minEntityList.add(data30minEntity);
             }

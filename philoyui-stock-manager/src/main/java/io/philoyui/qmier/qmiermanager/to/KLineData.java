@@ -1,12 +1,11 @@
 package io.philoyui.qmier.qmiermanager.to;
 
-import cn.com.gome.cloud.openplatform.generator.anno.Desc;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class HistoryData implements Serializable {
+public class KLineData implements Serializable {
 
     private Date day;
 

@@ -4,11 +4,9 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataMonthDao;
 import io.philoyui.qmier.qmiermanager.entity.DataMonthEntity;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
 import io.philoyui.qmier.qmiermanager.service.DataMonthService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +23,10 @@ public class DataMonthServiceImpl extends GenericServiceImpl<DataMonthEntity,Lon
     private DataMonthDao dataMonthDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     @Autowired
-    private TaskTracer taskTracer;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<DataMonthEntity, Long> getDao() {
@@ -49,20 +47,20 @@ public class DataMonthServiceImpl extends GenericServiceImpl<DataMonthEntity,Lon
     @Override
     public void downloadHistory() {
         dataMonthDao.deleteAll();
-        taskTracer.trace(TaskType.Month, taskCounter -> dataDownloader.process(TaskType.Month, (historyDataArray, financialProductEntity) -> {
+        taskTracerImpl.trace(TaskType.Month, taskCounter -> dataDownloaderImpl.download(TaskType.Month, (financialProductEntity, historyDataArray) -> {
             List<DataMonthEntity> dataMonthEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData KLineData : historyDataArray) {
                 DataMonthEntity dataMonthEntity = new DataMonthEntity();
                 dataMonthEntity.setSymbol(financialProductEntity.getSymbol());
                 dataMonthEntity.setName(financialProductEntity.getName());
 
-                dataMonthEntity.setDay(historyData.getDay());
-                dataMonthEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                dataMonthEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                dataMonthEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                dataMonthEntity.setLow(Double.parseDouble(historyData.getLow()));
-                dataMonthEntity.setClose(Double.parseDouble(historyData.getClose()));
-                dataMonthEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                dataMonthEntity.setDay(KLineData.getDay());
+                dataMonthEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                dataMonthEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                dataMonthEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                dataMonthEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                dataMonthEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                dataMonthEntity.setVolume(Long.parseLong(KLineData.getVolume()));
                 dataMonthEntity.setRecordTime(new Date());
                 dataMonthEntityList.add(dataMonthEntity);
             }

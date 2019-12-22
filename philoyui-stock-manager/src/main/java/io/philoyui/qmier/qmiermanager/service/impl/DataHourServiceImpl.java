@@ -4,11 +4,9 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataHourDao;
 import io.philoyui.qmier.qmiermanager.entity.DataHourEntity;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataDownloadInterface;
 import io.philoyui.qmier.qmiermanager.service.DataHourService;
-import io.philoyui.qmier.qmiermanager.to.HistoryData;
+import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +23,10 @@ public class DataHourServiceImpl extends GenericServiceImpl<DataHourEntity,Long>
     private DataHourDao dataHourDao;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     @Autowired
-    private TaskTracer taskTracer;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<DataHourEntity, Long> getDao() {
@@ -49,20 +47,20 @@ public class DataHourServiceImpl extends GenericServiceImpl<DataHourEntity,Long>
     @Override
     public void downloadHistory() {
         dataHourDao.deleteAll();
-        taskTracer.trace(TaskType.Hour, taskCounter -> dataDownloader.process(TaskType.Hour, (historyDataArray, financialProductEntity) -> {
+        taskTracerImpl.trace(TaskType.Hour, taskCounter -> dataDownloaderImpl.download(TaskType.Hour, (financialProductEntity, historyDataArray) -> {
             List<DataHourEntity> dataHourEntityList = new ArrayList<>();
-            for (HistoryData historyData : historyDataArray) {
+            for (KLineData KLineData : historyDataArray) {
                 DataHourEntity dataHourEntity = new DataHourEntity();
                 dataHourEntity.setSymbol(financialProductEntity.getSymbol());
                 dataHourEntity.setName(financialProductEntity.getName());
 
-                dataHourEntity.setDay(historyData.getDay());
-                dataHourEntity.setDateString(DateFormatUtils.format(historyData.getDay(),"yyyy-MM-dd HH:mm:ss"));
-                dataHourEntity.setOpen(Double.parseDouble(historyData.getOpen()));
-                dataHourEntity.setHigh(Double.parseDouble(historyData.getHigh()));
-                dataHourEntity.setLow(Double.parseDouble(historyData.getLow()));
-                dataHourEntity.setClose(Double.parseDouble(historyData.getClose()));
-                dataHourEntity.setVolume(Long.parseLong(historyData.getVolume()));
+                dataHourEntity.setDay(KLineData.getDay());
+                dataHourEntity.setDateString(DateFormatUtils.format(KLineData.getDay(),"yyyy-MM-dd HH:mm:ss"));
+                dataHourEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                dataHourEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                dataHourEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                dataHourEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                dataHourEntity.setVolume(Long.parseLong(KLineData.getVolume()));
                 dataHourEntity.setRecordTime(new Date());
                 dataHourEntityList.add(dataHourEntity);
             }

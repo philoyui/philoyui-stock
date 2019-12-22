@@ -3,7 +3,7 @@ package io.philoyui.qmier.qmiermanager.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.service.DataWeekService;
-import io.philoyui.qmier.qmiermanager.service.impl.DataDownloader;
+import io.philoyui.qmier.qmiermanager.service.impl.KLineDataDownloaderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class DataWeekController extends DataController{
     private DataWeekService dataWeekService;
 
     @Autowired
-    private DataDownloader dataDownloader;
+    private KLineDataDownloaderImpl dataDownloaderImpl;
 
     private static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")

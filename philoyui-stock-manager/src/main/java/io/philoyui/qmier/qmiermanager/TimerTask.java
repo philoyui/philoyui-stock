@@ -1,43 +1,27 @@
-package io.philoyui.qmier.qmiermanager.entity;
+package io.philoyui.qmier.qmiermanager;
+
+import cn.com.gome.cloud.openplatform.generator.anno.Desc;
+import cn.com.gome.cloud.openplatform.generator.anno.DescEntity;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
+@DescEntity(name = "定时器", domainName = "timer_task")
+public class TimerTask {
 
-@Entity
-public class TimerTaskEntity implements Serializable {
-
-    /**
-     * ID
-     */
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Desc(name = "ID")
     private Long id;
 
-    /**
-     * 名字
-     */
+    @Desc(name = "名字")
     private String name;
-
-    /**
-     * CRON表达式
-     */
+    
+    @Desc(name = "CRON表达式")
     private String cron;
 
-    /**
-     * 描述
-     */
+    @Desc(name = "描述")
     private String description;
 
-    /**
-     * 上次执行时间
-     */
+    @Desc(name="上次执行时间")
     private Date lastExecuteTime;
-
 
     public Long getId() {
         return id;
@@ -78,6 +62,4 @@ public class TimerTaskEntity implements Serializable {
     public void setLastExecuteTime(Date lastExecuteTime) {
         this.lastExecuteTime = lastExecuteTime;
     }
-
-
 }
