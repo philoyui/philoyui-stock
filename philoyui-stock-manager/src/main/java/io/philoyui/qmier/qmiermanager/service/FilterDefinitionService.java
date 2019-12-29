@@ -9,4 +9,6 @@ public interface FilterDefinitionService extends GenericService<FilterDefinition
     void enable(Long id);
 
     void disable(Long id);
+
+    void tagStock(FilterDefinitionEntity filterDefinitionEntity);
 }

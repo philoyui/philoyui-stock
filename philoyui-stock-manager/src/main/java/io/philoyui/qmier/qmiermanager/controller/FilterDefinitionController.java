@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.controller;
 
+import io.philoyui.qmier.qmiermanager.entity.FilterDefinitionEntity;
 import io.philoyui.qmier.qmiermanager.service.FilterDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,21 @@ public class FilterDefinitionController {
     @Autowired
     private FilterDefinitionService filterDefinitionService;
 
-    @RequestMapping("/filter")
-    public ResponseEntity<String> filter() {
+    @RequestMapping("/filterAll")
+    public ResponseEntity<String> filterAll() {
 
         filterDefinitionService.filterStock();
+
+        return ResponseEntity.ok("success");
+    }
+
+
+    @RequestMapping("/tagStock")
+    public ResponseEntity<String> filter(Long id) {
+
+        FilterDefinitionEntity filterDefinitionEntity = filterDefinitionService.get(id);
+
+        filterDefinitionService.tagStock(filterDefinitionEntity);
 
         return ResponseEntity.ok("success");
     }

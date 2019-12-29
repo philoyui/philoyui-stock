@@ -52,7 +52,7 @@ public class FrontPageConfig {
                 )
                 .addRootItem("选股管理","filter",
                         new LeafItem("选股策略", "/admin/filter_definition/page"),
-                        new LeafItem("选股管理", "/admin/financial_product/page")
+                        new LeafItem("选股管理", "/admin/stock/page")
                 )
                 .build();
 

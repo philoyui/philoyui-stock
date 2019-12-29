@@ -23,7 +23,7 @@ public class DataMonthPageService extends PageService<DataMonthEntity,Long> {
     private DataMonthService dataMonthService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<DataMonthEntity> paged(SearchFilter searchFilter) {

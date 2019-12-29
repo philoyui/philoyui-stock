@@ -5,9 +5,7 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.batch.TableOperation;
-import cn.com.gome.page.button.column.DeleteOperation;
-import cn.com.gome.page.button.column.EditOperation;
-import cn.com.gome.page.button.column.EnableOperation;
+import cn.com.gome.page.button.column.*;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
@@ -47,10 +45,11 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                         new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
-                        "identifier_25",
-                        "name_40",
-                        "enable_15",
-                        "#operation_30"
+                        "identifier_15",
+                        "name_15",
+                        "description_40",
+                        "enable_10",
+                        "#operation_20"
                 )
                 .withFilterDefinitions(
                 )
@@ -58,9 +57,11 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                 )
                 .withTableAction(
                         new CreateOperation(),
-                        new TableOperation("筛选股票","filter", ButtonStyle.Green)
+                        new TableOperation("筛选股票","filterAll", ButtonStyle.Green)
                 )
                 .withColumnAction(
+                        new ConfirmOperation("tagStock","打标"),
+                        new NewPageOperation("标记股票","/admin/tag_stock/page?tagName=#name#","标记股票","name"),
                         new EnableOperation("enable"),
                         new EditOperation(),
                         new DeleteOperation()
@@ -68,6 +69,7 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                 .withFormItemDefinition(
                         "identifier_rw",
                         "name_rw",
+                        "description_rw",
                         "enable_rw",
                         "param1_rw",
                         "param2_rw",

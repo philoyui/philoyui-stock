@@ -2,11 +2,11 @@ package io.philoyui.qmier.qmiermanager.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DownloadDataCallback;
 import io.philoyui.qmier.qmiermanager.service.KLineDataDownloader;
-import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
+import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -24,7 +24,7 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
     private static final Logger LOG = LoggerFactory.getLogger(KLineDataDownloaderImpl.class);
 
     @Autowired
-    private FinancialProductService financialProductService;
+    private StockService stockService;
 
     private static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -32,8 +32,8 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
 
     @Override
     public void download(TaskType taskType, DownloadDataCallback downloadDataCallback) {
-        List<FinancialProductEntity> financialProductEntities = financialProductService.findEnable();
-        for (FinancialProductEntity financialProduct : financialProductEntities) {
+        List<StockEntity> financialProductEntities = stockService.findEnable();
+        for (StockEntity financialProduct : financialProductEntities) {
             String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProduct.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
             try {
                 Connection.Response response = Jsoup.connect(fetchUrl)

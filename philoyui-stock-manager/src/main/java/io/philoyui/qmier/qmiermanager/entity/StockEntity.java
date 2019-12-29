@@ -1,82 +1,51 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import cn.com.gome.cloud.openplatform.open.OpenConvertible;
-import io.philoyui.qmier.qmiermanager.Stock;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-public class StockEntity implements OpenConvertible<Stock> {
+public class StockEntity implements Serializable {
 
     /**
-     * id
+     * ID
      */
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     /**
-     * 股票名称
+     * 标识码
      */
-    private String name;
+    private String symbol;
 
     /**
-     * 股票代码
+     * 代码
      */
     private String code;
 
     /**
-     * 涨跌幅
+     * 名称
      */
-    private Double percent;
+    private String name;
 
     /**
-     * 流通股
+     * 交易所
      */
-    private Long floatShares;
+    private Long marketId;
 
     /**
-     * 当前价
+     * 修改时间
      */
-    private Double currentPrice;
+    private Date modifyTime;
 
     /**
-     * 振幅
+     * 市盈率
      */
-    private Double amplitude;
-
-    /**
-     * 市值
-     */
-    private Long marketCapital;
-
-    /**
-     * 股息率
-     */
-    private Double dividendYield;
-
-    /**
-     * 成交额
-     */
-    private Double amount;
-
-    /**
-     * 涨跌额
-     */
-    private Double chg;
-
-    /**
-     * 成交量
-     */
-    private Long volume;
-
-    /**
-     * 量比
-     */
-    private Double volumeRatio;
+    private Double per;
 
     /**
      * 市净率
@@ -86,17 +55,12 @@ public class StockEntity implements OpenConvertible<Stock> {
     /**
      * 换手率
      */
-    private Double turnoverRate;
+    private Double turnoverRatio;
 
     /**
-     * 市盈率
+     * 是否启动
      */
-    private Double peTtm;
-
-    /**
-     * 总股本
-     */
-    private Long totalShares;
+    private Boolean enable;
 
 
     public Long getId() {
@@ -107,12 +71,12 @@ public class StockEntity implements OpenConvertible<Stock> {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getCode() {
@@ -123,84 +87,44 @@ public class StockEntity implements OpenConvertible<Stock> {
         this.code = code;
     }
 
-    public Double getPercent() {
-        return percent;
+    public String getName() {
+        return name;
     }
 
-    public void setPercent(Double percent) {
-        this.percent = percent;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getFloatShares() {
-        return floatShares;
+    public Long getMarketId() {
+        return marketId;
     }
 
-    public void setFloatShares(Long floatShares) {
-        this.floatShares = floatShares;
+    public void setMarketId(Long marketId) {
+        this.marketId = marketId;
     }
 
-    public Double getCurrentPrice() {
-        return currentPrice;
+    public Date getModifyTime() {
+        return modifyTime;
     }
 
-    public void setCurrentPrice(Double currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
-    public Double getAmplitude() {
-        return amplitude;
+    public Boolean getEnable() {
+        return enable;
     }
 
-    public void setAmplitude(Double amplitude) {
-        this.amplitude = amplitude;
+    public void setEnable(Boolean enable) {
+        this.enable = enable;
     }
 
-    public Long getMarketCapital() {
-        return marketCapital;
+    public Double getPer() {
+        return per;
     }
 
-    public void setMarketCapital(Long marketCapital) {
-        this.marketCapital = marketCapital;
-    }
-
-    public Double getDividendYield() {
-        return dividendYield;
-    }
-
-    public void setDividendYield(Double dividendYield) {
-        this.dividendYield = dividendYield;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Double getChg() {
-        return chg;
-    }
-
-    public void setChg(Double chg) {
-        this.chg = chg;
-    }
-
-    public Long getVolume() {
-        return volume;
-    }
-
-    public void setVolume(Long volume) {
-        this.volume = volume;
-    }
-
-    public Double getVolumeRatio() {
-        return volumeRatio;
-    }
-
-    public void setVolumeRatio(Double volumeRatio) {
-        this.volumeRatio = volumeRatio;
+    public void setPer(Double per) {
+        this.per = per;
     }
 
     public Double getPb() {
@@ -211,73 +135,11 @@ public class StockEntity implements OpenConvertible<Stock> {
         this.pb = pb;
     }
 
-    public Double getTurnoverRate() {
-        return turnoverRate;
+    public Double getTurnoverRatio() {
+        return turnoverRatio;
     }
 
-    public void setTurnoverRate(Double turnoverRate) {
-        this.turnoverRate = turnoverRate;
-    }
-
-    public Double getPeTtm() {
-        return peTtm;
-    }
-
-    public void setPeTtm(Double peTtm) {
-        this.peTtm = peTtm;
-    }
-
-    public Long getTotalShares() {
-        return totalShares;
-    }
-
-    public void setTotalShares(Long totalShares) {
-        this.totalShares = totalShares;
-    }
-
-
-    @Override
-    public Stock converter() {
-        Stock stock = new Stock();
-        stock.setId(id);
-        stock.setName(name);
-        stock.setCode(code);
-        stock.setPercent(percent);
-        stock.setFloatShares(floatShares);
-        stock.setCurrentPrice(currentPrice);
-        stock.setAmplitude(amplitude);
-        stock.setMarketCapital(marketCapital);
-        stock.setDividendYield(dividendYield);
-        stock.setAmount(amount);
-        stock.setChg(chg);
-        stock.setVolume(volume);
-        stock.setVolumeRatio(volumeRatio);
-        stock.setPb(pb);
-        stock.setTurnoverRate(turnoverRate);
-        stock.setPeTtm(peTtm);
-        stock.setTotalShares(totalShares);
-        return stock;
-    }
-
-    public static StockEntity constructFrom(Stock stock) {
-        StockEntity stockEntity = new StockEntity();
-        stockEntity.setId(stock.getId());
-        stockEntity.setName(stock.getName());
-        stockEntity.setCode(stock.getCode());
-        stockEntity.setPercent(stock.getPercent());
-        stockEntity.setFloatShares(stock.getFloatShares());
-        stockEntity.setCurrentPrice(stock.getCurrentPrice());
-        stockEntity.setAmplitude(stock.getAmplitude());
-        stockEntity.setMarketCapital(stock.getMarketCapital());
-        stockEntity.setDividendYield(stock.getDividendYield());
-        stockEntity.setAmount(stock.getAmount());
-        stockEntity.setChg(stock.getChg());
-        stockEntity.setVolume(stock.getVolume());
-        stockEntity.setVolumeRatio(stock.getVolumeRatio());
-        stockEntity.setPb(stock.getPb());
-        stockEntity.setTurnoverRate(stock.getTurnoverRate());
-        stockEntity.setPeTtm(stock.getPeTtm());
-        stockEntity.setTotalShares(stock.getTotalShares());
-        return stockEntity;
+    public void setTurnoverRatio(Double turnoverRatio) {
+        this.turnoverRatio = turnoverRatio;
     }
 }

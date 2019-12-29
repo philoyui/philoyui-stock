@@ -20,9 +20,9 @@ public class QuickRadioFilter implements StockFilter{
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.gte("quickRatio","1"));
-        searchFilter.add(Restrictions.gte("year",param1));
-        searchFilter.add(Restrictions.gte("season",param2));
+        searchFilter.add(Restrictions.lt("quickRatio",1));
+        searchFilter.add(Restrictions.eq("year",param1));
+        searchFilter.add(Restrictions.eq("season",param2));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
         return financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toSet());
     }

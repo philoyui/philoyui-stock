@@ -23,7 +23,7 @@ public class DataDayPageService extends PageService<DataDayEntity,Long> {
     private DataDayService dataDayService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<DataDayEntity> paged(SearchFilter searchFilter) {

@@ -26,7 +26,7 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
     private FinancialReportService financialReportService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<FinancialReportEntity> paged(SearchFilter searchFilter) {
@@ -42,7 +42,7 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "代码"),
-                        new DomainStringFieldDefinition("symbol", "股票名称",financialProductPageService).aliasName("stockName"),
+                        new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
                         new DoubleFieldDefinition("roe", "资产收益率"),
                         new StringFieldDefinition("year", "年"),
                         new StringFieldDefinition("season", "季度"),
@@ -94,7 +94,7 @@ public class FinancialReportPageService extends PageService<FinancialReportEntit
                         "#operation_12"
                 )
                 .withFilterDefinitions(
-                        "symbol","year","season","roe","debtRatio","grossSellingRate","netProfit"
+                        "symbol_like","year","season","roe","debtRatio","grossSellingRate","netProfit"
                 )
                 .withSortDefinitions(
                         "debtRatio_desc","roe_desc","grossSellingRate_desc","netProfit_desc"

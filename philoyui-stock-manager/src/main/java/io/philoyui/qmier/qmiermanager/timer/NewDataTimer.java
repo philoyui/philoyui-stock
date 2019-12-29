@@ -2,8 +2,8 @@ package io.philoyui.qmier.qmiermanager.timer;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
-import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.List;
 public class NewDataTimer {
 
     @Autowired
-    private FinancialProductService financialProductService;
+    private StockService stockService;
 
     /**
      * 获取关注股票的最新价格，每隔5秒钟获取最新数据，记录到数据库中，同时发送时间
@@ -39,11 +39,11 @@ public class NewDataTimer {
 
         SearchFilter searchFilter = SearchFilter.getPagedSearchFilter(0, 80);
 
-        PageObject<FinancialProductEntity> financialProductEntities = financialProductService.paged(searchFilter);
+        PageObject<StockEntity> financialProductEntities = stockService.paged(searchFilter);
 
         List<String> idList = new ArrayList<>();
-        for (FinancialProductEntity financialProductEntity : financialProductEntities.getContent()) {
-            idList.add(financialProductEntity.getSymbol());
+        for (StockEntity stockEntity : financialProductEntities.getContent()) {
+            idList.add(stockEntity.getSymbol());
         }
 
         String fetchUrl = "";

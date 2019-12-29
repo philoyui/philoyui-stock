@@ -23,7 +23,7 @@ public class Data30minPageService extends PageService<Data30minEntity,Long> {
     private Data30minService data30minService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<Data30minEntity> paged(SearchFilter searchFilter) {

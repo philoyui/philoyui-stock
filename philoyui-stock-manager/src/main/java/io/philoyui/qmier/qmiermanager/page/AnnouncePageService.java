@@ -25,7 +25,7 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
     private AnnounceService announceService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<AnnounceEntity> paged(SearchFilter searchFilter) {
@@ -43,7 +43,7 @@ public class AnnouncePageService extends PageService<AnnounceEntity,Long> {
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("title", "标题"),
                         new StringFieldDefinition("symbol", "股票编码"),
-                        new DomainStringFieldDefinition("symbol", "股票名称",financialProductPageService).aliasName("stockName"),
+                        new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
                         new DateFieldDefinition("publishTime", "发布时间"),
                         new StringFieldDefinition("detailUrl", "详细页链接"),
                         new StringFieldDefinition("announceType", "公告类型")

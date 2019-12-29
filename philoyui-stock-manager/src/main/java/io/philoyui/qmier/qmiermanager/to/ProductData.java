@@ -28,12 +28,19 @@ public class ProductData implements Serializable {
     @SerializedName("ticktime")
     private String tickTime;
     private double per;
+
+    /**
+     * 市净率
+     */
     private double pb;
 
     @SerializedName("mktcap")
     private double mktCap;
     private double nmc;
 
+    /**
+     * 换手率
+     */
     @SerializedName("turnoverratio")
     private double turnOverRatio;
 

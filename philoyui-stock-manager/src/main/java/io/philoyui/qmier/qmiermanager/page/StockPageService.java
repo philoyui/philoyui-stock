@@ -2,25 +2,32 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
+import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
+import cn.com.gome.page.button.column.EnableOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DoubleFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
+import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class StockPageService extends PageService<StockEntity,Long> {
+public class StockPageService extends PageService<StockEntity,String> implements PageDomainProvider<StockEntity> {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private FinancialMarketPageService financialMarketPageService;
 
     @Override
     public PageObject<StockEntity> paged(SearchFilter searchFilter) {
@@ -32,84 +39,49 @@ public class StockPageService extends PageService<StockEntity,Long> {
         PageConfig pageConfig = new PageConfig(pageContext)
                 .withDomainName("stock")
                 .withDomainClass(StockEntity.class)
-                .withDomainChineseName("股票数据")
+                .withDomainChineseName("股票")
                 .withFieldDefinitions(
-                        new LongFieldDefinition("id", "id"),
-                        new StringFieldDefinition("name", "股票名称"),
-                        new StringFieldDefinition("code", "股票代码"),
-                        new DoubleFieldDefinition("percent", "涨跌幅"),
-                        new LongFieldDefinition("floatShares", "流通股"),
-                        new DoubleFieldDefinition("currentPrice", "当前价"),
-                        new DoubleFieldDefinition("amplitude", "振幅"),
-                        new LongFieldDefinition("marketCapital", "市值"),
-                        new DoubleFieldDefinition("dividendYield", "股息率"),
-                        new DoubleFieldDefinition("amount", "成交额"),
-                        new DoubleFieldDefinition("chg", "涨跌额"),
-                        new LongFieldDefinition("volume", "成交量"),
-                        new DoubleFieldDefinition("volumeRatio", "量比"),
-                        new DoubleFieldDefinition("pb", "市净率"),
-                        new DoubleFieldDefinition("turnoverRate", "换手率"),
-                        new DoubleFieldDefinition("peTtm", "市盈率"),
-                        new LongFieldDefinition("totalShares", "总股本")
+                        new LongFieldDefinition("id", "ID"),
+                        new StringFieldDefinition("symbol", "标识码"),
+                        new DomainLongFieldDefinition("marketId", "交易所",financialMarketPageService),
+                        new StringFieldDefinition("code", "代码"),
+                        new StringFieldDefinition("name", "名称"),
+                        new DateFieldDefinition("modifyTime", "修改时间"),
+                        new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
-                        "name_6",
-                        "code_6",
-                        "percent_6",
-                        "floatShares_6",
-                        "currentPrice_6",
-                        "marketCapital_6",
-                        "dividendYield_6",
-                        "amount_6",
-                        "chg_6",
-                        "volume_6",
-                        "volumeRatio_6",
-                        "pb_6",
-                        "turnoverRate_6",
-                        "peTtm_6",
-                        "#operation_16"
+                        "#checkbox_3",
+                        "symbol_14",
+                        "name_15",
+                        "marketId_10",
+                        "modifyTime_15",
+                        "enable_8",
+                        "#operation_35"
                 )
                 .withFilterDefinitions(
-                    "name",
-                    "code",
-                    "percent"
+                    "symbol_like",
+                    "enable",
+                    "name_like",
+                    "marketId"
                 )
                 .withSortDefinitions(
-                    "code_desc","code_asc",
-                    "percent_desc","percent_asc",
-                    "floatShares_desc","floatShares_asc",
-                    "marketCapital_desc","marketCapital_asc",
-                    "amount_desc","amount_asc",
-                    "volume_desc","volume_asc",
-                    "volumeRatio_desc","volumeRatio_asc",
-                    "turnoverRate_desc","turnoverRate_asc",
-                    "peTtm_desc","peTtm_asc"
+                    "modifyTime_desc","modifyTime_asc"
                 )
                 .withTableAction(
-                        new CreateOperation()
+                        new CreateOperation(),
+                        new TableOperation("下载历史数据","downloadHistory", ButtonStyle.Orange)
                 )
                 .withColumnAction(
+                        new EnableOperation("enable"),
                         new EditOperation(),
                         new DeleteOperation()
                 )
                 .withFormItemDefinition(
-                        "id_rw",
-                        "name_rw",
+                        "symbol_rw",
                         "code_rw",
-                        "percent_rw",
-                        "floatShares_rw",
-                        "currentPrice_rw",
-                        "amplitude_rw",
-                        "marketCapital_rw",
-                        "dividendYield_rw",
-                        "amount_rw",
-                        "chg_rw",
-                        "volume_rw",
-                        "volumeRatio_rw",
-                        "pb_rw",
-                        "turnoverRate_rw",
-                        "peTtm_rw",
-                        "totalShares_rw"
+                        "name_rw",
+                        "marketId_rw",
+                        "modifyTime_rw"
                 );
         return pageConfig;
     }
@@ -125,13 +97,48 @@ public class StockPageService extends PageService<StockEntity,Long> {
     }
 
     @Override
-    public void saveOrUpdate(StockEntity stock) {
-        stockService.insert(stock);
+    public void saveOrUpdate(StockEntity financialProduct) {
+        stockService.insert(financialProduct);
     }
 
     @Override
-    public void delete(StockEntity stock) {
-        stockService.delete(stock.getId());
+    public void delete(StockEntity financialProduct) {
+        stockService.delete(financialProduct.getId());
+    }
+
+    @Override
+    public void enable(String id) {
+        stockService.enable(Long.parseLong(id));
+    }
+
+    @Override
+    public void disable(String id) {
+        stockService.disable(Long.parseLong(id));
+    }
+
+    @Override
+    public Object findByReferId(String referId) {
+        return stockService.findBySymbol(referId);
+    }
+
+    @Override
+    public String getDomainName() {
+        return "financial_product";
+    }
+
+    @Override
+    public String getDomainChineseName() {
+        return "金融产品";
+    }
+
+    @Override
+    public String getDisplayFieldName() {
+        return "name";
+    }
+
+    @Override
+    public List<StockEntity> findAll() {
+        return stockService.list(SearchFilter.getDefault());
     }
 }
 

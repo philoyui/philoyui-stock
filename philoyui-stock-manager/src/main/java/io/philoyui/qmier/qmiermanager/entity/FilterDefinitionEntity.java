@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class FilterDefinitionEntity implements Serializable {
@@ -26,21 +27,22 @@ public class FilterDefinitionEntity implements Serializable {
      */
     private String name;
 
+    private String description;
+
     private String param1;
 
     private String param2;
 
     private String param3;
 
-    /**
-     * 描述
-     */
-    private String description;
+    private Integer filterCount;
 
     /**
      * 是否启用
      */
     private boolean enable;
+
+    private Date lastExecuteTime;
 
 
     public Long getId() {
@@ -109,5 +111,21 @@ public class FilterDefinitionEntity implements Serializable {
 
     public boolean isEnable() {
         return enable;
+    }
+
+    public Date getLastExecuteTime() {
+        return lastExecuteTime;
+    }
+
+    public void setLastExecuteTime(Date lastExecuteTime) {
+        this.lastExecuteTime = lastExecuteTime;
+    }
+
+    public Integer getFilterCount() {
+        return filterCount;
+    }
+
+    public void setFilterCount(Integer filterCount) {
+        this.filterCount = filterCount;
     }
 }

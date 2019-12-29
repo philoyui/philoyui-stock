@@ -1,8 +1,8 @@
 package io.philoyui.qmier.qmiermanager.controller;
 
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
-import io.philoyui.qmier.qmiermanager.service.FinancialProductService;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 public class FinancialReportController {
 
     @Autowired
-    private FinancialProductService financialProductService;
+    private StockService stockService;
 
     @Autowired
     private FinancialReportService financialReportService;
@@ -25,9 +25,9 @@ public class FinancialReportController {
     @RequestMapping("/download_history")
     public ResponseEntity<String> fetchHistory() throws IOException {
 
-        List<FinancialProductEntity> stockLists = financialProductService.list(SearchFilter.getDefault());
+        List<StockEntity> stockLists = stockService.list(SearchFilter.getDefault());
 
-        for (FinancialProductEntity stockEntity : stockLists) {
+        for (StockEntity stockEntity : stockLists) {
 
             try {
                 financialReportService.downloadHistory(stockEntity);

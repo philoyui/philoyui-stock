@@ -23,7 +23,7 @@ public class DataHourPageService extends PageService<DataHourEntity,Long> {
     private DataHourService dataHourService;
 
     @Autowired
-    private FinancialProductPageService financialProductPageService;
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<DataHourEntity> paged(SearchFilter searchFilter) {

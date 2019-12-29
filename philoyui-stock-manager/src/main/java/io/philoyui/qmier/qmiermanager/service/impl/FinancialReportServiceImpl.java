@@ -8,7 +8,7 @@ import io.philoyui.qmier.qmiermanager.client.xueqiu.XueqiuList;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.request.FinancialReportRequest;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.response.FinancialReportResponse;
 import io.philoyui.qmier.qmiermanager.dao.FinancialReportDao;
-import io.philoyui.qmier.qmiermanager.entity.FinancialProductEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class FinancialReportServiceImpl extends GenericServiceImpl<FinancialRepo
 
     @Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 5000L, multiplier = 2))
     @Override
-    public void downloadHistory(FinancialProductEntity stockEntity) {
+    public void downloadHistory(StockEntity stockEntity) {
 
         XueQiuClient client = new XueQiuClientImpl();
         FinancialReportRequest request = new FinancialReportRequest();
