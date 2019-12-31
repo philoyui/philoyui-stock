@@ -76,6 +76,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
 
     @Override
     public void downloadHistoryData() {
+        stockDao.deleteAll();
         fetchProductDataArray("sh_a",80);
         fetchProductDataArray("sz_a",80);
         fetchProductDataArray("kcb",80);
@@ -97,7 +98,6 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
 
     private void fetchProductDataArray(String identifier,int pageSize) {
         int pageNo = 1;
-        stockDao.deleteAll();
         while(true){
             FinancialMarketEntity financialMarket = financialMarketService.findByIdentifier(identifier);
             String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=" + pageNo + "&num=" + pageSize + "&sort=symbol&asc=1&node=" + identifier + "&symbol=&_s_r_a=page";

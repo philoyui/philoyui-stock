@@ -9,9 +9,11 @@ import cn.com.gome.page.button.column.*;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
+import cn.com.gome.page.field.DateFieldDefinition;
 import cn.com.gome.page.field.EnableFieldDefinition;
 import cn.com.gome.page.field.LongFieldDefinition;
 import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.validator.IntFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.FilterDefinitionEntity;
 import io.philoyui.qmier.qmiermanager.service.FilterDefinitionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +44,17 @@ public class FilterDefinitionPageService extends PageService<FilterDefinitionEnt
                         new StringFieldDefinition("param1", "参数1"),
                         new StringFieldDefinition("param2", "参数2"),
                         new StringFieldDefinition("param3", "参数3"),
+                        new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
+                        new IntFieldDefinition("filterCount","筛选个数"),
                         new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "name_15",
-                        "description_40",
-                        "enable_10",
+                        "description_30",
+                        "lastExecuteTime_10",
+                        "filterCount_5",
+                        "enable_5",
                         "#operation_20"
                 )
                 .withFilterDefinitions(

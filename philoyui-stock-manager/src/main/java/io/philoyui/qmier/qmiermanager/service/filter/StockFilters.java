@@ -18,6 +18,9 @@ public class StockFilters {
     @Autowired
     private TurnoverFilter turnoverFilter;
 
+    @Autowired
+    private PerFilter perFilter;
+
     public StockFilter select(String identifier) {
         switch (identifier){
             case "roe_increasing":
@@ -28,6 +31,8 @@ public class StockFilters {
                 return quickRadioFilter;
             case "turn_over":
                 return turnoverFilter;
+            case "low_price":
+                return perFilter;
         }
         return roeIncreasingFilter;
     }
