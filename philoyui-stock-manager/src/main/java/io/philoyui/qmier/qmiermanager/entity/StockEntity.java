@@ -58,6 +58,11 @@ public class StockEntity implements Serializable {
     private Double turnoverRatio;
 
     /**
+     * 总市值
+     */
+    private Double totalPrice;
+
+    /**
      * 是否启动
      */
     private Boolean enable;
@@ -141,5 +146,13 @@ public class StockEntity implements Serializable {
 
     public void setTurnoverRatio(Double turnoverRatio) {
         this.turnoverRatio = turnoverRatio;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

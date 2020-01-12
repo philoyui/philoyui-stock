@@ -21,6 +21,27 @@ public class StockFilters {
     @Autowired
     private PerFilter perFilter;
 
+    @Autowired
+    private InvestorInfoFilter investorInfoFilter;
+
+    @Autowired
+    private BigBuyOverflowFilter bigBuyOverflowFilter;
+
+    @Autowired
+    private BigBuyFilter bigBuyFilter;
+
+    @Autowired
+    private BigBuyHighVolumeFilter bigBuyHighVolumeFilter;
+
+    @Autowired
+    private MiddleDishStockFilter middleDishStockFilter;
+
+    @Autowired
+    private LowDishStockFilter lowDishStockFilter;
+
+    @Autowired
+    private BigDishStockFilter bigDishStockFilter;
+
     public StockFilter select(String identifier) {
         switch (identifier){
             case "roe_increasing":
@@ -33,6 +54,20 @@ public class StockFilters {
                 return turnoverFilter;
             case "low_price":
                 return perFilter;
+            case "investor_info":
+                return investorInfoFilter;
+            case "today_big_deal_overflow":
+                return bigBuyOverflowFilter;
+            case "today_big_deal":
+                return bigBuyFilter;
+            case "today_big_deal_high_volum":
+                return bigBuyHighVolumeFilter;
+            case "big_dish_stock":
+                return bigDishStockFilter;
+            case "middle_dish_stock":
+                return middleDishStockFilter;
+            case "little_dish_stock":
+                return lowDishStockFilter;
         }
         return roeIncreasingFilter;
     }

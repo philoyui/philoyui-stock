@@ -20,8 +20,6 @@ public class TurnoverFilter implements StockFilter{
     @Autowired
     private FinancialReportService financialReportService;
 
-
-
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
         SearchFilter searchFilter = SearchFilter.getDefault();

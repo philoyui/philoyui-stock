@@ -36,6 +36,10 @@ public class ProductData implements Serializable {
 
     @SerializedName("mktcap")
     private double mktCap;
+
+    /**
+     * 市净率
+     */
     private double nmc;
 
     /**

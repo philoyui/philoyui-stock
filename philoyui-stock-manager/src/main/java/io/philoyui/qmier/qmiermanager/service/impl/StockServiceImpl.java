@@ -81,8 +81,8 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         fetchProductDataArray("sz_a",80);
         fetchProductDataArray("kcb",80);
 //        fetchProductDataArray("cyb",80);
-        fetchProductDataArray("sgt_hk",80);
-        fetchProductDataArray("hgt_hk",80);
+//        fetchProductDataArray("sgt_hk",80);
+//        fetchProductDataArray("hgt_hk",80);
     }
 
     @Transactional
@@ -147,6 +147,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
                     stockEntity.setPb(productData.getPb());
                     stockEntity.setPer(productData.getPer());
                     stockEntity.setTurnoverRatio(productData.getTurnOverRatio());
+                    stockEntity.setTotalPrice(productData.getMktCap());
                     stockEntities.add(stockEntity);
                 }
 
