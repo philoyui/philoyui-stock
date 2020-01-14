@@ -20,7 +20,7 @@ public class LowDishStockFilter implements StockFilter{
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.lt("totalPrice",500000));
+        searchFilter.add(Restrictions.lt("totalPrice",400000));
         List<StockEntity> stockEntities = stockService.list(searchFilter);
         return stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toSet());
     }

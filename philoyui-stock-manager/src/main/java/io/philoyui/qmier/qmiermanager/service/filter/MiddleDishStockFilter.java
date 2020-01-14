@@ -21,7 +21,7 @@ public class MiddleDishStockFilter implements StockFilter{
     public Set<String> filterSymbol(String param1, String param2, String param3) {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.lte("totalPrice",1000000));
-        searchFilter.add(Restrictions.gte("totalPrice",500000));
+        searchFilter.add(Restrictions.gte("totalPrice",400000));
         List<StockEntity> stockEntities = stockService.list(searchFilter);
         return stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toSet());
     }

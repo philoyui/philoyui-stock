@@ -20,7 +20,7 @@ public class BigDishStockFilter implements StockFilter{
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.gt("totalPrice",200000));
+        searchFilter.add(Restrictions.gt("totalPrice",1000000));
         List<StockEntity> stockEntities = stockService.list(searchFilter);
         return stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toSet());
     }
