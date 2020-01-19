@@ -16,6 +16,9 @@ public class StockFilters {
     private QuickRadioFilter quickRadioFilter;
 
     @Autowired
+    private QuickRadioCommonFilter quickRadioCommonFilter;
+
+    @Autowired
     private TurnoverFilter turnoverFilter;
 
     @Autowired
@@ -50,6 +53,8 @@ public class StockFilters {
                 return roeStableFilter;
             case "quick_radio":
                 return quickRadioFilter;
+            case "quick_radio_common":
+                return quickRadioCommonFilter;
             case "turn_over":
                 return turnoverFilter;
             case "low_price":

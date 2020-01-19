@@ -54,7 +54,10 @@ public class FilterDefinitionServiceImpl extends GenericServiceImpl<FilterDefini
 
         List<FilterDefinitionEntity> filterDefinitions = filterDefinitionDao.findByEnable(true);
         for (FilterDefinitionEntity filterDefinition : filterDefinitions) {
-            Set<String> symbolSet = stockFilters.select(filterDefinition.getIdentifier()).filterSymbol(filterDefinition.getParam1(),filterDefinition.getParam2() ,filterDefinition.getParam3());
+            SearchFilter searchFilter = SearchFilter.getDefault();
+            searchFilter.add(Restrictions.eq("tagName",filterDefinition.getName()));
+            List<TagStockEntity> tagStockEntities = tagStockService.list(searchFilter);
+            Set<String> symbolSet = tagStockEntities.stream().map(TagStockEntity::getSymbol).collect(Collectors.toSet());
             resultSet = Sets.intersection(resultSet,symbolSet);
         }
 
