@@ -110,4 +110,9 @@ public class FilterDefinitionServiceImpl extends GenericServiceImpl<FilterDefini
         filterDefinitionDao.save(filterDefinitionEntity);
     }
 
+    @Override
+    public List<FilterDefinitionEntity> findByEnable(boolean enable) {
+        return filterDefinitionDao.findByEnable(enable);
+    }
+
 }

@@ -1,5 +1,6 @@
-package io.philoyui.qmier.qmiermanager.service.filter;
+package io.philoyui.qmier.qmiermanager.service.choose;
 
+import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
@@ -17,7 +18,7 @@ import java.util.Set;
  * 投资者活动关系表
  */
 @Component
-public class InvestorInfoFilter implements StockFilter{
+public class InvestorInfoFilter implements StockFilter {
 
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {

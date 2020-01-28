@@ -1,9 +1,10 @@
-package io.philoyui.qmier.qmiermanager.service.filter;
+package io.philoyui.qmier.qmiermanager.service.choose;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
+import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class RoeStableFilter implements StockFilter{
+public class RoeStableFilter implements StockFilter {
 
     @Autowired
     private FinancialReportService financialReportService;

@@ -8,8 +8,8 @@ import io.philoyui.qmier.qmiermanager.client.xueqiu.XueqiuList;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.request.FinancialReportRequest;
 import io.philoyui.qmier.qmiermanager.client.xueqiu.response.FinancialReportResponse;
 import io.philoyui.qmier.qmiermanager.dao.FinancialReportDao;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class FinancialReportServiceImpl extends GenericServiceImpl<FinancialRepo
             financialReportEntity.setSymbol(stockEntity.getSymbol());
             financialReportEntity.setRoe(xueqiuList.getAvgRoe().get(0));
             financialReportEntity.setYear(xueqiuList.getReportName().substring(0,4));
-            financialReportEntity.setSeason(xueqiuList.getReportName().substring(4));
+            financialReportEntity.setSeason(buildSeason(xueqiuList.getReportName().substring(4)));
             financialReportEntity.setEarningsPerShare(xueqiuList.getNpPerShare().get(0));
             financialReportEntity.setDebtRatio(xueqiuList.getAssetLiabRatio().get(0));
             financialReportEntity.setReportName(xueqiuList.getReportName());
@@ -92,6 +92,25 @@ public class FinancialReportServiceImpl extends GenericServiceImpl<FinancialRepo
         this.insertAll(financialReports);
 
         LOG.error("下载季报数据成功，股票代码为：" + stockEntity.getSymbol());
+    }
+
+    /**
+     * 构造财报季度
+     * @return
+     */
+    private String buildSeason(String season) {
+        switch (season){
+            case "一季报":
+                return "1";
+            case "中报":
+                return "2";
+            case "三季报":
+                return "3";
+            case "年报":
+                return "4";
+            default:
+                return "";
+        }
     }
 
 }

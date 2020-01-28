@@ -5,4 +5,9 @@ import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
 
 public interface MyStockService extends GenericService<MyStockEntity,Long> {
 
+    /**
+     * 每天获取自选股数据
+     */
+    void obtainEveryDay();
+
 }

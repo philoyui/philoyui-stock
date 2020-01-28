@@ -51,8 +51,10 @@ public class FrontPageConfig {
                         new LeafItem("任务日志管理", "/admin/timer_task_log/page")
                 )
                 .addRootItem("选股管理","filter",
-                        new LeafItem("选股策略", "/admin/filter_definition/page"),
-                        new LeafItem("选股管理", "/admin/stock/page")
+                        new LeafItem("筛选策略", "/admin/choose_definition/page"),
+                        new LeafItem("过滤策略", "/admin/filter_definition/page"),
+                        new LeafItem("选股管理", "/admin/stock/page"),
+                        new LeafItem("自选股","/admin/my_stock/page")
                 )
                 .build();
 

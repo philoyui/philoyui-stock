@@ -3,6 +3,8 @@ package io.philoyui.qmier.qmiermanager.service;
 import cn.com.gome.cloud.openplatform.service.GenericService;
 import io.philoyui.qmier.qmiermanager.entity.FilterDefinitionEntity;
 
+import java.util.List;
+
 public interface FilterDefinitionService extends GenericService<FilterDefinitionEntity,Long> {
     void filterStock();
 
@@ -11,4 +13,6 @@ public interface FilterDefinitionService extends GenericService<FilterDefinition
     void disable(Long id);
 
     void tagStock(FilterDefinitionEntity filterDefinitionEntity);
+
+    List<FilterDefinitionEntity> findByEnable(boolean enable);
 }

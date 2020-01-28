@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.service.filter;
+package io.philoyui.qmier.qmiermanager.service.choose;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
+import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * ROE 最近三年ROE上传
  */
 @Component
-public class RoeIncreasingFilter implements StockFilter{
+public class RoeIncreasingFilter implements StockFilter {
 
     @Autowired
     private FinancialReportService financialReportService;
