@@ -3,7 +3,6 @@ package io.philoyui.qmier.qmiermanager.service.choose;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
@@ -34,17 +33,14 @@ public class RoeIncreasingFilter implements StockFilter {
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
 
-        String startYear = param1;
-        String endYear = String.valueOf(Integer.parseInt(param1)+2);
+        String endYear = param1;
+        String startYear = String.valueOf(Integer.parseInt(param1)-2);
         String season = param2;
-        String lastMinimumRoe = param3;
-
-        Map<String, TreeMap<String,Double>> symbolRoeMap = Maps.newHashMap();
 
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("season",season));
         searchFilter.add(Restrictions.eq("year",endYear));
-        searchFilter.add(Restrictions.gte("roe",lastMinimumRoe));
+        searchFilter.add(Restrictions.gte("roe",0));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
 
         SearchFilter searchFilter1 = SearchFilter.getDefault();
@@ -65,6 +61,7 @@ public class RoeIncreasingFilter implements StockFilter {
             }
         }
 
-        return new HashSet<String>(symbolResultList);
+        return new HashSet<>(symbolResultList);
     }
 }
+//

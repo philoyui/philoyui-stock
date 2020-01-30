@@ -50,7 +50,8 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
 
     @Override
     public StockEntity findBySymbol(String symbol) {
-        return stockDao.findBySymbol(symbol);
+        List<StockEntity> stockEntities = stockDao.findBySymbol(symbol);
+        return stockEntities.size()>0?stockEntities.get(0):null;
     }
 
     @Override

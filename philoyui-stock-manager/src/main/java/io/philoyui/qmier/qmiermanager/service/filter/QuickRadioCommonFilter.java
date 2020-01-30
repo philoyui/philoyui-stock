@@ -26,4 +26,5 @@ public class QuickRadioCommonFilter implements StockFilter{
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
         return financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toSet());
     }
+
 }

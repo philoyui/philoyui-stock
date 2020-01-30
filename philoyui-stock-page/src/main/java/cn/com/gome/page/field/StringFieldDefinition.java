@@ -49,6 +49,11 @@ public class StringFieldDefinition extends FieldDefinition {
 
     @Override
     public String formatColumnValue(PageConfig pageConfig, Object value) {
+
+        if(beforeView!=null){
+            return beforeView.apply(value);
+        }
+
         return value.toString();
     }
 

@@ -5,11 +5,13 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface StockDao extends GenericDao<StockEntity,Long> {
 
     boolean existsBySymbol(String symbol);
 
-    StockEntity findBySymbol(String symbol);
+    List<StockEntity> findBySymbol(String symbol);
 
     @Modifying
     @Query("update StockEntity m set m.enable=false")

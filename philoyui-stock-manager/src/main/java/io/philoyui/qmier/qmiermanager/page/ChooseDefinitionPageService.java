@@ -100,5 +100,15 @@ public class ChooseDefinitionPageService extends PageService<ChooseDefinitionEnt
     public void delete(ChooseDefinitionEntity chooseDefinition) {
         chooseDefinitionService.delete(chooseDefinition.getId());
     }
+
+    @Override
+    public void enable(String id) {
+        chooseDefinitionService.enable(Long.parseLong(id));
+    }
+
+    @Override
+    public void disable(String id) {
+        chooseDefinitionService.disable(Long.parseLong(id));
+    }
 }
 

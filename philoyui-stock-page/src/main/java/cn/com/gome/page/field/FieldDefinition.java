@@ -1,16 +1,17 @@
 package cn.com.gome.page.field;
 
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.validator.FieldValidator;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
+import cn.com.gome.page.core.PageService;
+import cn.com.gome.page.field.validator.FieldValidator;
 import cn.com.gome.page.form.FormField;
 import com.google.common.collect.Lists;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 页面对象是字段定义
@@ -52,6 +53,10 @@ public abstract class FieldDefinition {
      */
     protected int minSize;
 
+    /**
+     * 展示前预处理
+     */
+    protected Function<Object,String> beforeView;
 
     /**
      * 字段校验器
@@ -130,5 +135,18 @@ public abstract class FieldDefinition {
     public FieldDefinition aliasName(String aliasName){
         this.definitionName = aliasName;
         return this;
+    }
+
+    public FieldDefinition beforeView(Function<Object,String> beforeView){
+        this.beforeView = beforeView;
+        return this;
+    }
+
+    public Function<Object, String> getBeforeView() {
+        return beforeView;
+    }
+
+    public void setBeforeView(Function<Object, String> beforeView) {
+        this.beforeView = beforeView;
     }
 }

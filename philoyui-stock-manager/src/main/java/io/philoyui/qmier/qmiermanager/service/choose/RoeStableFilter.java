@@ -23,10 +23,12 @@ public class RoeStableFilter implements StockFilter {
     @Override
     public Set<String> filterSymbol(String param1, String param2, String param3) {
 
+        String startYear = String.valueOf(Integer.parseInt(param1)-2);
+
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.gte("year",param1));
+        searchFilter.add(Restrictions.gte("year",startYear));
         searchFilter.add(Restrictions.gte("season",param2));
-        searchFilter.add(Restrictions.gte("roe",Double.parseDouble(param3)));
+        searchFilter.add(Restrictions.gte("roe",18));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
 
         Map<String, Long> symbolCountMap = financialReports.stream().collect(Collectors.groupingBy(FinancialReportEntity::getSymbol, Collectors.counting()));

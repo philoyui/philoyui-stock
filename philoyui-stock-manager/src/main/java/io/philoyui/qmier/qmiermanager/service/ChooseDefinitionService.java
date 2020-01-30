@@ -11,4 +11,7 @@ public interface ChooseDefinitionService extends GenericService<ChooseDefinition
 
     void tagStock(ChooseDefinitionEntity chooseDefinitionEntity);
 
+    void enable(long id);
+
+    void disable(long id);
 }

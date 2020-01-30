@@ -34,6 +34,7 @@ public class ImageFieldDefinition extends FieldDefinition{
 
     @Override
     public String formatColumnValue(PageConfig pageConfig, Object entity) {
+
         String defaultImagePath = "http://icons.iconarchive.com/icons/blackvariant/shadow135-system/1024/TextEdit-icon.png";
         String unit = "px";
 
@@ -43,6 +44,9 @@ public class ImageFieldDefinition extends FieldDefinition{
         if (entity == null) {
             resultImagePath = defaultImagePath;
         } else {
+            if(beforeView!=null){
+                entity = beforeView.apply(entity);
+            }
             resultImagePath = Strings.isNullOrEmpty((String) entity) ? defaultImagePath : (String) entity;
         }
 

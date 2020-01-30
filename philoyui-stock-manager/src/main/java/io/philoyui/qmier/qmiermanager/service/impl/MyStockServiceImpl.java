@@ -16,6 +16,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -44,6 +45,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         return myStockDao;
     }
 
+    @Transactional
     public void obtainEveryDay(){
 
         //1. 删除今天的自选股

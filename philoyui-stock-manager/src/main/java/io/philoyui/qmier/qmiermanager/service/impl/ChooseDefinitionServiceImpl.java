@@ -48,6 +48,7 @@ public class ChooseDefinitionServiceImpl extends GenericServiceImpl<ChooseDefini
 
     @Override
     public void tagStock(ChooseDefinitionEntity chooseDefinitionEntity) {
+
         tagStockService.deleteByTagName(chooseDefinitionEntity.getName());
 
         StockFilter stockFilter = stockFilters.select(chooseDefinitionEntity.getIdentifier());
@@ -71,4 +72,19 @@ public class ChooseDefinitionServiceImpl extends GenericServiceImpl<ChooseDefini
         chooseDefinitionEntity.setChooseCount(codeSet.size());
         chooseDefinitionDao.save(chooseDefinitionEntity);
     }
+
+    @Override
+    public void enable(long id) {
+        ChooseDefinitionEntity chooseDefinitionEntity = this.get(id);
+        chooseDefinitionEntity.setEnable(true);
+        this.update(chooseDefinitionEntity);
+    }
+
+    @Override
+    public void disable(long id) {
+        ChooseDefinitionEntity chooseDefinitionEntity = this.get(id);
+        chooseDefinitionEntity.setEnable(false);
+        this.update(chooseDefinitionEntity);
+    }
+
 }

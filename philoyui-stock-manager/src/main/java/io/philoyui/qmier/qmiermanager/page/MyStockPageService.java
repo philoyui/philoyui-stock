@@ -3,20 +3,14 @@ package io.philoyui.qmier.qmiermanager.page;
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
-import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
-import cn.com.gome.page.button.column.EditOperation;
-import cn.com.gome.page.button.column.EnableOperation;
+import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.EnableFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +22,9 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
     private MyStockService myStockService;
 
     @Autowired
+    private StockPageService stockPageService;
+
+    @Autowired
     private FinancialMarketPageService financialMarketPageService;
 
     @Override
@@ -37,32 +34,38 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
 
     @Override
     protected PageConfig initializePageConfig(PageContext pageContext) {
-        PageConfig pageConfig = new PageConfig(pageContext)
-                .withDomainName("my_stock")
-                .withDomainClass(MyStockEntity.class)
-                .withDomainChineseName("自选股票")
-                .withFieldDefinitions(
-                        new LongFieldDefinition("id", "ID"),
-                        new StringFieldDefinition("symbol", "标识码"),
-                        new StringFieldDefinition("dateString","日期"),
-                        new DateFieldDefinition("createdTime", "创建时间")
-                )
-                .withTableColumnDefinitions(
-                        "#checkbox_3",
-                        "symbol_20",
-                        "dateString_20",
-                        "createdTime_15",
-                        "#operation_35"
-                )
-                .withFilterDefinitions(
-                    "symbol_like"
-                )
-                .withTableAction(
-                        new TableOperation("手动执行","obtainEveryDay", ButtonStyle.Orange)
-                )
-                .withColumnAction(
-                        new DeleteOperation()
-                );
+        PageConfig pageConfig = new PageConfig(pageContext);
+        pageConfig.withDomainName("my_stock");
+        pageConfig.withDomainClass(MyStockEntity.class);
+        pageConfig.withDomainChineseName("自选股票");
+        pageConfig.withFieldDefinitions(
+                new LongFieldDefinition("id", "ID"),
+                new StringFieldDefinition("symbol", "标识码"),
+                new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
+                new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
+                new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
+                new StringFieldDefinition("dateString", "日期"),
+                new DateFieldDefinition("createdTime", "创建时间")
+        );
+        pageConfig.withTableColumnDefinitions(
+                "#checkbox_5",
+                "symbol_10",
+                "stockName_10",
+                "dayImage_20",
+                "weekImage_20",
+                "createdTime_15",
+                "#operation_20"
+        );
+        pageConfig.withFilterDefinitions(
+                "symbol_like"
+        );
+        pageConfig.withTableAction(
+                new TableOperation("手动执行", "obtainEveryDay", ButtonStyle.Orange)
+        );
+        pageConfig.withColumnAction(
+//                new NewPageOperation("",""),
+                new DeleteOperation()
+        );
         return pageConfig;
     }
 
