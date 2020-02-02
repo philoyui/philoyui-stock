@@ -5,21 +5,29 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
+import cn.com.gome.page.button.column.LinkOperation;
 import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class MyStockPageService extends PageService<MyStockEntity,String> {
 
     @Autowired
     private MyStockService myStockService;
+
+    @Autowired
+    private TagStockService tagStockService;
 
     @Autowired
     private StockPageService stockPageService;
@@ -45,16 +53,18 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),
+                new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(
-                "#checkbox_5",
-                "symbol_10",
-                "stockName_10",
+                "#checkbox_4",
+                "symbol_8",
+                "stockName_8",
                 "dayImage_20",
                 "weekImage_20",
-                "createdTime_15",
-                "#operation_20"
+                "createdTime_10",
+                "tagList_20",
+                "#operation_10"
         );
         pageConfig.withFilterDefinitions(
                 "symbol_like"
@@ -63,7 +73,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new TableOperation("手动执行", "obtainEveryDay", ButtonStyle.Orange)
         );
         pageConfig.withColumnAction(
-//                new NewPageOperation("",""),
+                new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
                 new DeleteOperation()
         );
         return pageConfig;

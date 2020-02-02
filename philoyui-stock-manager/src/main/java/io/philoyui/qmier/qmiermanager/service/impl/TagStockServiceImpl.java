@@ -32,4 +32,9 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     public void deleteByTagName(String tagName) {
         tagStockDao.deleteByTagName(tagName);
     }
+
+    @Override
+    public List<TagStockEntity> findBySymbol(String symbol) {
+        return tagStockDao.findBySymbol(symbol);
+    }
 }

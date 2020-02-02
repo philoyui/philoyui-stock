@@ -64,7 +64,6 @@ public abstract class FieldDefinition {
     private List<FieldValidator> fieldValidators = Lists.newArrayList();
 
 
-
     public FieldDefinition(String fieldName, String description) {
         this.fieldName = fieldName;
         this.description = description;
