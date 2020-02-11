@@ -3,6 +3,7 @@
 /philoyui-stock-jpa/target/
 /philoyui-stock-common/target/
 /philoyui-stock-cache/target/
+/philoyui-stock-generator/target/
 /.idea/
 /philoyui-stock-manager/src/main/resources/static/upload/voice/
 /philoyui-stock-common/philoyui-stock-common.iml
@@ -10,4 +11,3 @@
 /philoyui-stock-manager/philoyui-stock-manager.iml
 /philoyui-stock-page/philoyui-stock-page.iml
 /philoyui-stock-cache/philoyui-stock-cache.iml
-
