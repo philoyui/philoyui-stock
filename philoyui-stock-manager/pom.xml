@@ -150,7 +150,7 @@
                     <pushImage>true</pushImage>
                     <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <imageName>
-                        114.67.84.99:5000/philoyui/${project.artifactId}:${project.version}
+                        127.0.0.1:5000/philoyui/${project.artifactId}:${project.version}
                     </imageName>
                     <imageTags>
                         <imageTag>${project.version}</imageTag>
