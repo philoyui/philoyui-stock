@@ -27,10 +27,6 @@ public class FrontPageConfig {
     public PageManager pageManager(){
 
         AdminItems adminItems = new AdminItemsBuilder()
-                .addRootItem("文章管理","column",
-                        new LeafItem("文章管理", "/admin/article/page"),
-                        new LeafItem("分类管理", "/admin/article_category/page")
-                )
                 .addRootItem("股票管理","stock",
                         new LeafItem("日线数据", "/admin/data_day/page"),
                         new LeafItem("周线数据", "/admin/data_week/page"),
