@@ -137,13 +137,6 @@
                             <goal>build</goal>
                         </goals>
                     </execution>
-                    <execution>
-                        <id>push-image</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
                 </executions>
                 <configuration>
                     <forceTags>true</forceTags>
