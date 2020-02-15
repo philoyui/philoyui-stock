@@ -1,13 +1,10 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
+@Entity(name="stock_tag")
 public class TagStockEntity implements Serializable {
 
     @Id
