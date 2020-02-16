@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from base import init_database_engine, delete_old_data
+from strategy.boll import process_boll
 from strategy.kdj import process_kdj
 
 engine = init_database_engine()
@@ -21,6 +22,8 @@ delete_old_data("周线KD死叉后第二天")
 delete_old_data("周线KD死叉后第三天")
 delete_old_data("周线KD死叉后多天")
 
+delete_old_data("周线BOLL回踩")
+
 
 for stock_info in stock_list_df.values:
 
@@ -29,3 +32,5 @@ for stock_info in stock_list_df.values:
     if not week_data_frame.empty:
         # kdj
         process_kdj(stock_info, week_data_frame, "周线")
+        # boll回踩
+        process_boll(stock_info, week_data_frame, "周线")
