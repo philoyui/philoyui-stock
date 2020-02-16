@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 @Component
 public class WeekPythonAnalysisTimer {
 
-    @Scheduled(cron="0 0/30 * * * ?") //每30分钟执行一次
+    @Scheduled(cron="0 30 7 ? * 7") //每周六
     public void fetcher(){
         Process proc;
         try {

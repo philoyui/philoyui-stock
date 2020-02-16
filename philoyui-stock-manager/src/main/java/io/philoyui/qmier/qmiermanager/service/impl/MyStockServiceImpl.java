@@ -51,8 +51,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     public void obtainEveryDay(){
 
         //1. 删除今天的自选股
-        String dateStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        myStockDao.deleteByDateString(dateStr);
+        myStockDao.deleteAll();
 
         //2. 获取所有的筛选股票池
         List<ChooseDefinitionEntity> chooseDefinitionEntities = chooseDefinitionService.findByEnable(true);
@@ -75,6 +74,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             selectedStockSet = Sets.intersection(selectedStockSet,filterStockSet);
         }
 
+        String dateStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         for (String symbol : selectedStockSet) {
             MyStockEntity myStockEntity = new MyStockEntity();
             myStockEntity.setSymbol(symbol);

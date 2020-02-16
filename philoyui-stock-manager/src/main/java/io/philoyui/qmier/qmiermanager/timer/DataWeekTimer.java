@@ -15,7 +15,7 @@ public class DataWeekTimer implements TimeScheduler{
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="0 30 3 ? * 1") //每周日
+    @Scheduled(cron="0 30 3 ? * 7") //每周六
     @Override
     public void schedule(){
         dataWeekService.downloadHistory();

@@ -15,7 +15,7 @@ public class DataDayTimer implements TimeScheduler{
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="* * 16 * * ?") //每晚9点
+    @Scheduled(cron="* * 16 * * ?") //下午4点
     @Override
     public void schedule(){
         dataDayService.downloadHistory();
