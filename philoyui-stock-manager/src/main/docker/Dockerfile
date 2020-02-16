@@ -6,6 +6,8 @@ ADD *.jar app.jar
 
 EXPOSE 8080
 
-ADD python /root/
+ADD python /root/python/
+
+RUN chmod -R 777 /root/python/
 
 CMD ["java", "-jar", "app.jar"]
