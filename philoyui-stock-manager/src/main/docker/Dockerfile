@@ -1,4 +1,4 @@
-FROM philoyui/talib-jdk:2.0
+FROM philoyui/talib-jdk:3.0
 
 ENV LANG en_US.UTF-8
 
