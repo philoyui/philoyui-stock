@@ -6,4 +6,6 @@ ADD *.jar app.jar
 
 EXPOSE 8080
 
+ADD python /root/
+
 CMD ["java", "-jar", "app.jar"]
