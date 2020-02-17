@@ -80,7 +80,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         stockDao.deleteAll();
         fetchProductDataArray("sh_a",80);
         fetchProductDataArray("sz_a",80);
-        fetchProductDataArray("kcb",80);
+//        fetchProductDataArray("kcb",80);
         fetchProductDataArray("kcb_root",80);
 //        fetchProductDataArray("sgt_hk",80);
 //        fetchProductDataArray("hgt_hk",80);
