@@ -1,14 +1,15 @@
 package io.philoyui.qmier.qmiermanager.service.filter;
 
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.impl.PythonStockFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -19,6 +20,9 @@ public class StockFilters {
 
     @Autowired
     private TagStockService tagStockService;
+
+    @Autowired
+    private PythonStockFilter pythonStockFilter;
 
     private Map<String,StockFilter> stockFilterMap = new ConcurrentHashMap<>();
 
@@ -31,29 +35,15 @@ public class StockFilters {
     }
 
     public StockFilter select(String identifier) {
+        StockFilter stockFilter = stockFilterMap.get(identifier);
+        if(stockFilter==null){
+            return pythonStockFilter;
+        }
         return stockFilterMap.get(identifier);
     }
 
-    /**
-     * 保存标签的关联关系
-     * @param tagName           标签名称
-     * @param filterStockSet    股票列表
-     */
-    private void persistNewTagStock(String tagName, Set<String> filterStockSet) {
-        tagStockService.deleteByTagName(tagName);
-        List<TagStockEntity> tagStockEntities = new ArrayList<>();
-        for (String stockString : filterStockSet) {
-            TagStockEntity tagStockEntity = new TagStockEntity();
-            tagStockEntity.setSymbol(stockString);
-            tagStockEntity.setTagName(tagName);
-            tagStockEntity.setCreatedTime(new Date());
-            tagStockEntities.add(tagStockEntity);
-        }
-        tagStockService.batchInsert(tagStockEntities);
-    }
-
     public Set<String> selectStocks(StockStrategyEntity stockStrategyEntity) {
-        StockFilter stockFilter = stockFilterMap.get(stockStrategyEntity.getIdentifier());
+        StockFilter stockFilter = this.select(stockStrategyEntity.getIdentifier());
         return stockFilter.filterSymbol(stockStrategyEntity);
     }
 }
