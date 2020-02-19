@@ -31,6 +31,6 @@ for stock_info in stock_list_df.values:
     month_data_frame = pd.read_sql_query(sql, engine)
     if not month_data_frame.empty:
         # kdj
-        process_kdj(stock_info, month_data_frame, "月线")
+        process_kdj(stock_info, month_data_frame, "月")
         # boll回踩
-        process_boll(stock_info, month_data_frame, "月线")
+        process_boll(stock_info, month_data_frame, "月")

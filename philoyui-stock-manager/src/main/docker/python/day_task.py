@@ -32,8 +32,8 @@ for stock_info in stock_list_df.values:
     day_data_frame = pd.read_sql_query(sql, engine)
     if not day_data_frame.empty:
         # kdj
-        process_kdj(stock_info, day_data_frame, "日线")
+        process_kdj(stock_info, day_data_frame, "日")
         # boll回踩
-        process_boll(stock_info, day_data_frame, "日线")
+        process_boll(stock_info, day_data_frame, "日")
 
-        process_volume(stock_info, day_data_frame, "日线")
+        process_volume(stock_info, day_data_frame, "日")

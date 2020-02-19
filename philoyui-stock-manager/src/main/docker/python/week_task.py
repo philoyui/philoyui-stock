@@ -31,6 +31,6 @@ for stock_info in stock_list_df.values:
     week_data_frame = pd.read_sql_query(sql, engine)
     if not week_data_frame.empty:
         # kdj
-        process_kdj(stock_info, week_data_frame, "周线")
+        process_kdj(stock_info, week_data_frame, "周")
         # boll回踩
-        process_boll(stock_info, week_data_frame, "周线")
+        process_boll(stock_info, week_data_frame, "周")
