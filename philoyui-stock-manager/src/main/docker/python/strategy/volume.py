@@ -1,6 +1,6 @@
 from base import mark_stock_as_tag
 '''
-    KDJ策略
+    3倍量
     参数
         stock_data：股票信息 stock_data[5] 股票代码 stock_data[4] 股票名称
         data_frame：股票历史数据，data_frame['close']，data_frame['low']，data_frame['high']，data_frame['open']，data_frame['volume']

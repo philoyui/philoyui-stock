@@ -3,7 +3,7 @@ import talib
 from base import mark_stock_as_tag
 
 '''
-    KDJ策略
+    周线回踩
     参数
         stock_data：股票信息 stock_data[5] 股票代码 stock_data[4] 股票名称
         data_frame：股票历史数据，data_frame['close']，data_frame['low']，data_frame['high']，data_frame['open']，data_frame['volume']
@@ -21,4 +21,4 @@ def process_boll(stock_data, data_frame, tag_prefix):
     if boll_middle[-2] < closed[-2] < boll_upper[-2] and boll_middle[-1] < closed[-1] < boll_upper[-1] and \
             open[-2] > closed[-2] and closed[-1] > (open[-2] + closed[-2]) / 2 and (open[-2] + closed[-2]) / 2 < \
             (open[-3] + closed[-3]) / 2 and closed[-1] > open[-1]:
-        mark_stock_as_tag(stock_data, tag_prefix + "BOLL回踩")
+        mark_stock_as_tag(stock_data, tag_prefix + "boll回踩")

@@ -23,24 +23,24 @@ def process_kdj(stock_data, data_frame, tag_prefix):
     j = 3 * k - 2 * d
     length = data_frame['close'].size
     if k.values[length - 1][0] > d.values[length - 1][0] and k.values[length - 2][0] < d.values[length - 2][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉后第一天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉1")
     if k.values[length - 1][0] > d.values[length - 1][0] and k.values[length - 2][0] > d.values[length - 2][0] and \
             k.values[length - 3][0] < d.values[length - 3][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉后第二天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉2")
     if k.values[length - 1][0] > d.values[length - 1][0] and k.values[length - 2][0] > d.values[length - 2][0] and \
             k.values[length - 3][0] > d.values[length - 3][0] and k.values[length - 4][0] < d.values[length - 4][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉后第三天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉3")
     if k.values[length - 1][0] > d.values[length - 1][0] and k.values[length - 2][0] > d.values[length - 2][0] and \
             k.values[length - 3][0] > d.values[length - 3][0] and k.values[length - 4][0] > d.values[length - 4][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉后多天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉n")
     if k.values[length - 1][0] < d.values[length - 1][0] and k.values[length - 2][0] > d.values[length - 2][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉后第一天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉1")
     if k.values[length - 1][0] < d.values[length - 1][0] and k.values[length - 2][0] < d.values[length - 2][0] and \
             k.values[length - 3][0] > d.values[length - 3][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉后第二天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉2")
     if k.values[length - 1][0] < d.values[length - 1][0] and k.values[length - 2][0] < d.values[length - 2][0] and \
             k.values[length - 3][0] < d.values[length - 3][0] and k.values[length - 4][0] > d.values[length - 4][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉后第三天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉3")
     if k.values[length - 1][0] < d.values[length - 1][0] and k.values[length - 2][0] < d.values[length - 2][0] and \
             k.values[length - 3][0] < d.values[length - 3][0] and k.values[length - 4][0] < d.values[length - 4][0]:
-        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉后多天")
+        mark_stock_as_tag(stock_data, tag_prefix + "KD死叉n")
