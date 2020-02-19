@@ -2,6 +2,7 @@ package io.philoyui.qmier.qmiermanager.service.filter;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,16 @@ public class PerFilter  implements StockFilter{
     private StockService stockService;
 
     @Override
-    public Set<String> filterSymbol(String param1, String param2, String param3) {
+    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.lte("per",20));
         searchFilter.add(Restrictions.gte("per",0));
         List<StockEntity> stockEntities = stockService.list(searchFilter);
         return stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toSet());
+    }
+
+    @Override
+    public String filterName() {
+        return "low_price";
     }
 }

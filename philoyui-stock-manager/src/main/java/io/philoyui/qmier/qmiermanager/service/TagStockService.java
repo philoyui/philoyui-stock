@@ -12,4 +12,6 @@ public interface TagStockService extends GenericService<TagStockEntity,Long> {
     void deleteByTagName(String tagName);
 
     List<TagStockEntity> findBySymbol(String symbol);
+
+    List<TagStockEntity> findByTagName(String tagName);
 }

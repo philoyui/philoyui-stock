@@ -15,7 +15,7 @@ public class DataMonthTimer implements TimeScheduler{
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="0 0 0 1 * ?") //每月1号0点
+    @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
     @Override
     public void schedule(){
         dataMonthService.downloadHistory();

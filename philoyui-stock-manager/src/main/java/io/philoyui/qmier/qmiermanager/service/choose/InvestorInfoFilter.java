@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.service.choose;
 
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -21,7 +22,7 @@ import java.util.Set;
 public class InvestorInfoFilter implements StockFilter {
 
     @Override
-    public Set<String> filterSymbol(String param1, String param2, String param3) {
+    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
         Set<String> stockSet = new HashSet<>();
@@ -38,6 +39,11 @@ public class InvestorInfoFilter implements StockFilter {
             e.printStackTrace();
         }
         return stockSet;
+    }
+
+    @Override
+    public String filterName() {
+        return "investor_info";
     }
 
     private String buildSymbol(String code) {

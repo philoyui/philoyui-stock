@@ -16,4 +16,8 @@ public interface StockDao extends GenericDao<StockEntity,Long> {
     @Modifying
     @Query("update StockEntity m set m.enable=false")
     void markAllEnable();
+
+    @Modifying
+    @Query("update StockEntity m set m.enable=true")
+    void enableAll();
 }

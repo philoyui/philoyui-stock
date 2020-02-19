@@ -21,4 +21,10 @@ public class StockController {
         return ResponseEntity.ok("success");
     }
 
+    @RequestMapping("/allEnable")
+    public ResponseEntity<String> allEnable() throws IOException {
+        stockService.allEnable();
+        return ResponseEntity.ok("success");
+    }
+
 }

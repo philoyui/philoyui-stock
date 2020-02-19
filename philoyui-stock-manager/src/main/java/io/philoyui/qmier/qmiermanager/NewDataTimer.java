@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.timer;
+package io.philoyui.qmier.qmiermanager;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;

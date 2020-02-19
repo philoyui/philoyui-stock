@@ -3,6 +3,7 @@ package io.philoyui.qmier.qmiermanager.service.choose;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.collect.Lists;
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
@@ -25,17 +26,13 @@ public class RoeIncreasingFilter implements StockFilter {
      *
      * 最近（year）大于18%，筛选出所有的股票，前三年股票是递增状态
      *
-     * @return
-     * @param param1
-     * @param param2
-     * @param param3
      */
     @Override
-    public Set<String> filterSymbol(String param1, String param2, String param3) {
+    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
 
-        String endYear = param1;
-        String startYear = String.valueOf(Integer.parseInt(param1)-2);
-        String season = param2;
+        String endYear = stockStrategyEntity.getParam1();
+        String startYear = String.valueOf(Integer.parseInt(stockStrategyEntity.getParam1())-2);
+        String season = stockStrategyEntity.getParam2();
 
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("season",season));
@@ -62,6 +59,11 @@ public class RoeIncreasingFilter implements StockFilter {
         }
 
         return new HashSet<>(symbolResultList);
+    }
+
+    @Override
+    public String filterName() {
+        return "roe_increasing";
     }
 }
 //

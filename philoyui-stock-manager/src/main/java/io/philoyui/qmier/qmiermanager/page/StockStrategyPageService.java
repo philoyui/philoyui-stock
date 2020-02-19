@@ -2,37 +2,38 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
+import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.*;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.EnableFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.validator.IntFieldDefinition;
-import io.philoyui.qmier.qmiermanager.entity.ChooseDefinitionEntity;
-import io.philoyui.qmier.qmiermanager.service.ChooseDefinitionService;
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
+import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
+import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChooseDefinitionPageService extends PageService<ChooseDefinitionEntity,Long> {
+public class StockStrategyPageService extends PageService<StockStrategyEntity,Long> {
 
     @Autowired
-    private ChooseDefinitionService chooseDefinitionService;
+    private StockStrategyService stockStrategyService;
 
     @Override
-    public PageObject<ChooseDefinitionEntity> paged(SearchFilter searchFilter) {
-        return chooseDefinitionService.paged(searchFilter);
+    public PageObject<StockStrategyEntity> paged(SearchFilter searchFilter) {
+        return stockStrategyService.paged(searchFilter);
     }
 
     @Override
     protected PageConfig initializePageConfig(PageContext pageContext) {
         PageConfig pageConfig = new PageConfig(pageContext)
-                .withDomainName("choose_definition")
-                .withDomainClass(ChooseDefinitionEntity.class)
+                .withDomainName("stock_strategy")
+                .withDomainClass(StockStrategyEntity.class)
                 .withDomainChineseName("选股定义")
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
@@ -44,12 +45,15 @@ public class ChooseDefinitionPageService extends PageService<ChooseDefinitionEnt
                         new StringFieldDefinition("param3", "参数3"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
                         new IntFieldDefinition("chooseCount","选股个数"),
-                        new EnableFieldDefinition("enable", "是否启用")
+                        new EnableFieldDefinition("enable", "是否启用"),
+                        new EnumFieldDefinition("strategyType", "类型", StrategyType.class),
+                        new EnumFieldDefinition("intervalType", "时间周期", IntervalType.class)
                 )
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "name_15",
-                        "description_30",
+                        "intervalType_15",
+                        "strategyType_15",
                         "lastExecuteTime_10",
                         "chooseCount_5",
                         "enable_5",
@@ -60,11 +64,15 @@ public class ChooseDefinitionPageService extends PageService<ChooseDefinitionEnt
                 .withSortDefinitions(
                 )
                 .withTableAction(
-                        new CreateOperation()
+                        new CreateOperation(),
+                        new TableOperation("日标签任务","dayTask",ButtonStyle.Green),
+                        new TableOperation("周标签任务","weekTask",ButtonStyle.Blue),
+                        new TableOperation("月标签任务","monthTask",ButtonStyle.Orange)
                 )
                 .withColumnAction(
                         new ConfirmOperation("tagStock","打标"),
                         new NewPageOperation("标记股票","/admin/tag_stock/page?tagName=#name#","标记股票","name"),
+                        new ConfirmOperation("dropStock","标记不抓取"),
                         new EnableOperation("enable"),
                         new EditOperation(),
                         new DeleteOperation()
@@ -76,39 +84,41 @@ public class ChooseDefinitionPageService extends PageService<ChooseDefinitionEnt
                         "enable_rw",
                         "param1_rw",
                         "param2_rw",
-                        "param3_rw"
+                        "param3_rw",
+                        "strategyType_rw",
+                        "intervalType_rw"
                 );
         return pageConfig;
     }
 
     @Override
-    public ChooseDefinitionEntity get(String id) {
-        return chooseDefinitionService.get(Long.parseLong(id));
+    public StockStrategyEntity get(String id) {
+        return stockStrategyService.get(Long.parseLong(id));
     }
 
     @Override
-    public ChooseDefinitionEntity get(SearchFilter searchFilter) {
-        return chooseDefinitionService.get(searchFilter);
+    public StockStrategyEntity get(SearchFilter searchFilter) {
+        return stockStrategyService.get(searchFilter);
     }
 
     @Override
-    public void saveOrUpdate(ChooseDefinitionEntity chooseDefinition) {
-        chooseDefinitionService.insert(chooseDefinition);
+    public void saveOrUpdate(StockStrategyEntity chooseDefinition) {
+        stockStrategyService.insert(chooseDefinition);
     }
 
     @Override
-    public void delete(ChooseDefinitionEntity chooseDefinition) {
-        chooseDefinitionService.delete(chooseDefinition.getId());
+    public void delete(StockStrategyEntity chooseDefinition) {
+        stockStrategyService.delete(chooseDefinition.getId());
     }
 
     @Override
     public void enable(String id) {
-        chooseDefinitionService.enable(Long.parseLong(id));
+        stockStrategyService.enable(Long.parseLong(id));
     }
 
     @Override
     public void disable(String id) {
-        chooseDefinitionService.disable(Long.parseLong(id));
+        stockStrategyService.disable(Long.parseLong(id));
     }
 }
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.client.east.data.BigBuyData;
 import io.philoyui.qmier.qmiermanager.client.east.response.BigBuyResponse;
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -24,7 +25,7 @@ public class BigBuyFilter implements StockFilter {
     private Gson gson = new GsonBuilder().create();
 
     @Override
-    public Set<String> filterSymbol(String param1, String param2, String param3) {
+    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
 
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
@@ -50,6 +51,11 @@ public class BigBuyFilter implements StockFilter {
             e.printStackTrace();
         }
         return stockSet;
+    }
+
+    @Override
+    public String filterName() {
+        return "today_big_deal";
     }
 
     private String buildSymbol(String code) {

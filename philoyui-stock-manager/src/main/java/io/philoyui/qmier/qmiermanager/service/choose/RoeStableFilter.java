@@ -2,6 +2,7 @@ package io.philoyui.qmier.qmiermanager.service.choose;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
@@ -21,13 +22,13 @@ public class RoeStableFilter implements StockFilter {
     private FinancialReportService financialReportService;
 
     @Override
-    public Set<String> filterSymbol(String param1, String param2, String param3) {
+    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
 
-        String startYear = String.valueOf(Integer.parseInt(param1)-2);
+        String startYear = String.valueOf(Integer.parseInt(stockStrategyEntity.getParam1())-2);
 
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.gte("year",startYear));
-        searchFilter.add(Restrictions.gte("season",param2));
+        searchFilter.add(Restrictions.gte("season", stockStrategyEntity.getParam2()));
         searchFilter.add(Restrictions.gte("roe",18));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
 
@@ -41,5 +42,10 @@ public class RoeStableFilter implements StockFilter {
         }
 
         return resultSet;
+    }
+
+    @Override
+    public String filterName() {
+        return "roe_stable";
     }
 }

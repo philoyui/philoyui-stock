@@ -37,4 +37,9 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     public List<TagStockEntity> findBySymbol(String symbol) {
         return tagStockDao.findBySymbol(symbol);
     }
+
+    @Override
+    public List<TagStockEntity> findByTagName(String tagName) {
+        return tagStockDao.findByTagName(tagName);
+    }
 }

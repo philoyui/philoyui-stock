@@ -69,7 +69,8 @@ public class StockPageService extends PageService<StockEntity,String> implements
                 )
                 .withTableAction(
                         new CreateOperation(),
-                        new TableOperation("下载历史数据","downloadHistory", ButtonStyle.Orange)
+                        new TableOperation("下载历史数据","downloadHistory", ButtonStyle.Orange),
+                        new TableOperation("启用所有","allEnable",ButtonStyle.Green)
                 )
                 .withColumnAction(
                         new EnableOperation("enable"),

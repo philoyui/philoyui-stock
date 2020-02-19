@@ -1,14 +1,16 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
+import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
+
 import java.util.Date;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
-public class FilterDefinitionEntity implements Serializable {
+@Table(name = "choose_definition_entity")
+public class StockStrategyEntity implements Serializable {
 
     /**
      * ID
@@ -35,7 +37,7 @@ public class FilterDefinitionEntity implements Serializable {
 
     private String param3;
 
-    private Integer filterCount;
+    private Integer chooseCount;
 
     /**
      * 是否启用
@@ -44,6 +46,9 @@ public class FilterDefinitionEntity implements Serializable {
 
     private Date lastExecuteTime;
 
+    private StrategyType strategyType;
+
+    private IntervalType intervalType;
 
     public Long getId() {
         return id;
@@ -109,6 +114,14 @@ public class FilterDefinitionEntity implements Serializable {
         this.param3 = param3;
     }
 
+    public Integer getChooseCount() {
+        return chooseCount;
+    }
+
+    public void setChooseCount(Integer chooseCount) {
+        this.chooseCount = chooseCount;
+    }
+
     public boolean isEnable() {
         return enable;
     }
@@ -121,11 +134,19 @@ public class FilterDefinitionEntity implements Serializable {
         this.lastExecuteTime = lastExecuteTime;
     }
 
-    public Integer getFilterCount() {
-        return filterCount;
+    public StrategyType getStrategyType() {
+        return strategyType;
     }
 
-    public void setFilterCount(Integer filterCount) {
-        this.filterCount = filterCount;
+    public void setStrategyType(StrategyType strategyType) {
+        this.strategyType = strategyType;
+    }
+
+    public IntervalType getIntervalType() {
+        return intervalType;
+    }
+
+    public void setIntervalType(IntervalType intervalType) {
+        this.intervalType = intervalType;
     }
 }

@@ -22,4 +22,6 @@ public interface StockService extends GenericService<StockEntity,Long> {
     void markAllDisable();
 
     void updateAll(List<StockEntity> stockEntityList);
+
+    void allEnable();
 }

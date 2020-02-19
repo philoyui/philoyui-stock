@@ -9,8 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.entity.FinancialMarketEntity;
+import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialMarketService;
+import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.to.ProductData;
 import org.jsoup.Connection;
@@ -32,6 +34,9 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
 
     @Autowired
     private StockDao stockDao;
+
+    @Autowired
+    private FinancialReportService financialReportService;
 
     @Autowired
     private FinancialMarketService financialMarketService;
@@ -95,6 +100,12 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
     @Override
     public void updateAll(List<StockEntity> stockEntityList) {
         stockDao.saveAll(stockEntityList);
+    }
+
+    @Transactional
+    @Override
+    public void allEnable() {
+        stockDao.enableAll();
     }
 
     private void fetchProductDataArray(String identifier,int pageSize) {
