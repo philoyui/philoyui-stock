@@ -13,16 +13,16 @@ Base = declarative_base()
 Session = sessionmaker(bind=engine)
 session = Session()
 
-delete_old_data("周线KD金叉后第一天")
-delete_old_data("周线KD金叉后第二天")
-delete_old_data("周线KD金叉后第三天")
-delete_old_data("周线KD金叉后多天")
-delete_old_data("周线KD死叉后第一天")
-delete_old_data("周线KD死叉后第二天")
-delete_old_data("周线KD死叉后第三天")
-delete_old_data("周线KD死叉后多天")
+delete_old_data("周KD金叉1")
+delete_old_data("周KD金叉2")
+delete_old_data("周KD金叉3")
+delete_old_data("周KD金叉n")
+delete_old_data("周KD死叉1")
+delete_old_data("周KD死叉2")
+delete_old_data("周KD死叉3")
+delete_old_data("周KD死叉n")
 
-delete_old_data("周线BOLL回踩")
+delete_old_data("周boll回踩")
 
 
 for stock_info in stock_list_df.values:
