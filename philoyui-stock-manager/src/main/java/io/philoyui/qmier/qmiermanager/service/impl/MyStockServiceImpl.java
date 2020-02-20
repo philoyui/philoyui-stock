@@ -56,7 +56,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         List<StockStrategyEntity> reduceStrategies = stockStrategyService.findReduce();
         for (StockStrategyEntity reduceStrategy : reduceStrategies) {
             Set<String> filterStockSet = stockFilters.selectStocks(reduceStrategy);
-            selectedStockSet.removeAll(filterStockSet);
+            selectedStockSet = Sets.difference(selectedStockSet,filterStockSet);
         }
 
         String dateStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
