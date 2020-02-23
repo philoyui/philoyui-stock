@@ -18,6 +18,8 @@ delete_old_data("周KD金叉1")
 delete_old_data("周KD金叉2")
 
 delete_old_data("周boll回踩")
+delete_old_data("周MACD0轴金叉1")
+delete_old_data("周MACD0轴金叉2")
 
 
 for stock_info in stock_list_df.values:
@@ -30,4 +32,4 @@ for stock_info in stock_list_df.values:
         # boll回踩
         process_boll(stock_info, week_data_frame, "周")
 
-        process_macd(stock_info, week_data_frame, "日")
+        process_macd(stock_info, week_data_frame, "周")

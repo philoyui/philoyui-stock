@@ -19,6 +19,8 @@ delete_old_data("月KD金叉1")
 delete_old_data("月KD金叉2")
 
 delete_old_data("月boll回踩")
+delete_old_data("月MACD0轴金叉1")
+delete_old_data("月MACD0轴金叉2")
 
 for stock_info in stock_list_df.values:
 
