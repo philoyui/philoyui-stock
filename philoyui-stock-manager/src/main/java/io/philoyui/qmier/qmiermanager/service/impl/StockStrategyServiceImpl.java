@@ -125,7 +125,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     @Override
     public List<StockStrategyEntity> findByIntervalType(IntervalType intervalType) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("enable",true));
         searchFilter.add(Restrictions.eq("intervalType", intervalType));
         return list(searchFilter);
     }

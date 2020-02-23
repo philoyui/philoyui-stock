@@ -5,6 +5,8 @@ from sqlalchemy.orm import sessionmaker
 
 from base import delete_old_data
 from strategy.boll import process_boll
+from strategy.cci import process_cci
+from strategy.eightLine import process_eight_line
 from strategy.kdj import process_kdj
 from strategy.macd import process_macd
 from strategy.volume import process_volume
@@ -36,3 +38,7 @@ for stock_info in stock_list_df.values:
         process_volume(stock_info, day_data_frame, "日")
 
         process_macd(stock_info, day_data_frame, "日")
+
+        process_eight_line(stock_info, day_data_frame, "")
+
+        process_cci(stock_info, day_data_frame, "")
