@@ -4,7 +4,9 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
+import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> implements MyStockService {
@@ -27,6 +30,9 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     @Autowired
     private MyStockDao myStockDao;
+
+    @Autowired
+    private StockDao stockDao;
 
     @Autowired
     private StockStrategyService stockStrategyService;
@@ -58,6 +64,8 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             Set<String> filterStockSet = stockFilters.selectStocks(reduceStrategy);
             selectedStockSet = Sets.difference(selectedStockSet,filterStockSet);
         }
+
+        selectedStockSet = selectedStockSet.stream().filter(s -> !s.startsWith("30")&&!s.startsWith("sz30")).collect(Collectors.toSet());
 
         String dateStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         for (String symbol : selectedStockSet) {

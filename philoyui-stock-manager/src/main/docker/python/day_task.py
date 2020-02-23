@@ -25,6 +25,8 @@ delete_old_data("日KD死叉3")
 delete_old_data("日KD死叉n")
 
 delete_old_data("日boll回踩")
+delete_old_data("3倍量")
+
 
 for stock_info in stock_list_df.values:
 
