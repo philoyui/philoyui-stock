@@ -8,6 +8,7 @@ from strategy.boll import process_boll
 from strategy.cci import process_cci
 from strategy.eightLine import process_eight_line
 from strategy.kdj import process_kdj
+from strategy.ma20 import process_ma20
 from strategy.macd import process_macd
 from strategy.volume import process_volume
 
@@ -46,3 +47,5 @@ for stock_info in stock_list_df.values:
         process_eight_line(stock_info, day_data_frame, "")
 
         process_cci(stock_info, day_data_frame, "")
+
+        process_ma20(stock_info, day_data_frame, "")

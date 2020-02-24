@@ -50,9 +50,12 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     public void tagStock(StockStrategyEntity stockStrategyEntity) {
 
         tagStockService.deleteByTagName(stockStrategyEntity.getName());
-
         StockFilter stockFilter = stockFilters.select(stockStrategyEntity.getIdentifier());
+
         if(stockFilter!=null){
+
+            tagStockService.deleteByTagName(stockStrategyEntity.getName());
+
             Set<String> codeSet = stockFilter.filterSymbol(stockStrategyEntity);
 
             SearchFilter searchFilter = SearchFilter.getDefault();
