@@ -28,6 +28,7 @@ delete_old_data("CCI多头")
 delete_old_data("CCI空头")
 delete_old_data("日MACD0轴金叉1")
 delete_old_data("日MACD0轴金叉2")
+delete_old_data("20日均线金叉")
 
 
 for stock_info in stock_list_df.values:
