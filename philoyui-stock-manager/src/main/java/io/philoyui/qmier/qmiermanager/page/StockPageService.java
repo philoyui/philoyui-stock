@@ -14,17 +14,23 @@ import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class StockPageService extends PageService<StockEntity,String> implements PageDomainProvider<StockEntity> {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private TagStockService tagStockService;
 
     @Autowired
     private FinancialMarketPageService financialMarketPageService;
@@ -47,16 +53,18 @@ public class StockPageService extends PageService<StockEntity,String> implements
                         new StringFieldDefinition("code", "代码"),
                         new StringFieldDefinition("name", "名称"),
                         new DateFieldDefinition("modifyTime", "修改时间"),
-                        new EnableFieldDefinition("enable", "是否启用")
+                        new EnableFieldDefinition("enable", "是否启用"),
+                        new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableColumnDefinitions(
                         "#checkbox_3",
-                        "symbol_14",
-                        "name_15",
+                        "symbol_12",
+                        "name_12",
                         "marketId_10",
                         "modifyTime_15",
                         "enable_8",
-                        "#operation_35"
+                        "tagList_20",
+                        "#operation_20"
                 )
                 .withFilterDefinitions(
                     "symbol_like",
