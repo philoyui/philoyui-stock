@@ -6,6 +6,7 @@ from base import init_database_engine, delete_old_data
 from strategy.boll import process_boll
 from strategy.kdj import process_kdj
 from strategy.macd import process_macd
+from strategy.wr import process_willr
 
 engine = init_database_engine()
 stock_list_sql = "select * from financial_product_entity"

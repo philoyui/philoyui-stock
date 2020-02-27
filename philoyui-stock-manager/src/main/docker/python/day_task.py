@@ -11,6 +11,7 @@ from strategy.kdj import process_kdj
 from strategy.ma20 import process_ma20
 from strategy.macd import process_macd
 from strategy.volume import process_volume
+from strategy.wr import process_willr
 
 engine = create_engine('mysql+pymysql://root:123456@114.67.84.99:32306/stock')
 stock_list_sql = "select * from financial_product_entity"
@@ -29,6 +30,8 @@ delete_old_data("CCI空头")
 delete_old_data("日MACD0轴金叉1")
 delete_old_data("日MACD0轴金叉2")
 delete_old_data("20日均线金叉")
+delete_old_data("日威廉超买")
+delete_old_data("日威廉超卖")
 
 
 for stock_info in stock_list_df.values:
@@ -50,3 +53,5 @@ for stock_info in stock_list_df.values:
         process_cci(stock_info, day_data_frame, "")
 
         process_ma20(stock_info, day_data_frame, "")
+
+        process_willr(stock_info,day_data_frame, "日")
