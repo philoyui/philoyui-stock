@@ -30,8 +30,8 @@ delete_old_data("CCI空头")
 delete_old_data("日MACD0轴金叉1")
 delete_old_data("日MACD0轴金叉2")
 delete_old_data("20日均线金叉")
-delete_old_data("日威廉超买")
-delete_old_data("日威廉超卖")
+delete_old_data("威廉超买")
+delete_old_data("威廉超卖")
 
 
 for stock_info in stock_list_df.values:
@@ -54,4 +54,4 @@ for stock_info in stock_list_df.values:
 
         process_ma20(stock_info, day_data_frame, "")
 
-        process_willr(stock_info,day_data_frame, "日")
+        process_willr(stock_info,day_data_frame, "")
