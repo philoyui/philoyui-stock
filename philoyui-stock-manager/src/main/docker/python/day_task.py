@@ -10,6 +10,8 @@ from strategy.eightLine import process_eight_line
 from strategy.kdj import process_kdj
 from strategy.ma20 import process_ma20
 from strategy.macd import process_macd
+from strategy.rsi import process_rsi
+from strategy.sar import process_sar
 from strategy.volume import process_volume
 from strategy.wr import process_willr
 
@@ -30,8 +32,13 @@ delete_old_data("CCI空头")
 delete_old_data("日MACD0轴金叉1")
 delete_old_data("日MACD0轴金叉2")
 delete_old_data("20日均线金叉")
-delete_old_data("威廉超买")
-delete_old_data("威廉超卖")
+delete_old_data("威廉超买卖")
+delete_old_data("RSI超卖")
+delete_old_data("RSI超买")
+delete_old_data("量能金叉")
+delete_old_data("量能死叉")
+delete_old_data("SAR多头开始")
+delete_old_data("SAR空头开始")
 
 
 for stock_info in stock_list_df.values:
@@ -54,4 +61,8 @@ for stock_info in stock_list_df.values:
 
         process_ma20(stock_info, day_data_frame, "")
 
-        process_willr(stock_info,day_data_frame, "")
+        process_willr(stock_info, day_data_frame, "")
+
+        process_rsi(stock_info, day_data_frame, "")
+
+        process_sar(stock_info, day_data_frame, "")

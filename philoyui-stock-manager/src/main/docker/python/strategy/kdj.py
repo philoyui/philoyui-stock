@@ -22,8 +22,8 @@ def process_kdj(stock_data, data_frame, tag_prefix):
     d = k.ewm(com=2).mean()
     j = 3 * k - 2 * d
     length = data_frame['close'].size
-    if d.values[length - 1][0] < k.values[length - 1][0] < 20 and k.values[length - 2][0] < d.values[length - 2][0]:
-        print(stock_data[5])
+    if d.values[length - 1][0] < k.values[length - 1][0] < 20 and k.values[length - 2][0] < d.values[length - 2][0] :
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉1")
     if k.values[length - 1][0] > d.values[length - 1][0] < 20 and k.values[length - 2][0] > d.values[length - 2][0] and \
             k.values[length - 3][0] < d.values[length - 3][0]:
-        print(stock_data[5])
+        mark_stock_as_tag(stock_data, tag_prefix + "KD金叉2")

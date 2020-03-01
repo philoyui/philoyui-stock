@@ -1,3 +1,5 @@
+import talib
+
 from base import mark_stock_as_tag
 '''
     3倍量
@@ -13,5 +15,15 @@ def process_volume(stock_data, data_frame, tag_prefix):
     open = data_frame['open'].values
     close = data_frame['close'].values
 
+    avg5 = talib.MA(volume, timeperiod=5)
+    avg20 = talib.MA(volume, timeperiod=20)
+
     if volume[-1] > (volume[-2]*3) and -0.06 < ((open[-1]-close[-1])/open[-1]) < 0.06:
         mark_stock_as_tag(stock_data, "3倍量")
+
+    if avg5[-1] > avg20[-1] and avg5[-2] < avg20[-2]:
+        mark_stock_as_tag(stock_data, "量能金叉")
+
+    if avg5[-1] < avg20[-1] and avg5[-2] > avg20[-2]:
+        mark_stock_as_tag(stock_data, "量能死叉")
+
