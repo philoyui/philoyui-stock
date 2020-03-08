@@ -12,4 +12,7 @@ public interface DataDayService extends GenericService<DataDayEntity,Long> {
     void deleteBySymbol(String symbol);
 
     void downloadHistory();
+
+    void processEstimateDayData();
+
 }

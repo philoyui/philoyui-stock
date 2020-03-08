@@ -20,4 +20,12 @@ public class DataDayController {
 
         return ResponseEntity.ok("success");
     }
+
+    @RequestMapping("/download_today")
+    public ResponseEntity<String> downloadToday() {
+
+        dataDayService.processEstimateDayData();
+
+        return ResponseEntity.ok("success");
+    }
 }

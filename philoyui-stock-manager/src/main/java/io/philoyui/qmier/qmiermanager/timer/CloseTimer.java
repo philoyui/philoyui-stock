@@ -6,19 +6,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataDayTimer implements TimeScheduler{
+public class CloseTimer implements TimeScheduler{
 
     @Autowired
     private DataDayService dataDayService;
 
-    /**
-     * 读取30min股票列表
-     * @param args
-     */
-    @Scheduled(cron="00 00 16 * * 1-5") //下午4点
+    @Scheduled(cron="00 40 14 * * 1-5")
     @Override
     public void schedule(){
-        dataDayService.downloadHistory();
+        dataDayService.processEstimateDayData();
     }
 
 }

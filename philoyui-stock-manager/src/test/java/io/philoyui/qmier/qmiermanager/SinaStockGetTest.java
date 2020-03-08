@@ -59,7 +59,7 @@ public class SinaStockGetTest {
 
         Gson gson = new GsonBuilder().create();
 
-        String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=360&sort=symbol&asc=1&node=sh_a&symbol=&_s_r_a=page";
+        String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=1&num=100&sort=symbol&asc=1&node=sh_a&symbol=&_s_r_a=page";
         try {
             Connection.Response response = Jsoup.connect(fetchUrl)
                     .header("Content-Type", "application/json")

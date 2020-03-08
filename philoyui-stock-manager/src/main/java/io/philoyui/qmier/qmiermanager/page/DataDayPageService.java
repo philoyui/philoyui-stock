@@ -72,7 +72,8 @@ public class DataDayPageService extends PageService<DataDayEntity,Long> {
                 )
                 .withTableAction(
                         new CreateOperation(),
-                        new TableOperation("下载历史数据","download_history", ButtonStyle.Green)
+                        new TableOperation("下载历史数据","download_history", ButtonStyle.Green),
+                        new TableOperation("下载今日数据","download_today", ButtonStyle.Orange)
 
                 )
                 .withColumnAction(
