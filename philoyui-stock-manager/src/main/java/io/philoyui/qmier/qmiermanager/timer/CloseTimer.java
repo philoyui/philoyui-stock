@@ -11,7 +11,7 @@ public class CloseTimer implements TimeScheduler{
     @Autowired
     private DataDayService dataDayService;
 
-    @Scheduled(cron="00 40 14 * * 1-5")
+    @Scheduled(cron="0 40 14 * * 1-5")
     @Override
     public void schedule(){
         dataDayService.processEstimateDayData();

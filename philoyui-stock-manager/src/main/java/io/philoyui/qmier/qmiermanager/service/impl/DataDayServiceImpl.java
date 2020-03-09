@@ -132,9 +132,6 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
             pageNo++;
         }
 
-
-
-
     }
 
     private ProductData[] fetchCurrentProductData(int pageNo) {
