@@ -10,4 +10,6 @@ ADD python /root/python/
 
 RUN chmod -R 777 /root/python/
 
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo 'Asia/Shanghai' >/etc/timezone
+
 CMD ["java", "-jar", "app.jar"]
