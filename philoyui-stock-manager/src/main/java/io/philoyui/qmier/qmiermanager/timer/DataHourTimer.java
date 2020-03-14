@@ -15,7 +15,7 @@ public class DataHourTimer implements TimeScheduler{
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="0 0 23 * * 1-5") //凌晨1点
+    @Scheduled(cron="0 0 15 * * 1-5") //凌晨1点
     @Override
     public void schedule(){
         dataHourService.downloadHistory();
