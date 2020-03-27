@@ -25,7 +25,7 @@ public class AnnounceTimer {
     @Autowired
     private AnnounceService announceService;
 
-    @Scheduled(cron="0 0/23 * * * ?") //每20分钟执行一次
+//    @Scheduled(cron="0 0/23 * * * ?") //每20分钟执行一次
     public void fetch(){
         EastMoneyClient client = new EastMoneyClientImpl();
         for (int pageNo = 1; pageNo <= 10; pageNo++) {

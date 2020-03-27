@@ -21,7 +21,7 @@ public class StrategyTimer {
         stockStrategyService.processWithWeekTimer();
     }
 
-    @Scheduled(cron="* * 20 * * ?") //下午4点
+    @Scheduled(cron="* * 19 * * ?") //下午4点
     public void fetcher(){
         stockStrategyService.processWithDayTimer();
     }

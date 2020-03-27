@@ -15,7 +15,7 @@ public class Data30minTimer implements TimeScheduler{
      * 读取30min股票列表
      * @param args
      */
-    @Scheduled(cron="0 0 12 * * 1-5") //下午6点
+    @Scheduled(cron="0 0 23 * * 1-5") //下午6点
     @Override
     public void schedule(){
         data30minService.downloadHistory();
