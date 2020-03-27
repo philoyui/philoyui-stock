@@ -5,10 +5,7 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.DomainStringFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +35,18 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "标识码"),
                         new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
+                        new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
+                        new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new StringFieldDefinition("tagName", "标签"),
                         new DateFieldDefinition("createdTime", "修改时间")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_20",
-                        "stockName_30",
-                        "tagName_30",
-                        "createdTime_20"
+                        "symbol_12",
+                        "stockName_15",
+                        "dayImage_20",
+                        "weekImage_20",
+                        "tagName_15",
+                        "createdTime_18"
                 )
                 .withFilterDefinitions(
                         "symbol_like",

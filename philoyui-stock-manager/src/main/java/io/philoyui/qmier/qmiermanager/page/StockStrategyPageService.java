@@ -52,12 +52,12 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "name_15",
-                        "intervalType_15",
-                        "strategyType_15",
-                        "lastExecuteTime_10",
+                        "intervalType_6",
+                        "strategyType_8",
+                        "lastExecuteTime_18",
                         "chooseCount_5",
-                        "enable_5",
-                        "#operation_20"
+                        "enable_8",
+                        "#operation_25"
                 )
                 .withFilterDefinitions(
                 )
