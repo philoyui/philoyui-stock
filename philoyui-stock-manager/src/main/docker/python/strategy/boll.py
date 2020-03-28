@@ -18,7 +18,6 @@ def process_boll(stock_data, data_frame, tag_prefix):
 
     boll_upper, boll_middle, boll_lower = talib.BBANDS(closed, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
 
-    if boll_middle[-2] < closed[-2] < boll_upper[-2] and boll_middle[-1] < closed[-1] < boll_upper[-1] and \
-            open[-2] > closed[-2] and closed[-1] > (open[-2] + closed[-2]) / 2 and (open[-2] + closed[-2]) / 2 < \
-            (open[-3] + closed[-3]) / 2 and closed[-1] > open[-1]:
+    if boll_lower[-2] < closed[-2] < open[-2] < open[-3] < boll_upper[-2] and boll_middle[-1] < closed[-1] < boll_upper[-1] and closed[-1] > \
+            open[-2] - (open[-2]-closed[-2])/2 and closed[-2] < closed[-3] and boll_middle[-1] > boll_middle[-2] and closed[-1] > open[-1]:
         mark_stock_as_tag(stock_data, tag_prefix + "boll回踩")

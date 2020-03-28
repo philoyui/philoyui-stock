@@ -15,16 +15,10 @@ import numpy as np
 '''
 
 
-def process_eight_line(stock_data, data_frame, tag_prefix):
+def process_ma_up(stock_data, data_frame, tag_prefix):
     closed = data_frame['close'].values
+    avg10 = talib.MA(closed, timeperiod=10)
     avg20 = talib.MA(closed, timeperiod=20)
-    avg22 = talib.MA(closed, timeperiod=22)
-    avg24 = talib.MA(closed, timeperiod=24)
     avg30 = talib.MA(closed, timeperiod=30)
-    avg50 = talib.MA(closed, timeperiod=50)
-    avg60 = talib.MA(closed, timeperiod=60)
-    avg65 = talib.MA(closed, timeperiod=65)
-    avg72 = talib.MA(closed, timeperiod=72)
-    if closed[-1] > avg20[-1] > avg22[-1] > avg24[-1] > avg30[-1] > avg50[-1] > avg60[-1] > avg65[-1] > avg72[-1] and\
-            avg20[-2] < avg72[-2]:
-        mark_stock_as_tag(stock_data, tag_prefix + "八线")
+    if avg10[-1] > avg10[-2] and avg20[-1] > avg20[-2] and avg30[-1] > avg30[-2]:
+        mark_stock_as_tag(stock_data, tag_prefix + "均线多头排列")

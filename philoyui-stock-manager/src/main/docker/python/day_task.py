@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from base import delete_old_data
 from strategy.boll import process_boll
 from strategy.cci import process_cci
-from strategy.eightLine import process_eight_line
+from strategy.ma_up import process_ma_up
 from strategy.kdj import process_kdj
 from strategy.ma20 import process_ma20
 from strategy.macd import process_macd
@@ -39,6 +39,7 @@ delete_old_data("量能金叉")
 delete_old_data("量能死叉")
 delete_old_data("SAR多头开始")
 delete_old_data("SAR空头开始")
+delete_old_data("均线多头排列")
 
 
 for stock_info in stock_list_df.values:
@@ -55,7 +56,7 @@ for stock_info in stock_list_df.values:
 
         process_macd(stock_info, day_data_frame, "日")
 
-        process_eight_line(stock_info, day_data_frame, "")
+        process_ma_up(stock_info, day_data_frame, "")
 
         process_cci(stock_info, day_data_frame, "")
 
