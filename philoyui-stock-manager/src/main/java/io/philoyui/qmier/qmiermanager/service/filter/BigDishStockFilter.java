@@ -18,6 +18,7 @@ public class BigDishStockFilter implements StockFilter{
     @Autowired
     private StockService stockService;
 
+
     @Override
     public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
         SearchFilter searchFilter = SearchFilter.getDefault();

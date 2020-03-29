@@ -107,6 +107,13 @@
             <groupId>io.philoyui</groupId>
             <artifactId>philoyui-stock-generator</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.tictactec</groupId>
+            <artifactId>ta-lib</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

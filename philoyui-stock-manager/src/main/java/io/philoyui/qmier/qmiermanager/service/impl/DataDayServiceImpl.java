@@ -1,11 +1,16 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Order;
+import cn.com.gome.cloud.openplatform.common.PageObject;
+import cn.com.gome.cloud.openplatform.common.Restrictions;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.dao.DataDayDao;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DataDayService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
@@ -132,6 +137,15 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
             pageNo++;
         }
 
+    }
+
+    @Override
+    public double[] findCloseData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getClose).toArray();
     }
 
     private ProductData[] fetchCurrentProductData(int pageNo) {

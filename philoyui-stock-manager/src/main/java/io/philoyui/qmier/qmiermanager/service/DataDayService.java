@@ -2,6 +2,7 @@ package io.philoyui.qmier.qmiermanager.service;
 
 import cn.com.gome.cloud.openplatform.service.GenericService;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface DataDayService extends GenericService<DataDayEntity,Long> {
 
     void processEstimateDayData();
 
+    double[] findCloseData(StockEntity stockEntity);
 }
