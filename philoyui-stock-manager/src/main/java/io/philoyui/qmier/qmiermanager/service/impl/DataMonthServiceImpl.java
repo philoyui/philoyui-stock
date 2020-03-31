@@ -1,9 +1,14 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Order;
+import cn.com.gome.cloud.openplatform.common.PageObject;
+import cn.com.gome.cloud.openplatform.common.Restrictions;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataMonthDao;
 import io.philoyui.qmier.qmiermanager.entity.DataMonthEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.DataMonthService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
@@ -68,5 +73,50 @@ public class DataMonthServiceImpl extends GenericServiceImpl<DataMonthEntity,Lon
             taskCounter.increase();
         }));
 
+    }
+
+    @Override
+    public double[] findLowData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataMonthEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataMonthEntity::getLow).toArray();
+    }
+
+    @Override
+    public double[] findHighData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataMonthEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataMonthEntity::getHigh).toArray();
+    }
+
+    @Override
+    public double[] findCloseData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataMonthEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataMonthEntity::getClose).toArray();
+    }
+
+    @Override
+    public double[] findOpenData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataMonthEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataMonthEntity::getOpen).toArray();
+    }
+
+    @Override
+    public double[] findVolumeData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataMonthEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataMonthEntity::getVolume).toArray();
     }
 }

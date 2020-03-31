@@ -1,8 +1,8 @@
 package io.philoyui.qmier.qmiermanager.utils;
 
 import com.tictactec.ta.lib.Core;
+import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
 
 public class TalibUtils {
 
@@ -37,10 +37,49 @@ public class TalibUtils {
 
     public static double[] ma(double[] closeArray,int timePeriod){
         double[] maResult = new double[closeArray.length];
-        RetCode retCode = core.sma(0, closeArray.length - 1, closeArray, timePeriod, new MInteger(), new MInteger(), maResult);
+        core.sma(0, closeArray.length - 1, closeArray, timePeriod, new MInteger(), new MInteger(), maResult);
         return maResult;
     }
 
+    public static double[] cci(double[] highArray,double[] lowArray,double[] closeArray,int timePeriod){
+        double[] cciResult = new double[closeArray.length];
+        core.cci(0, closeArray.length - 1,highArray,lowArray, closeArray, timePeriod, new MInteger(), new MInteger(), cciResult);
+        return cciResult;
+    }
+
+    public static double[] rsi(double[] closeArray,int timePeriod){
+        double[] rsiResult = new double[closeArray.length];
+        core.rsi(0, closeArray.length - 1,closeArray,timePeriod, new MInteger(), new MInteger(), rsiResult);
+        return rsiResult;
+    }
+
+    public static double[] sar(double[] highArray,double[] lowArray,double acceleration,double maximum){
+        double[] sarResult = new double[highArray.length];
+        core.sar(0, highArray.length - 1,highArray,lowArray,acceleration,maximum, new MInteger(), new MInteger(), sarResult);
+        return sarResult;
+    }
+
+    public static double[] wr(double[] highArray,double[] lowArray,double[] closeArray,int timePeriod){
+        double[] wrResult = new double[closeArray.length];
+        core.willR(0, closeArray.length - 1,highArray,lowArray,closeArray,timePeriod, new MInteger(), new MInteger(), wrResult);
+        return wrResult;
+    }
+
+    public static MacdResult macd(double[] closeArray,int fastPeriod,int slowPeriod,int signalPeriod){
+        double[] macdResult = new double[closeArray.length];
+        double[] signalResult = new double[closeArray.length];
+        double[] histResult = new double[closeArray.length];
+        core.macd(0, closeArray.length - 1,closeArray, fastPeriod,slowPeriod,signalPeriod, new MInteger(), new MInteger(), macdResult,signalResult,histResult);
+        return new MacdResult(macdResult,signalResult,histResult);
+    }
+
+    public static BollResult boll(double[] closeArray,int optInTimePeriod, double optInNbDevUp, double optInNbDevDn){
+        double[] upperResult = new double[closeArray.length];
+        double[] middleResult = new double[closeArray.length];
+        double[] lowerResult = new double[closeArray.length];
+        core.bbands(0, closeArray.length - 1,closeArray, optInTimePeriod, optInNbDevUp, optInNbDevDn, MAType.Sma, new MInteger(), new MInteger(), upperResult,middleResult,lowerResult);
+        return new BollResult(upperResult,middleResult,lowerResult);
+    }
 
 //    public static void main(String[] args){
 //        double[] ma = TalibUtils.ma(close, 10);

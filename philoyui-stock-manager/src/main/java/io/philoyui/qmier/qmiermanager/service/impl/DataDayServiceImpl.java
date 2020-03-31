@@ -166,6 +166,24 @@ public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
         return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getOpen).toArray();
     }
 
+    @Override
+    public double[] findHighData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getHigh).toArray();
+    }
+
+    @Override
+    public double[] findLowData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+        pagedSearchFilter.add(Order.desc("day"));
+        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
+        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getLow).toArray();
+    }
+
     private ProductData[] fetchCurrentProductData(int pageNo) {
 
         String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page="+pageNo+"&num=100&sort=symbol&asc=1&node=sh_a&symbol=&_s_r_a=page";

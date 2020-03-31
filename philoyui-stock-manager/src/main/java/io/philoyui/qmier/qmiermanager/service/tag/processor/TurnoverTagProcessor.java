@@ -1,40 +1,34 @@
-package io.philoyui.qmier.qmiermanager.service.filter;
+package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
+import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * 周转率，重复消费能力
- */
 @Component
-public class TurnoverFilter implements StockFilter{
+public class TurnoverTagProcessor extends TagProcessor {
 
     @Autowired
     private FinancialReportService financialReportService;
 
     @Override
-    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.gte("totalCapitalTurnover","0.7"));
         searchFilter.add(Restrictions.gte("inventoryTurnover","1"));
-        searchFilter.add(Restrictions.gte("year", stockStrategyEntity.getParam1()));
-        searchFilter.add(Restrictions.gte("season", stockStrategyEntity.getParam2()));
+        searchFilter.add(Restrictions.gte("year", 2019));
+        searchFilter.add(Restrictions.gte("season", 3));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
-        return financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toSet());
-    }
-
-    @Override
-    public String filterName() {
-        return "turn_over";
+        List<String> symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());
+        this.tagStocks(symbolList,"产品强");
     }
 
 }

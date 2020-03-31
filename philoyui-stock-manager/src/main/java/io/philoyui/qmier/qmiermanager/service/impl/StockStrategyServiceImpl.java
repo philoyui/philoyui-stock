@@ -16,6 +16,9 @@ import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilters;
+import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +44,9 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     @Autowired
     private StockFilters stockFilters;
 
+    @Autowired
+    private TagProcessorService tagProcessorService;
+
     @Override
     protected GenericDao<StockStrategyEntity, Long> getDao() {
         return stockStrategyDao;
@@ -50,36 +56,18 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     public void tagStock(StockStrategyEntity stockStrategyEntity) {
 
         tagStockService.deleteByTagName(stockStrategyEntity.getName());
-        StockFilter stockFilter = stockFilters.select(stockStrategyEntity.getIdentifier());
 
-        if(stockFilter!=null){
+        TagProcessor tagProcessor = tagProcessorService.findByName(stockStrategyEntity.getIdentifier());
 
+        if(tagProcessor!=null){
             tagStockService.deleteByTagName(stockStrategyEntity.getName());
 
-            Set<String> codeSet = stockFilter.filterSymbol(stockStrategyEntity);
+            tagProcessorService.processDay(Lists.newArrayList(tagProcessor));
 
-            SearchFilter searchFilter = SearchFilter.getDefault();
-            searchFilter.add(Restrictions.in("symbol",codeSet.toArray(new String[0])));
-            List<StockEntity> stockEntities = stockService.list(searchFilter);
-
-            List<TagStockEntity> tagStockEntities = Lists.newArrayList();
-            for (StockEntity stockEntity : stockEntities) {
-                TagStockEntity tagStockEntity = new TagStockEntity();
-                tagStockEntity.setSymbol(stockEntity.getSymbol());
-                tagStockEntity.setTagName(stockStrategyEntity.getName());
-                tagStockEntity.setCreatedTime(new Date());
-                tagStockEntities.add(tagStockEntity);
-            }
-            tagStockService.batchInsert(tagStockEntities);
             stockStrategyEntity.setLastExecuteTime(new Date());
-            stockStrategyEntity.setChooseCount(codeSet.size());
-            stockStrategyDao.save(stockStrategyEntity);
-        }else{
-            List<TagStockEntity> tagStockEntities = tagStockService.findByTagName(stockStrategyEntity.getName());
-            stockStrategyEntity.setLastExecuteTime(new Date());
-            stockStrategyEntity.setChooseCount(tagStockEntities.size());
             stockStrategyDao.save(stockStrategyEntity);
         }
+
     }
 
     @Override

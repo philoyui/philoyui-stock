@@ -1,7 +1,8 @@
-package io.philoyui.qmier.qmiermanager.service.choose;
+package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
-import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
@@ -11,21 +12,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-/**
- * 投资者活动关系表
- */
 @Component
-public class InvestorInfoFilter implements StockFilter {
-
+public class InvestorInfoTagProcessor extends TagProcessor {
     @Override
-    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
-        Set<String> stockSet = new HashSet<>();
+        List<String> stockList = new ArrayList<>();
         String fetchUrl = "http://ircs.p5w.net/ircs/interaction/moreIrmInfoList.do?pageNo=1&irmpagesize=40&beginDate=" + startData + "&endDate=" + endData;
         Connection connect = Jsoup.connect(fetchUrl);
         try {
@@ -33,17 +28,12 @@ public class InvestorInfoFilter implements StockFilter {
             Elements articleElements = document.select("body > div > dl");
             for (Element articleElement : articleElements) {
                 String symbol = articleElement.select("dt.wz_text > a:nth-child(1)").text().replace("· ","");
-                stockSet.add(buildSymbol(symbol));
+                stockList.add(buildSymbol(symbol));
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return stockSet;
-    }
-
-    @Override
-    public String filterName() {
-        return "investor_info";
+        this.tagStocks(stockList,"投资者关系活动记录表");
     }
 
     private String buildSymbol(String code) {

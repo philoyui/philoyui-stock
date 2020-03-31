@@ -21,4 +21,8 @@ public interface DataDayService extends GenericService<DataDayEntity,Long> {
     double[] findVolumeData(StockEntity stockEntity);
 
     double[] findOpenData(StockEntity stockEntity);
+
+    double[] findHighData(StockEntity stockEntity);
+
+    double[] findLowData(StockEntity stockEntity);
 }

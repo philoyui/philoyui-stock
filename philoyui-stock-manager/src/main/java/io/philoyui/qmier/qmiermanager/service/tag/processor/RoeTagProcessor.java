@@ -1,49 +1,41 @@
-package io.philoyui.qmier.qmiermanager.service.choose;
+package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.collect.Lists;
-import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
-import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
+import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * ROE 最近三年ROE上传
- */
 @Component
-public class RoeIncreasingFilter implements StockFilter {
+public class RoeTagProcessor extends TagProcessor {
 
     @Autowired
     private FinancialReportService financialReportService;
 
-    /**
-     *
-     * 最近（year）大于18%，筛选出所有的股票，前三年股票是递增状态
-     *
-     */
     @Override
-    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
-
-        String endYear = stockStrategyEntity.getParam1();
-        String startYear = String.valueOf(Integer.parseInt(stockStrategyEntity.getParam1())-2);
-        String season = stockStrategyEntity.getParam2();
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
 
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("season",season));
-        searchFilter.add(Restrictions.eq("year",endYear));
+        searchFilter.add(Restrictions.eq("season",3));
+        searchFilter.add(Restrictions.eq("year",2019));
         searchFilter.add(Restrictions.gte("roe",0));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
 
         SearchFilter searchFilter1 = SearchFilter.getDefault();
         searchFilter1.add(Restrictions.in("symbol", financialReports.stream().map(FinancialReportEntity::getSymbol).toArray(String[]::new)));
-        searchFilter1.add(Restrictions.gte("year",startYear));
-        searchFilter1.add(Restrictions.eq("season",season));
+        searchFilter1.add(Restrictions.gte("year",2017));
+        searchFilter1.add(Restrictions.eq("season",3));
         List<FinancialReportEntity> financialReport1s = financialReportService.list(searchFilter1);
 
         Map<String, List<FinancialReportEntity>> symbolReportMap = financialReport1s.stream().sorted(Comparator.comparing(FinancialReportEntity::getYear)).collect(Collectors.groupingBy(FinancialReportEntity::getSymbol, Collectors.toList()));
@@ -58,12 +50,25 @@ public class RoeIncreasingFilter implements StockFilter {
             }
         }
 
-        return new HashSet<>(symbolResultList);
-    }
+        this.tagStocks(symbolResultList,"业绩上升");
 
-    @Override
-    public String filterName() {
-        return "roe_increasing";
+        //===========================================================
+
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("year",2017));
+        searchFilter.add(Restrictions.gte("season", 3));
+        searchFilter.add(Restrictions.gte("roe",18));
+        financialReports = financialReportService.list(searchFilter);
+
+        Map<String, Long> symbolCountMap = financialReports.stream().collect(Collectors.groupingBy(FinancialReportEntity::getSymbol, Collectors.counting()));
+
+        List<String> resultSet = new ArrayList<>();
+        for (Map.Entry<String, Long> stringLongEntry : symbolCountMap.entrySet()) {
+            if(stringLongEntry.getValue()==5){
+                resultSet.add(stringLongEntry.getKey());
+            }
+        }
+
+        this.tagStocks(resultSet,"存股");
     }
 }
-//

@@ -1,34 +1,32 @@
-package io.philoyui.qmier.qmiermanager.service.filter;
+package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
+import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public class BigDishStockFilter implements StockFilter{
+public class PerTagProcessor extends TagProcessor {
 
     @Autowired
     private StockService stockService;
 
-
     @Override
-    public Set<String> filterSymbol(StockStrategyEntity stockStrategyEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.gt("totalPrice",1000000));
+        searchFilter.add(Restrictions.lte("per",20));
+        searchFilter.add(Restrictions.gte("per",0));
         List<StockEntity> stockEntities = stockService.list(searchFilter);
-        return stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toSet());
+        List<String> symbolList = stockEntities.stream().map(StockEntity::getSymbol).collect(Collectors.toList());
+        this.tagStocks(symbolList,"低估值");
     }
 
-    @Override
-    public String filterName() {
-        return "big_dish_stock";
-    }
+
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/data_week")
-public class DataWeekController extends DataController{
+public class DataWeekController {
 
     @Autowired
     private DataWeekService dataWeekService;
