@@ -18,9 +18,6 @@ import io.philoyui.qmier.qmiermanager.service.tag.TagMarkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
 
@@ -179,20 +176,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             }
         }
 
-        Process proc;
-        try {
-            proc = Runtime.getRuntime().exec("python3 /root/python/month_task.py");// 执行py文件
-            //用输入输出流来截取结果
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -215,20 +198,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             }
         }
 
-        Process proc;
-        try {
-            proc = Runtime.getRuntime().exec("python3 /root/python/day_task.py");// 执行py文件
-            //用输入输出流来截取结果
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -250,21 +219,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             for (TagMarker tagMarker : weekEachMarkers) {
                 tagMarker.processEachStock(processorContext, stockEntity);
             }
-        }
-
-        Process proc;
-        try {
-            proc = Runtime.getRuntime().exec("python3 /root/python/week_task.py");// 执行py文件
-            //用输入输出流来截取结果
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            proc.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
 
     }
