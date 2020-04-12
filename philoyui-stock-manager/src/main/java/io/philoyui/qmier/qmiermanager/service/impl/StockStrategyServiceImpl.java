@@ -4,28 +4,23 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
-import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.dao.StockStrategyDao;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
-import io.philoyui.qmier.qmiermanager.service.StockService;
-import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
-import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.*;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilters;
 import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessorService;
+import io.philoyui.qmier.qmiermanager.service.tag.TagMarker;
+import io.philoyui.qmier.qmiermanager.service.tag.TagMarkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -33,19 +28,34 @@ import java.util.Set;
 public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEntity,Long> implements StockStrategyService {
 
     @Autowired
-    private StockStrategyDao stockStrategyDao;
+    private DayDataService dayDataService;
 
     @Autowired
-    private TagStockService tagStockService;
+    private WeekDataService weekDataService;
+
+    @Autowired
+    private MonthDataService monthDataService;
 
     @Autowired
     private StockService stockService;
 
     @Autowired
-    private StockFilters stockFilters;
+    private StockStrategyService stockStrategyService;
 
     @Autowired
-    private TagProcessorService tagProcessorService;
+    private TagMarkerService tagMarkerService;
+
+    @Autowired
+    private MyStockService myStockService;
+
+    @Autowired
+    private TagStockService tagStockService;
+
+    @Autowired
+    private StockStrategyDao stockStrategyDao;
+
+    @Autowired
+    private StockFilters stockFilters;
 
     @Override
     protected GenericDao<StockStrategyEntity, Long> getDao() {
@@ -57,15 +67,43 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
 
         tagStockService.deleteByTagName(stockStrategyEntity.getName());
 
-        TagProcessor tagProcessor = tagProcessorService.findByName(stockStrategyEntity.getIdentifier());
-
-        if(tagProcessor!=null){
-            tagStockService.deleteByTagName(stockStrategyEntity.getName());
-
-            tagProcessorService.processDay(Lists.newArrayList(tagProcessor));
-
-            stockStrategyEntity.setLastExecuteTime(new Date());
-            stockStrategyDao.save(stockStrategyEntity);
+        TagMarker tagMarker = tagMarkerService.findByName(stockStrategyEntity.getIdentifier());
+        if(tagMarker.isGlobal()){
+            tagMarker.processGlobal();
+        }else{
+            if(tagMarker.supportDate()){
+                for (StockEntity stockEntity : stockService.findAll()) {
+                    ProcessorContext processorContext = new ProcessorContext();
+                    processorContext.setLowDataArray(dayDataService.findLowData(stockEntity));
+                    processorContext.setHighDataArray(dayDataService.findHighData(stockEntity));
+                    processorContext.setCloseDataArray(dayDataService.findCloseData(stockEntity));
+                    processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
+                    processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
+                    tagMarker.processEachStock(processorContext, stockEntity);
+                }
+            }
+            if(tagMarker.supportWeek()){
+                for (StockEntity stockEntity : stockService.findAll()) {
+                    ProcessorContext processorContext = new ProcessorContext();
+                    processorContext.setLowDataArray(weekDataService.findLowData(stockEntity));
+                    processorContext.setHighDataArray(weekDataService.findHighData(stockEntity));
+                    processorContext.setCloseDataArray(weekDataService.findCloseData(stockEntity));
+                    processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
+                    processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
+                    tagMarker.processEachStock(processorContext, stockEntity);
+                }
+            }
+            if(tagMarker.supportMonth()){
+                for (StockEntity stockEntity : stockService.findAll()) {
+                    ProcessorContext processorContext = new ProcessorContext();
+                    processorContext.setLowDataArray(monthDataService.findLowData(stockEntity));
+                    processorContext.setHighDataArray(monthDataService.findHighData(stockEntity));
+                    processorContext.setCloseDataArray(monthDataService.findCloseData(stockEntity));
+                    processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
+                    processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
+                    tagMarker.processEachStock(processorContext, stockEntity);
+                }
+            }
         }
 
     }
@@ -122,9 +160,23 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
 
     @Override
     public void processWithMonthTimer() {
-        List<StockStrategyEntity> weekStockStrategies = this.findByIntervalType(IntervalType.Month);
-        for (StockStrategyEntity weekStockStrategy : weekStockStrategies) {
-            this.tagStock(weekStockStrategy);
+
+        List<TagMarker> globalTagMarkers = tagMarkerService.findMonthGlobalMarkers();
+        for (TagMarker tagMarker : globalTagMarkers) {
+            tagMarker.processGlobal();
+        }
+
+        List<TagMarker> eachProcessors = tagMarkerService.findMonthEachMarkers();
+        for (StockEntity stockEntity : stockService.findAll()) {
+            ProcessorContext processorContext = new ProcessorContext();
+            processorContext.setLowDataArray(monthDataService.findLowData(stockEntity));
+            processorContext.setHighDataArray(monthDataService.findHighData(stockEntity));
+            processorContext.setCloseDataArray(monthDataService.findCloseData(stockEntity));
+            processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
+            processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
+            for (TagMarker eachProcessor : eachProcessors) {
+                eachProcessor.processEachStock(processorContext, stockEntity);
+            }
         }
 
         Process proc;
@@ -145,9 +197,22 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
 
     @Override
     public void processWithDayTimer() {
-        List<StockStrategyEntity> weekStockStrategies = this.findByIntervalType(IntervalType.Day);
-        for (StockStrategyEntity weekStockStrategy : weekStockStrategies) {
-            this.tagStock(weekStockStrategy);
+
+        List<TagMarker> globalTagMarkers = tagMarkerService.findDayGlobalMarker();
+        for (TagMarker globalTagProcessor : globalTagMarkers) {
+            globalTagProcessor.processGlobal();
+        }
+
+        for (StockEntity stockEntity : stockService.findAll()) {
+            ProcessorContext processorContext = new ProcessorContext();
+            processorContext.setLowDataArray(dayDataService.findLowData(stockEntity));
+            processorContext.setHighDataArray(dayDataService.findHighData(stockEntity));
+            processorContext.setCloseDataArray(dayDataService.findCloseData(stockEntity));
+            processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
+            processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
+            for (TagMarker tagMarker : tagMarkerService.findDayEachProcessors()) {
+                tagMarker.processEachStock(processorContext, stockEntity);
+            }
         }
 
         Process proc;
@@ -169,9 +234,22 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     @Override
     public void processWithWeekTimer() {
 
-        List<StockStrategyEntity> weekStockStrategies = this.findByIntervalType(IntervalType.Week);
-        for (StockStrategyEntity weekStockStrategy : weekStockStrategies) {
-            this.tagStock(weekStockStrategy);
+        List<TagMarker> tagMarkers = tagMarkerService.findWeekGlobalMarkers();
+        for (TagMarker tagMarker : tagMarkers) {
+            tagMarker.processGlobal();
+        }
+
+        List<TagMarker> weekEachMarkers = tagMarkerService.findWeekEachMarkers();
+        for (StockEntity stockEntity : stockService.findAll()) {
+            ProcessorContext processorContext = new ProcessorContext();
+            processorContext.setLowDataArray(weekDataService.findLowData(stockEntity));
+            processorContext.setHighDataArray(weekDataService.findHighData(stockEntity));
+            processorContext.setCloseDataArray(weekDataService.findCloseData(stockEntity));
+            processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
+            processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
+            for (TagMarker tagMarker : weekEachMarkers) {
+                tagMarker.processEachStock(processorContext, stockEntity);
+            }
         }
 
         Process proc;

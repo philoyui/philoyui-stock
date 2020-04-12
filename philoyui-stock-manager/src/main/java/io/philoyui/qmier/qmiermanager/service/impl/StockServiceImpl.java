@@ -108,6 +108,11 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         stockDao.enableAll();
     }
 
+    @Override
+    public List<StockEntity> findAll() {
+        return stockDao.findAll();
+    }
+
     private void fetchProductDataArray(String identifier,int pageSize) {
         int pageNo = 1;
         while(true){

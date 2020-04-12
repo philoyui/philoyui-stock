@@ -1,13 +1,13 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.service.tag.EachTagMarker;
 import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
 import io.philoyui.qmier.qmiermanager.utils.TalibUtils;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MaUpTagProcessor extends TagProcessor {
+public class MaUpTagMarker extends EachTagMarker {
 
     @Override
     public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {

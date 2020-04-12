@@ -6,7 +6,7 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 
 import java.util.List;
 
-public interface DataWeekService extends GenericService<DataWeekEntity,Long> {
+public interface WeekDataService extends GenericService<DataWeekEntity,Long> {
 
     void insertAll(List<DataWeekEntity> dataWeekEntityList);
 

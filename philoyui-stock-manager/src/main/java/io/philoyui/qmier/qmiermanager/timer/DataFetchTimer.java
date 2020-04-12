@@ -1,9 +1,9 @@
 package io.philoyui.qmier.qmiermanager.timer;
 
 import io.philoyui.qmier.qmiermanager.service.Data30minService;
-import io.philoyui.qmier.qmiermanager.service.DataDayService;
-import io.philoyui.qmier.qmiermanager.service.DataMonthService;
-import io.philoyui.qmier.qmiermanager.service.DataWeekService;
+import io.philoyui.qmier.qmiermanager.service.DayDataService;
+import io.philoyui.qmier.qmiermanager.service.MonthDataService;
+import io.philoyui.qmier.qmiermanager.service.WeekDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,13 @@ public class DataFetchTimer {
     private Data30minService data30minService;
 
     @Autowired
-    private DataMonthService dataMonthService;
+    private MonthDataService monthDataService;
 
     @Autowired
-    private DataWeekService dataWeekService;
+    private WeekDataService weekDataService;
 
     @Autowired
-    private DataDayService dataDayService;
+    private DayDataService dayDataService;
 
     @Scheduled(cron="0 0 23 * * 1-5") //下午6点
     public void schedule30min(){
@@ -30,16 +30,16 @@ public class DataFetchTimer {
 
     @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
     public void scheduleDay(){
-        dataDayService.downloadHistory();
+        dayDataService.downloadHistory();
     }
 
     @Scheduled(cron="0 30 3 ? * 7") //每周六
     public void scheduleWeek(){
-        dataWeekService.downloadHistory();
+        weekDataService.downloadHistory();
     }
 
     @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
     public void scheduleMonth(){
-        dataMonthService.downloadHistory();
+        monthDataService.downloadHistory();
     }
 }

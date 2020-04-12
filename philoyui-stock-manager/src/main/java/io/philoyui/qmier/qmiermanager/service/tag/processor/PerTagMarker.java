@@ -4,8 +4,7 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PerTagProcessor extends TagProcessor {
+public class PerTagMarker extends GlobalTagMarker {
 
     @Autowired
     private StockService stockService;
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processGlobal() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.lte("per",20));
         searchFilter.add(Restrictions.gte("per",0));

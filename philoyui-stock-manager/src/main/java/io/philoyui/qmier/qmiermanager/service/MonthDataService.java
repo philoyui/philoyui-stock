@@ -6,7 +6,7 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 
 import java.util.List;
 
-public interface DataMonthService extends GenericService<DataMonthEntity,Long> {
+public interface MonthDataService extends GenericService<DataMonthEntity,Long> {
 
     void deleteBySymbol(String symbol);
 

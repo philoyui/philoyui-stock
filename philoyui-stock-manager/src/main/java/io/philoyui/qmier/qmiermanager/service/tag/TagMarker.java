@@ -10,10 +10,12 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public abstract class TagProcessor implements Serializable {
+public abstract class TagMarker implements Serializable {
 
     @Autowired
     private TagStockService tagStockService;
+
+    public abstract void processGlobal();
 
     public abstract void processEachStock(ProcessorContext processorContext, StockEntity stockEntity);
 
@@ -49,4 +51,5 @@ public abstract class TagProcessor implements Serializable {
         return false;
     }
 
+    public abstract boolean isGlobal();
 }

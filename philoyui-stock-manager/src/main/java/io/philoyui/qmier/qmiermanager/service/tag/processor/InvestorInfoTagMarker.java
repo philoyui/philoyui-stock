@@ -1,8 +1,6 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
@@ -12,12 +10,15 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
-public class InvestorInfoTagProcessor extends TagProcessor {
+public class InvestorInfoTagMarker extends GlobalTagMarker {
+
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
         List<String> stockList = new ArrayList<>();

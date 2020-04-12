@@ -1,6 +1,6 @@
 package io.philoyui.qmier.qmiermanager.controller;
 
-import io.philoyui.qmier.qmiermanager.service.DataMonthService;
+import io.philoyui.qmier.qmiermanager.service.MonthDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DataMonthController {
 
     @Autowired
-    private DataMonthService dataMonthService;
+    private MonthDataService monthDataService;
 
     @RequestMapping("/download_history")
     public ResponseEntity<String> downloadHistory() {
-        dataMonthService.downloadHistory();
+        monthDataService.downloadHistory();
         return ResponseEntity.ok("success");
     }
 }

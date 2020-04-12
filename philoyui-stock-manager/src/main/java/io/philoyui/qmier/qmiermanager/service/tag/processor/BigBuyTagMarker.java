@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.client.east.data.BigBuyData;
 import io.philoyui.qmier.qmiermanager.client.east.response.BigBuyResponse;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
@@ -18,12 +16,22 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class BigBuyTagProcessor extends TagProcessor {
+public class BigBuyTagMarker extends GlobalTagMarker {
 
     private Gson gson = new GsonBuilder().create();
 
+    private String buildSymbol(String code) {
+        if(code.startsWith("6")){
+            return "sh" + code;
+        }else if(code.startsWith("0")){
+            return "sz" + code;
+        }else {
+            return code;
+        }
+    }
+
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
 
@@ -60,16 +68,6 @@ public class BigBuyTagProcessor extends TagProcessor {
         this.tagStocks(stockSet,"大宗交易");
         this.tagStocks(highVolumeStockSet,"大容量大宗交易");
         this.tagStocks(overflowStockSet,"溢价大宗交易");
-
     }
 
-    private String buildSymbol(String code) {
-        if(code.startsWith("6")){
-            return "sh" + code;
-        }else if(code.startsWith("0")){
-            return "sz" + code;
-        }else {
-            return code;
-        }
-    }
 }

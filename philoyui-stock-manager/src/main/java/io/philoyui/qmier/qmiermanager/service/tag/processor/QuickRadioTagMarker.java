@@ -3,10 +3,8 @@ package io.philoyui.qmier.qmiermanager.service.tag.processor;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class QuickRadioTagProcessor extends TagProcessor {
+public class QuickRadioTagMarker extends GlobalTagMarker {
 
     @Autowired
     private FinancialReportService financialReportService;
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processGlobal() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.lt("quickRatio",1));
         searchFilter.add(Restrictions.eq("year", 2018));

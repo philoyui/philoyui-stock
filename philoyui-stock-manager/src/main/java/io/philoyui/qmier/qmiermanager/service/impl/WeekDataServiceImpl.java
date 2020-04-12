@@ -7,11 +7,10 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.DataWeekDao;
-import io.philoyui.qmier.qmiermanager.entity.DataMonthEntity;
 import io.philoyui.qmier.qmiermanager.entity.DataWeekEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataWeekService;
+import io.philoyui.qmier.qmiermanager.service.WeekDataService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class DataWeekServiceImpl extends GenericServiceImpl<DataWeekEntity,Long> implements DataWeekService {
+public class WeekDataServiceImpl extends GenericServiceImpl<DataWeekEntity,Long> implements WeekDataService {
 
     @Autowired
     private DataWeekDao dataWeekDao;

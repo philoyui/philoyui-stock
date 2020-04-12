@@ -10,7 +10,7 @@ import io.philoyui.qmier.qmiermanager.dao.DataMonthDao;
 import io.philoyui.qmier.qmiermanager.entity.DataMonthEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataMonthService;
+import io.philoyui.qmier.qmiermanager.service.MonthDataService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class DataMonthServiceImpl extends GenericServiceImpl<DataMonthEntity,Long> implements DataMonthService {
+public class MonthDataServiceImpl extends GenericServiceImpl<DataMonthEntity,Long> implements MonthDataService {
 
     @Autowired
     private DataMonthDao dataMonthDao;

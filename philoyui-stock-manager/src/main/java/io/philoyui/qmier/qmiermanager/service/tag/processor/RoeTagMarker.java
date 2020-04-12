@@ -4,10 +4,8 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
-import io.philoyui.qmier.qmiermanager.service.tag.TagProcessor;
+import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +16,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class RoeTagProcessor extends TagProcessor {
+public class RoeTagMarker extends GlobalTagMarker {
 
     @Autowired
     private FinancialReportService financialReportService;
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processGlobal() {
 
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("season",3));

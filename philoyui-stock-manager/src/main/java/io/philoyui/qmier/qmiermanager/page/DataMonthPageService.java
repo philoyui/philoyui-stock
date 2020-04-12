@@ -12,7 +12,7 @@ import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.DataMonthEntity;
-import io.philoyui.qmier.qmiermanager.service.DataMonthService;
+import io.philoyui.qmier.qmiermanager.service.MonthDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +20,14 @@ import org.springframework.stereotype.Component;
 public class DataMonthPageService extends PageService<DataMonthEntity,Long> {
 
     @Autowired
-    private DataMonthService dataMonthService;
+    private MonthDataService monthDataService;
 
     @Autowired
     private StockPageService stockPageService;
 
     @Override
     public PageObject<DataMonthEntity> paged(SearchFilter searchFilter) {
-        return dataMonthService.paged(searchFilter);
+        return monthDataService.paged(searchFilter);
     }
 
     @Override
@@ -94,22 +94,22 @@ public class DataMonthPageService extends PageService<DataMonthEntity,Long> {
 
     @Override
     public DataMonthEntity get(String id) {
-        return dataMonthService.get(Long.parseLong(id));
+        return monthDataService.get(Long.parseLong(id));
     }
 
     @Override
     public DataMonthEntity get(SearchFilter searchFilter) {
-        return dataMonthService.get(searchFilter);
+        return monthDataService.get(searchFilter);
     }
 
     @Override
     public void saveOrUpdate(DataMonthEntity dataMonth) {
-        dataMonthService.insert(dataMonth);
+        monthDataService.insert(dataMonth);
     }
 
     @Override
     public void delete(DataMonthEntity dataMonth) {
-        dataMonthService.delete(dataMonth.getId());
+        monthDataService.delete(dataMonth.getId());
     }
 }
 

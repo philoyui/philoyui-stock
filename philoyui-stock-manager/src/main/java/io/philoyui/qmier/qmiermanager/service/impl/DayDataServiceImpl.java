@@ -12,7 +12,7 @@ import io.philoyui.qmier.qmiermanager.dao.DataDayDao;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
-import io.philoyui.qmier.qmiermanager.service.DataDayService;
+import io.philoyui.qmier.qmiermanager.service.DayDataService;
 import io.philoyui.qmier.qmiermanager.to.KLineData;
 import io.philoyui.qmier.qmiermanager.to.ProductData;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class DataDayServiceImpl extends GenericServiceImpl<DataDayEntity,Long> implements DataDayService {
+public class DayDataServiceImpl extends GenericServiceImpl<DataDayEntity,Long> implements DayDataService {
 
     private Gson gson = new GsonBuilder().create();
 

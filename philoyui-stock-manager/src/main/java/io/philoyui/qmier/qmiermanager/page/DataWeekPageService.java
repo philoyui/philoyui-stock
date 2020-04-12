@@ -12,7 +12,7 @@ import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.DataWeekEntity;
-import io.philoyui.qmier.qmiermanager.service.DataWeekService;
+import io.philoyui.qmier.qmiermanager.service.WeekDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +20,14 @@ import org.springframework.stereotype.Component;
 public class DataWeekPageService extends PageService<DataWeekEntity,Long> {
 
     @Autowired
-    private DataWeekService dataWeekService;
+    private WeekDataService weekDataService;
 
     @Autowired
     private StockPageService stockPageService;
 
     @Override
     public PageObject<DataWeekEntity> paged(SearchFilter searchFilter) {
-        return dataWeekService.paged(searchFilter);
+        return weekDataService.paged(searchFilter);
     }
 
     @Override
@@ -92,22 +92,22 @@ public class DataWeekPageService extends PageService<DataWeekEntity,Long> {
 
     @Override
     public DataWeekEntity get(String id) {
-        return dataWeekService.get(Long.parseLong(id));
+        return weekDataService.get(Long.parseLong(id));
     }
 
     @Override
     public DataWeekEntity get(SearchFilter searchFilter) {
-        return dataWeekService.get(searchFilter);
+        return weekDataService.get(searchFilter);
     }
 
     @Override
     public void saveOrUpdate(DataWeekEntity dataWeek) {
-        dataWeekService.insert(dataWeek);
+        weekDataService.insert(dataWeek);
     }
 
     @Override
     public void delete(DataWeekEntity dataWeek) {
-        dataWeekService.delete(dataWeek.getId());
+        weekDataService.delete(dataWeek.getId());
     }
 }
 

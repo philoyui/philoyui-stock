@@ -12,7 +12,7 @@ import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
-import io.philoyui.qmier.qmiermanager.service.DataDayService;
+import io.philoyui.qmier.qmiermanager.service.DayDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,14 +20,14 @@ import org.springframework.stereotype.Component;
 public class DataDayPageService extends PageService<DataDayEntity,Long> {
 
     @Autowired
-    private DataDayService dataDayService;
+    private DayDataService dayDataService;
 
     @Autowired
     private StockPageService stockPageService;
 
     @Override
     public PageObject<DataDayEntity> paged(SearchFilter searchFilter) {
-        return dataDayService.paged(searchFilter);
+        return dayDataService.paged(searchFilter);
     }
 
     @Override
@@ -95,22 +95,22 @@ public class DataDayPageService extends PageService<DataDayEntity,Long> {
 
     @Override
     public DataDayEntity get(String id) {
-        return dataDayService.get(Long.parseLong(id));
+        return dayDataService.get(Long.parseLong(id));
     }
 
     @Override
     public DataDayEntity get(SearchFilter searchFilter) {
-        return dataDayService.get(searchFilter);
+        return dayDataService.get(searchFilter);
     }
 
     @Override
     public void saveOrUpdate(DataDayEntity dataDay) {
-        dataDayService.insert(dataDay);
+        dayDataService.insert(dataDay);
     }
 
     @Override
     public void delete(DataDayEntity dataDay) {
-        dataDayService.delete(dataDay.getId());
+        dayDataService.delete(dataDay.getId());
     }
 }
 

@@ -2,7 +2,7 @@ package io.philoyui.qmier.qmiermanager.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.philoyui.qmier.qmiermanager.service.DataWeekService;
+import io.philoyui.qmier.qmiermanager.service.WeekDataService;
 import io.philoyui.qmier.qmiermanager.service.impl.KLineDataDownloaderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DataWeekController {
 
     @Autowired
-    private DataWeekService dataWeekService;
+    private WeekDataService weekDataService;
 
     @Autowired
     private KLineDataDownloaderImpl dataDownloaderImpl;
@@ -25,7 +25,7 @@ public class DataWeekController {
 
     @RequestMapping("/download_history")
     public ResponseEntity<String> downloadHistory() {
-        dataWeekService.downloadHistory();
+        weekDataService.downloadHistory();
         return ResponseEntity.ok("success");
     }
 
