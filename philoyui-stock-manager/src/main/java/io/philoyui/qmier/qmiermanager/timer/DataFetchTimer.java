@@ -23,12 +23,12 @@ public class DataFetchTimer {
     @Autowired
     private DayDataService dayDataService;
 
-    @Scheduled(cron="0 0 23 * * 1-5") //下午6点
+    @Scheduled(cron="0 0 23 * * 1-5")
     public void schedule30min(){
         data30minService.downloadHistory();
     }
 
-    @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
+    @Scheduled(cron="0 0 16 * * 1-5")
     public void scheduleDay(){
         dayDataService.downloadHistory();
     }
