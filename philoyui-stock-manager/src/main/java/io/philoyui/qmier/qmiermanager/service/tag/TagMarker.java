@@ -17,9 +17,10 @@ public abstract class TagMarker implements Serializable {
 
     public abstract void processGlobal();
 
-    public abstract void processEachStock(ProcessorContext processorContext, StockEntity stockEntity);
+    public abstract void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String 月);
 
     protected void tagStocks(List<String> symbolList, String tagName){
+        tagStockService.deleteByTagName(tagName);
         List<TagStockEntity> tagStockEntities = Lists.newArrayList();
         for (String symbol : symbolList) {
             TagStockEntity tagStockEntity = new TagStockEntity();
@@ -52,4 +53,10 @@ public abstract class TagMarker implements Serializable {
     }
 
     public abstract boolean isGlobal();
+
+    public abstract void cleanTags();
+
+    protected void deleteStocks(String tagName) {
+        tagStockService.deleteByTagName(tagName);
+    }
 }

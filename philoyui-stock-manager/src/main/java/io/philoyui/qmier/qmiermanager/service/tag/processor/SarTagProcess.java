@@ -9,16 +9,26 @@ import org.springframework.stereotype.Component;
 @Component
 public class SarTagProcess extends EachTagMarker {
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         double[] highArray = processorContext.getHighDataArray();
         double[] lowArray = processorContext.getLowDataArray();
         double[] cciResult = TalibUtils.sar(highArray,lowArray,0.02,0.2);
         if ( closeArray[0] > cciResult[0] && closeArray[1] < cciResult[1] ) {
-            this.tagStocks(stockEntity.getSymbol(),"SAR多头开始");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "SAR多头开始");
         }
         if ( closeArray[0] < cciResult[0] && closeArray[1] > cciResult[1] ) {
-            this.tagStocks(stockEntity.getSymbol(),"SAR空头开始");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "SAR空头开始");
         }
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月SAR多头开始");
+        this.deleteStocks("周SAR多头开始");
+        this.deleteStocks("日SAR多头开始");
+        this.deleteStocks("月SAR空头开始");
+        this.deleteStocks("周SAR空头开始");
+        this.deleteStocks("日SAR空头开始");
     }
 }

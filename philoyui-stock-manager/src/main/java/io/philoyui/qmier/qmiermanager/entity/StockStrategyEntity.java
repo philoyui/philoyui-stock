@@ -1,15 +1,13 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
-
-import java.util.Date;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-@Table(name = "choose_definition_entity")
+@Table(name = "stock_strategy")
 public class StockStrategyEntity implements Serializable {
 
     /**
@@ -31,14 +29,6 @@ public class StockStrategyEntity implements Serializable {
 
     private String description;
 
-    private String param1;
-
-    private String param2;
-
-    private String param3;
-
-    private Integer chooseCount;
-
     /**
      * 是否启用
      */
@@ -48,7 +38,6 @@ public class StockStrategyEntity implements Serializable {
 
     private StrategyType strategyType;
 
-    private IntervalType intervalType;
 
     public Long getId() {
         return id;
@@ -90,38 +79,6 @@ public class StockStrategyEntity implements Serializable {
         this.enable = enable;
     }
 
-    public String getParam1() {
-        return param1;
-    }
-
-    public void setParam1(String param1) {
-        this.param1 = param1;
-    }
-
-    public String getParam2() {
-        return param2;
-    }
-
-    public void setParam2(String param2) {
-        this.param2 = param2;
-    }
-
-    public String getParam3() {
-        return param3;
-    }
-
-    public void setParam3(String param3) {
-        this.param3 = param3;
-    }
-
-    public Integer getChooseCount() {
-        return chooseCount;
-    }
-
-    public void setChooseCount(Integer chooseCount) {
-        this.chooseCount = chooseCount;
-    }
-
     public boolean isEnable() {
         return enable;
     }
@@ -142,11 +99,4 @@ public class StockStrategyEntity implements Serializable {
         this.strategyType = strategyType;
     }
 
-    public IntervalType getIntervalType() {
-        return intervalType;
-    }
-
-    public void setIntervalType(IntervalType intervalType) {
-        this.intervalType = intervalType;
-    }
 }

@@ -10,15 +10,26 @@ import org.springframework.stereotype.Component;
 public class RsiTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         double[] cciResult = TalibUtils.rsi(closeArray,14);
         if ( cciResult[0] > 70 ) {
-            this.tagStocks(stockEntity.getSymbol(),"RSI超买");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "RSI超买");
         }
         if ( cciResult[0] < 70 ) {
-            this.tagStocks(stockEntity.getSymbol(),"RSI超卖");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "RSI超卖");
         }
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月RSI超买");
+        this.deleteStocks("周RSI超买");
+        this.deleteStocks("日RSI超买");
+
+        this.deleteStocks("月RSI超卖");
+        this.deleteStocks("周RSI超卖");
+        this.deleteStocks("日RSI超卖");
     }
 
 }

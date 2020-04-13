@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class MaUpTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
 
         double[] ma10Array = TalibUtils.ma(closeArray, 10);
@@ -24,6 +24,12 @@ public class MaUpTagMarker extends EachTagMarker {
             this.tagStocks(stockEntity.getSymbol(),"趋势上行");
         }
 
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("均线多头排列");
+        this.deleteStocks("趋势上行");
     }
 
 }

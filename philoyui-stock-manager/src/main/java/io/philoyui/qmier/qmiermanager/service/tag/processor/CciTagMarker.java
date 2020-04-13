@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CciTagMarker extends EachTagMarker {
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         double[] highData = processorContext.getHighDataArray();
         double[] lowData = processorContext.getLowDataArray();
@@ -17,5 +17,12 @@ public class CciTagMarker extends EachTagMarker {
         if ( cciResult[0] > 100 ) {
             this.tagStocks(stockEntity.getSymbol(),"CCI强势股");
         }
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月CCI强势股");
+        this.deleteStocks("周CCI强势股");
+        this.deleteStocks("日CCI强势股");
     }
 }

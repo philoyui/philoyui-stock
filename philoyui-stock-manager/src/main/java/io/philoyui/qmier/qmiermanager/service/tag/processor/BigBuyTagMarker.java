@@ -32,13 +32,13 @@ public class BigBuyTagMarker extends GlobalTagMarker {
 
     @Override
     public void processGlobal() {
+
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
 
         List<String> stockSet = new ArrayList<>();
         List<String> highVolumeStockSet = new ArrayList<>();
         List<String> overflowStockSet = new ArrayList<>();
-
 
         String fetchUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=DZJYGGTJ&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st=Cjeltszb&sr=-1&p=1&ps=500&js={pages:(tp),data:(x)}&filter=((TDATE%3E=^" + startData + "^%20and%20TDATE%3C=^" + endData + "^))&rt=52607034";
         try {

@@ -40,22 +40,15 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                         new StringFieldDefinition("identifier", "唯一标识"),
                         new StringFieldDefinition("name", "名字"),
                         new StringFieldDefinition("description", "描述"),
-                        new StringFieldDefinition("param1", "参数1"),
-                        new StringFieldDefinition("param2", "参数2"),
-                        new StringFieldDefinition("param3", "参数3"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
-                        new IntFieldDefinition("chooseCount","选股个数"),
                         new EnableFieldDefinition("enable", "是否启用"),
-                        new EnumFieldDefinition("strategyType", "类型", StrategyType.class),
-                        new EnumFieldDefinition("intervalType", "时间周期", IntervalType.class)
+                        new EnumFieldDefinition("strategyType", "类型", StrategyType.class)
                 )
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "name_15",
-                        "intervalType_6",
                         "strategyType_8",
                         "lastExecuteTime_18",
-                        "chooseCount_5",
                         "enable_8",
                         "#operation_25"
                 )
@@ -82,11 +75,7 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                         "name_rw",
                         "description_rw",
                         "enable_rw",
-                        "param1_rw",
-                        "param2_rw",
-                        "param3_rw",
-                        "strategyType_rw",
-                        "intervalType_rw"
+                        "strategyType_rw"
                 );
         return pageConfig;
     }

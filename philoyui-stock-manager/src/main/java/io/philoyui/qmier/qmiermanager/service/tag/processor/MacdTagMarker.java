@@ -11,12 +11,19 @@ import org.springframework.stereotype.Component;
 public class MacdTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         MacdResult macdResult = TalibUtils.macd(closeArray, 12, 26, 9);
         if ( macdResult.getMacdResult()[0] > macdResult.getSignalResult()[0] && macdResult.getMacdResult()[1] < macdResult.getSignalResult()[1] && macdResult.getMacdResult()[0] > -0.25 && macdResult.getMacdResult()[0] < 0.25) {
-            this.tagStocks(stockEntity.getSymbol(),"MACD零轴金叉");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "MACD零轴金叉");
         }
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月MACD零轴金叉");
+        this.deleteStocks("周MACD零轴金叉");
+        this.deleteStocks("日MACD零轴金叉");
     }
 
 }

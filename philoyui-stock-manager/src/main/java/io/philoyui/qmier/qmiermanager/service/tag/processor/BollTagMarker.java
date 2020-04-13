@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class BollTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         double[] openDataArray = processorContext.getOpenDataArray();
         BollResult bollResult = TalibUtils.boll(closeArray, 20, 2, 2);
@@ -21,8 +21,15 @@ public class BollTagMarker extends EachTagMarker {
         double co2 = (openDataArray[1] - closeArray[1])/2;
 
         if(closeArray[0]>closeArray[1] && closeArray[1] < closeArray[2] && bollResult.getMiddleResult()[0] > bollResult.getMiddleResult()[1] && closeArray[1] > middleLow && closeArray[1] < middleHigh && closeArray[0] > co2){
-            this.tagStocks(stockEntity.getSymbol(),"BOLL回踩");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "BOLL回踩");
         }
 
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月BOLL回踩");
+        this.deleteStocks("周BOLL回踩");
+        this.deleteStocks("日BOLL回踩");
     }
 }

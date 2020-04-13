@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WrTagMarker extends EachTagMarker {
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
         double[] closeArray = processorContext.getCloseDataArray();
         double[] highData = processorContext.getHighDataArray();
         double[] lowData = processorContext.getLowDataArray();
@@ -20,5 +20,16 @@ public class WrTagMarker extends EachTagMarker {
         if ( cciResult[0] < 15 ) {
             this.tagStocks(stockEntity.getSymbol(),"WR超买");
         }
+    }
+
+    @Override
+    public void cleanTags() {
+        this.deleteStocks("月WR超买");
+        this.deleteStocks("周WR超买");
+        this.deleteStocks("日WR超买");
+
+        this.deleteStocks("月WR超卖");
+        this.deleteStocks("周WR超卖");
+        this.deleteStocks("日WR超卖");
     }
 }

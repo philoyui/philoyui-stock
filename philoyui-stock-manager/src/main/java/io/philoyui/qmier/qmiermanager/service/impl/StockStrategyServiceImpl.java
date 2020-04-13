@@ -7,7 +7,6 @@ import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.StockStrategyDao;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 import io.philoyui.qmier.qmiermanager.service.*;
 import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
@@ -62,12 +61,11 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     @Override
     public void tagStock(StockStrategyEntity stockStrategyEntity) {
 
-        tagStockService.deleteByTagName(stockStrategyEntity.getName());
-
         TagMarker tagMarker = tagMarkerService.findByName(stockStrategyEntity.getIdentifier());
         if(tagMarker.isGlobal()){
             tagMarker.processGlobal();
         }else{
+            tagMarker.cleanTags();
             if(tagMarker.supportDate()){
                 for (StockEntity stockEntity : stockService.findAll()) {
                     ProcessorContext processorContext = new ProcessorContext();
@@ -76,7 +74,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
                     processorContext.setCloseDataArray(dayDataService.findCloseData(stockEntity));
                     processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
                     processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
-                    tagMarker.processEachStock(processorContext, stockEntity);
+                    tagMarker.processEachStock(processorContext, stockEntity, "日");
                 }
             }
             if(tagMarker.supportWeek()){
@@ -87,7 +85,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
                     processorContext.setCloseDataArray(weekDataService.findCloseData(stockEntity));
                     processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
                     processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
-                    tagMarker.processEachStock(processorContext, stockEntity);
+                    tagMarker.processEachStock(processorContext, stockEntity, "周");
                 }
             }
             if(tagMarker.supportMonth()){
@@ -98,7 +96,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
                     processorContext.setCloseDataArray(monthDataService.findCloseData(stockEntity));
                     processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
                     processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
-                    tagMarker.processEachStock(processorContext, stockEntity);
+                    tagMarker.processEachStock(processorContext, stockEntity, "月");
                 }
             }
         }
@@ -149,13 +147,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     }
 
     @Override
-    public List<StockStrategyEntity> findByIntervalType(IntervalType intervalType) {
-        SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("intervalType", intervalType));
-        return list(searchFilter);
-    }
-
-    @Override
     public void processWithMonthTimer() {
 
         List<TagMarker> globalTagMarkers = tagMarkerService.findMonthGlobalMarkers();
@@ -164,6 +155,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
         }
 
         List<TagMarker> eachProcessors = tagMarkerService.findMonthEachMarkers();
+
         for (StockEntity stockEntity : stockService.findAll()) {
             ProcessorContext processorContext = new ProcessorContext();
             processorContext.setLowDataArray(monthDataService.findLowData(stockEntity));
@@ -172,7 +164,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
             processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
             for (TagMarker eachProcessor : eachProcessors) {
-                eachProcessor.processEachStock(processorContext, stockEntity);
+                eachProcessor.processEachStock(processorContext, stockEntity,"月");
             }
         }
 
@@ -194,7 +186,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
             processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
             for (TagMarker tagMarker : tagMarkerService.findDayEachProcessors()) {
-                tagMarker.processEachStock(processorContext, stockEntity);
+                tagMarker.processEachStock(processorContext, stockEntity, "日");
             }
         }
 
@@ -217,7 +209,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
             processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
             for (TagMarker tagMarker : weekEachMarkers) {
-                tagMarker.processEachStock(processorContext, stockEntity);
+                tagMarker.processEachStock(processorContext, stockEntity, "周");
             }
         }
 
