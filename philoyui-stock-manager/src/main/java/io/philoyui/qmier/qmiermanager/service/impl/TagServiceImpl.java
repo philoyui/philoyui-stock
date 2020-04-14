@@ -19,4 +19,8 @@ public class TagServiceImpl extends GenericServiceImpl<TagEntity,Long> implement
         return tagDao;
     }
 
+    @Override
+    public TagEntity findByTagName(String tagName) {
+        return tagDao.findByTagName(tagName);
+    }
 }
