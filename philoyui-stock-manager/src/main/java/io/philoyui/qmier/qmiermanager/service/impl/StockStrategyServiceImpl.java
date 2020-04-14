@@ -17,6 +17,7 @@ import io.philoyui.qmier.qmiermanager.service.tag.TagMarkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -100,7 +101,8 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
                 }
             }
         }
-
+        stockStrategyEntity.setLastExecuteTime(new Date());
+        this.update(stockStrategyEntity);
     }
 
     @Override

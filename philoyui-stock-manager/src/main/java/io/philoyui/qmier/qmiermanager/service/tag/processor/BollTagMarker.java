@@ -32,4 +32,19 @@ public class BollTagMarker extends EachTagMarker {
         this.deleteStocks("周BOLL回踩");
         this.deleteStocks("日BOLL回踩");
     }
+
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return true;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return true;
+    }
 }
