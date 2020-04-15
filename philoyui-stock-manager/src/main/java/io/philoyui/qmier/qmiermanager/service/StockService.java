@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface StockService extends GenericService<StockEntity,Long> {
 
-    boolean existsBySymbol(String symbol);
-
     StockEntity findBySymbol(String symbol);
 
     void enable(Long id);
@@ -18,8 +16,6 @@ public interface StockService extends GenericService<StockEntity,Long> {
     List<StockEntity> findEnable();
 
     void downloadHistoryData();
-
-    void markAllDisable();
 
     void updateAll(List<StockEntity> stockEntityList);
 

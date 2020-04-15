@@ -52,6 +52,7 @@ public class FrontPageConfig {
                 )
                 .addRootItem("选股管理","filter",
                         new LeafItem("筛选策略", "/admin/stock_strategy/page"),
+                        new LeafItem("标签管理", "/admin/tag/page"),
                         new LeafItem("选股管理", "/admin/stock/page"),
                         new LeafItem("自选股","/admin/my_stock/page")
                 )

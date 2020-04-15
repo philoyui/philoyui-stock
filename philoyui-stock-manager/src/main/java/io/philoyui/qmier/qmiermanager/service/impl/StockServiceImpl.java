@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.entity.FinancialMarketEntity;
-import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialMarketService;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
@@ -49,11 +48,6 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
     }
 
     @Override
-    public boolean existsBySymbol(String symbol) {
-        return stockDao.existsBySymbol(symbol);
-    }
-
-    @Override
     public StockEntity findBySymbol(String symbol) {
         List<StockEntity> stockEntities = stockDao.findBySymbol(symbol);
         return stockEntities.size()>0?stockEntities.get(0):null;
@@ -89,12 +83,6 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         fetchProductDataArray("kcb_root",80);
 //        fetchProductDataArray("sgt_hk",80);
 //        fetchProductDataArray("hgt_hk",80);
-    }
-
-    @Transactional
-    @Override
-    public void markAllDisable() {
-        stockDao.markAllEnable();
     }
 
     @Override
@@ -154,18 +142,20 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
                 List<StockEntity> stockEntities = Lists.newArrayList();
 
                 for (ProductData productData : productDataArray) {
-                    StockEntity stockEntity = new StockEntity();
-                    stockEntity.setSymbol(productData.getSymbol());
-                    stockEntity.setCode(productData.getCode());
-                    stockEntity.setName(productData.getName());
-                    stockEntity.setMarketId(financialMarket.getId());
-                    stockEntity.setModifyTime(new Date());
-                    stockEntity.setEnable(computeEnable(productData));
-                    stockEntity.setPb(productData.getPb());
-                    stockEntity.setPer(productData.getPer());
-                    stockEntity.setTurnoverRatio(productData.getTurnOverRatio());
-                    stockEntity.setTotalPrice(productData.getMktCap());
-                    stockEntities.add(stockEntity);
+                    if(!productData.getSymbol().startsWith("sz3")){
+                        StockEntity stockEntity = new StockEntity();
+                        stockEntity.setSymbol(productData.getSymbol());
+                        stockEntity.setCode(productData.getCode());
+                        stockEntity.setName(productData.getName());
+                        stockEntity.setMarketId(financialMarket.getId());
+                        stockEntity.setModifyTime(new Date());
+                        stockEntity.setEnable(computeEnable(productData));
+                        stockEntity.setPb(productData.getPb());
+                        stockEntity.setPer(productData.getPer());
+                        stockEntity.setTurnoverRatio(productData.getTurnOverRatio());
+                        stockEntity.setTotalPrice(productData.getMktCap());
+                        stockEntities.add(stockEntity);
+                    }
                 }
 
                 stockDao.saveAll(stockEntities);
