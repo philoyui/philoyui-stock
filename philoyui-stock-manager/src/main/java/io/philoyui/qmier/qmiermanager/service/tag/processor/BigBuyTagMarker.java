@@ -25,7 +25,9 @@ public class BigBuyTagMarker extends GlobalTagMarker {
             return "sh" + code;
         }else if(code.startsWith("0")){
             return "sz" + code;
-        }else {
+        }else if(code.startsWith("3")){
+            return "sz" + code;
+        } else {
             return code;
         }
     }

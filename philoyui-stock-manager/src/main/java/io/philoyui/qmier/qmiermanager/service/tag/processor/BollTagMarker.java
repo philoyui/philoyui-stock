@@ -12,6 +12,9 @@ public class BollTagMarker extends EachTagMarker {
 
     @Override
     public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
+        if(!checkCanProcess(processorContext)){
+            return;
+        }
         double[] closeArray = processorContext.getCloseDataArray();
         double[] openDataArray = processorContext.getOpenDataArray();
         BollResult bollResult = TalibUtils.boll(closeArray, 20, 2, 2);
@@ -25,6 +28,8 @@ public class BollTagMarker extends EachTagMarker {
         }
 
     }
+
+
 
     @Override
     public void cleanTags() {
