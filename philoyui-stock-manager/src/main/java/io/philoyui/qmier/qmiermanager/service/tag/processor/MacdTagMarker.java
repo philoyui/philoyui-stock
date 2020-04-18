@@ -26,4 +26,19 @@ public class MacdTagMarker extends EachTagMarker {
         this.deleteStocks("日MACD零轴金叉");
     }
 
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return true;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return true;
+    }
+
 }

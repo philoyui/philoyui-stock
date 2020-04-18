@@ -57,18 +57,6 @@ public abstract class TagMarker implements Serializable {
         tagStockService.insert(tagStockEntity);
     }
 
-    public boolean supportDate(){
-        return false;
-    }
-
-    public boolean supportWeek(){
-        return false;
-    }
-
-    public boolean supportMonth(){
-        return false;
-    }
-
     public abstract boolean isGlobal();
 
     public abstract void cleanTags();
@@ -88,4 +76,10 @@ public abstract class TagMarker implements Serializable {
         }
 
     }
+
+    public abstract boolean supportDate();
+
+    public abstract boolean supportWeek();
+
+    public abstract boolean supportMonth();
 }

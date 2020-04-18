@@ -23,4 +23,19 @@ public class VolumeTagMarker extends EachTagMarker {
         this.deleteStocks("三倍量");
     }
 
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return false;
+    }
+
 }

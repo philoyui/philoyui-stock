@@ -32,4 +32,19 @@ public class WrTagMarker extends EachTagMarker {
         this.deleteStocks("周WR超卖");
         this.deleteStocks("日WR超卖");
     }
+
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return true;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return true;
+    }
 }

@@ -25,4 +25,21 @@ public class CciTagMarker extends EachTagMarker {
         this.deleteStocks("周CCI强势股");
         this.deleteStocks("日CCI强势股");
     }
+
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return true;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return true;
+    }
+
+
 }

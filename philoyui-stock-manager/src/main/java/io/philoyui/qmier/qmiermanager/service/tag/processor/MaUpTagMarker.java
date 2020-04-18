@@ -32,4 +32,18 @@ public class MaUpTagMarker extends EachTagMarker {
         this.deleteStocks("趋势上行");
     }
 
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return false;
+    }
 }

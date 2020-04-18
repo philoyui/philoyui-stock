@@ -5,7 +5,7 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 public abstract class GlobalTagMarker extends TagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String 月) {
+    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
 
     }
 
@@ -17,5 +17,20 @@ public abstract class GlobalTagMarker extends TagMarker {
     @Override
     public void cleanTags() {
 
+    }
+
+    @Override
+    public boolean supportDate() {
+        return false;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return false;
     }
 }

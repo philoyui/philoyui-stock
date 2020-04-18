@@ -64,8 +64,6 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                 )
                 .withColumnAction(
                         new ConfirmOperation("tagStock","打标"),
-                        new NewPageOperation("标记股票","/admin/tag_stock/page?tagName=#name#","标记股票","name"),
-                        new ConfirmOperation("dropStock","标记不抓取"),
                         new EnableOperation("enable"),
                         new EditOperation(),
                         new DeleteOperation()
