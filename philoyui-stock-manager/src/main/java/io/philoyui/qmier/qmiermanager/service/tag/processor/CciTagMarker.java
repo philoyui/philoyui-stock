@@ -15,7 +15,7 @@ public class CciTagMarker extends EachTagMarker {
         double[] lowData = processorContext.getLowDataArray();
         double[] cciResult = TalibUtils.cci(highData,lowData,closeArray,14);
         if ( cciResult[0] > 100 ) {
-            this.tagStocks(stockEntity.getSymbol(),"CCI强势股");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "CCI强势股");
         }
     }
 

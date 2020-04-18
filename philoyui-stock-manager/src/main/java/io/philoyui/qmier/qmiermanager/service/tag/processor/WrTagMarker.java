@@ -15,10 +15,10 @@ public class WrTagMarker extends EachTagMarker {
         double[] lowData = processorContext.getLowDataArray();
         double[] cciResult = TalibUtils.wr(highData,lowData,closeArray,14);
         if ( cciResult[0] > 85 ) {
-            this.tagStocks(stockEntity.getSymbol(),"WR超卖");
+            this.tagStocks(stockEntity.getSymbol(),prefix + "WR超卖");
         }
         if ( cciResult[0] < 15 ) {
-            this.tagStocks(stockEntity.getSymbol(),"WR超买");
+            this.tagStocks(stockEntity.getSymbol(),prefix+"WR超买");
         }
     }
 
