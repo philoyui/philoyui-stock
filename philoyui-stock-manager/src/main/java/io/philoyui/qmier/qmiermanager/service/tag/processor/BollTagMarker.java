@@ -32,10 +32,8 @@ public class BollTagMarker extends EachTagMarker {
 
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月BOLL回踩");
-        this.deleteStocks("周BOLL回踩");
-        this.deleteStocks("日BOLL回踩");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "BOLL回踩");
     }
 
     @Override
@@ -52,4 +50,5 @@ public class BollTagMarker extends EachTagMarker {
     public boolean supportMonth() {
         return true;
     }
+
 }

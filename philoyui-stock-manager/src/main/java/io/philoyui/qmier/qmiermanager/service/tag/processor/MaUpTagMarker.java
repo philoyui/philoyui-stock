@@ -27,7 +27,7 @@ public class MaUpTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
+    public void cleanTags(String prefix) {
         this.deleteStocks("均线多头排列");
         this.deleteStocks("趋势上行");
     }

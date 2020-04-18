@@ -15,7 +15,7 @@ public abstract class GlobalTagMarker extends TagMarker {
     }
 
     @Override
-    public void cleanTags() {
+    public void cleanTags(String prefix) {
 
     }
 

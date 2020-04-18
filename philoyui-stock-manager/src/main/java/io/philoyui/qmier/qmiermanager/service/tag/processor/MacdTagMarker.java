@@ -20,10 +20,8 @@ public class MacdTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月MACD零轴金叉");
-        this.deleteStocks("周MACD零轴金叉");
-        this.deleteStocks("日MACD零轴金叉");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "MACD零轴金叉");
     }
 
     @Override

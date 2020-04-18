@@ -19,7 +19,7 @@ public class VolumeTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
+    public void cleanTags(String prefix) {
         this.deleteStocks("三倍量");
     }
 

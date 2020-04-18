@@ -23,14 +23,9 @@ public class WrTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月WR超买");
-        this.deleteStocks("周WR超买");
-        this.deleteStocks("日WR超买");
-
-        this.deleteStocks("月WR超卖");
-        this.deleteStocks("周WR超卖");
-        this.deleteStocks("日WR超卖");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "WR超买");
+        this.deleteStocks(prefix + "WR超卖");
     }
 
     @Override

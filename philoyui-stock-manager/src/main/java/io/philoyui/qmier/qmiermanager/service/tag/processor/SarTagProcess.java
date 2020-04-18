@@ -23,13 +23,9 @@ public class SarTagProcess extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月SAR多头开始");
-        this.deleteStocks("周SAR多头开始");
-        this.deleteStocks("日SAR多头开始");
-        this.deleteStocks("月SAR空头开始");
-        this.deleteStocks("周SAR空头开始");
-        this.deleteStocks("日SAR空头开始");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "SAR多头开始");
+        this.deleteStocks(prefix + "SAR空头开始");
     }
 
     @Override

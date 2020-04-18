@@ -22,14 +22,9 @@ public class RsiTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月RSI超买");
-        this.deleteStocks("周RSI超买");
-        this.deleteStocks("日RSI超买");
-
-        this.deleteStocks("月RSI超卖");
-        this.deleteStocks("周RSI超卖");
-        this.deleteStocks("日RSI超卖");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "RSI超买");
+        this.deleteStocks(prefix + "RSI超卖");
     }
 
     @Override

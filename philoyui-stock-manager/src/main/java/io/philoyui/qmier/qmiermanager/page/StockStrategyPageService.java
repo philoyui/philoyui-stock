@@ -5,15 +5,18 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.batch.TableOperation;
-import cn.com.gome.page.button.column.*;
+import cn.com.gome.page.button.column.ConfirmOperation;
+import cn.com.gome.page.button.column.DeleteOperation;
+import cn.com.gome.page.button.column.EditOperation;
+import cn.com.gome.page.button.column.EnableOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.*;
-import cn.com.gome.page.field.validator.IntFieldDefinition;
+import cn.com.gome.page.field.DateFieldDefinition;
+import cn.com.gome.page.field.EnableFieldDefinition;
+import cn.com.gome.page.field.LongFieldDefinition;
+import cn.com.gome.page.field.StringFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -41,13 +44,11 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                         new StringFieldDefinition("name", "名字"),
                         new StringFieldDefinition("description", "描述"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
-                        new EnableFieldDefinition("enable", "是否启用"),
-                        new EnumFieldDefinition("strategyType", "类型", StrategyType.class)
+                        new EnableFieldDefinition("enable", "是否启用")
                 )
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "name_15",
-                        "strategyType_8",
                         "lastExecuteTime_18",
                         "enable_8",
                         "#operation_25"
@@ -72,8 +73,7 @@ public class StockStrategyPageService extends PageService<StockStrategyEntity,Lo
                         "identifier_rw",
                         "name_rw",
                         "description_rw",
-                        "enable_rw",
-                        "strategyType_rw"
+                        "enable_rw"
                 );
         return pageConfig;
     }

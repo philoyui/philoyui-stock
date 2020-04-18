@@ -1,7 +1,5 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -35,9 +33,6 @@ public class StockStrategyEntity implements Serializable {
     private boolean enable;
 
     private Date lastExecuteTime;
-
-    private StrategyType strategyType;
-
 
     public Long getId() {
         return id;
@@ -89,14 +84,6 @@ public class StockStrategyEntity implements Serializable {
 
     public void setLastExecuteTime(Date lastExecuteTime) {
         this.lastExecuteTime = lastExecuteTime;
-    }
-
-    public StrategyType getStrategyType() {
-        return strategyType;
-    }
-
-    public void setStrategyType(StrategyType strategyType) {
-        this.strategyType = strategyType;
     }
 
 }

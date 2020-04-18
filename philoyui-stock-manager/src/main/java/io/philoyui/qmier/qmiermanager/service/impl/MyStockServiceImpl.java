@@ -5,10 +5,15 @@ import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
+import io.philoyui.qmier.qmiermanager.dao.TagDao;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
+import io.philoyui.qmier.qmiermanager.service.TagService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +35,15 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     private StockDao stockDao;
 
     @Autowired
+    private TagDao tagDao;
+
+    @Autowired
+    private TagService tagService;
+
+    @Autowired
+    private TagStockService tagStockService;
+
+    @Autowired
     private StockStrategyService stockStrategyService;
 
     @Override
@@ -43,21 +57,22 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         //1. 删除今天的自选股
         myStockDao.deleteAll();
 
-        //2. 获取所有的筛选股票池
-        List<StockStrategyEntity> addStrategies = stockStrategyService.findAdd();
+        Set<String> selectedStockSet = new HashSet<>();
 
         //3. 股票池，选择
-        Set<String> selectedStockSet = new HashSet<>();
-        for (StockStrategyEntity addStrategy : addStrategies) {
-//            Set<String> filterStockSet = stockFilters.selectStocks(addStrategy);
-//            selectedStockSet = Sets.union(selectedStockSet,filterStockSet);
+        List<TagEntity> addTags = tagService.findAdd();
+        for (TagEntity addTag : addTags) {
+            List<TagStockEntity> addTagStocks = tagStockService.findByTagName(addTag.getTagName());
+            selectedStockSet = addTagStocks.stream().map(TagStockEntity::getSymbol).collect(Collectors.toSet());
+
         }
 
         //4. 根据条件过滤股票
-        List<StockStrategyEntity> reduceStrategies = stockStrategyService.findReduce();
-        for (StockStrategyEntity reduceStrategy : reduceStrategies) {
-//            Set<String> filterStockSet = stockFilters.selectStocks(reduceStrategy);
-//            selectedStockSet = Sets.difference(selectedStockSet,filterStockSet);
+        List<TagEntity> reduceTags = tagService.findReduce();
+        for (TagEntity reduceTag : reduceTags) {
+            List<TagStockEntity> reduceTagStocks = tagStockService.findByTagName(reduceTag.getTagName());
+            Set<String> reduceStockSet = reduceTagStocks.stream().map(TagStockEntity::getSymbol).collect(Collectors.toSet());
+            selectedStockSet = Sets.difference(selectedStockSet,reduceStockSet);
         }
 
         selectedStockSet = selectedStockSet.stream().filter(s -> !s.startsWith("30")&&!s.startsWith("sz30")).collect(Collectors.toSet());

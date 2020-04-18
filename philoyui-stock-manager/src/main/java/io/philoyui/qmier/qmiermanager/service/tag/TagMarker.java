@@ -59,7 +59,7 @@ public abstract class TagMarker implements Serializable {
 
     public abstract boolean isGlobal();
 
-    public abstract void cleanTags();
+    public abstract void cleanTags(String prefix);
 
     protected void deleteStocks(String tagName) {
         tagStockService.deleteByTagName(tagName);
@@ -82,4 +82,5 @@ public abstract class TagMarker implements Serializable {
     public abstract boolean supportWeek();
 
     public abstract boolean supportMonth();
+
 }

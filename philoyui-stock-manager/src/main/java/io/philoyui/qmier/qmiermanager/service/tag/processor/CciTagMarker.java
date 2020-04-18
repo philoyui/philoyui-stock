@@ -20,10 +20,8 @@ public class CciTagMarker extends EachTagMarker {
     }
 
     @Override
-    public void cleanTags() {
-        this.deleteStocks("月CCI强势股");
-        this.deleteStocks("周CCI强势股");
-        this.deleteStocks("日CCI强势股");
+    public void cleanTags(String prefix) {
+        this.deleteStocks(prefix + "CCI强势股");
     }
 
     @Override

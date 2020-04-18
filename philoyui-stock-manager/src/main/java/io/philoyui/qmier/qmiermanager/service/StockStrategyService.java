@@ -13,10 +13,6 @@ public interface StockStrategyService extends GenericService<StockStrategyEntity
 
     void disable(long id);
 
-    List<StockStrategyEntity> findAdd();
-
-    List<StockStrategyEntity> findReduce();
-
     void processWithMonthTimer();
 
     void processWithDayTimer();
