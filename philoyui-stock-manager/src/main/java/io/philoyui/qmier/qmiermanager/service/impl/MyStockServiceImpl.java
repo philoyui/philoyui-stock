@@ -6,11 +6,9 @@ import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
-import io.philoyui.qmier.qmiermanager.service.filter.StockFilters;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,9 +22,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> implements MyStockService {
-
-    @Autowired
-    private StockFilters stockFilters;
 
     @Autowired
     private MyStockDao myStockDao;
@@ -54,15 +49,15 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         //3. 股票池，选择
         Set<String> selectedStockSet = new HashSet<>();
         for (StockStrategyEntity addStrategy : addStrategies) {
-            Set<String> filterStockSet = stockFilters.selectStocks(addStrategy);
-            selectedStockSet = Sets.union(selectedStockSet,filterStockSet);
+//            Set<String> filterStockSet = stockFilters.selectStocks(addStrategy);
+//            selectedStockSet = Sets.union(selectedStockSet,filterStockSet);
         }
 
         //4. 根据条件过滤股票
         List<StockStrategyEntity> reduceStrategies = stockStrategyService.findReduce();
         for (StockStrategyEntity reduceStrategy : reduceStrategies) {
-            Set<String> filterStockSet = stockFilters.selectStocks(reduceStrategy);
-            selectedStockSet = Sets.difference(selectedStockSet,filterStockSet);
+//            Set<String> filterStockSet = stockFilters.selectStocks(reduceStrategy);
+//            selectedStockSet = Sets.difference(selectedStockSet,filterStockSet);
         }
 
         selectedStockSet = selectedStockSet.stream().filter(s -> !s.startsWith("30")&&!s.startsWith("sz30")).collect(Collectors.toSet());

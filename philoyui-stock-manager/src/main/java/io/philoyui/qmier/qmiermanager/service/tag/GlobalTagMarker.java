@@ -19,18 +19,4 @@ public abstract class GlobalTagMarker extends TagMarker {
 
     }
 
-    @Override
-    public boolean supportDate() {
-        return false;
-    }
-
-    @Override
-    public boolean supportWeek() {
-        return false;
-    }
-
-    @Override
-    public boolean supportMonth() {
-        return false;
-    }
 }

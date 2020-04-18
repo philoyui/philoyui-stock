@@ -17,8 +17,6 @@ public interface StockStrategyService extends GenericService<StockStrategyEntity
 
     List<StockStrategyEntity> findReduce();
 
-    void dropStock(StockStrategyEntity stockStrategyEntity);
-
     void processWithMonthTimer();
 
     void processWithDayTimer();

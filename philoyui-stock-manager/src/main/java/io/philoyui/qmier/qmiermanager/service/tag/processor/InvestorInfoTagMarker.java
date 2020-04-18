@@ -37,6 +37,21 @@ public class InvestorInfoTagMarker extends GlobalTagMarker {
         this.tagStocks(stockList,"投资者关系活动记录表");
     }
 
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return false;
+    }
+
     private String buildSymbol(String code) {
         if(code.startsWith("6")){
             return "sh" + code;

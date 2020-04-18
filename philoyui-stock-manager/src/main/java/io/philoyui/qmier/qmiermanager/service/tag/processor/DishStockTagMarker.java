@@ -44,4 +44,19 @@ public class DishStockTagMarker extends GlobalTagMarker {
 
     }
 
+    @Override
+    public boolean supportDate() {
+        return false;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return true;
+    }
+
 }

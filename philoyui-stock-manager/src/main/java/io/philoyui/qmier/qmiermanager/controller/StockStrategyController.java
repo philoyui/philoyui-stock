@@ -24,16 +24,6 @@ public class StockStrategyController {
         return ResponseEntity.ok("success");
     }
 
-    @RequestMapping("/dropStock")
-    public ResponseEntity<String> dropStock(Long id) {
-
-        StockStrategyEntity stockStrategyEntity = stockStrategyService.get(id);
-
-        stockStrategyService.dropStock(stockStrategyEntity);
-
-        return ResponseEntity.ok("success");
-    }
-
     @RequestMapping("/weekTask")
     public ResponseEntity<String> weekTask(Long id) {
 

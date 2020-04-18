@@ -72,4 +72,19 @@ public class BigBuyTagMarker extends GlobalTagMarker {
         this.tagStocks(overflowStockSet,"溢价大宗交易");
     }
 
+    @Override
+    public boolean supportDate() {
+        return true;
+    }
+
+    @Override
+    public boolean supportWeek() {
+        return false;
+    }
+
+    @Override
+    public boolean supportMonth() {
+        return false;
+    }
+
 }

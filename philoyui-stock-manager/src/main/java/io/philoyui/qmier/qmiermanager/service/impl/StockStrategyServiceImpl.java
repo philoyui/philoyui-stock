@@ -8,9 +8,8 @@ import io.philoyui.qmier.qmiermanager.dao.StockStrategyDao;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
+import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
 import io.philoyui.qmier.qmiermanager.service.*;
-import io.philoyui.qmier.qmiermanager.service.filter.StockFilter;
-import io.philoyui.qmier.qmiermanager.service.filter.StockFilters;
 import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
 import io.philoyui.qmier.qmiermanager.service.tag.TagMarker;
 import io.philoyui.qmier.qmiermanager.service.tag.TagMarkerService;
@@ -52,7 +51,7 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     private StockStrategyDao stockStrategyDao;
 
     @Autowired
-    private StockFilters stockFilters;
+    private TaskTracerImpl taskTracerImpl;
 
     @Override
     protected GenericDao<StockStrategyEntity, Long> getDao() {
@@ -142,19 +141,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     }
 
     @Override
-    public void dropStock(StockStrategyEntity stockStrategyEntity) {
-        StockFilter stockFilter = stockFilters.select(stockStrategyEntity.getIdentifier());
-        Set<String> codeSet = stockFilter.filterSymbol(stockStrategyEntity);
-        SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.in("symbol",codeSet.toArray(new String[0])));
-        List<StockEntity> stockEntities = stockService.list(searchFilter);
-        for (StockEntity stockEntity : stockEntities) {
-            stockEntity.setEnable(false);
-        }
-        stockService.updateAll(stockEntities);
-    }
-
-    @Override
     public void processWithMonthTimer() {
 
         List<TagMarker> globalTagMarkers = tagMarkerService.findMonthGlobalMarkers();
@@ -164,20 +150,40 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
 
         List<TagMarker> eachProcessors = tagMarkerService.findMonthEachMarkers();
 
-        for (StockEntity stockEntity : stockService.findAll()) {
-            ProcessorContext processorContext = new ProcessorContext();
-            processorContext.setLowDataArray(monthDataService.findLowData(stockEntity));
-            processorContext.setHighDataArray(monthDataService.findHighData(stockEntity));
-            processorContext.setCloseDataArray(monthDataService.findCloseData(stockEntity));
-            processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
-            processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
-            if(processorContext.getCloseDataArray().length<20){
-                continue;
+        taskTracerImpl.trace(TaskType.Month_STRATEGY, taskCounter -> {
+            for (StockEntity stockEntity : stockService.findAll()) {
+                ProcessorContext processorContext = new ProcessorContext();
+                processorContext.setLowDataArray(monthDataService.findLowData(stockEntity));
+                processorContext.setHighDataArray(monthDataService.findHighData(stockEntity));
+                processorContext.setCloseDataArray(monthDataService.findCloseData(stockEntity));
+                processorContext.setOpenDataArray(monthDataService.findOpenData(stockEntity));
+                processorContext.setVolumeDataArray(monthDataService.findVolumeData(stockEntity));
+                taskCounter.increase();
+                if(processorContext.getCloseDataArray().length<20){
+                    continue;
+                }
+                for (TagMarker eachProcessor : eachProcessors) {
+                    eachProcessor.processEachStock(processorContext, stockEntity,"月");
+                }
             }
-            for (TagMarker eachProcessor : eachProcessors) {
-                eachProcessor.processEachStock(processorContext, stockEntity,"月");
+        });
+
+        for (TagMarker globalTagMarker : globalTagMarkers) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(globalTagMarker.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
             }
         }
+
+        for (TagMarker eachProcessor : eachProcessors) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(eachProcessor.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
+            }
+        }
+
 
     }
 
@@ -189,18 +195,37 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
             globalTagProcessor.processGlobal();
         }
 
-        for (StockEntity stockEntity : stockService.findAll()) {
-            ProcessorContext processorContext = new ProcessorContext();
-            processorContext.setLowDataArray(dayDataService.findLowData(stockEntity));
-            processorContext.setHighDataArray(dayDataService.findHighData(stockEntity));
-            processorContext.setCloseDataArray(dayDataService.findCloseData(stockEntity));
-            processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
-            processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
-            if(processorContext.getCloseDataArray().length<20){
-                continue;
+        taskTracerImpl.trace(TaskType.Day_STRATEGY, taskCounter -> {
+            for (StockEntity stockEntity : stockService.findAll()) {
+                ProcessorContext processorContext = new ProcessorContext();
+                processorContext.setLowDataArray(dayDataService.findLowData(stockEntity));
+                processorContext.setHighDataArray(dayDataService.findHighData(stockEntity));
+                processorContext.setCloseDataArray(dayDataService.findCloseData(stockEntity));
+                processorContext.setOpenDataArray(dayDataService.findOpenData(stockEntity));
+                processorContext.setVolumeDataArray(dayDataService.findVolumeData(stockEntity));
+                taskCounter.increase();
+                if (processorContext.getCloseDataArray().length < 20) {
+                    continue;
+                }
+                for (TagMarker tagMarker : tagMarkerService.findDayEachProcessors()) {
+                    tagMarker.processEachStock(processorContext, stockEntity, "日");
+                }
             }
-            for (TagMarker tagMarker : tagMarkerService.findDayEachProcessors()) {
-                tagMarker.processEachStock(processorContext, stockEntity, "日");
+        });
+
+        for (TagMarker globalTagMarker : globalTagMarkers) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(globalTagMarker.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
+            }
+        }
+
+        for (TagMarker eachProcessor : tagMarkerService.findDayEachProcessors()) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(eachProcessor.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
             }
         }
 
@@ -209,24 +234,43 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
     @Override
     public void processWithWeekTimer() {
 
-        List<TagMarker> tagMarkers = tagMarkerService.findWeekGlobalMarkers();
-        for (TagMarker tagMarker : tagMarkers) {
+        List<TagMarker> globalTagMarkers = tagMarkerService.findWeekGlobalMarkers();
+        for (TagMarker tagMarker : globalTagMarkers) {
             tagMarker.processGlobal();
         }
 
         List<TagMarker> weekEachMarkers = tagMarkerService.findWeekEachMarkers();
-        for (StockEntity stockEntity : stockService.findAll()) {
-            ProcessorContext processorContext = new ProcessorContext();
-            processorContext.setLowDataArray(weekDataService.findLowData(stockEntity));
-            processorContext.setHighDataArray(weekDataService.findHighData(stockEntity));
-            processorContext.setCloseDataArray(weekDataService.findCloseData(stockEntity));
-            processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
-            processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
-            if(processorContext.getCloseDataArray().length<20){
-                continue;
+        taskTracerImpl.trace(TaskType.Week_STRATEGY, taskCounter -> {
+            for (StockEntity stockEntity : stockService.findAll()) {
+                ProcessorContext processorContext = new ProcessorContext();
+                processorContext.setLowDataArray(weekDataService.findLowData(stockEntity));
+                processorContext.setHighDataArray(weekDataService.findHighData(stockEntity));
+                processorContext.setCloseDataArray(weekDataService.findCloseData(stockEntity));
+                processorContext.setOpenDataArray(weekDataService.findOpenData(stockEntity));
+                processorContext.setVolumeDataArray(weekDataService.findVolumeData(stockEntity));
+                taskCounter.increase();
+                if(processorContext.getCloseDataArray().length<20){
+                    continue;
+                }
+                for (TagMarker tagMarker : weekEachMarkers) {
+                    tagMarker.processEachStock(processorContext, stockEntity, "周");
+                }
             }
-            for (TagMarker tagMarker : weekEachMarkers) {
-                tagMarker.processEachStock(processorContext, stockEntity, "周");
+        });
+
+        for (TagMarker globalTagMarker : globalTagMarkers) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(globalTagMarker.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
+            }
+        }
+
+        for (TagMarker eachProcessor : tagMarkerService.findWeekEachMarkers()) {
+            StockStrategyEntity stockStrategyEntity = stockStrategyDao.findByIdentifier(eachProcessor.getClass().getSimpleName());
+            if(stockStrategyEntity!=null){
+                stockStrategyEntity.setLastExecuteTime(new Date());
+                stockStrategyDao.save(stockStrategyEntity);
             }
         }
 
