@@ -15,6 +15,7 @@ public class MacdDivergeTagMarker extends EachTagMarker {
         double[] closeArray = processorContext.getCloseDataArray();
         MacdResult macdResult = TalibUtils.macd(closeArray, 12, 26, 9);
 
+        int selectIndex = 0;
         double crossMacd = 0;
         double crossClose = 0;
 
@@ -38,6 +39,16 @@ public class MacdDivergeTagMarker extends EachTagMarker {
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < macdResult.getMacdResult().length - 1; i++) {
+
+            double currentMacd = macdResult.getMacdResult()[i];
+            double currentSignal = macdResult.getSignalResult()[i];
+            double currentClose = closeArray[i];
+
+            double yesterdayMacd = macdResult.getMacdResult()[i+1];
+            double yesterdaySignal = macdResult.getSignalResult()[i+1];
 
             if (currentMacd < currentSignal && yesterdayMacd > yesterdaySignal) {
                 if(crossMacd==0){
