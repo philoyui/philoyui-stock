@@ -9,6 +9,8 @@ public interface StockStrategyService extends GenericService<StockStrategyEntity
 
     void tagStock(StockStrategyEntity stockStrategyEntity);
 
+    void tagStock(String strategyIdentifier);
+
     void enable(long id);
 
     void disable(long id);

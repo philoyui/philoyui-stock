@@ -1,7 +1,5 @@
 package io.philoyui.qmier.qmiermanager.utils;
 
-import cn.com.gome.cloud.openplatform.common.SearchFilter;
-
 import java.io.Serializable;
 
 public class MacdResult implements Serializable {

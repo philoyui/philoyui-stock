@@ -56,8 +56,14 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
 
     @Override
     public void tagStock(StockStrategyEntity stockStrategyEntity) {
+        tagStock(stockStrategyEntity.getIdentifier());
+        stockStrategyEntity.setLastExecuteTime(new Date());
+        this.update(stockStrategyEntity);
+    }
 
-        TagMarker tagMarker = tagMarkerService.findByName(stockStrategyEntity.getIdentifier());
+    @Override
+    public void tagStock(String strategyIdentifier) {
+        TagMarker tagMarker = tagMarkerService.findByName(strategyIdentifier);
         if(tagMarker.isGlobal()){
             tagMarker.processGlobal();
         }else{
@@ -105,8 +111,6 @@ public class StockStrategyServiceImpl extends GenericServiceImpl<StockStrategyEn
                 }
             }
         }
-        stockStrategyEntity.setLastExecuteTime(new Date());
-        this.update(stockStrategyEntity);
     }
 
     @Override
