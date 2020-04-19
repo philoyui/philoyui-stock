@@ -15,9 +15,10 @@ public class MacdDivergeTagMarker extends EachTagMarker {
         double[] closeArray = processorContext.getCloseDataArray();
         MacdResult macdResult = TalibUtils.macd(closeArray, 12, 26, 9);
 
-        int selectIndex = 0;
+        int crossIndex = -1;
         double crossMacd = 0;
         double crossClose = 0;
+        int divergeIndex = -1;
 
         for (int i = 0; i < macdResult.getMacdResult().length - 1; i++) {
 
@@ -32,13 +33,17 @@ public class MacdDivergeTagMarker extends EachTagMarker {
                 if(crossMacd==0){
                     crossMacd = currentMacd;
                     crossClose = currentClose;
+                    crossIndex = i;
                 }else if(crossMacd!=0){
                     if(currentMacd<crossMacd&&currentClose>crossClose){
-                        this.tagStocks(stockEntity.getSymbol(),prefix + "MACD底背离");
-                        break;
+                        divergeIndex = i;
                     }
                 }
             }
+        }
+
+        if( crossIndex >=0 && crossIndex<5 && divergeIndex>0){
+            this.tagStocks(stockEntity.getSymbol(),prefix + "MACD底背离");
         }
 
         for (int i = 0; i < macdResult.getMacdResult().length - 1; i++) {
@@ -54,13 +59,18 @@ public class MacdDivergeTagMarker extends EachTagMarker {
                 if(crossMacd==0){
                     crossMacd = currentMacd;
                     crossClose = currentClose;
+                    crossIndex = i;
                 }else if(crossMacd!=0){
                     if(currentMacd>crossMacd&&currentClose<crossClose){
-                        this.tagStocks(stockEntity.getSymbol(),prefix + "MACD顶背离");
+                        divergeIndex = i;
                         break;
                     }
                 }
             }
+        }
+
+        if( crossIndex >=0 && crossIndex<5 && divergeIndex>=0){
+            this.tagStocks(stockEntity.getSymbol(),prefix + "MACD顶背离");
         }
 
     }
