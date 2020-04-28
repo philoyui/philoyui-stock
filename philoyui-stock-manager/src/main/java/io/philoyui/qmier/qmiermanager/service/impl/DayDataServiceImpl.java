@@ -9,6 +9,8 @@ import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.dao.DataDayDao;
+import io.philoyui.qmier.qmiermanager.domain.DayData;
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.TaskType;
@@ -113,7 +115,6 @@ public class DayDataServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
             List<DataDayEntity> dataDayEntities = new ArrayList<>();
 
             for (ProductData productData : productDataArray) {
-
                 if(NumberUtils.isDigits(productData.getOpen())&&NumberUtils.isDigits(productData.getHigh())&&NumberUtils.isDigits(productData.getLow())&&NumberUtils.isDigits(productData.getSell())){
                     return;
                 }
@@ -140,48 +141,55 @@ public class DayDataServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
     }
 
     @Override
-    public double[] findCloseData(StockEntity stockEntity) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
+    public StockHistoryData findStockHistoryData(StockEntity stockEntity) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 252);
         pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
         pagedSearchFilter.add(Order.desc("day"));
         PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
-        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getClose).toArray();
+
+        StockHistoryData stockHistoryData = new StockHistoryData();
+        stockHistoryData.setLowArray(pageObjects.getContent().stream().mapToDouble(DataDayEntity::getLow).toArray());
+        stockHistoryData.setHighArray(pageObjects.getContent().stream().mapToDouble(DataDayEntity::getHigh).toArray());
+        stockHistoryData.setCloseArray(pageObjects.getContent().stream().mapToDouble(DataDayEntity::getClose).toArray());
+        stockHistoryData.setOpenArray(pageObjects.getContent().stream().mapToDouble(DataDayEntity::getOpen).toArray());
+        stockHistoryData.setVolumeArray(pageObjects.getContent().stream().mapToDouble(DataDayEntity::getVolume).toArray());
+        stockHistoryData.setStockData(pageObjects.getContent().toArray(new DataDayEntity[0]));
+        return stockHistoryData;
     }
 
     @Override
-    public double[] findVolumeData(StockEntity stockEntity) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
-        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
-        pagedSearchFilter.add(Order.desc("day"));
-        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
-        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getVolume).toArray();
-    }
+    public void downloadHistory(StockEntity stockEntity) {
 
-    @Override
-    public double[] findOpenData(StockEntity stockEntity) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
-        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
-        pagedSearchFilter.add(Order.desc("day"));
-        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
-        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getOpen).toArray();
-    }
+        String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+stockEntity.getSymbol()+"&scale="+ TaskType.Day.getMinute()+"&ma=no&datalen=80";
+        try {
+            Connection.Response response = Jsoup.connect(fetchUrl)
+                    .header("Content-Type", "application/json")
+                    .ignoreContentType(true)
+                    .method(Connection.Method.GET)
+                    .execute();
 
-    @Override
-    public double[] findHighData(StockEntity stockEntity) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
-        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
-        pagedSearchFilter.add(Order.desc("day"));
-        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
-        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getHigh).toArray();
-    }
+            KLineData[] KLineDataArray = gson.fromJson(response.body(), KLineData[].class);
 
-    @Override
-    public double[] findLowData(StockEntity stockEntity) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 160);
-        pagedSearchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
-        pagedSearchFilter.add(Order.desc("day"));
-        PageObject<DataDayEntity> pageObjects = this.paged(pagedSearchFilter);
-        return pageObjects.getContent().stream().mapToDouble(DataDayEntity::getLow).toArray();
+            List<DataDayEntity> dataDayEntityList = new ArrayList<>();
+            for (KLineData KLineData : KLineDataArray) {
+                DataDayEntity dataDayEntity = new DataDayEntity();
+                dataDayEntity.setSymbol(stockEntity.getSymbol());
+                dataDayEntity.setName(stockEntity.getName());
+                dataDayEntity.setDay(KLineData.getDay());
+                dataDayEntity.setDateString(DateFormatUtils.format(KLineData.getDay(), "yyyy-MM-dd HH:mm:ss"));
+                dataDayEntity.setOpen(Double.parseDouble(KLineData.getOpen()));
+                dataDayEntity.setHigh(Double.parseDouble(KLineData.getHigh()));
+                dataDayEntity.setLow(Double.parseDouble(KLineData.getLow()));
+                dataDayEntity.setClose(Double.parseDouble(KLineData.getClose()));
+                dataDayEntity.setVolume(Long.parseLong(KLineData.getVolume()));
+                dataDayEntity.setRecordTime(new Date());
+                dataDayEntityList.add(dataDayEntity);
+            }
+            insertAll(dataDayEntityList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private ProductData[] fetchCurrentProductData(int pageNo) {

@@ -1,14 +1,15 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
+import io.philoyui.qmier.qmiermanager.service.StockData;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class DataDayEntity implements Serializable {
+public class DataDayEntity implements StockData {
 
     /**
      * ID
@@ -124,6 +125,7 @@ public class DataDayEntity implements Serializable {
         this.low = low;
     }
 
+    @Override
     public Double getClose() {
         return close;
     }

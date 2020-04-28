@@ -1,18 +1,18 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.tag.EachTagMarker;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
 import io.philoyui.qmier.qmiermanager.utils.TalibUtils;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SarTagProcess extends EachTagMarker {
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
-        double[] closeArray = processorContext.getCloseDataArray();
-        double[] highArray = processorContext.getHighDataArray();
-        double[] lowArray = processorContext.getLowDataArray();
+    public void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix) {
+        double[] closeArray = stockHistoryData.getCloseArray();
+        double[] highArray = stockHistoryData.getHighArray();
+        double[] lowArray = stockHistoryData.getLowArray();
         double[] cciResult = TalibUtils.sar(highArray,lowArray,0.02,0.2);
         if ( closeArray[0] > cciResult[0] && closeArray[1] < cciResult[1] ) {
             this.tagStocks(stockEntity.getSymbol(),prefix + "SAR多头开始");

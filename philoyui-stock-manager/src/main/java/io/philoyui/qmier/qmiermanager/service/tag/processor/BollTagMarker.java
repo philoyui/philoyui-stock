@@ -1,8 +1,8 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.tag.EachTagMarker;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
 import io.philoyui.qmier.qmiermanager.utils.BollResult;
 import io.philoyui.qmier.qmiermanager.utils.TalibUtils;
 import org.springframework.stereotype.Component;
@@ -11,12 +11,10 @@ import org.springframework.stereotype.Component;
 public class BollTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
-        if(!checkCanProcess(processorContext)){
-            return;
-        }
-        double[] closeArray = processorContext.getCloseDataArray();
-        double[] openDataArray = processorContext.getOpenDataArray();
+    public void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix) {
+        double[] closeArray = stockHistoryData.getCloseArray();
+        double[] openDataArray = stockHistoryData.getOpenArray();
+
         BollResult bollResult = TalibUtils.boll(closeArray, 20, 2, 2);
 
         double middleHigh = (bollResult.getUpperResult()[1] - bollResult.getMiddleResult()[1])/2 + bollResult.getMiddleResult()[1];

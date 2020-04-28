@@ -1,18 +1,18 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.tag.EachTagMarker;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
 import io.philoyui.qmier.qmiermanager.utils.TalibUtils;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WrTagMarker extends EachTagMarker {
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
-        double[] closeArray = processorContext.getCloseDataArray();
-        double[] highData = processorContext.getHighDataArray();
-        double[] lowData = processorContext.getLowDataArray();
+    public void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix) {
+        double[] closeArray = stockHistoryData.getCloseArray();
+        double[] highData = stockHistoryData.getHighArray();
+        double[] lowData = stockHistoryData.getLowArray();
         double[] cciResult = TalibUtils.wr(highData,lowData,closeArray,14);
         if ( cciResult[0] > 85 ) {
             this.tagStocks(stockEntity.getSymbol(),prefix + "WR超卖");

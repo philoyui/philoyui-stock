@@ -85,11 +85,6 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
 //        fetchProductDataArray("hgt_hk",80);
     }
 
-    @Override
-    public void updateAll(List<StockEntity> stockEntityList) {
-        stockDao.saveAll(stockEntityList);
-    }
-
     @Transactional
     @Override
     public void allEnable() {

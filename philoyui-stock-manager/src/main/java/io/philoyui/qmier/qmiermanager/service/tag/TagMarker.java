@@ -1,6 +1,7 @@
 package io.philoyui.qmier.qmiermanager.service.tag;
 
 import com.google.common.collect.Lists;
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
@@ -22,11 +23,20 @@ public abstract class TagMarker implements Serializable {
 
     public abstract void processGlobal();
 
-    public abstract void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix);
+    public abstract void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix);
 
+    /**
+     * 为股票列表打标
+     * 1. 删除历史标签
+     * 2. 存储打标数据
+     * 3. 不存在的标签入库
+     * @param symbolList
+     * @param tagName
+     */
     protected void tagStocks(List<String> symbolList, String tagName){
 
         tagStockService.deleteByTagName(tagName);
+
         List<TagStockEntity> tagStockEntities = Lists.newArrayList();
         for (String symbol : symbolList) {
             TagStockEntity tagStockEntity = new TagStockEntity();

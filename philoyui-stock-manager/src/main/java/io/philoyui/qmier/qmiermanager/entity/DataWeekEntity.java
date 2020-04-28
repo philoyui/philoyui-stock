@@ -1,14 +1,15 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
+import io.philoyui.qmier.qmiermanager.service.StockData;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class DataWeekEntity implements Serializable {
+public class DataWeekEntity implements StockData {
 
     /**
      * ID
@@ -84,6 +85,7 @@ public class DataWeekEntity implements Serializable {
         this.symbol = symbol;
     }
 
+    @Override
     public Date getDay() {
         return day;
     }

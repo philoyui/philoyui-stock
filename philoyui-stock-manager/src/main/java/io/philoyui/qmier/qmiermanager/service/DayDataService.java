@@ -1,6 +1,8 @@
 package io.philoyui.qmier.qmiermanager.service;
 
 import cn.com.gome.cloud.openplatform.service.GenericService;
+import io.philoyui.qmier.qmiermanager.domain.DayData;
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.DataDayEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 
@@ -16,13 +18,7 @@ public interface DayDataService extends GenericService<DataDayEntity,Long> {
 
     void processEstimateDayData();
 
-    double[] findCloseData(StockEntity stockEntity);
+    StockHistoryData findStockHistoryData(StockEntity stockEntity);
 
-    double[] findVolumeData(StockEntity stockEntity);
-
-    double[] findOpenData(StockEntity stockEntity);
-
-    double[] findHighData(StockEntity stockEntity);
-
-    double[] findLowData(StockEntity stockEntity);
+    void downloadHistory(StockEntity stockEntity);
 }

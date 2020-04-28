@@ -3,6 +3,9 @@ package io.philoyui.qmier.qmiermanager.utils;
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Arrays;
 
 public class TalibUtils {
 
@@ -66,10 +69,17 @@ public class TalibUtils {
     }
 
     public static MacdResult macd(double[] closeArray,int fastPeriod,int slowPeriod,int signalPeriod){
+        MInteger outBegIdx = new MInteger();
+        outBegIdx.value = -1;
+
+        MInteger outNbElement = new MInteger();
+        outNbElement.value = -1;
+
         double[] macdResult = new double[closeArray.length];
         double[] signalResult = new double[closeArray.length];
         double[] histResult = new double[closeArray.length];
-        core.macd(0, closeArray.length - 1,closeArray, fastPeriod,slowPeriod,signalPeriod, new MInteger(), new MInteger(), macdResult,signalResult,histResult);
+        core.macdLookback(fastPeriod,slowPeriod,signalPeriod);
+        core.macd(0, closeArray.length - 1, closeArray, fastPeriod,slowPeriod,signalPeriod, outBegIdx, outNbElement, macdResult,signalResult,histResult);
         return new MacdResult(macdResult,signalResult,histResult);
     }
 

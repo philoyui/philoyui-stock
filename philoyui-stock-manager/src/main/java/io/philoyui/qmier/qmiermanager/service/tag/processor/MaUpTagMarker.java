@@ -1,8 +1,8 @@
 package io.philoyui.qmier.qmiermanager.service.tag.processor;
 
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.tag.EachTagMarker;
-import io.philoyui.qmier.qmiermanager.service.tag.ProcessorContext;
 import io.philoyui.qmier.qmiermanager.utils.TalibUtils;
 import org.springframework.stereotype.Component;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class MaUpTagMarker extends EachTagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
-        double[] closeArray = processorContext.getCloseDataArray();
+    public void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix) {
+        double[] closeArray = stockHistoryData.getCloseArray();
 
         double[] ma10Array = TalibUtils.ma(closeArray, 10);
         double[] ma20Array = TalibUtils.ma(closeArray, 20);

@@ -12,8 +12,4 @@ public abstract class EachTagMarker extends TagMarker {
         return false;
     }
 
-    protected boolean checkCanProcess(ProcessorContext processorContext) {
-        return processorContext.getCloseDataArray().length > 10;
-    }
-
 }

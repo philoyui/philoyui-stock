@@ -17,8 +17,6 @@ public interface StockService extends GenericService<StockEntity,Long> {
 
     void downloadHistoryData();
 
-    void updateAll(List<StockEntity> stockEntityList);
-
     void allEnable();
 
     List<StockEntity> findAll();

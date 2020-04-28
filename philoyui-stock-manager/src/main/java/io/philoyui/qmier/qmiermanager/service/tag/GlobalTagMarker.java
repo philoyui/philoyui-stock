@@ -1,11 +1,12 @@
 package io.philoyui.qmier.qmiermanager.service.tag;
 
+import io.philoyui.qmier.qmiermanager.domain.StockHistoryData;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 
 public abstract class GlobalTagMarker extends TagMarker {
 
     @Override
-    public void processEachStock(ProcessorContext processorContext, StockEntity stockEntity, String prefix) {
+    public void processEachStock(StockHistoryData stockHistoryData, StockEntity stockEntity, String prefix) {
 
     }
 
