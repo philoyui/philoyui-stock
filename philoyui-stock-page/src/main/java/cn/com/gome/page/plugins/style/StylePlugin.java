@@ -55,4 +55,10 @@ public interface StylePlugin {
      * @param action
      */
     String getCreateActionHtml(String action);
+
+    /**
+     * 日期HTML
+     * @return
+     */
+    String getFormViewDateInputHtml();
 }

@@ -51,6 +51,11 @@ public class HuiStylePlugin implements StylePlugin {
     }
 
     @Override
+    public String getFormViewDateInputHtml() {
+        return "<input type=\"text\" onfocus=\"WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss'})\" value=\"#fieldValue#\" id=\"#fieldName#\" name=\"#fieldName#\" class=\"input-text Wdate\">";
+    }
+
+    @Override
     public String buildPublishStatusColumnHtml(PublishStatus publishStatus) {
         switch (publishStatus){
             case PENDING:

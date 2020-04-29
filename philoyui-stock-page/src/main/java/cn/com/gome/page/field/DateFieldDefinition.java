@@ -4,9 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageService;
+import cn.com.gome.page.excp.GmosException;
 import cn.com.gome.page.form.FormField;
+import cn.com.gome.page.plugins.style.StylePlugin;
+import cn.com.gome.page.utils.BeanUtils;
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +79,21 @@ public class DateFieldDefinition extends FieldDefinition{
 
     @Override
     public String generateFormItemHtml(PageService pageService, HttpServletRequest request, Object entity) {
-        return null;
+        StylePlugin currentStyle = pageContext.getCurrentStyle();
+
+        Object requestValue = "";
+
+        if (entity != null) {
+            requestValue = BeanUtils.getPropertyValue(entity, fieldName);
+        }
+
+        String requestValueString = "";
+        if(requestValue!=null){
+            Date requestValueTime = (Date)requestValue;
+            requestValueString = DateFormatUtils.format(requestValueTime,"yyyy-HH-dd HH:mm:ss");
+        }
+        return currentStyle.getFormViewDateInputHtml().replaceAll("#fieldName#",fieldName).replaceAll("#fieldValue#",requestValueString);
+
     }
 
     @Override
@@ -96,7 +114,12 @@ public class DateFieldDefinition extends FieldDefinition{
 
     @Override
     public Object transferType(Serializable entity, FormField formField, String parameterValue) {
-        return null;
+        try {
+            return DateUtils.parseDate(parameterValue,"yyyy-MM-dd HH:mm:ss");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new GmosException("日期数据无法解析：" + parameterValue);
     }
 
 }
