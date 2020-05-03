@@ -44,7 +44,7 @@ public class CoreTaskTimer {
 
 
     public void executeWeekTask(){
-
+        stockIndicatorService.executeWeekTask();
     }
 
 

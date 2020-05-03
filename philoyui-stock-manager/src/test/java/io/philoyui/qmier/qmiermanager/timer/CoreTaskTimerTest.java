@@ -13,8 +13,7 @@ public class CoreTaskTimerTest {
     public void test_core(){
         Process process;
         try {
-            String[] args = new String[] { "python3", "C:\\Users\\DELL\\PycharmProjects\\untitled\\macd.py", "sh600011", "Day"};
-            process = Runtime.getRuntime().exec(args);// 执行py文件
+            process = Runtime.getRuntime().exec("C:\\Users\\DELL\\PycharmProjects\\untitled\\venv\\Scripts\\python C:\\workplace\\philoyui-stock\\philoyui-stock-manager\\src\\main\\docker\\macd.py sh600000 Day");// 执行py文件
             //用输入输出流来截取结果
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;

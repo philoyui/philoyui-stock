@@ -1,25 +1,24 @@
-package io.philoyui.qmier.qmiermanager.service.indicator;
+package io.philoyui.qmier.qmiermanager.service.indicator.day;
 
 import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.indicator.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.MacdType;
 import io.philoyui.qmier.qmiermanager.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
-import org.apache.commons.lang3.time.DateFormatUtils;
+import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,13 +45,26 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
         List<MacdDataEntity> bottomDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.BOTTOM_DIFF).collect(Collectors.toList());
         List<MacdDataEntity> topDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.TOP_DIFF).collect(Collectors.toList());
 
-        Double maxMacdValue = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue)).get().getMacdValue();
-        Double minMacdValue = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue)).get().getMacdValue();
-
-        Double upper_macd_value_0 = (maxMacdValue - 0)/5;
-        Double lower_macd_value_0 = 0 - (0-minMacdValue)/5;
-
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
+
+        Optional<MacdDataEntity> max = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue));
+        Optional<MacdDataEntity> min = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue));
+
+        if(max.isPresent()&&min.isPresent()&&max.get().getMacdValue()>0&&min.get().getMacdValue()<0){
+            Double upper_macd_value_0 = (max.get().getMacdValue() - 0)/5;
+            Double lower_macd_value_0 = 0 - (0-min.get().getMacdValue())/5;
+            for (MacdDataEntity goldenData : goldenDataList) {
+                if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(日)",goldenData.getDay()));
+                }
+            }
+
+            for (MacdDataEntity deathData : deathDataList) {
+                if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(日)",deathData.getDay()));
+                }
+            }
+        }
 
         if(goldenDataList.size()>1){
             MacdDataEntity macdDataEntity_0 = goldenDataList.get(0);
@@ -94,18 +106,6 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        for (MacdDataEntity goldenData : goldenDataList) {
-            if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(日)",goldenData.getDay()));
-            }
-        }
-
-        for (MacdDataEntity deathData : deathDataList) {
-            if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(日)",deathData.getDay()));
-            }
-        }
-
         return tagStockEntities;
     }
 
@@ -114,9 +114,17 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
         return "macd_day";
     }
 
+    @Transactional
     @Override
-    public void cleanOldData(String symbol) {
-        macdDataService.deleteByIntervalType(IntervalType.Day);
+    public void cleanOldData() {
+        macdDataService.deleteDayData();
+        tagStockService.deleteByTagName("DIFF顶背离(日)");
+        tagStockService.deleteByTagName("DIFF底背离(日)");
+        tagStockService.deleteByTagName("MACD顶背离(日)");
+        tagStockService.deleteByTagName("MACD底背离(日)");
+        tagStockService.deleteByTagName("MACD零轴死叉(日)");
+        tagStockService.deleteByTagName("MACD零轴金叉(日)");
+
     }
 
 }

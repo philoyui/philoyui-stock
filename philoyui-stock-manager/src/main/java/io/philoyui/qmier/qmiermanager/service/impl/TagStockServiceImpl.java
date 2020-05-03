@@ -48,7 +48,7 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     public TagStockEntity tagStock(String symbol, String tagName, Date day) {
         TagStockEntity tagStockEntity = new TagStockEntity();
         tagStockEntity.setSymbol(symbol);
-        tagStockEntity.setTagName("MACD底背离(日)");
+        tagStockEntity.setTagName(tagName);
         tagStockEntity.setCreatedTime(day);
         this.insert(tagStockEntity);
         return tagStockEntity;

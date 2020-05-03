@@ -64,16 +64,23 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeDayTask() {
+
         dayDataService.deleteAll();
-        List<StockEntity> stockEntities = stockService.findAll();
-        for (StockEntity stockEntity : stockEntities) {
+
+        List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
+        for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
+            IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
+            dayIndicatorProvider.cleanOldData();
+        }
+
+
+
+        for (StockEntity stockEntity : stockService.findAll()) {
             dayDataService.downloadHistory(stockEntity);
-            List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
             for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
-                IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
-                dayIndicatorProvider.cleanOldData(stockEntity.getSymbol());
                 parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
+                IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
                 List<TagStockEntity> tagEntityList = dayIndicatorProvider.processTags(stockEntity);
                 tagStockEntities.addAll(tagEntityList);
             }
@@ -91,7 +98,7 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
             for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
                 IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
-                weekIndicatorProvider.cleanOldData(stockEntity.getSymbol());
+                weekIndicatorProvider.cleanOldData();
                 parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Week");
                 List<TagStockEntity> tagEntityList = weekIndicatorProvider.processTags(stockEntity);
                 tagStockEntities.addAll(tagEntityList);
@@ -108,7 +115,9 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     private void parseIndicatorDataUsePython(String pythonName, String symbol, String interval) {
         Process process;
         try {
-            process = Runtime.getRuntime().exec("python /root/python/" + pythonName + " " + symbol + " " + interval);// 执行py文件
+            process = Runtime.getRuntime().exec("C:\\Users\\DELL\\PycharmProjects\\untitled\\venv\\Scripts\\python C:\\workplace\\philoyui-stock\\philoyui-stock-manager\\src\\main\\docker\\" + pythonName + " " + symbol + " " + interval);// 执行py文件
+
+//            process = Runtime.getRuntime().exec("python /root/python/" + pythonName + " " + symbol + " " + interval);// 执行py文件
             //用输入输出流来截取结果
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;

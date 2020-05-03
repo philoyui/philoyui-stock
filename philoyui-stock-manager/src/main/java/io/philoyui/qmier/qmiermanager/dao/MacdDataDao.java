@@ -1,15 +1,18 @@
 package io.philoyui.qmier.qmiermanager.dao;
 
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
-import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.indicator.MacdDataEntity;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface MacdDataDao extends GenericDao<MacdDataEntity,Long> {
 
-    void deleteByIntervalType(IntervalType intervalType);
-
     List<MacdDataEntity> findBySymbol(String symbol);
 
+    @Modifying
+    @Query(value = "delete from MacdDataEntity where interval_type = :intervalType")
+    void deleteData(@Param("intervalType")String intervalType);
 }

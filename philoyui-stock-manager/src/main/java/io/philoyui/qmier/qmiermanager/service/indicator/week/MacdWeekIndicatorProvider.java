@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.service.indicator;
+package io.philoyui.qmier.qmiermanager.service.indicator.week;
 
 import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
@@ -10,6 +10,7 @@ import io.philoyui.qmier.qmiermanager.entity.indicator.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.MacdType;
 import io.philoyui.qmier.qmiermanager.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class MacdWeekIndicatorProvider implements IndicatorProvider{
+public class MacdWeekIndicatorProvider implements IndicatorProvider {
 
     @Autowired
     private TagStockService tagStockService;
@@ -112,7 +113,13 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider{
     }
 
     @Override
-    public void cleanOldData(String symbol) {
-        macdDataService.deleteByIntervalType(IntervalType.Week);
+    public void cleanOldData() {
+        macdDataService.deleteWeekData();
+        tagStockService.deleteByTagName("DIFF顶背离(周)");
+        tagStockService.deleteByTagName("DIFF底背离(周)");
+        tagStockService.deleteByTagName("MACD顶背离(周)");
+        tagStockService.deleteByTagName("MACD底背离(周)");
+        tagStockService.deleteByTagName("MACD零轴死叉(周)");
+        tagStockService.deleteByTagName("MACD零轴金叉(周)");
     }
 }

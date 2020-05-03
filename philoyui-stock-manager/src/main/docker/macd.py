@@ -4,7 +4,7 @@ import pandas as pd
 import talib
 from sqlalchemy import create_engine
 
-engine = create_engine('mysql+pymysql://root:123456@114.67.84.99:32306/stock')
+engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock_analysis')
 conn = engine.connect()
 
 symbol = sys.argv[1]
@@ -53,5 +53,3 @@ for i in range(len(close_array)-2):
         mark_macd_value("BOTTOM_DIFF")
     if macd_array[-1 - i] < macd_array[-2 - i] and macd_array[-2 - i] > macd_array[-3 - i]:
         mark_macd_value("TOP_DIFF")
-
-
