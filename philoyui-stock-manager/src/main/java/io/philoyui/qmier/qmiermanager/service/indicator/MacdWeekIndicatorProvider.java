@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -41,13 +42,26 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider{
         List<MacdDataEntity> bottomDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.BOTTOM_DIFF).collect(Collectors.toList());
         List<MacdDataEntity> topDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.TOP_DIFF).collect(Collectors.toList());
 
-        Double maxMacdValue = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue)).get().getMacdValue();
-        Double minMacdValue = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue)).get().getMacdValue();
-
-        Double upper_macd_value_0 = (maxMacdValue - 0)/5;
-        Double lower_macd_value_0 = 0 - (0-minMacdValue)/5;
-
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
+
+        Optional<MacdDataEntity> max = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue));
+        Optional<MacdDataEntity> min = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue));
+
+        if(max.isPresent()&&min.isPresent()&&max.get().getMacdValue()>0&&min.get().getMacdValue()<0){
+            Double upper_macd_value_0 = (max.get().getMacdValue() - 0)/5;
+            Double lower_macd_value_0 = 0 - (0-min.get().getMacdValue())/5;
+            for (MacdDataEntity goldenData : goldenDataList) {
+                if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(周)",goldenData.getDay()));
+                }
+            }
+
+            for (MacdDataEntity deathData : deathDataList) {
+                if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(周)",deathData.getDay()));
+                }
+            }
+        }
 
         if(goldenDataList.size()>1){
             MacdDataEntity macdDataEntity_0 = goldenDataList.get(0);
@@ -86,18 +100,6 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider{
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(周)",macdDataEntity_0.getDay()));
-            }
-        }
-
-        for (MacdDataEntity goldenData : goldenDataList) {
-            if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(周)",goldenData.getDay()));
-            }
-        }
-
-        for (MacdDataEntity deathData : deathDataList) {
-            if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(周)",deathData.getDay()));
             }
         }
 
