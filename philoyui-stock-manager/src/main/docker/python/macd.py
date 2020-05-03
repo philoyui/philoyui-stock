@@ -45,16 +45,12 @@ for i in range(len(close_array)-2):
     if macd_array[-1-i] is None:
         break
 
-    # macd金叉
     if macd_array[-1-i] > signal_array[-1-i] and macd_array[-2-i] < signal_array[-2-i]:
         mark_macd_value("GOLDEN_CROSS")
-    # macd死叉
     if macd_array[-1-i] < signal_array[-1-i] and macd_array[-2-i] > signal_array[-2-i]:
         mark_macd_value("DEATH_CROSS")
-    # diff金叉
     if macd_array[-1-i] > macd_array[-2-i] and macd_array[-2-i] < macd_array[-3-i]:
         mark_macd_value("BOTTOM_DIFF")
-    # diff死叉
     if macd_array[-1 - i] < macd_array[-2 - i] and macd_array[-2 - i] > macd_array[-3 - i]:
         mark_macd_value("TOP_DIFF")
 
