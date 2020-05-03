@@ -35,7 +35,7 @@ public class StockEntity implements Serializable {
     /**
      * 交易所
      */
-    private Long marketId;
+    private String marketId;
 
     /**
      * 修改时间
@@ -100,11 +100,11 @@ public class StockEntity implements Serializable {
         this.name = name;
     }
 
-    public Long getMarketId() {
+    public String getMarketId() {
         return marketId;
     }
 
-    public void setMarketId(Long marketId) {
+    public void setMarketId(String marketId) {
         this.marketId = marketId;
     }
 

@@ -107,27 +107,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
                         .ignoreContentType(true)
                         .method(Connection.Method.GET)
                         .execute();
-                String result = response.body().replaceAll("symbol","\"symbol\"")
-                        .replaceAll("code","\"code\"")
-                        .replaceAll("name","\"name\"")
-                        .replaceAll("trade","\"trade\"")
-                        .replaceAll("pricechange","\"pricechange\"")
-                        .replaceAll("changepercent","\"changepercent\"")
-                        .replaceAll("sell","\"sell\"")
-                        .replaceAll("settlement","\"settlement\"")
-                        .replaceAll("open","\"open\"")
-                        .replaceAll("high","\"high\"")
-                        .replaceAll("low","\"low\"")
-                        .replaceAll("volume","\"volume\"")
-                        .replaceAll("amount","\"amount\"")
-                        .replaceAll("ticktime","\"ticktime\"")
-                        .replaceAll("per:","\"per\":")
-                        .replaceAll("pb","\"pb\"")
-                        .replaceAll("mktcap","\"mktcap\"")
-                        .replaceAll("nmc","\"nmc\"")
-                        .replaceAll("buy","\"buy\"")
-                        .replaceAll("turnoverratio","\"turnoverratio\"")
-                        ;
+                String result = response.body();
 
                 ProductData[] productDataArray = gson.fromJson(result, ProductData[].class);
                 if(productDataArray==null){
@@ -142,7 +122,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
                         stockEntity.setSymbol(productData.getSymbol());
                         stockEntity.setCode(productData.getCode());
                         stockEntity.setName(productData.getName());
-                        stockEntity.setMarketId(financialMarket.getId());
+                        stockEntity.setMarketId(identifier);
                         stockEntity.setModifyTime(new Date());
                         stockEntity.setEnable(computeEnable(productData));
                         stockEntity.setPb(productData.getPb());
