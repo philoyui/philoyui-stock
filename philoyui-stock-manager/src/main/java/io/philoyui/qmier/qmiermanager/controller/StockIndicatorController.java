@@ -1,7 +1,6 @@
 package io.philoyui.qmier.qmiermanager.controller;
 
 import io.philoyui.qmier.qmiermanager.service.StockIndicatorService;
-import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ public class StockIndicatorController {
     @RequestMapping("/weekTask")
     public ResponseEntity<String> weekTask(Long id) {
 
-        stockIndicatorService.executeDayTask();
+        stockIndicatorService.executeWeekTask();
 
         return ResponseEntity.ok("success");
     }
@@ -25,7 +24,7 @@ public class StockIndicatorController {
     @RequestMapping("/dayTask")
     public ResponseEntity<String> dayTask(Long id) {
 
-        stockIndicatorService.executeWeekTask();
+        stockIndicatorService.executeDayTask();
 
         return ResponseEntity.ok("success");
     }
@@ -33,7 +32,7 @@ public class StockIndicatorController {
     @RequestMapping("/monthTask")
     public ResponseEntity<String> monthTask(Long id) {
 
-        stockIndicatorService.executeMonthTask();
+        stockIndicatorService.executeWeekTask();
 
         return ResponseEntity.ok("success");
     }
