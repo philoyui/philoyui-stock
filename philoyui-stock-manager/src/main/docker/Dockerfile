@@ -1,4 +1,4 @@
-FROM centos-jdk8:1.0
+FROM centos-jdk8:1.1
 
 ENV LANG en_US.UTF-8
 
