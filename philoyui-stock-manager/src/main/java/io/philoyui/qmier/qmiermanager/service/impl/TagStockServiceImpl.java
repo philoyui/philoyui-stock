@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -41,5 +42,15 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     @Override
     public List<TagStockEntity> findByTagName(String tagName) {
         return tagStockDao.findByTagName(tagName);
+    }
+
+    @Override
+    public TagStockEntity tagStock(String symbol, String tagName, Date day) {
+        TagStockEntity tagStockEntity = new TagStockEntity();
+        tagStockEntity.setSymbol(symbol);
+        tagStockEntity.setTagName("MACD底背离(日)");
+        tagStockEntity.setCreatedTime(day);
+        this.insert(tagStockEntity);
+        return tagStockEntity;
     }
 }

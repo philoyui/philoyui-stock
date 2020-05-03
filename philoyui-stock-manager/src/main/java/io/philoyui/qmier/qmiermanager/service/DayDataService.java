@@ -21,4 +21,6 @@ public interface DayDataService extends GenericService<DataDayEntity,Long> {
     StockHistoryData findStockHistoryData(StockEntity stockEntity);
 
     void downloadHistory(StockEntity stockEntity);
+
+    void deleteAll();
 }

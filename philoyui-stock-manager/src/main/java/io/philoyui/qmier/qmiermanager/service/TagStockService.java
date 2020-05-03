@@ -3,6 +3,7 @@ package io.philoyui.qmier.qmiermanager.service;
 import cn.com.gome.cloud.openplatform.service.GenericService;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TagStockService extends GenericService<TagStockEntity,Long> {
@@ -14,4 +15,6 @@ public interface TagStockService extends GenericService<TagStockEntity,Long> {
     List<TagStockEntity> findBySymbol(String symbol);
 
     List<TagStockEntity> findByTagName(String tagName);
+
+    TagStockEntity tagStock(String symbol, String tagName, Date day);
 }

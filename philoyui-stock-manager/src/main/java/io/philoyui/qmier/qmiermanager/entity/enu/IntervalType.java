@@ -1,6 +1,7 @@
 package io.philoyui.qmier.qmiermanager.entity.enu;
 
 public enum IntervalType {
+
     Day("日"),Week("周"),Month("月");
 
     IntervalType(String desc) {
@@ -21,4 +22,5 @@ public enum IntervalType {
     public String toString() {
         return desc;
     }
+
 }

@@ -192,6 +192,11 @@ public class DayDataServiceImpl extends GenericServiceImpl<DataDayEntity,Long> i
 
     }
 
+    @Override
+    public void deleteAll() {
+        dataDayDao.deleteAll();
+    }
+
     private ProductData[] fetchCurrentProductData(int pageNo) {
 
         String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page="+pageNo+"&num=100&sort=symbol&asc=1&node=sh_a&symbol=&_s_r_a=page";

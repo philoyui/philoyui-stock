@@ -17,4 +17,7 @@ public interface WeekDataService extends GenericService<DataWeekEntity,Long> {
 
     StockHistoryData findStockHistoryData(StockEntity stockEntity);
 
+    void deleteAll();
+
+    void downloadHistory(StockEntity stockEntity);
 }

@@ -1,6 +1,9 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -25,6 +28,7 @@ public class TagStockEntity implements Serializable {
      * 创建时间
      */
     private Date createdTime;
+
 
     public Long getId() {
         return id;
@@ -57,4 +61,5 @@ public class TagStockEntity implements Serializable {
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
+
 }

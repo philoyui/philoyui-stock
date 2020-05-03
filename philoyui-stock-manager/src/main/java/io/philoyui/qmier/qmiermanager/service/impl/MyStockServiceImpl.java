@@ -6,10 +6,7 @@ import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.dao.TagDao;
-import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockStrategyEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.*;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
@@ -87,7 +84,6 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         }
 
     }
-
 
 
 }
