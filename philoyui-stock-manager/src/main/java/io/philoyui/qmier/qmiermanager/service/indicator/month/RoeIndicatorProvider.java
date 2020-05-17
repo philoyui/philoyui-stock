@@ -1,29 +1,49 @@
-package io.philoyui.qmier.qmiermanager.service.tag.processor;
+package io.philoyui.qmier.qmiermanager.service.indicator.month;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
-import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class RoeTagMarker extends GlobalTagMarker {
+public class RoeIndicatorProvider implements IndicatorProvider {
 
     @Autowired
     private FinancialReportService financialReportService;
 
+    @Autowired
+    private TagStockService tagStockService;
+
+    @Override
+    public List<TagStockEntity> processTags(StockEntity stockEntity) {
+        return null;
+    }
+
+    @Override
+    public String identifier() {
+        return "roe";
+    }
+
+    @Override
+    public void cleanOldData() {
+        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
+        tagStockService.deleteByTagNameAndDayString("业绩上升",dayString);
+        tagStockService.deleteByTagNameAndDayString("存股",dayString);
+    }
+
     @Override
     public void processGlobal() {
-
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("season",3));
         searchFilter.add(Restrictions.eq("year",2019));
@@ -48,7 +68,7 @@ public class RoeTagMarker extends GlobalTagMarker {
             }
         }
 
-        this.tagStocks(symbolResultList,"业绩上升");
+        tagStockService.tagStocks(symbolResultList,"业绩上升",new Date());
 
         //===========================================================
 
@@ -67,21 +87,6 @@ public class RoeTagMarker extends GlobalTagMarker {
             }
         }
 
-        this.tagStocks(resultSet,"存股");
-    }
-
-    @Override
-    public boolean supportDate() {
-        return false;
-    }
-
-    @Override
-    public boolean supportWeek() {
-        return false;
-    }
-
-    @Override
-    public boolean supportMonth() {
-        return true;
+        tagStockService.tagStocks(resultSet,"存股",new Date());
     }
 }

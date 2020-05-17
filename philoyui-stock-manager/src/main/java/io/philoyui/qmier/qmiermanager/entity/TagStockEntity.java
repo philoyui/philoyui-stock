@@ -29,6 +29,8 @@ public class TagStockEntity implements Serializable {
      */
     private Date createdTime;
 
+    private String dayString;
+
 
     public Long getId() {
         return id;
@@ -62,4 +64,11 @@ public class TagStockEntity implements Serializable {
         this.createdTime = createdTime;
     }
 
+    public String getDayString() {
+        return dayString;
+    }
+
+    public void setDayString(String dayString) {
+        this.dayString = dayString;
+    }
 }

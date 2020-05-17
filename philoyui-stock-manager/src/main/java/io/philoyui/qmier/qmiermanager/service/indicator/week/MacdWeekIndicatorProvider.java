@@ -122,4 +122,9 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
         tagStockService.deleteByTagName("MACD零轴死叉(周)");
         tagStockService.deleteByTagName("MACD零轴金叉(周)");
     }
+
+    @Override
+    public void processGlobal() {
+
+    }
 }

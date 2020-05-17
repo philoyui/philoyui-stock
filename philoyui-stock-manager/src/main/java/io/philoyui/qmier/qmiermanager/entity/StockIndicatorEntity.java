@@ -88,4 +88,5 @@ public class StockIndicatorEntity implements Serializable {
     public void setEnable(boolean enable) {
         this.enable = enable;
     }
+
 }

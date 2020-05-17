@@ -13,4 +13,5 @@ public interface IndicatorProvider {
 
     void cleanOldData();
 
+    void processGlobal();
 }

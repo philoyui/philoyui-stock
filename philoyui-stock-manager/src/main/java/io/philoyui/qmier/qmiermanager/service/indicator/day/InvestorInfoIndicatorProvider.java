@@ -1,6 +1,11 @@
-package io.philoyui.qmier.qmiermanager.service.tag.processor;
+package io.philoyui.qmier.qmiermanager.service.indicator.day;
 
-import io.philoyui.qmier.qmiermanager.service.tag.GlobalTagMarker;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
@@ -8,6 +13,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +21,28 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class InvestorInfoTagMarker extends GlobalTagMarker {
+public class InvestorInfoIndicatorProvider implements IndicatorProvider {
+
+    private Gson gson = new GsonBuilder().create();
+
+    @Autowired
+    private TagStockService tagStockService;
+
+    @Override
+    public List<TagStockEntity> processTags(StockEntity stockEntity) {
+        return null;
+    }
+
+    @Override
+    public String identifier() {
+        return "investor_info";
+    }
+
+    @Override
+    public void cleanOldData() {
+        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
+        tagStockService.deleteByTagNameAndDayString("投资者关系活动记录表",dayString);
+    }
 
     @Override
     public void processGlobal() {
@@ -34,22 +61,7 @@ public class InvestorInfoTagMarker extends GlobalTagMarker {
         }catch (Exception e){
             e.printStackTrace();
         }
-        this.tagStocks(stockList,"投资者关系活动记录表");
-    }
-
-    @Override
-    public boolean supportDate() {
-        return true;
-    }
-
-    @Override
-    public boolean supportWeek() {
-        return false;
-    }
-
-    @Override
-    public boolean supportMonth() {
-        return false;
+        tagStockService.tagStocks(stockList,"投资者关系活动记录表",new Date());
     }
 
     private String buildSymbol(String code) {

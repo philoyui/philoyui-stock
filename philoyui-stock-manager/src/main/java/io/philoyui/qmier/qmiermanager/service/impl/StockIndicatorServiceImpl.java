@@ -64,17 +64,18 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeDayTask() {
-
+        //清理所有日线级别数据
         dayDataService.deleteAll();
 
+        //清理指标数据
         List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
         for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
             IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
             dayIndicatorProvider.cleanOldData();
+            dayIndicatorProvider.processGlobal();
         }
 
-
-
+        //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
             dayDataService.downloadHistory(stockEntity);
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
@@ -86,6 +87,7 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             }
             taskLogService.logDownloadSuccess(stockEntity,tagStockEntities);
         }
+
     }
 
     @Override

@@ -1,18 +1,10 @@
 package io.philoyui.qmier.qmiermanager.timer;
 
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockIndicatorEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
-import io.philoyui.qmier.qmiermanager.service.*;
-import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.service.MyStockService;
+import io.philoyui.qmier.qmiermanager.service.StockIndicatorService;
+import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CoreTaskTimer {

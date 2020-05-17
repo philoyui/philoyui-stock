@@ -17,4 +17,8 @@ public interface TagStockService extends GenericService<TagStockEntity,Long> {
     List<TagStockEntity> findByTagName(String tagName);
 
     TagStockEntity tagStock(String symbol, String tagName, Date day);
+
+    void tagStocks(List<String> stockSet, String tagName, Date date);
+
+    void deleteByTagNameAndDayString(String tagName, String dayString);
 }

@@ -124,6 +124,10 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
         tagStockService.deleteByTagName("MACD底背离(日)");
         tagStockService.deleteByTagName("MACD零轴死叉(日)");
         tagStockService.deleteByTagName("MACD零轴金叉(日)");
+    }
+
+    @Override
+    public void processGlobal() {
 
     }
 

@@ -12,4 +12,6 @@ public interface TagStockDao extends GenericDao<TagStockEntity,Long> {
     List<TagStockEntity> findBySymbol(String symbol);
 
     List<TagStockEntity> findByTagName(String tagName);
+
+    void deleteByTagNameAndDayString(String tagName, String dayString);
 }
