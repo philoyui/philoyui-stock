@@ -22,17 +22,13 @@ public class StringOptionFieldDefinition extends StringFieldDefinition {
 
     @Override
     public String buildSearchFilterHtml(PageService pageService, HttpServletRequest request) {
-
         Map<String,String> nameDescMap = new ConcurrentHashMap<>();
-
         for (String stringOption : stringOptions) {
             nameDescMap.put(stringOption,stringOption);
         }
-
         String selectValue = request.getParameter(fieldName);
         StylePlugin stylePlugin = pageContext.getStylePlugin();
         return stylePlugin.buildSelectBoxFilterHtml(nameDescMap,fieldName,description,selectValue);
-
     }
 
     @Override
