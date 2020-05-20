@@ -10,4 +10,4 @@ ADD python /root/python/
 
 RUN chmod -R 777 /root/python/
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "app.jar","--spring.profiles.active=product"]
