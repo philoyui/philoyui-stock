@@ -6,7 +6,7 @@ ADD *.jar app.jar
 
 EXPOSE 8080
 
-COPY . /root/python/
+ADD . /root/python/
 
 RUN chmod -R 777 /root/python/
 
