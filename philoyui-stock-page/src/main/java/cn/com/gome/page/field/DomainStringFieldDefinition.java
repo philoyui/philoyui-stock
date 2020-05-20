@@ -10,13 +10,21 @@ import cn.com.gome.page.utils.BeanUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
-public class DomainStringFieldDefinition extends StringFieldDefinition{
+public class DomainStringFieldDefinition extends StringFieldDefinition {
+
+    private String domainFieldName = "id";
 
     private PageDomainProvider pageDomainProvider;
 
     public DomainStringFieldDefinition(String fieldName, String description, PageDomainProvider pageDomainProvider) {
         super(fieldName, description);
         this.pageDomainProvider = pageDomainProvider;
+    }
+
+    public DomainStringFieldDefinition(String fieldName, String description, PageDomainProvider pageDomainProvider, String domainFieldName) {
+        super(fieldName, description);
+        this.pageDomainProvider = pageDomainProvider;
+        this.domainFieldName = domainFieldName;
     }
 
     @Override
@@ -30,7 +38,7 @@ public class DomainStringFieldDefinition extends StringFieldDefinition{
             return "已被删除";
         }
 
-        String domainLinkName = (String)BeanUtils.getPropertyValue(obj,pageDomainProvider.getDisplayFieldName());
+        String domainLinkName = (String) BeanUtils.getPropertyValue(obj,pageDomainProvider.getDisplayFieldName());
 
         String domainName = pageDomainProvider.getDomainName();
         String domainChineseName = pageDomainProvider.getDomainChineseName();
@@ -44,7 +52,7 @@ public class DomainStringFieldDefinition extends StringFieldDefinition{
 
         String domainName = pageDomainProvider.getDomainName();
         String domainChineseName = pageDomainProvider.getDomainChineseName();
-        String id = (String) BeanUtils.getPropertyValue(entity, "id");
+        String id = (String) entity;
 
         Object obj = pageDomainProvider.findByReferId(id);
 
@@ -52,7 +60,7 @@ public class DomainStringFieldDefinition extends StringFieldDefinition{
             return "已删除";
         }
 
-        String domainLinkName = (String)BeanUtils.getPropertyValue(obj,pageDomainProvider.getDisplayFieldName());
+        String domainLinkName = (String) BeanUtils.getPropertyValue(obj,pageDomainProvider.getDisplayFieldName());
 
         return String.format("<a style=\"text-decoration:none\" class=\"ml-5 c-primary\" onclick=\"layer_show('%s详细信息','/admin/%s/lay_detail?referId=%s')\" href=\"javascript:;\" title=\"%s\">%s</a>", domainChineseName, domainName, id, id, domainLinkName);
     }
@@ -68,7 +76,7 @@ public class DomainStringFieldDefinition extends StringFieldDefinition{
         HashMap<String, String> optionHashMap = new HashMap<>();
 
         for (Object object : pageDomainProvider.findAll()) {
-            optionHashMap.put(String.valueOf(BeanUtils.getPropertyValue(object,"id")),String.valueOf(BeanUtils.getPropertyValue(object,pageDomainProvider.getDisplayFieldName())));
+            optionHashMap.put(String.valueOf(BeanUtils.getPropertyValue(object,domainFieldName)),String.valueOf(BeanUtils.getPropertyValue(object,pageDomainProvider.getDisplayFieldName())));
         }
 
         StylePlugin stylePlugin = pageContext.getStylePlugin();
@@ -84,14 +92,14 @@ public class DomainStringFieldDefinition extends StringFieldDefinition{
         HashMap<String, String> optionHashMap = new HashMap<>();
 
         for (Object object : pageDomainProvider.findAll()) {
-            optionHashMap.put(String.valueOf(BeanUtils.getPropertyValue(object,"id")),String.valueOf(BeanUtils.getPropertyValue(object,pageDomainProvider.getDisplayFieldName())));
+            optionHashMap.put(String.valueOf(BeanUtils.getPropertyValue(object,domainFieldName)),String.valueOf(BeanUtils.getPropertyValue(object,pageDomainProvider.getDisplayFieldName())));
         }
 
 
         String selectValue = "";
 
         if (entity != null) {
-            Enum<?> requestValue = (Enum<?>)BeanUtils.getPropertyValue(entity, fieldName);
+            Enum<?> requestValue = (Enum<?>) BeanUtils.getPropertyValue(entity, fieldName);
             if(requestValue!=null){
                 selectValue = requestValue.name();
             }
