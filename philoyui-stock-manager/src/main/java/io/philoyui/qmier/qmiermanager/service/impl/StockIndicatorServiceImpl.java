@@ -125,7 +125,7 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     private void parseIndicatorDataUsePython(String pythonName, String symbol, String interval) {
         Process process;
         try {
-            process = Runtime.getRuntime().exec("C:\\Users\\DELL\\PycharmProjects\\untitled\\venv\\Scripts\\python C:\\workplace\\philoyui-stock\\philoyui-stock-manager\\src\\main\\docker\\" + pythonName + " " + symbol + " " + interval);// 执行py文件
+            process = Runtime.getRuntime().exec(pythonPath + pythonName + " " + symbol + " " + interval);// 执行py文件
 
 //            process = Runtime.getRuntime().exec("python /root/python/" + pythonName + " " + symbol + " " + interval);// 执行py文件
             //用输入输出流来截取结果
