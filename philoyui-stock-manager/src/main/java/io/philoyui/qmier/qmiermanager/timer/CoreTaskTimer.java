@@ -2,27 +2,17 @@ package io.philoyui.qmier.qmiermanager.timer;
 
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockIndicatorService;
-import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CoreTaskTimer {
 
-
-
     @Autowired
     private StockIndicatorService stockIndicatorService;
 
     @Autowired
-    private StockStrategyService stockStrategyService;
-
-    @Autowired
     private MyStockService myStockService;
-
-
-
-
 
     /**
      * 1. 遍历所有的股票，清理历史数据，下载最新的数据，入数据库

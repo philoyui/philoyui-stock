@@ -12,6 +12,7 @@ import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.*;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -22,6 +23,9 @@ import java.util.List;
 
 @Component
 public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicatorEntity,Long> implements StockIndicatorService {
+
+    @Value("${application.python.path}")
+    private String pythonPath;
 
     @Autowired
     private StockIndicatorDao stockIndicatorDao;

@@ -8,7 +8,6 @@ import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.dao.TagDao;
 import io.philoyui.qmier.qmiermanager.entity.*;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
-import io.philoyui.qmier.qmiermanager.service.StockStrategyService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -39,9 +38,6 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     @Autowired
     private TagStockService tagStockService;
-
-    @Autowired
-    private StockStrategyService stockStrategyService;
 
     @Override
     protected GenericDao<MyStockEntity, Long> getDao() {

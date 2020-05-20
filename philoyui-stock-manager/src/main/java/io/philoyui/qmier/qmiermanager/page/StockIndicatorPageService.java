@@ -52,8 +52,6 @@ public class StockIndicatorPageService extends PageService<StockIndicatorEntity,
                         "intervalType"
                 )
                 .withSortDefinitions(
-                        "lastExecuteTime_asc",
-                        "lastExecuteTime_desc"
                 )
                 .withTableAction(
                         new CreateOperation(),
