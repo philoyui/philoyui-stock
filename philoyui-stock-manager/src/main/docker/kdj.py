@@ -3,7 +3,9 @@ import sys
 import pandas as pd
 from sqlalchemy import create_engine
 
-engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock_analysis')
+from base import build_mysql_connection
+
+engine = create_engine(build_mysql_connection())
 conn = engine.connect()
 
 symbol = 'sh600000'

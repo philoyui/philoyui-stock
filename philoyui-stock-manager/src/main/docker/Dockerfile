@@ -8,6 +8,8 @@ EXPOSE 8080
 
 ADD . /root/python/
 
+COPY product/base.py /root/python/
+
 RUN chmod -R 777 /root/python/
 
 CMD ["java", "-jar", "app.jar","--spring.profiles.active=product"]

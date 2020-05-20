@@ -4,7 +4,9 @@ import pandas as pd
 import talib
 from sqlalchemy import create_engine
 
-engine = create_engine('mysql+pymysql://root:123456@localhost:3306/stock_analysis')
+from base import build_mysql_connection
+
+engine = create_engine(build_mysql_connection())
 conn = engine.connect()
 
 symbol = sys.argv[1]
