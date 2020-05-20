@@ -8,6 +8,8 @@ import io.philoyui.qmier.qmiermanager.service.RsiDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class RsiDataServiceImpl extends GenericServiceImpl<RsiDataEntity,Long> implements RsiDataService {
 
@@ -19,6 +21,7 @@ public class RsiDataServiceImpl extends GenericServiceImpl<RsiDataEntity,Long> i
         return rsiDataDao;
     }
 
+    @Transactional
     @Override
     public void deleteDayData() {
         rsiDataDao.deleteData("Day");

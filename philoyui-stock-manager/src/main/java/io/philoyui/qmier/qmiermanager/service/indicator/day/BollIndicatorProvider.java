@@ -37,20 +37,28 @@ public class BollIndicatorProvider implements IndicatorProvider {
             switch (bollDataEntity.getBollType()){
                 case EXPAND:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case SHRINK:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case FALL_THROUGH_LOWER:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case FALL_THROUGH_UPPER:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case BREAK_THROUGH_LOWER:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case BREAK_THROUGH_UPPER:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case FALL_THROUGH_MIDDLE:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
                 case BREAK_THROUGH_MIDDLE:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    break;
             }
         }
 
@@ -59,7 +67,7 @@ public class BollIndicatorProvider implements IndicatorProvider {
 
     @Override
     public String identifier() {
-        return "boll";
+        return "boll_day";
     }
 
     @Override

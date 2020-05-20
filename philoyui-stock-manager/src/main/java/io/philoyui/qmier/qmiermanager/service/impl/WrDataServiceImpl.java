@@ -8,6 +8,8 @@ import io.philoyui.qmier.qmiermanager.service.WrDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class WrDataServiceImpl extends GenericServiceImpl<WrDataEntity,Long> implements WrDataService {
 
@@ -19,6 +21,7 @@ public class WrDataServiceImpl extends GenericServiceImpl<WrDataEntity,Long> imp
         return wrDataDao;
     }
 
+    @Transactional
     @Override
     public void deleteDayData() {
         wrDataDao.deleteData("Day");

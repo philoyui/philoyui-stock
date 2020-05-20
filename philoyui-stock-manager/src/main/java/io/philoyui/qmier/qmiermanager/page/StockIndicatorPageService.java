@@ -38,14 +38,12 @@ public class StockIndicatorPageService extends PageService<StockIndicatorEntity,
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("pythonName", "Python文件名称"),
                         new StringFieldDefinition("identifier", "唯一标识"),
-                        new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
                         new EnableFieldDefinition("enable", "是否启用"),
                         new EnumFieldDefinition("intervalType","数据类型", IntervalType.class)
                 )
                 .withTableColumnDefinitions(
                         "identifier_15",
                         "pythonName_20",
-                        "lastExecuteTime_20",
                         "enable_10",
                         "intervalType_10",
                         "#operation_25"

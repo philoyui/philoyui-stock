@@ -6,21 +6,19 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.entity.indicator.CciDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.RsiDataEntity;
-import io.philoyui.qmier.qmiermanager.entity.indicator.SarDataEntity;
-import io.philoyui.qmier.qmiermanager.entity.indicator.enu.CciType;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.RsiType;
-import io.philoyui.qmier.qmiermanager.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.RsiDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class RsiIndicatorProvider implements IndicatorProvider {
 
     @Autowired
@@ -44,6 +42,7 @@ public class RsiIndicatorProvider implements IndicatorProvider {
             switch (rsiDataEntity.getRsiType()){
                 case BREAK_30:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头",rsiDataEntity.getDay()));
+                    break;
                 case FALL_70:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头",rsiDataEntity.getDay()));
             }

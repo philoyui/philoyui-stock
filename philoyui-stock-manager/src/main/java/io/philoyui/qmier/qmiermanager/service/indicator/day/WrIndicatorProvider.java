@@ -39,6 +39,7 @@ public class WrIndicatorProvider implements IndicatorProvider {
             switch (wrDataEntity.getWrType()){
                 case Buy_Point_20:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR多头",wrDataEntity.getDay()));
+                    break;
                 case Sell_Point_20:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR空头",wrDataEntity.getDay()));
             }

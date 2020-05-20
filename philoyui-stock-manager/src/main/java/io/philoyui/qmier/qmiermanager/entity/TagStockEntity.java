@@ -71,4 +71,8 @@ public class TagStockEntity implements Serializable {
     public void setDayString(String dayString) {
         this.dayString = dayString;
     }
+
+    public String getTagNameString(){
+        return tagName + "(" + dayString + ")";
+    }
 }

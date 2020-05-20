@@ -8,6 +8,8 @@ import io.philoyui.qmier.qmiermanager.service.CciDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class CciDataServiceImpl extends GenericServiceImpl<CciDataEntity,Long> implements CciDataService {
 
@@ -19,6 +21,7 @@ public class CciDataServiceImpl extends GenericServiceImpl<CciDataEntity,Long> i
         return cciDataDao;
     }
 
+    @Transactional
     @Override
     public void deleteDayData() {
         cciDataDao.deleteData("Day");

@@ -33,6 +33,7 @@ public class MacdDataServiceImpl extends GenericServiceImpl<MacdDataEntity,Long>
         macdDataDao.deleteData("Day");
     }
 
+    @Transactional
     @Override
     public void deleteWeekData() {
         macdDataDao.deleteData("Week");

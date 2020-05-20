@@ -67,17 +67,17 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(overSellDataList.size()>1){
-            for (KdjDataEntity kdjDataEntity : overSellDataList) {
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ超卖(日)",kdjDataEntity.getDay()));
-            }
-        }
-
-        if(overBuyDataList.size()>1){
-            for (KdjDataEntity kdjDataEntity : overBuyDataList) {
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ超买(日)",kdjDataEntity.getDay()));
-            }
-        }
+//        if(overSellDataList.size()>1){
+//            for (KdjDataEntity kdjDataEntity : overSellDataList) {
+//                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ超卖(日)",kdjDataEntity.getDay()));
+//            }
+//        }
+//
+//        if(overBuyDataList.size()>1){
+//            for (KdjDataEntity kdjDataEntity : overBuyDataList) {
+//                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ超买(日)",kdjDataEntity.getDay()));
+//            }
+//        }
 
         if(bottomTurningDataList.size()>1){
             KdjDataEntity kdjDataEntity_0 = bottomTurningDataList.get(0);
@@ -106,12 +106,15 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
     @Override
     public void cleanOldData() {
         kdjDataService.deleteDayData();
-        tagStockService.deleteByTagName("DIFF顶背离(日)");
-        tagStockService.deleteByTagName("DIFF底背离(日)");
-        tagStockService.deleteByTagName("MACD顶背离(日)");
-        tagStockService.deleteByTagName("MACD底背离(日)");
-        tagStockService.deleteByTagName("MACD零轴死叉(日)");
-        tagStockService.deleteByTagName("MACD零轴金叉(日)");
+        tagStockService.deleteByTagName("KDJ底背离(日)");
+        tagStockService.deleteByTagName("KDJ底部金叉(日)");
+        tagStockService.deleteByTagName("KDJ顶背离(日)");
+        tagStockService.deleteByTagName("KDJ顶部死叉(日)");
+        tagStockService.deleteByTagName("KDJ超卖(日)");
+        tagStockService.deleteByTagName("KDJ超买(日)");
+        tagStockService.deleteByTagName("K线(KDJ)底背离(日)");
+        tagStockService.deleteByTagName("K线(KDJ)顶背离(日)");
+
     }
 
     @Override

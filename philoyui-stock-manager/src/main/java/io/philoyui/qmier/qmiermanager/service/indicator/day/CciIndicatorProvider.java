@@ -41,16 +41,22 @@ public class CciIndicatorProvider implements IndicatorProvider {
             switch (cciDataEntity.getCciType()){
                 case BREAK_100:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入强势",cciDataEntity.getDay()));
+                    break;
                 case BREAK_NEGATIVE_100:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI多头开启",cciDataEntity.getDay()));
+                    break;
                 case FALL_100:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI空头开启",cciDataEntity.getDay()));
+                    break;
                 case FALL_NEGATIVE_100:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入弱势",cciDataEntity.getDay()));
+                    break;
                 case TOP:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束强势",cciDataEntity.getDay()));
+                    break;
                 case BOTTOM:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束弱势",cciDataEntity.getDay()));
+                    break;
             }
         }
 
@@ -79,7 +85,7 @@ public class CciIndicatorProvider implements IndicatorProvider {
 
     @Override
     public String identifier() {
-        return "cci";
+        return "cci_day";
     }
 
     @Override

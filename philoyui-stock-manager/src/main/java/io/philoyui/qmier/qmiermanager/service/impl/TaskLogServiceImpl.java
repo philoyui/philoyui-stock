@@ -9,6 +9,7 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TaskLogEntity;
 import io.philoyui.qmier.qmiermanager.service.TaskLogService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,6 @@ public class TaskLogServiceImpl extends GenericServiceImpl<TaskLogEntity,Long> i
     public void logDownloadSuccess(StockEntity stockEntity, List<TagStockEntity> tagList) {
         TaskLogEntity taskLogEntity = new TaskLogEntity();
         taskLogEntity.setSymbol(stockEntity.getSymbol());
-        taskLogEntity.setContent(gson.toJson(tagList));
         taskLogEntity.setCreateTime(new Date());
         this.insert(taskLogEntity);
     }

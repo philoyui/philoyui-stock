@@ -77,13 +77,17 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
         //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
+            System.out.println("下载股票" + stockEntity.getSymbol());
             dayDataService.downloadHistory(stockEntity);
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
             for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
+                System.out.println("使用指标" + dayStockIndicator.getIdentifier());
                 parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
                 IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
                 List<TagStockEntity> tagEntityList = dayIndicatorProvider.processTags(stockEntity);
-                tagStockEntities.addAll(tagEntityList);
+                if(tagEntityList!=null){
+                    tagStockEntities.addAll(tagEntityList);
+                }
             }
             taskLogService.logDownloadSuccess(stockEntity,tagStockEntities);
         }

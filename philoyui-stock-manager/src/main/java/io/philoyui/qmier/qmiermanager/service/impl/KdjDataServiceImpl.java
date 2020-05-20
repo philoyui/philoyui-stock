@@ -8,6 +8,8 @@ import io.philoyui.qmier.qmiermanager.service.KdjDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class KdjDataServiceImpl extends GenericServiceImpl<KdjDataEntity,Long> implements KdjDataService {
 
@@ -19,6 +21,7 @@ public class KdjDataServiceImpl extends GenericServiceImpl<KdjDataEntity,Long> i
         return kdjDataDao;
     }
 
+    @Transactional
     @Override
     public void deleteDayData() {
         kdjDataDao.deleteData("Day");

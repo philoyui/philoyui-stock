@@ -39,6 +39,7 @@ public class SarIndicatorProvider implements IndicatorProvider {
             switch (sarDataEntity.getSarType()){
                 case Buy:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损",sarDataEntity.getDay()));
+                    break;
                 case Sell:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止损",sarDataEntity.getDay()));
             }

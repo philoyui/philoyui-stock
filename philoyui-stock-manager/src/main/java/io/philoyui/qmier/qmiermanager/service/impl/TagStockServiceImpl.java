@@ -1,5 +1,7 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Restrictions;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import io.philoyui.qmier.qmiermanager.dao.TagStockDao;
@@ -101,6 +103,7 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
 
     }
 
+    @Transactional
     @Override
     public void deleteByTagNameAndDayString(String tagName, String dayString) {
         tagStockDao.deleteByTagNameAndDayString(tagName,dayString);

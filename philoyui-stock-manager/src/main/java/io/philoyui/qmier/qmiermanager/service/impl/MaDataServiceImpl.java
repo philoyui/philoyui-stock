@@ -8,6 +8,8 @@ import io.philoyui.qmier.qmiermanager.service.MaDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 public class MaDataServiceImpl extends GenericServiceImpl<MaDataEntity,Long> implements MaDataService {
 
@@ -19,6 +21,7 @@ public class MaDataServiceImpl extends GenericServiceImpl<MaDataEntity,Long> imp
         return maDataDao;
     }
 
+    @Transactional
     @Override
     public void deleteDayData() {
         maDataDao.deleteData("Day");
