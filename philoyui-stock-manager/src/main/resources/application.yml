@@ -6,7 +6,8 @@ logging:
 application:
   voice.base-url: http://114.67.84.99/voice/article/
   voice.store-path: /app/data/voice/article/
-  python.path: python /root/python/
+  python.path: C:\Users\DELL\PycharmProjects\untitled\venv\Scripts\python C:\workplace\philoyui-stock\philoyui-stock-manager\src\main\docker\
+
 spring:
   jpa:
     hibernate.ddl-auto: update
