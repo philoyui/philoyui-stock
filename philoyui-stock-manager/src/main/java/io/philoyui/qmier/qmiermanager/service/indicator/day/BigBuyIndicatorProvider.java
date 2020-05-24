@@ -60,7 +60,7 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
     @Override
     public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
+        String startData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 
         List<String> stockSet = new ArrayList<>();
         List<String> highVolumeStockSet = new ArrayList<>();

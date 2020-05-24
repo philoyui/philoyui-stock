@@ -47,7 +47,7 @@ public class InvestorInfoIndicatorProvider implements IndicatorProvider {
     @Override
     public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
+        String startData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         List<String> stockList = new ArrayList<>();
         String fetchUrl = "http://ircs.p5w.net/ircs/interaction/moreIrmInfoList.do?pageNo=1&irmpagesize=40&beginDate=" + startData + "&endDate=" + endData;
         Connection connect = Jsoup.connect(fetchUrl);

@@ -4,5 +4,8 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
 
 public interface MyStockDao extends GenericDao<MyStockEntity,Long> {
+
     void deleteByDateString(String dateStr);
+
+    MyStockEntity findBySymbol(String symbol);
 }

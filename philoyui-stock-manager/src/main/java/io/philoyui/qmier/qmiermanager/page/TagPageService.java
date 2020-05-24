@@ -38,11 +38,13 @@ public class TagPageService extends PageService<TagEntity,Long> {
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("tagName", "标签名称"),
-                        new DateFieldDefinition("lastExecuteTime", "上次执行时间")
+                        new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
+                        new EnumFieldDefinition("strategyType","策略类型",StrategyType.class)
                 )
                 .withTableColumnDefinitions(
                         "tagName_20",
                         "lastExecuteTime_30",
+                        "strategyType_20",
                         "#operation_30"
                 )
                 .withColumnAction(
@@ -50,7 +52,8 @@ public class TagPageService extends PageService<TagEntity,Long> {
                         new EditOperation(),
                         new DeleteOperation()
                 ).withFormItemDefinition(
-                        "tagName_rw"
+                        "tagName_rw",
+                        "strategyType_rw"
                 );
         return pageConfig;
     }

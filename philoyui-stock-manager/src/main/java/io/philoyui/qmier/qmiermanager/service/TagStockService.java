@@ -14,11 +14,13 @@ public interface TagStockService extends GenericService<TagStockEntity,Long> {
 
     List<TagStockEntity> findBySymbol(String symbol);
 
-    List<TagStockEntity> findByTagName(String tagName);
+    List<TagStockEntity> findTodayTagName(String tagName,String dayString);
 
     TagStockEntity tagStock(String symbol, String tagName, Date day);
 
     void tagStocks(List<String> stockSet, String tagName, Date date);
 
     void deleteByTagNameAndDayString(String tagName, String dayString);
+
+    String findLastDayString();
 }

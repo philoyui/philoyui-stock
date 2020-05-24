@@ -1,5 +1,7 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
+import io.philoyui.qmier.qmiermanager.domain.StockAndReason;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -74,5 +76,9 @@ public class TagStockEntity implements Serializable {
 
     public String getTagNameString(){
         return tagName + "(" + dayString + ")";
+    }
+
+    public StockAndReason buildStockAndReason(){
+        return new StockAndReason(symbol,dayString,tagName);
     }
 }

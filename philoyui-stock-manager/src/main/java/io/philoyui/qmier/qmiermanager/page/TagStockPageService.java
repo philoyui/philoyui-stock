@@ -38,7 +38,7 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new StringFieldDefinition("tagName", "标签"),
-                        new DateFieldDefinition("createdTime", "修改时间")
+                        new DateFieldDefinition("dayString", "日期")
                 )
                 .withTableColumnDefinitions(
                         "symbol_12",
@@ -46,7 +46,7 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         "dayImage_20",
                         "weekImage_20",
                         "tagName_15",
-                        "createdTime_18"
+                        "dayString_18"
                 )
                 .withFilterDefinitions(
                         "symbol_like",

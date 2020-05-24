@@ -49,8 +49,11 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     }
 
     @Override
-    public List<TagStockEntity> findByTagName(String tagName) {
-        return tagStockDao.findByTagName(tagName);
+    public List<TagStockEntity> findTodayTagName(String tagName,String dayString) {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.eq("tagName",tagName));
+        searchFilter.add(Restrictions.eq("dayString", dayString));
+        return list(searchFilter);
     }
 
     @Override
@@ -107,6 +110,12 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     @Override
     public void deleteByTagNameAndDayString(String tagName, String dayString) {
         tagStockDao.deleteByTagNameAndDayString(tagName,dayString);
+    }
+
+    @Override
+    public String findLastDayString() {
+        TagStockEntity tagStockEntity = tagStockDao.findFirstByOrderByCreatedTimeDesc();
+        return tagStockEntity.getDayString();
     }
 
 }

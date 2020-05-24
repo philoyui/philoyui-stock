@@ -28,6 +28,8 @@ public class MyStockEntity implements Serializable {
      */
     private String dateString;
 
+    private String reason;
+
     /**
      * 创建时间
      */
@@ -63,5 +65,13 @@ public class MyStockEntity implements Serializable {
 
     public void setDateString(String dateString) {
         this.dateString = dateString;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }

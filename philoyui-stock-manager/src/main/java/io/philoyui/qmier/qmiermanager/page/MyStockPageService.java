@@ -53,7 +53,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),
-                new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList"),
+                new StringFieldDefinition("reason","加入原因"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(
@@ -63,7 +63,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "dayImage_20",
                 "weekImage_20",
                 "createdTime_10",
-                "tagList_20",
+                "reason_20",
                 "#operation_10"
         );
         pageConfig.withFilterDefinitions(
