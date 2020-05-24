@@ -51,9 +51,6 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     @Transactional
     public void obtainEveryDay(){
 
-        //1. 删除今天的自选股
-        myStockDao.deleteAll();
-
         Set<StockAndReason> selectedStockSet = new HashSet<>();
 
         String dayString = tagStockService.findLastDayString();
