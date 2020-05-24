@@ -3,6 +3,7 @@ package io.philoyui.qmier.qmiermanager.timer;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.StockIndicatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,14 +21,18 @@ public class CoreTaskTimer {
      * 3. 使用java代码，解析数据库中的指标数据，清理之前的标签数据，新数据入库，记录日志
      * 4. 判断是否加入自选
      */
+    @Scheduled(cron="0 0 16 * * 1-5")
     public void executeDayTask(){
         stockIndicatorService.executeDayTask();
     }
 
-
+    @Scheduled(cron="0 30 3 ? * 7") //每周六
     public void executeWeekTask(){
         stockIndicatorService.executeWeekTask();
     }
 
-
+    @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
+    public void executeMonthTask(){
+        stockIndicatorService.executeMonthTask();
+    }
 }
