@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.service.indicator.day;
+package io.philoyui.qmier.qmiermanager.service.indicator.month;
 
 import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
@@ -31,7 +31,7 @@ public class RsiIndicatorProvider implements IndicatorProvider {
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
 
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Day));
+        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Month));
         searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
         searchFilter.add(Order.desc("day"));
         List<RsiDataEntity> sarDataEntities = rsiDataService.list(searchFilter);
@@ -41,10 +41,10 @@ public class RsiIndicatorProvider implements IndicatorProvider {
         for (RsiDataEntity rsiDataEntity : sarDataEntities) {
             switch (rsiDataEntity.getRsiType()){
                 case BREAK_30:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头(日)",rsiDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头(月)",rsiDataEntity.getDay()));
                     break;
                 case FALL_70:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头(日)",rsiDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头(月)",rsiDataEntity.getDay()));
             }
         }
 
@@ -56,7 +56,7 @@ public class RsiIndicatorProvider implements IndicatorProvider {
             RsiDataEntity oldRsiDataEntity = topDataList.get(i);
             RsiDataEntity newRsiDataEntity = topDataList.get(i+1);
             if(newRsiDataEntity.getRsiValue() < oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() > oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(日)",newRsiDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(月)",newRsiDataEntity.getDay()));
             }
         }
 
@@ -64,7 +64,7 @@ public class RsiIndicatorProvider implements IndicatorProvider {
             RsiDataEntity oldRsiDataEntity = bottomDataList.get(i);
             RsiDataEntity newRsiDataEntity = bottomDataList.get(i+1);
             if(newRsiDataEntity.getRsiValue() > oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() < oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(日)",newRsiDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(月)",newRsiDataEntity.getDay()));
             }
         }
 
@@ -73,16 +73,16 @@ public class RsiIndicatorProvider implements IndicatorProvider {
 
     @Override
     public String identifier() {
-        return "rsi_day";
+        return "rsi_month";
     }
 
     @Override
     public void cleanOldData() {
         rsiDataService.deleteDayData();
-        tagStockService.deleteByTagName("RSI多头(日)");
-        tagStockService.deleteByTagName("RSI空头(日)");
-        tagStockService.deleteByTagName("RSI顶背离(日)");
-        tagStockService.deleteByTagName("RSI底背离(日)");
+        tagStockService.deleteByTagName("RSI多头(月)");
+        tagStockService.deleteByTagName("RSI空头(月)");
+        tagStockService.deleteByTagName("RSI顶背离(月)");
+        tagStockService.deleteByTagName("RSI底背离(月)");
     }
 
     @Override

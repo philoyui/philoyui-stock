@@ -38,10 +38,10 @@ public class SarIndicatorProvider implements IndicatorProvider {
         for (SarDataEntity sarDataEntity : sarDataEntities) {
             switch (sarDataEntity.getSarType()){
                 case Buy:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损",sarDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损(日)",sarDataEntity.getDay()));
                     break;
                 case Sell:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止盈",sarDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止盈(日)",sarDataEntity.getDay()));
             }
         }
 
@@ -56,8 +56,8 @@ public class SarIndicatorProvider implements IndicatorProvider {
     @Override
     public void cleanOldData() {
         sarDataService.deleteDayData();
-        tagStockService.deleteByTagName("SAR空头止损");
-        tagStockService.deleteByTagName("SAR多头止损");
+        tagStockService.deleteByTagName("SAR空头止损(日)");
+        tagStockService.deleteByTagName("SAR多头止损(日)");
     }
 
     @Override

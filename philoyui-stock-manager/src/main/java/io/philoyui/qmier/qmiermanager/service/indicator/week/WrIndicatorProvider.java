@@ -1,4 +1,4 @@
-package io.philoyui.qmier.qmiermanager.service.indicator.day;
+package io.philoyui.qmier.qmiermanager.service.indicator.week;
 
 import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
@@ -28,7 +28,7 @@ public class WrIndicatorProvider implements IndicatorProvider {
     @Override
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Day));
+        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Week));
         searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
         searchFilter.add(Order.desc("day"));
         List<WrDataEntity> wrDataEntities = wrDataService.list(searchFilter);
@@ -38,10 +38,10 @@ public class WrIndicatorProvider implements IndicatorProvider {
         for (WrDataEntity wrDataEntity : wrDataEntities) {
             switch (wrDataEntity.getWrType()){
                 case Buy_Point_20:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR多头(日)",wrDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR多头(周)",wrDataEntity.getDay()));
                     break;
                 case Sell_Point_20:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR空头(日)",wrDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR空头(周)",wrDataEntity.getDay()));
             }
         }
         return tagStockEntities;
@@ -49,14 +49,14 @@ public class WrIndicatorProvider implements IndicatorProvider {
 
     @Override
     public String identifier() {
-        return "wr_day";
+        return "wr_week";
     }
 
     @Override
     public void cleanOldData() {
         wrDataService.deleteDayData();
-        tagStockService.deleteByTagName("WR多头(日)");
-        tagStockService.deleteByTagName("WR空头(日)");
+        tagStockService.deleteByTagName("WR多头(周)");
+        tagStockService.deleteByTagName("WR空头(周)");
     }
 
     @Override
