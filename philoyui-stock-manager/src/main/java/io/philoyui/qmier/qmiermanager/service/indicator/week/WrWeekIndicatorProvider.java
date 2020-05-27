@@ -6,9 +6,9 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.entity.indicator.SarDataEntity;
-import io.philoyui.qmier.qmiermanager.service.SarDataService;
+import io.philoyui.qmier.qmiermanager.entity.indicator.WrDataEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.service.WrDataService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SarIndicatorProvider implements IndicatorProvider {
+public class WrWeekIndicatorProvider implements IndicatorProvider {
 
     @Autowired
-    private SarDataService sarDataService;
+    private WrDataService wrDataService;
 
     @Autowired
     private TagStockService tagStockService;
@@ -31,33 +31,32 @@ public class SarIndicatorProvider implements IndicatorProvider {
         searchFilter.add(Restrictions.eq("intervalType", IntervalType.Week));
         searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
         searchFilter.add(Order.desc("day"));
-        List<SarDataEntity> sarDataEntities = sarDataService.list(searchFilter);
+        List<WrDataEntity> wrDataEntities = wrDataService.list(searchFilter);
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
-        for (SarDataEntity sarDataEntity : sarDataEntities) {
-            switch (sarDataEntity.getSarType()){
-                case Buy:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损(周)",sarDataEntity.getDay()));
+        for (WrDataEntity wrDataEntity : wrDataEntities) {
+            switch (wrDataEntity.getWrType()){
+                case Buy_Point_20:
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR多头(周)",wrDataEntity.getDay()));
                     break;
-                case Sell:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止盈(周)",sarDataEntity.getDay()));
+                case Sell_Point_20:
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR空头(周)",wrDataEntity.getDay()));
             }
         }
-
         return tagStockEntities;
     }
 
     @Override
     public String identifier() {
-        return "sar_week";
+        return "wr_week";
     }
 
     @Override
     public void cleanOldData() {
-        sarDataService.deleteDayData();
-        tagStockService.deleteByTagName("SAR空头止损(周)");
-        tagStockService.deleteByTagName("SAR多头止损(周)");
+        wrDataService.deleteDayData();
+        tagStockService.deleteByTagName("WR多头(周)");
+        tagStockService.deleteByTagName("WR空头(周)");
     }
 
     @Override

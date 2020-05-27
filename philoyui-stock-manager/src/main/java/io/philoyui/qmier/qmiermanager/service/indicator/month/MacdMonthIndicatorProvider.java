@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class MacdWeekIndicatorProvider implements IndicatorProvider {
+public class MacdMonthIndicatorProvider implements IndicatorProvider {
 
     @Autowired
     private TagStockService tagStockService;

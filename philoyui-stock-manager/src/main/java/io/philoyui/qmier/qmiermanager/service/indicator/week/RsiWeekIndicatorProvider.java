@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RsiIndicatorProvider implements IndicatorProvider {
+public class RsiWeekIndicatorProvider implements IndicatorProvider {
 
     @Autowired
     private TagStockService tagStockService;
