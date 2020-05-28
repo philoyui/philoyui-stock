@@ -5,4 +5,8 @@ import io.philoyui.qmier.qmiermanager.entity.indicator.CciDataEntity;
 
 public interface CciDataService extends GenericService<CciDataEntity,Long> {
     void deleteDayData();
+
+    void deleteWeekData();
+
+    void deleteMonthData();
 }

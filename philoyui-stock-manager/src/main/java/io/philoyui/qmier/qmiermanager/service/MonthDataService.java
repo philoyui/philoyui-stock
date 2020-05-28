@@ -13,7 +13,9 @@ public interface MonthDataService extends GenericService<DataMonthEntity,Long> {
 
     void insertAll(List<DataMonthEntity> dataMonthEntityList);
 
-    void downloadHistory();
-
     StockHistoryData findStockHistoryData(StockEntity stockEntity);
+
+    void deleteAll();
+
+    void downloadHistory(StockEntity stockEntity);
 }

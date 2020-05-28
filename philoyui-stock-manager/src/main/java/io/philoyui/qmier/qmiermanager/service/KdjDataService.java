@@ -5,4 +5,8 @@ import io.philoyui.qmier.qmiermanager.entity.indicator.KdjDataEntity;
 
 public interface KdjDataService extends GenericService<KdjDataEntity,Long> {
     void deleteDayData();
+
+    void deleteMonthData();
+
+    void deleteWeekData();
 }

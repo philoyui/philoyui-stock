@@ -7,4 +7,7 @@ public interface WrDataService extends GenericService<WrDataEntity,Long> {
 
     void deleteDayData();
 
+    void deleteMonthData();
+
+    void deleteWeekData();
 }

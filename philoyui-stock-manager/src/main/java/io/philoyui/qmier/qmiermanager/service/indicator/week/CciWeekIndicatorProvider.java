@@ -90,7 +90,7 @@ public class CciWeekIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        cciDataService.deleteDayData();
+        cciDataService.deleteWeekData();
         tagStockService.deleteByTagName("CCI进入强势(周)");
         tagStockService.deleteByTagName("CCI多头开启(周)");
         tagStockService.deleteByTagName("CCI空头开启(周)");

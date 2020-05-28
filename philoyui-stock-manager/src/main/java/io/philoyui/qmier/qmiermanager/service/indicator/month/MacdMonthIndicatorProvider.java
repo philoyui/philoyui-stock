@@ -114,7 +114,7 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        macdDataService.deleteWeekData();
+        macdDataService.deleteMonthData();
         tagStockService.deleteByTagName("DIFF顶背离(月)");
         tagStockService.deleteByTagName("DIFF底背离(月)");
         tagStockService.deleteByTagName("MACD顶背离(月)");

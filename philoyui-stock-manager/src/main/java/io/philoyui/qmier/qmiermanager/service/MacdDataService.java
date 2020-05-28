@@ -12,4 +12,6 @@ public interface MacdDataService extends GenericService<MacdDataEntity,Long> {
     void deleteDayData();
 
     void deleteWeekData();
+
+    void deleteMonthData();
 }

@@ -54,7 +54,7 @@ public class WrWeekIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        wrDataService.deleteDayData();
+        wrDataService.deleteWeekData();
         tagStockService.deleteByTagName("WR多头(周)");
         tagStockService.deleteByTagName("WR空头(周)");
     }

@@ -26,4 +26,14 @@ public class SarDataServiceImpl extends GenericServiceImpl<SarDataEntity,Long> i
     public void deleteDayData() {
         sarDataDao.deleteData("Day");
     }
+
+    @Override
+    public void deleteWeekData() {
+        sarDataDao.deleteData("Week");
+    }
+
+    @Override
+    public void deleteMonthData() {
+        sarDataDao.deleteData("Month");
+    }
 }

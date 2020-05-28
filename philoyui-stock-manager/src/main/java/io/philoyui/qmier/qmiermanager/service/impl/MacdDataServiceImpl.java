@@ -39,4 +39,9 @@ public class MacdDataServiceImpl extends GenericServiceImpl<MacdDataEntity,Long>
         macdDataDao.deleteData("Week");
     }
 
+    @Override
+    public void deleteMonthData() {
+        macdDataDao.deleteData("Month");
+    }
+
 }

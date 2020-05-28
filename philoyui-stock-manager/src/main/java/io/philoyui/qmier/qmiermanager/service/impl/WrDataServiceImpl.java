@@ -26,4 +26,14 @@ public class WrDataServiceImpl extends GenericServiceImpl<WrDataEntity,Long> imp
     public void deleteDayData() {
         wrDataDao.deleteData("Day");
     }
+
+    @Override
+    public void deleteMonthData() {
+        wrDataDao.deleteData("Month");
+    }
+
+    @Override
+    public void deleteWeekData() {
+        wrDataDao.deleteData("Week");
+    }
 }

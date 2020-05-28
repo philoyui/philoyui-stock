@@ -105,7 +105,7 @@ public class KdjMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        kdjDataService.deleteDayData();
+        kdjDataService.deleteMonthData();
         tagStockService.deleteByTagName("KDJ底背离(月)");
         tagStockService.deleteByTagName("KDJ底部金叉(月)");
         tagStockService.deleteByTagName("KDJ顶背离(月)");

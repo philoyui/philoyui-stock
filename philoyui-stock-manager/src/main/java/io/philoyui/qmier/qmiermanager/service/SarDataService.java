@@ -5,4 +5,8 @@ import io.philoyui.qmier.qmiermanager.entity.indicator.SarDataEntity;
 
 public interface SarDataService extends GenericService<SarDataEntity,Long> {
     void deleteDayData();
+
+    void deleteWeekData();
+
+    void deleteMonthData();
 }

@@ -78,7 +78,7 @@ public class RsiWeekIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        rsiDataService.deleteDayData();
+        rsiDataService.deleteWeekData();
         tagStockService.deleteByTagName("RSI多头(周)");
         tagStockService.deleteByTagName("RSI空头(周)");
         tagStockService.deleteByTagName("RSI顶背离(周)");

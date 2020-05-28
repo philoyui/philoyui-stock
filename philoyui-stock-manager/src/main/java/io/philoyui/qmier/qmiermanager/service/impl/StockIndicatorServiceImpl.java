@@ -40,6 +40,9 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     private WeekDataService weekDataService;
 
     @Autowired
+    private MonthDataService monthDataService;
+
+    @Autowired
     private IndicatorProviders indicatorProviders;
 
     @Autowired
@@ -103,10 +106,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         weekDataService.deleteAll();
         List<StockEntity> stockEntities = stockService.findAll();
         for (StockEntity stockEntity : stockEntities) {
+            System.out.println("下载股票" + stockEntity.getSymbol());
             weekDataService.downloadHistory(stockEntity);
             List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
             for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
+                System.out.println("使用指标" + weekStockIndicator.getIdentifier());
                 IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
                 weekIndicatorProvider.cleanOldData();
                 parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Week");
@@ -119,7 +124,23 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeMonthTask() {
-
+        monthDataService.deleteAll();
+        List<StockEntity> stockEntities = stockService.findAll();
+        for (StockEntity stockEntity : stockEntities) {
+            System.out.println("下载股票" + stockEntity.getSymbol());
+            monthDataService.downloadHistory(stockEntity);
+            List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
+            List<TagStockEntity> tagStockEntities= new ArrayList<>();
+            for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
+                System.out.println("使用指标" + weekStockIndicator.getIdentifier());
+                IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
+                monthIndicatorProvider.cleanOldData();
+                parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Month");
+                List<TagStockEntity> tagEntityList = monthIndicatorProvider.processTags(stockEntity);
+                tagStockEntities.addAll(tagEntityList);
+            }
+            taskLogService.logDownloadSuccess(stockEntity,tagStockEntities);
+        }
     }
 
     private void parseIndicatorDataUsePython(String pythonName, String symbol, String interval) {

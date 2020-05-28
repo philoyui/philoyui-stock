@@ -55,7 +55,7 @@ public class SarMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        sarDataService.deleteDayData();
+        sarDataService.deleteMonthData();
         tagStockService.deleteByTagName("SAR空头止损(月)");
         tagStockService.deleteByTagName("SAR多头止损(月)");
     }

@@ -13,9 +13,4 @@ public class DataMonthController {
     @Autowired
     private MonthDataService monthDataService;
 
-    @RequestMapping("/download_history")
-    public ResponseEntity<String> downloadHistory() {
-        monthDataService.downloadHistory();
-        return ResponseEntity.ok("success");
-    }
 }

@@ -105,7 +105,7 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        kdjDataService.deleteDayData();
+        kdjDataService.deleteWeekData();
         tagStockService.deleteByTagName("KDJ底背离(周)");
         tagStockService.deleteByTagName("KDJ底部金叉(周)");
         tagStockService.deleteByTagName("KDJ顶背离(周)");

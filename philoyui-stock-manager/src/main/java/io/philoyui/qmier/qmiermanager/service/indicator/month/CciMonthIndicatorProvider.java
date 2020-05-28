@@ -90,7 +90,7 @@ public class CciMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        cciDataService.deleteDayData();
+        cciDataService.deleteMonthData();
         tagStockService.deleteByTagName("CCI进入强势(月)");
         tagStockService.deleteByTagName("CCI多头开启(月)");
         tagStockService.deleteByTagName("CCI空头开启(月)");

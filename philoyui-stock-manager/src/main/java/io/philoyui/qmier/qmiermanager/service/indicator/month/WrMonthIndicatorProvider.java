@@ -54,7 +54,7 @@ public class WrMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        wrDataService.deleteDayData();
+        wrDataService.deleteMonthData();
         tagStockService.deleteByTagName("WR多头(月)");
         tagStockService.deleteByTagName("WR空头(月)");
     }

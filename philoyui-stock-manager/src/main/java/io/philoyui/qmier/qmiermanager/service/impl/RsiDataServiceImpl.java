@@ -26,4 +26,14 @@ public class RsiDataServiceImpl extends GenericServiceImpl<RsiDataEntity,Long> i
     public void deleteDayData() {
         rsiDataDao.deleteData("Day");
     }
+
+    @Override
+    public void deleteMonthData() {
+        rsiDataDao.deleteData("Month");
+    }
+
+    @Override
+    public void deleteWeekData() {
+        rsiDataDao.deleteData("Week");
+    }
 }

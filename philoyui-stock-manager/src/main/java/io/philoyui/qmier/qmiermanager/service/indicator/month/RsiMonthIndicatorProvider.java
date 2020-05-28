@@ -78,7 +78,7 @@ public class RsiMonthIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        rsiDataService.deleteDayData();
+        rsiDataService.deleteMonthData();
         tagStockService.deleteByTagName("RSI多头(月)");
         tagStockService.deleteByTagName("RSI空头(月)");
         tagStockService.deleteByTagName("RSI顶背离(月)");
