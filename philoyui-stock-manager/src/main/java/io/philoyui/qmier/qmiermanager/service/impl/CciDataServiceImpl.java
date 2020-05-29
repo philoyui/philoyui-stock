@@ -27,11 +27,13 @@ public class CciDataServiceImpl extends GenericServiceImpl<CciDataEntity,Long> i
         cciDataDao.deleteData("Day");
     }
 
+    @Transactional
     @Override
     public void deleteWeekData() {
         cciDataDao.deleteData("Week");
     }
 
+    @Transactional
     @Override
     public void deleteMonthData() {
         cciDataDao.deleteData("Month");

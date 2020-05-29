@@ -27,11 +27,13 @@ public class KdjDataServiceImpl extends GenericServiceImpl<KdjDataEntity,Long> i
         kdjDataDao.deleteData("Day");
     }
 
+    @Transactional
     @Override
     public void deleteMonthData() {
         kdjDataDao.deleteData("Month");
     }
 
+    @Transactional
     @Override
     public void deleteWeekData() {
         kdjDataDao.deleteData("Week");
