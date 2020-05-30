@@ -10,4 +10,5 @@ public interface MyStockService extends GenericService<MyStockEntity,Long> {
      */
     void obtainEveryDay();
 
+    void deleteAll();
 }

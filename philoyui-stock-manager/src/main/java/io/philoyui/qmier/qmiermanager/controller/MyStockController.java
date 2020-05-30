@@ -19,4 +19,10 @@ public class MyStockController {
         return ResponseEntity.ok("success");
     }
 
+    @RequestMapping("/deleteAll")
+    public ResponseEntity<String> deleteAll(){
+        myStockService.deleteAll();
+        return ResponseEntity.ok("success");
+    }
+
 }

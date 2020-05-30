@@ -98,5 +98,11 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     }
 
+    @Transactional
+    @Override
+    public void deleteAll() {
+        myStockDao.deleteAll();
+    }
+
 
 }

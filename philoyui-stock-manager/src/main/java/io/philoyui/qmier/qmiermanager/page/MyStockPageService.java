@@ -70,7 +70,8 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "symbol_like"
         );
         pageConfig.withTableAction(
-                new TableOperation("手动执行", "obtainEveryDay", ButtonStyle.Orange)
+                new TableOperation("手动执行", "obtainEveryDay", ButtonStyle.Orange),
+                new TableOperation("清空", "deleteAll", ButtonStyle.Blue)
         );
         pageConfig.withColumnAction(
                 new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
