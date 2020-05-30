@@ -12,14 +12,17 @@ import cn.com.gome.page.field.DateFieldDefinition;
 import cn.com.gome.page.field.EnumFieldDefinition;
 import cn.com.gome.page.field.LongFieldDefinition;
 import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
-public class TagPageService extends PageService<TagEntity,Long> {
+public class TagPageService extends PageService<TagEntity,Long> implements PageDomainProvider {
 
     @Autowired
     private TagService tagService;
@@ -76,5 +79,30 @@ public class TagPageService extends PageService<TagEntity,Long> {
     @Override
     public void delete(TagEntity tagEntity) {
         tagService.delete(tagEntity.getId());
+    }
+
+    @Override
+    public Object findByReferId(String referId) {
+        return tagService.findByTagName(referId);
+    }
+
+    @Override
+    public String getDomainName() {
+        return "tag_stock";
+    }
+
+    @Override
+    public String getDomainChineseName() {
+        return "标签股票";
+    }
+
+    @Override
+    public String getDisplayFieldName() {
+        return "tagName";
+    }
+
+    @Override
+    public List findAll() {
+        return tagService.list(SearchFilter.getDefault());
     }
 }

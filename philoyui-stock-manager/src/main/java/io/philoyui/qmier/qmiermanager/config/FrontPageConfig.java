@@ -54,7 +54,8 @@ public class FrontPageConfig {
                         new LeafItem("股票指标", "/admin/stock_indicator/page"),
                         new LeafItem("标签管理", "/admin/tag/page"),
                         new LeafItem("选股管理", "/admin/stock/page"),
-                        new LeafItem("自选股","/admin/my_stock/page")
+                        new LeafItem("自选股","/admin/my_stock/page"),
+                        new LeafItem("标签股票管理","/admin/tag_stock/page")
                 )
                 .build();
 
