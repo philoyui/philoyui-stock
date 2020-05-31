@@ -8,12 +8,10 @@ import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.EnumFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.domain.PageDomainProvider;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +39,23 @@ public class TagPageService extends PageService<TagEntity,Long> implements PageD
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("tagName", "标签名称"),
+                        new IntegerFieldDefinition("last1Score","当前得分"),
+                        new IntegerFieldDefinition("last2Score","前一次得分"),
+                        new IntegerFieldDefinition("last3Score","前两次得分"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
-                        new EnumFieldDefinition("strategyType","策略类型",StrategyType.class)
+                        new EnumFieldDefinition("strategyType","策略类型",StrategyType.class),
+                        new EnumFieldDefinition("intervalType","时间类型", IntervalType.class)
                 )
                 .withTableColumnDefinitions(
                         "tagName_20",
-                        "lastExecuteTime_30",
-                        "strategyType_20",
+                        "intervalType_15",
+                        "lastExecuteTime_20",
+                        "strategyType_15",
                         "#operation_30"
+                )
+                .withFilterDefinitions(
+                        "strategyType",
+                        "intervalType"
                 )
                 .withColumnAction(
                         new NewPageOperation("标记股票","/admin/tag_stock/page?tagName=#tagName#","标记股票","tagName"),
@@ -56,7 +63,11 @@ public class TagPageService extends PageService<TagEntity,Long> implements PageD
                         new DeleteOperation()
                 ).withFormItemDefinition(
                         "tagName_rw",
-                        "strategyType_rw"
+                        "strategyType_rw",
+                        "last1Score_rw",
+                        "last2Score_rw",
+                        "last3Score_rw",
+                        "intervalType_rw"
                 );
         return pageConfig;
     }

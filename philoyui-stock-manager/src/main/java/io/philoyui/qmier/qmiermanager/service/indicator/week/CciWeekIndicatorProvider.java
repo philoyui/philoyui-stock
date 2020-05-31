@@ -80,6 +80,8 @@ public class CciWeekIndicatorProvider implements IndicatorProvider {
             }
         }
 
+        cciDataService.delete(cciDataEntities);
+
         return tagStockEntities;
     }
 

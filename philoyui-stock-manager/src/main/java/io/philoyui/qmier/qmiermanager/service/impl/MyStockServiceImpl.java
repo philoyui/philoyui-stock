@@ -14,6 +14,7 @@ import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.utils.DealDateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,21 +53,22 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     @Transactional
     public void obtainEveryDay(){
 
-//        List<StockEntity> stockEntities = stockDao.findAll();
-//        for (StockEntity stockEntity : stockEntities) {
-//            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
-//
-//
-//        }
+        List<StockEntity> stockEntities = stockDao.findAll();
+
+        for (StockEntity stockEntity : stockEntities) {
+            int score = 0;
+            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
+            for (TagStockEntity tagStockEntity : tagStockEntities) {
+                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
+
+            }
+        }
+
 
         Set<StockAndReason> selectedStockSet = new HashSet<>();
 
-        String dayString = tagStockService.findLastDayString();
-        if(StringUtils.isEmpty(dayString)){
-            dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        }
+        String dayString = DealDateUtils.getLastDealDayString();
 
-        //3. 股票池，选择
         List<TagEntity> addTags = tagService.findAdd();
         for (TagEntity addTag : addTags) {
             List<TagStockEntity> addTagStocks = tagStockService.findTodayTagName(addTag.getTagName(),dayString);

@@ -68,6 +68,8 @@ public class RsiWeekIndicatorProvider implements IndicatorProvider {
             }
         }
 
+        rsiDataService.delete(sarDataEntities);
+
         return tagStockEntities;
     }
 

@@ -44,6 +44,9 @@ public class WrWeekIndicatorProvider implements IndicatorProvider {
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"WR空头(周)",wrDataEntity.getDay()));
             }
         }
+
+        wrDataService.delete(wrDataEntities);
+
         return tagStockEntities;
     }
 

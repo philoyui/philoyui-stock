@@ -104,6 +104,8 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
             }
         }
 
+        macdDataService.delete(macdDataEntities);
+
         return tagStockEntities;
     }
 

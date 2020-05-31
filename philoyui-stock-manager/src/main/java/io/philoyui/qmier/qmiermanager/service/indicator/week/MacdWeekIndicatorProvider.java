@@ -104,6 +104,8 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             }
         }
 
+        macdDataService.delete(macdDataEntities);
+
         return tagStockEntities;
     }
 

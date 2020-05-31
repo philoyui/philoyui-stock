@@ -1,5 +1,6 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 
 import javax.persistence.Entity;
@@ -19,6 +20,14 @@ public class TagEntity implements Serializable {
     private String tagName;
 
     private StrategyType strategyType;
+
+    private IntervalType intervalType;
+
+    private Integer last1Score;
+
+    private Integer last2Score;
+
+    private Integer last3Score;
 
     private Date lastExecuteTime;
 
@@ -54,4 +63,35 @@ public class TagEntity implements Serializable {
         this.strategyType = strategyType;
     }
 
+    public Integer getLast1Score() {
+        return last1Score;
+    }
+
+    public void setLast1Score(Integer last1Score) {
+        this.last1Score = last1Score;
+    }
+
+    public Integer getLast2Score() {
+        return last2Score;
+    }
+
+    public void setLast2Score(Integer last2Score) {
+        this.last2Score = last2Score;
+    }
+
+    public Integer getLast3Score() {
+        return last3Score;
+    }
+
+    public void setLast3Score(Integer last3Score) {
+        this.last3Score = last3Score;
+    }
+
+    public IntervalType getIntervalType() {
+        return intervalType;
+    }
+
+    public void setIntervalType(IntervalType intervalType) {
+        this.intervalType = intervalType;
+    }
 }
