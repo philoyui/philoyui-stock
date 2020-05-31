@@ -57,7 +57,7 @@ public class SarWeekIndicatorProvider implements IndicatorProvider {
     public void cleanOldData() {
         sarDataService.deleteWeekData();
         tagStockService.deleteByTagName("SAR空头止损(周)");
-        tagStockService.deleteByTagName("SAR多头止损(周)");
+        tagStockService.deleteByTagName("SAR多头止盈(周)");
     }
 
     @Override
