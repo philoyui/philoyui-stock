@@ -81,8 +81,8 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         fetchProductDataArray("sz_a",80);
 //        fetchProductDataArray("kcb",80);
         fetchProductDataArray("kcb_root",80);
-//        fetchProductDataArray("sgt_hk",80);
-//        fetchProductDataArray("hgt_hk",80);
+        fetchProductDataArray("sgt_hk",80);
+        fetchProductDataArray("hgt_hk",80);
     }
 
     @Transactional
@@ -96,11 +96,15 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
         return stockDao.findAll();
     }
 
-    private void fetchProductDataArray(String identifier,int pageSize) {
+    public void fetchProductDataArray(String identifier,int pageSize) {
         int pageNo = 1;
+        String data = "getHQNodeData";
+        if(identifier.contains("_hk")){
+            data = "getHKStockData";
+        }
         while(true){
             FinancialMarketEntity financialMarket = financialMarketService.findByIdentifier(identifier);
-            String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center.getHQNodeData?page=" + pageNo + "&num=" + pageSize + "&sort=symbol&asc=1&node=" + identifier + "&symbol=&_s_r_a=page";
+            String fetchUrl = "http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/Market_Center." + data + "?page=" + pageNo + "&num=" + pageSize + "&sort=symbol&asc=1&node=" + identifier + "&symbol=&_s_r_a=page";
             try {
                 Connection.Response response = Jsoup.connect(fetchUrl)
                         .header("Content-Type", "application/json")
@@ -110,7 +114,7 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
                 String result = response.body();
 
                 ProductData[] productDataArray = gson.fromJson(result, ProductData[].class);
-                if(productDataArray==null){
+                if(productDataArray==null||productDataArray.length==0){
                     break;
                 }
 

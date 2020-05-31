@@ -45,13 +45,13 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif")
                 )
                 .withTableColumnDefinitions(
+                        "tagName_10",
                         "symbol_10",
-                        "tagName_20",
+                        "tagName_10",
                         "dayImage_20",
                         "weekImage_20",
-                        "createdTime_15",
                         "dayString_10",
-                        "#operation_15"
+                        "#operation_20"
                 )
                 .withFilterDefinitions(
                     "tagName",
