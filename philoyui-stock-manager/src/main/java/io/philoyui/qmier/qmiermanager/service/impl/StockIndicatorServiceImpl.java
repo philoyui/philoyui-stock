@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 @Component
 public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicatorEntity,Long> implements StockIndicatorService {
@@ -133,18 +132,20 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
         //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
-            System.out.println("下载股票" + stockEntity.getSymbol());
-            weekDataService.downloadHistory(stockEntity);
-            List<TagStockEntity> tagStockEntities= new ArrayList<>();
-            for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
-                System.out.println("使用指标" + weekStockIndicator.getIdentifier());
-                parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Week");
-                IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
-                List<TagStockEntity> tagEntityList = weekIndicatorProvider.processTags(stockEntity);
-                if(tagEntityList!=null){
-                    tagStockEntities.addAll(tagEntityList);
+            executorService.execute(() -> {
+                System.out.println("下载股票" + stockEntity.getSymbol());
+                weekDataService.downloadHistory(stockEntity);
+                List<TagStockEntity> tagStockEntities = new ArrayList<>();
+                for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
+                    System.out.println("使用指标" + weekStockIndicator.getIdentifier());
+                    parseIndicatorDataUsePython(weekStockIndicator.getPythonName(), stockEntity.getSymbol(), "Week");
+                    IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
+                    List<TagStockEntity> tagEntityList = weekIndicatorProvider.processTags(stockEntity);
+                    if (tagEntityList != null) {
+                        tagStockEntities.addAll(tagEntityList);
+                    }
                 }
-            }
+            });
         }
     }
 
@@ -163,18 +164,20 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
         //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
-            System.out.println("下载股票" + stockEntity.getSymbol());
-            monthDataService.downloadHistory(stockEntity);
-            List<TagStockEntity> tagStockEntities= new ArrayList<>();
-            for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
-                System.out.println("使用指标" + monthStockIndicator.getIdentifier());
-                parseIndicatorDataUsePython(monthStockIndicator.getPythonName(),stockEntity.getSymbol(),"Month");
-                IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
-                List<TagStockEntity> tagEntityList = monthIndicatorProvider.processTags(stockEntity);
-                if(tagEntityList!=null){
-                    tagStockEntities.addAll(tagEntityList);
+            executorService.execute(() -> {
+                System.out.println("下载股票" + stockEntity.getSymbol());
+                monthDataService.downloadHistory(stockEntity);
+                List<TagStockEntity> tagStockEntities = new ArrayList<>();
+                for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
+                    System.out.println("使用指标" + monthStockIndicator.getIdentifier());
+                    parseIndicatorDataUsePython(monthStockIndicator.getPythonName(), stockEntity.getSymbol(), "Month");
+                    IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
+                    List<TagStockEntity> tagEntityList = monthIndicatorProvider.processTags(stockEntity);
+                    if (tagEntityList != null) {
+                        tagStockEntities.addAll(tagEntityList);
+                    }
                 }
-            }
+            });
         }
     }
 
