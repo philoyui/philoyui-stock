@@ -8,9 +8,7 @@ import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +17,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class TagStockPageService extends PageService<TagStockEntity,Long> {
 
-
     @Autowired
     private TagStockService tagStockService;
+
+    @Autowired
+    private StockPageService stockPageService;
 
     @Override
     public PageObject<TagStockEntity> paged(SearchFilter searchFilter) {
@@ -39,14 +39,19 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new StringFieldDefinition("symbol", "编码"),
                         new StringFieldDefinition("tagName", "标签名称"),
                         new DateFieldDefinition("createdTime", "创建时间"),
-                        new StringFieldDefinition("dayString", "时间标识")
+                        new StringFieldDefinition("dayString", "时间标识"),
+                        new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
+                        new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
+                        new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif")
                 )
                 .withTableColumnDefinitions(
                         "symbol_10",
                         "tagName_20",
-                        "createdTime_20",
+                        "dayImage_20",
+                        "weekImage_20",
+                        "createdTime_15",
                         "dayString_10",
-                        "#operation_20"
+                        "#operation_15"
                 )
                 .withFilterDefinitions(
                     "tagName",
