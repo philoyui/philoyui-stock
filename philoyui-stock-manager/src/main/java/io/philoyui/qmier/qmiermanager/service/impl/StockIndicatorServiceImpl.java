@@ -70,6 +70,14 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     }
 
     @Override
+    public List<StockIndicatorEntity> findMonthEnable() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.eq("enable",true));
+        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Month));
+        return this.list(searchFilter);
+    }
+
+    @Override
     public void executeDayTask() {
         //清理所有日线级别数据
         dayDataService.deleteAll();
@@ -103,20 +111,31 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeWeekTask() {
+
+        //清理所有日线级别数据
         weekDataService.deleteAll();
-        List<StockEntity> stockEntities = stockService.findAll();
-        for (StockEntity stockEntity : stockEntities) {
+
+        //清理指标数据
+        List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
+        for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
+            IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
+            weekIndicatorProvider.cleanOldData();
+            weekIndicatorProvider.processGlobal();
+        }
+
+        //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
+        for (StockEntity stockEntity : stockService.findAll()) {
             System.out.println("下载股票" + stockEntity.getSymbol());
             weekDataService.downloadHistory(stockEntity);
-            List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
             for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
                 System.out.println("使用指标" + weekStockIndicator.getIdentifier());
-                IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
-                weekIndicatorProvider.cleanOldData();
                 parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Week");
+                IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
                 List<TagStockEntity> tagEntityList = weekIndicatorProvider.processTags(stockEntity);
-                tagStockEntities.addAll(tagEntityList);
+                if(tagEntityList!=null){
+                    tagStockEntities.addAll(tagEntityList);
+                }
             }
             taskLogService.logDownloadSuccess(stockEntity,tagStockEntities);
         }
@@ -124,20 +143,30 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeMonthTask() {
+        //清理所有日线级别数据
         monthDataService.deleteAll();
-        List<StockEntity> stockEntities = stockService.findAll();
-        for (StockEntity stockEntity : stockEntities) {
+
+        //清理指标数据
+        List<StockIndicatorEntity> monthStockIndicators  = this.findMonthEnable();
+        for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
+            IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
+            monthIndicatorProvider.cleanOldData();
+            monthIndicatorProvider.processGlobal();
+        }
+
+        //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
+        for (StockEntity stockEntity : stockService.findAll()) {
             System.out.println("下载股票" + stockEntity.getSymbol());
             monthDataService.downloadHistory(stockEntity);
-            List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
             List<TagStockEntity> tagStockEntities= new ArrayList<>();
-            for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
-                System.out.println("使用指标" + weekStockIndicator.getIdentifier());
-                IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
-                monthIndicatorProvider.cleanOldData();
-                parseIndicatorDataUsePython(weekStockIndicator.getPythonName(),stockEntity.getSymbol(),"Month");
+            for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
+                System.out.println("使用指标" + monthStockIndicator.getIdentifier());
+                parseIndicatorDataUsePython(monthStockIndicator.getPythonName(),stockEntity.getSymbol(),"Month");
+                IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
                 List<TagStockEntity> tagEntityList = monthIndicatorProvider.processTags(stockEntity);
-                tagStockEntities.addAll(tagEntityList);
+                if(tagEntityList!=null){
+                    tagStockEntities.addAll(tagEntityList);
+                }
             }
             taskLogService.logDownloadSuccess(stockEntity,tagStockEntities);
         }

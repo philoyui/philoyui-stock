@@ -8,6 +8,7 @@ import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.dao.TagDao;
 import io.philoyui.qmier.qmiermanager.domain.StockAndReason;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
@@ -50,6 +51,13 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     @Transactional
     public void obtainEveryDay(){
+
+//        List<StockEntity> stockEntities = stockDao.findAll();
+//        for (StockEntity stockEntity : stockEntities) {
+//            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
+//
+//
+//        }
 
         Set<StockAndReason> selectedStockSet = new HashSet<>();
 
