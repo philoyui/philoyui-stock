@@ -18,7 +18,9 @@ public class DealDateUtils {
         }else if(w==6){
             Date date = DateUtils.addDays(new Date(), -1);
             return DateFormatUtils.format(date,"yyyy-MM-dd");
+        }else{
+            Date date = DateUtils.addHours(new Date(), -20);
+            return DateFormatUtils.format(date,"yyyy-MM-dd");
         }
-        return DateFormatUtils.format(new Date(),"yyyy-MM-dd");
     }
 }
