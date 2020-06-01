@@ -74,10 +74,6 @@ public class TagStockEntity implements Serializable {
         this.dayString = dayString;
     }
 
-    public String getTagNameString(){
-        return tagName + "(" + dayString + ")";
-    }
-
     public StockAndReason buildStockAndReason(){
         return new StockAndReason(symbol,dayString,tagName);
     }

@@ -56,7 +56,7 @@ public class StockPageService extends PageService<StockEntity,String> implements
                         new EnableFieldDefinition("enable", "是否启用"),
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
-                        new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findBySymbol((String)symbol).stream().map(TagStockEntity::getTagNameString).collect(Collectors.toList())).aliasName("tagList")
+                        new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableColumnDefinitions(
                         "#checkbox_3",

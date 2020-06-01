@@ -9,6 +9,7 @@ import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.utils.DealDateUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -116,6 +117,14 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     public String findLastDayString() {
         TagStockEntity tagStockEntity = tagStockDao.findFirstByOrderByCreatedTimeDesc();
         return tagStockEntity.getDayString();
+    }
+
+    @Override
+    public List<TagStockEntity> findLastBySymbol(String symbol) {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.eq("symbol",symbol));
+        searchFilter.add(Restrictions.eq("dayString", DealDateUtils.getLastDealDayString()));
+        return list(searchFilter);
     }
 
 }
