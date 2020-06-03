@@ -4,6 +4,7 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
+import com.google.common.base.Strings;
 import io.philoyui.qmier.qmiermanager.dao.StockIndicatorDao;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockIndicatorEntity;
@@ -100,10 +101,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             executorService.execute(() -> {
                 System.out.println("下载股票" + stockEntity.getSymbol());
                 dayDataService.downloadHistory(stockEntity);
-                List<TagStockEntity> tagStockEntities= new ArrayList<>();
+                List<TagStockEntity> tagStockEntities = new ArrayList<>();
                 for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
                     System.out.println("使用指标" + dayStockIndicator.getIdentifier());
-                    parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
+                    if(!Strings.isNullOrEmpty(dayStockIndicator.getPythonName())){
+                        parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
+                    }
                     IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
                     List<TagStockEntity> tagEntityList = dayIndicatorProvider.processTags(stockEntity);
                     if(tagEntityList!=null){

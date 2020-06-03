@@ -53,16 +53,16 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     @Transactional
     public void obtainEveryDay(){
 
-        List<StockEntity> stockEntities = stockDao.findAll();
+//        List<StockEntity> stockEntities = stockDao.findAll();
 
-        for (StockEntity stockEntity : stockEntities) {
-            int score = 0;
-            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
-            for (TagStockEntity tagStockEntity : tagStockEntities) {
-                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
-
-            }
-        }
+//        for (StockEntity stockEntity : stockEntities) {
+//            int score = 0;
+//            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
+//            for (TagStockEntity tagStockEntity : tagStockEntities) {
+//                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
+//
+//            }
+//        }
 
 
         Set<StockAndReason> selectedStockSet = new HashSet<>();
