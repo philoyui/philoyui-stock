@@ -51,12 +51,12 @@ public class CciIndicatorProvider implements IndicatorProvider {
                 case FALL_NEGATIVE_100:
                     tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入弱势(日)",cciDataEntity.getDay()));
                     break;
-                case TOP:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束强势(日)",cciDataEntity.getDay()));
-                    break;
-                case BOTTOM:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束弱势(日)",cciDataEntity.getDay()));
-                    break;
+//                case TOP:
+//                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束强势(日)",cciDataEntity.getDay()));
+//                    break;
+//                case BOTTOM:
+//                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束弱势(日)",cciDataEntity.getDay()));
+//                    break;
             }
         }
 
