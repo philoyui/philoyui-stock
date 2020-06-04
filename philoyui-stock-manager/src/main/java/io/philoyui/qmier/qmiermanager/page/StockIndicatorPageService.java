@@ -5,6 +5,7 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.batch.TableOperation;
+import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
@@ -60,6 +61,7 @@ public class StockIndicatorPageService extends PageService<StockIndicatorEntity,
                         new TableOperation("月标签任务","monthTask",ButtonStyle.Orange)
                 )
                 .withColumnAction(
+                        new ConfirmOperation("executeGlobal","执行"),
                         new EditOperation(),
                         new DeleteOperation()
                 )

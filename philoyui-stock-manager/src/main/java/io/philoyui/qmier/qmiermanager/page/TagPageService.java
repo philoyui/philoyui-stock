@@ -47,11 +47,14 @@ public class TagPageService extends PageService<TagEntity,Long> implements PageD
                         new EnumFieldDefinition("intervalType","时间类型", IntervalType.class)
                 )
                 .withTableColumnDefinitions(
-                        "tagName_20",
-                        "intervalType_15",
-                        "lastExecuteTime_20",
-                        "strategyType_15",
-                        "#operation_30"
+                        "tagName_15",
+                        "intervalType_10",
+                        "lastExecuteTime_15",
+                        "strategyType_10",
+                        "last1Score_10",
+                        "last2Score_10",
+                        "last3Score_10",
+                        "#operation_20"
                 )
                 .withFilterDefinitions(
                         "strategyType",

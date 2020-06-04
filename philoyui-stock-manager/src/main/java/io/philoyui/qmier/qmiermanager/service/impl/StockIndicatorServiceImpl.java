@@ -184,6 +184,14 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         }
     }
 
+    @Override
+    public void executeGlobal(Long id) {
+        StockIndicatorEntity stockIndicatorEntity = stockIndicatorDao.getOne(id);
+        IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(stockIndicatorEntity.getIdentifier());
+        monthIndicatorProvider.cleanOldData();
+        monthIndicatorProvider.processGlobal();
+    }
+
     private void parseIndicatorDataUsePython(String pythonName, String symbol, String interval) {
         Process process;
         try {

@@ -13,8 +13,16 @@ public class StockIndicatorController {
     @Autowired
     private StockIndicatorService stockIndicatorService;
 
+    @RequestMapping("/executeGlobal")
+    public ResponseEntity<String> executeGlobal(Long id) {
+
+        stockIndicatorService.executeGlobal(id);
+
+        return ResponseEntity.ok("success");
+    }
+
     @RequestMapping("/weekTask")
-    public ResponseEntity<String> weekTask(Long id) {
+    public ResponseEntity<String> weekTask() {
 
         stockIndicatorService.executeWeekTask();
 
@@ -22,7 +30,7 @@ public class StockIndicatorController {
     }
 
     @RequestMapping("/dayTask")
-    public ResponseEntity<String> dayTask(Long id) {
+    public ResponseEntity<String> dayTask() {
 
         stockIndicatorService.executeDayTask();
 

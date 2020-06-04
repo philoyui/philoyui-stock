@@ -23,4 +23,5 @@ public interface StockIndicatorService extends GenericService<StockIndicatorEnti
 
     void executeMonthTask();
 
+    void executeGlobal(Long id);
 }
