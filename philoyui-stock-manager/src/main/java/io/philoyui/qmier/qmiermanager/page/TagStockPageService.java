@@ -14,6 +14,8 @@ import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Component
 public class TagStockPageService extends PageService<TagStockEntity,Long> {
 
@@ -42,7 +44,8 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new StringFieldDefinition("dayString", "时间标识"),
                         new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
-                        new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif")
+                        new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
+                        new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableColumnDefinitions(
                         "stockName_10",
@@ -51,7 +54,8 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         "dayImage_20",
                         "weekImage_20",
                         "dayString_10",
-                        "#operation_20"
+                        "tagList_15",
+                        "#operation_5"
                 )
                 .withFilterDefinitions(
                     "tagName",
@@ -64,7 +68,6 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new CreateOperation()
                 )
                 .withColumnAction(
-                        new EditOperation(),
                         new DeleteOperation()
                 )
                 .withFormItemDefinition(
