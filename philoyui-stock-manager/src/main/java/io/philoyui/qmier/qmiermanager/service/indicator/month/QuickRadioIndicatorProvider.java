@@ -37,16 +37,15 @@ public class QuickRadioIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("债务风险",dayString);
-        tagStockService.deleteByTagNameAndDayString("债务正常",dayString);
+        tagStockService.deleteByTagName("债务风险");
+        tagStockService.deleteByTagName("债务正常");
     }
 
     @Override
     public void processGlobal() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.lt("quickRatio",1));
-        searchFilter.add(Restrictions.eq("year", 2018));
+        searchFilter.add(Restrictions.eq("year", 2019));
         searchFilter.add(Restrictions.eq("season", 4));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
         List<String> symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());
@@ -55,7 +54,7 @@ public class QuickRadioIndicatorProvider implements IndicatorProvider {
 
         searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.gte("quickRatio",1));
-        searchFilter.add(Restrictions.eq("year", 2018));
+        searchFilter.add(Restrictions.eq("year", 2019));
         searchFilter.add(Restrictions.eq("season", 4));
         financialReports = financialReportService.list(searchFilter);
         symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());

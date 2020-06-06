@@ -51,10 +51,9 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("大宗交易",dayString);
-        tagStockService.deleteByTagNameAndDayString("大容量大宗交易",dayString);
-        tagStockService.deleteByTagNameAndDayString("溢价大宗交易",dayString);
+        tagStockService.deleteByTagName("大宗交易");
+        tagStockService.deleteByTagName("大容量大宗交易");
+        tagStockService.deleteByTagName("溢价大宗交易");
     }
 
     @Override

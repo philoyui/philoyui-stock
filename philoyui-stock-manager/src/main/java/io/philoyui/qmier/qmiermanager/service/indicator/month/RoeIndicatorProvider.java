@@ -37,23 +37,22 @@ public class RoeIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("业绩上升",dayString);
-        tagStockService.deleteByTagNameAndDayString("存股",dayString);
+        tagStockService.deleteByTagName("业绩上升");
+        tagStockService.deleteByTagName("存股");
     }
 
     @Override
     public void processGlobal() {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("season",3));
-        searchFilter.add(Restrictions.eq("year",2019));
+        searchFilter.add(Restrictions.eq("season",1));
+        searchFilter.add(Restrictions.eq("year",2020));
         searchFilter.add(Restrictions.gte("roe",0));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
 
         SearchFilter searchFilter1 = SearchFilter.getDefault();
         searchFilter1.add(Restrictions.in("symbol", financialReports.stream().map(FinancialReportEntity::getSymbol).toArray(String[]::new)));
         searchFilter1.add(Restrictions.gte("year",2017));
-        searchFilter1.add(Restrictions.eq("season",3));
+        searchFilter1.add(Restrictions.eq("season",4));
         List<FinancialReportEntity> financialReport1s = financialReportService.list(searchFilter1);
 
         Map<String, List<FinancialReportEntity>> symbolReportMap = financialReport1s.stream().sorted(Comparator.comparing(FinancialReportEntity::getYear)).collect(Collectors.groupingBy(FinancialReportEntity::getSymbol, Collectors.toList()));
@@ -74,7 +73,7 @@ public class RoeIndicatorProvider implements IndicatorProvider {
 
         searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.gte("year",2017));
-        searchFilter.add(Restrictions.gte("season", 3));
+        searchFilter.add(Restrictions.gte("season", 4));
         searchFilter.add(Restrictions.gte("roe",18));
         financialReports = financialReportService.list(searchFilter);
 

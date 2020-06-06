@@ -38,8 +38,7 @@ public class TurnoverIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("产品强",dayString);
+        tagStockService.deleteByTagName("产品强");
     }
 
     @Override
@@ -47,8 +46,8 @@ public class TurnoverIndicatorProvider implements IndicatorProvider {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.gte("totalCapitalTurnover","0.7"));
         searchFilter.add(Restrictions.gte("inventoryTurnover","1"));
-        searchFilter.add(Restrictions.gte("year", 2019));
-        searchFilter.add(Restrictions.gte("season", 3));
+        searchFilter.add(Restrictions.gte("year", 2020));
+        searchFilter.add(Restrictions.gte("season", 1));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
         List<String> symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());
         tagStockService.tagStocks(symbolList,"产品强",new Date());
