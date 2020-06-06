@@ -27,10 +27,6 @@ public class FrontPageConfig {
     public PageManager pageManager(){
 
         AdminItems adminItems = new AdminItemsBuilder()
-                .addRootItem("文章管理","column",
-                        new LeafItem("文章管理", "/admin/article/page"),
-                        new LeafItem("分类管理", "/admin/article_category/page")
-                )
                 .addRootItem("股票管理","stock",
                         new LeafItem("日线数据", "/admin/data_day/page"),
                         new LeafItem("周线数据", "/admin/data_week/page"),
@@ -38,9 +34,6 @@ public class FrontPageConfig {
                         new LeafItem("15min数据", "/admin/data_15min/page"),
                         new LeafItem("30min数据", "/admin/data_30min/page"),
                         new LeafItem("60min数据", "/admin/data_hour/page")
-                )
-                .addRootItem("公告管理","announce",
-                        new LeafItem("公告管理", "/admin/announce/page")
                 )
                 .addRootItem("财报管理","financial_report",
                         new LeafItem("财报管理", "/admin/financial_report/page")

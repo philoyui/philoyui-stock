@@ -80,10 +80,10 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
             for (BigBuyData bigBuyData : bigBuyResponse.getData()) {
                 stockSet.add(buildSymbol(bigBuyData.getSymbol()));
                 if(bigBuyData.getDealAmount()>1000) {
-                    highVolumeStockSet.add(bigBuyData.getSymbol());
+                    highVolumeStockSet.add(buildSymbol(bigBuyData.getSymbol()));
                 }
                 if(bigBuyData.getPremiumDiscount()>0) {
-                    overflowStockSet.add(bigBuyData.getSymbol());
+                    overflowStockSet.add(buildSymbol(bigBuyData.getSymbol()));
                 }
             }
         }catch (Exception e){
