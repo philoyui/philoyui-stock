@@ -8,8 +8,8 @@ from base import build_mysql_connection
 engine = create_engine(build_mysql_connection())
 conn = engine.connect()
 
-symbol = 'sh600000'
-interval_type = 'Day'
+symbol = sys.argv[1]
+interval_type = sys.argv[2]
 global table_name
 
 if interval_type.__eq__("Day"):
@@ -39,14 +39,14 @@ j = 3 * k - 2 * d
 length = data_frame['close'].size
 
 
-def mark_kjd_value(kdj_type_string):
+def mark_kjd_value(kdj_type_string, last_index):
     global sql
     sql = "INSERT INTO kdj_data_entity (close_value, day, day_String, k_value, interval_type, kdj_type, " \
-          "d_value, j_value, symbol) VALUES (" + str(close_array[-1 - i]) + \
+          "d_value, j_value, symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', " + str(k.values[length-1-i][0]) + ", '" + interval_type + "', '" \
           + kdj_type_string + "', " + str(d.values[length-1-i][0]) + ", " + str(j.values[length-1-i][0]) + ", '"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -56,19 +56,19 @@ for i in range(len(close_array)-2):
         break
 
     if d.values[length-1-i][0] < k.values[length-1-i][0] and d.values[length-2-i][0] > k.values[length-2-i][0]:
-        mark_kjd_value("GOLDEN_CROSS")
+        mark_kjd_value("GOLDEN_CROSS", -1-i)
 
     if d.values[length-1-i][0] > k.values[length-1-i][0] and d.values[length-2-i][0] < k.values[length-2-i][0]:
-        mark_kjd_value("DEATH_CROSS")
+        mark_kjd_value("DEATH_CROSS", -1-i)
 
     if k.values[length - 1 - i][0] <= 20 and d.values[length - 1 - i][0] < 28:
-        mark_kjd_value("OVER_SELL")
+        mark_kjd_value("OVER_SELL", -1-i)
 
     if k.values[length - 1 - i][0] >= 80 and d.values[length - 1 - i][0] > 72:
-        mark_kjd_value("OVER_BUY")
+        mark_kjd_value("OVER_BUY", -1-i)
 
     if k.values[length-1-i][0] > k.values[length-2-i][0] and k.values[length-3-i][0] > k.values[length-2-i][0]:
-        mark_kjd_value("BOTTOM_TURNING")
+        mark_kjd_value("BOTTOM_TURNING", -1-i)
 
     if k.values[length-1-i][0] < k.values[length-2-i][0] and k.values[length-3-i][0] < k.values[length-2-i][0]:
-        mark_kjd_value("TOP_TURNING")
+        mark_kjd_value("TOP_TURNING", -1-i)

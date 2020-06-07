@@ -53,13 +53,13 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             Double lower_macd_value_0 = 0 - (0-min.get().getMacdValue())/5;
             for (MacdDataEntity goldenData : goldenDataList) {
                 if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(周)",goldenData.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(周)",goldenData.getDay(),goldenData.getIntervalType(),goldenData.getLastIndex()));
                 }
             }
 
             for (MacdDataEntity deathData : deathDataList) {
                 if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(周)",deathData.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(周)",deathData.getDay(),deathData.getIntervalType(),deathData.getLastIndex()));
                 }
             }
         }
@@ -70,7 +70,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(周)",macdDataEntity_0.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
             }
         }
 
@@ -80,7 +80,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(周)",macdDataEntity_0.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
             }
         }
 
@@ -90,7 +90,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF底背离(周)",macdDataEntity_0.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF底背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
             }
         }
 
@@ -100,7 +100,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(周)",macdDataEntity_0.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
             }
         }
 

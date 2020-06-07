@@ -4,8 +4,6 @@ logging:
   level:
     root: INFO
 application:
-  voice.base-url: http://114.67.84.99/voice/article/
-  voice.store-path: /app/data/voice/article/
   python.path: C:\Users\DELL\PycharmProjects\untitled\venv\Scripts\python C:\workplace\philoyui-stock\philoyui-stock-manager\src\main\docker\
 
 spring:
@@ -14,6 +12,7 @@ spring:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
     show-sql: false
   datasource:
+#    url: jdbc:mysql://114.67.84.99:32306/stock?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     url: jdbc:mysql://localhost:3306/stock_analysis?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
     password: 123456
@@ -26,6 +25,3 @@ spring:
     test-on-borrow: false
     test-while-idle: true
     time-between-eviction-runs-millis: 18800
-  data:
-    mongodb:
-      uri: mongodb://114.67.84.99:27777/stock

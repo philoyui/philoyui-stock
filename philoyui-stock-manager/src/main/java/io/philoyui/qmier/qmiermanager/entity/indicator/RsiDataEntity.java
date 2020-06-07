@@ -30,6 +30,8 @@ public class RsiDataEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private IntervalType intervalType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class RsiDataEntity implements Serializable {
 
     public void setRsiValue(double rsiValue) {
         this.rsiValue = rsiValue;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

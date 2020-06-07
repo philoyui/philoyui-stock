@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -61,7 +61,7 @@ public class InvestorInfoIndicatorProvider implements IndicatorProvider {
         }catch (Exception e){
             e.printStackTrace();
         }
-        tagStockService.tagStocks(stockList,"投资者关系活动记录表",new Date());
+        tagStockService.tagStocks(stockList,"投资者关系活动记录表",new Date(), IntervalType.Day);
     }
 
     private String buildSymbol(String code) {

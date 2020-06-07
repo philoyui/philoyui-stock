@@ -6,6 +6,7 @@ import io.philoyui.qmier.qmiermanager.client.east.data.BigBuyData;
 import io.philoyui.qmier.qmiermanager.client.east.response.BigBuyResponse;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -90,9 +91,9 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
             e.printStackTrace();
         }
 
-        tagStockService.tagStocks(stockSet,"大宗交易",new Date());
-        tagStockService.tagStocks(highVolumeStockSet,"大容量大宗交易",new Date());
-        tagStockService.tagStocks(overflowStockSet,"溢价大宗交易",new Date());
+        tagStockService.tagStocks(stockSet,"大宗交易",new Date(),IntervalType.Day);
+        tagStockService.tagStocks(highVolumeStockSet,"大容量大宗交易",new Date(),IntervalType.Day);
+        tagStockService.tagStocks(overflowStockSet,"溢价大宗交易",new Date(),IntervalType.Day);
     }
 
 }

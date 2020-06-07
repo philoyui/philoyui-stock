@@ -33,14 +33,14 @@ low_array = data_frame['low'].values
 wr20 = talib.WILLR(high_array, low_array, close_array, timeperiod=20)
 
 
-def mark_wr_value(wr_type_string):
+def mark_wr_value(wr_type_string, last_index):
     global sql
     sql = "INSERT INTO wr_data_entity (close_value, day, day_String, wr20value, interval_type, wr_type, " \
-          " symbol) VALUES (" + str(close_array[-1 - i]) + \
+          " symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', " + str(wr20[-1-i]) + ", '" + interval_type + "', '" \
           + wr_type_string + "', '"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -50,6 +50,6 @@ for i in range(len(close_array)-2):
         break
 
     if wr20[-1 - i] > -85 > wr20[-2 - i]:
-        mark_wr_value("Buy_Point_20")
+        mark_wr_value("Buy_Point_20", -1-i)
     if wr20[-1 - i] < -15 < wr20[-2 - i]:
-        mark_wr_value("Sell_Point_20")
+        mark_wr_value("Sell_Point_20", -1-i)

@@ -87,7 +87,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         //清理所有日线级别数据
         dayDataService.deleteAll();
 
-        //清理指标数据
         List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
         for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
             IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
@@ -95,15 +94,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             dayIndicatorProvider.processGlobal();
         }
 
-        //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
-
             executorService.execute(() -> {
                 System.out.println("下载股票" + stockEntity.getSymbol());
                 dayDataService.downloadHistory(stockEntity);
                 List<TagStockEntity> tagStockEntities = new ArrayList<>();
                 for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
-                    System.out.println("使用指标" + dayStockIndicator.getIdentifier());
                     if(!Strings.isNullOrEmpty(dayStockIndicator.getPythonName())){
                         parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
                     }
@@ -114,18 +110,14 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
                     }
                 }
             });
-
         }
-
     }
 
     @Override
     public void executeWeekTask() {
 
-        //清理所有日线级别数据
         weekDataService.deleteAll();
 
-        //清理指标数据
         List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
         for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
             IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
@@ -133,14 +125,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             weekIndicatorProvider.processGlobal();
         }
 
-        //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
             executorService.execute(() -> {
                 System.out.println("下载股票" + stockEntity.getSymbol());
                 weekDataService.downloadHistory(stockEntity);
                 List<TagStockEntity> tagStockEntities = new ArrayList<>();
                 for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
-                    System.out.println("使用指标" + weekStockIndicator.getIdentifier());
                     parseIndicatorDataUsePython(weekStockIndicator.getPythonName(), stockEntity.getSymbol(), "Week");
                     IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
                     List<TagStockEntity> tagEntityList = weekIndicatorProvider.processTags(stockEntity);
@@ -172,7 +162,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
                 monthDataService.downloadHistory(stockEntity);
                 List<TagStockEntity> tagStockEntities = new ArrayList<>();
                 for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
-                    System.out.println("使用指标" + monthStockIndicator.getIdentifier());
                     parseIndicatorDataUsePython(monthStockIndicator.getPythonName(), stockEntity.getSymbol(), "Month");
                     IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
                     List<TagStockEntity> tagEntityList = monthIndicatorProvider.processTags(stockEntity);
@@ -196,9 +185,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         Process process;
         try {
             process = Runtime.getRuntime().exec(pythonPath + pythonName + " " + symbol + " " + interval);// 执行py文件
-
-//            process = Runtime.getRuntime().exec("python /root/python/" + pythonName + " " + symbol + " " + interval);// 执行py文件
-            //用输入输出流来截取结果
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {

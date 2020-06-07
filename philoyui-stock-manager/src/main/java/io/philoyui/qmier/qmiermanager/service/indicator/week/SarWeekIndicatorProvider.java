@@ -38,10 +38,10 @@ public class SarWeekIndicatorProvider implements IndicatorProvider {
         for (SarDataEntity sarDataEntity : sarDataEntities) {
             switch (sarDataEntity.getSarType()){
                 case Buy:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损(周)",sarDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR空头止损(周)",sarDataEntity.getDay(),sarDataEntity.getIntervalType(),sarDataEntity.getLastIndex()));
                     break;
                 case Sell:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止盈(周)",sarDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"SAR多头止盈(周)",sarDataEntity.getDay(),sarDataEntity.getIntervalType(),sarDataEntity.getLastIndex()));
             }
         }
 

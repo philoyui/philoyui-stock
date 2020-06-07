@@ -41,11 +41,11 @@ public class RsiMonthIndicatorProvider implements IndicatorProvider {
         for (RsiDataEntity rsiDataEntity : sarDataEntities) {
             switch (rsiDataEntity.getRsiType()){
                 case BREAK_30:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头(月)",rsiDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头(月)",rsiDataEntity.getDay(),rsiDataEntity.getIntervalType(),rsiDataEntity.getLastIndex()));
                     break;
                 case FALL_70:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头(月)",rsiDataEntity.getDay()));
-            }
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头(月)",rsiDataEntity.getDay(),rsiDataEntity.getIntervalType(),rsiDataEntity.getLastIndex()));
+        }
         }
 
         List<RsiDataEntity> topDataList = sarDataEntities.stream().filter(e -> e.getRsiType() == RsiType.TOP).collect(Collectors.toList());
@@ -56,7 +56,7 @@ public class RsiMonthIndicatorProvider implements IndicatorProvider {
             RsiDataEntity oldRsiDataEntity = topDataList.get(i);
             RsiDataEntity newRsiDataEntity = topDataList.get(i+1);
             if(newRsiDataEntity.getRsiValue() < oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() > oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(月)",newRsiDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(月)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex()));
             }
         }
 
@@ -64,7 +64,7 @@ public class RsiMonthIndicatorProvider implements IndicatorProvider {
             RsiDataEntity oldRsiDataEntity = bottomDataList.get(i);
             RsiDataEntity newRsiDataEntity = bottomDataList.get(i+1);
             if(newRsiDataEntity.getRsiValue() > oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() < oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(月)",newRsiDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(月)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex()));
             }
         }
 

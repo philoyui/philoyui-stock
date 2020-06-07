@@ -23,11 +23,11 @@ public class TagEntity implements Serializable {
 
     private IntervalType intervalType;
 
-    private Integer last1Score;
+    private Integer last1Score = 0;
 
-    private Integer last2Score;
+    private Integer last2Score = 0;
 
-    private Integer last3Score;
+    private Integer last3Score = 0;
 
     private Date lastExecuteTime;
 
@@ -64,7 +64,7 @@ public class TagEntity implements Serializable {
     }
 
     public Integer getLast1Score() {
-        return last1Score;
+        return last1Score == null ?0:last1Score;
     }
 
     public void setLast1Score(Integer last1Score) {
@@ -72,7 +72,7 @@ public class TagEntity implements Serializable {
     }
 
     public Integer getLast2Score() {
-        return last2Score;
+        return last2Score == null ?0:last2Score;
     }
 
     public void setLast2Score(Integer last2Score) {
@@ -80,7 +80,7 @@ public class TagEntity implements Serializable {
     }
 
     public Integer getLast3Score() {
-        return last3Score;
+        return last3Score == null ?0:last3Score;
     }
 
     public void setLast3Score(Integer last3Score) {

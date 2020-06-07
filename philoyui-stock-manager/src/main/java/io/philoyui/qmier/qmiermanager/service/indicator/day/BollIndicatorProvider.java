@@ -36,28 +36,28 @@ public class BollIndicatorProvider implements IndicatorProvider {
         for (BollDataEntity bollDataEntity : bollDataEntities) {
             switch (bollDataEntity.getBollType()){
                 case EXPAND:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case SHRINK:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case FALL_THROUGH_LOWER:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case FALL_THROUGH_UPPER:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case BREAK_THROUGH_LOWER:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case BREAK_THROUGH_UPPER:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case FALL_THROUGH_MIDDLE:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
                 case BREAK_THROUGH_MIDDLE:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",bollDataEntity.getDay(),bollDataEntity.getIntervalType(),bollDataEntity.getLastIndex()));
                     break;
             }
         }

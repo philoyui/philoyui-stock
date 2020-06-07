@@ -1,6 +1,7 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
 import io.philoyui.qmier.qmiermanager.domain.StockAndReason;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,9 @@ import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * 股票标签
+ */
 @Entity(name="stock_tag")
 public class TagStockEntity implements Serializable {
 
@@ -32,6 +36,16 @@ public class TagStockEntity implements Serializable {
     private Date createdTime;
 
     private String dayString;
+
+    /**
+     * 时间区间
+     */
+    private IntervalType intervalType;
+
+    /**
+     * 倒数第几天
+     */
+    private Integer lastIndex;
 
 
     public Long getId() {
@@ -76,5 +90,21 @@ public class TagStockEntity implements Serializable {
 
     public StockAndReason buildStockAndReason(){
         return new StockAndReason(symbol,dayString,tagName);
+    }
+
+    public IntervalType getIntervalType() {
+        return intervalType;
+    }
+
+    public void setIntervalType(IntervalType intervalType) {
+        this.intervalType = intervalType;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

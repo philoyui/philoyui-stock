@@ -32,14 +32,14 @@ day_array = data_frame['day'].values
 boll_upper, boll_middle, boll_lower = talib.BBANDS(close_array, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
 
 
-def mark_boll_value(boll_type_string):
+def mark_boll_value(boll_type_string, last_index):
     global sql
     sql = "INSERT INTO boll_data_entity (close_value, day, day_String, boll_lower_value, interval_type, boll_type, " \
-          "boll_middle_value, boll_upper_value, symbol) VALUES (" + str(close_array[-1 - i]) + \
+          "boll_middle_value, boll_upper_value, symbol,last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', " + str(boll_lower[-1 - i]) + ", '" + interval_type + "', '" \
           + boll_type_string + "', " + str(boll_middle[-1 - i]) + ", " + str(boll_upper[-1 - i]) + ", '"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -49,18 +49,18 @@ for i in range(len(close_array)-2):
         break
 
     if boll_upper[-3-i] > boll_upper[-2-i] and boll_upper[-1-i] > boll_upper[-2-i]:
-        mark_boll_value("EXPAND")
+        mark_boll_value("EXPAND", -1-i)
     if boll_upper[-3-i] < boll_upper[-2-i] and boll_upper[-1-i] < boll_upper[-2-i]:
-        mark_boll_value("SHRINK")
+        mark_boll_value("SHRINK", -1-i)
     if close_array[-2-i] < boll_middle[-2-i] and close_array[-1-i] > boll_middle[-1-i]:
-        mark_boll_value("BREAK_THROUGH_MIDDLE")
+        mark_boll_value("BREAK_THROUGH_MIDDLE", -1-i)
     if close_array[-2 - i] > boll_middle[-2 - i] and close_array[-1 - i] < boll_middle[-1 - i]:
-        mark_boll_value("FALL_THROUGH_MIDDLE")
+        mark_boll_value("FALL_THROUGH_MIDDLE", -1-i)
     if close_array[-2-i] < boll_upper[-2-i] and close_array[-1-i] > boll_upper[-1-i]:
-        mark_boll_value("BREAK_THROUGH_UPPER")
+        mark_boll_value("BREAK_THROUGH_UPPER", -1-i)
     if close_array[-2 - i] > boll_upper[-2 - i] and close_array[-1 - i] < boll_upper[-1 - i]:
-        mark_boll_value("FALL_THROUGH_UPPER")
+        mark_boll_value("FALL_THROUGH_UPPER", -1-i)
     if close_array[-2 - i] < boll_lower[-2 - i] and close_array[-1 - i] > boll_lower[-1 - i]:
-        mark_boll_value("BREAK_THROUGH_LOWER")
+        mark_boll_value("BREAK_THROUGH_LOWER", -1-i)
     if close_array[-2 - i] > boll_lower[-2 - i] and close_array[-1 - i] < boll_lower[-1 - i]:
-        mark_boll_value("FALL_THROUGH_LOWER")
+        mark_boll_value("FALL_THROUGH_LOWER", -1-i)

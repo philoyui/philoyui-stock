@@ -40,22 +40,16 @@ public class CciMonthIndicatorProvider implements IndicatorProvider {
         for (CciDataEntity cciDataEntity : cciDataEntities) {
             switch (cciDataEntity.getCciType()){
                 case BREAK_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入强势(月)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入强势(月)",cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case BREAK_NEGATIVE_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI多头开启(月)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI多头开启(月)",cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case FALL_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI空头开启(月)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI空头开启(月)",cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case FALL_NEGATIVE_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入弱势(月)",cciDataEntity.getDay()));
-                    break;
-                case TOP:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束强势(月)",cciDataEntity.getDay()));
-                    break;
-                case BOTTOM:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束弱势(月)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入弱势(月)",cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
             }
         }
@@ -68,7 +62,7 @@ public class CciMonthIndicatorProvider implements IndicatorProvider {
             CciDataEntity oldCciDataEntity = topDataList.get(i);
             CciDataEntity newCciDataEntity = topDataList.get(i+1);
             if(newCciDataEntity.getCciValue() < oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() > oldCciDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI顶背离(月)",newCciDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI顶背离(月)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex()));
             }
         }
 
@@ -76,7 +70,7 @@ public class CciMonthIndicatorProvider implements IndicatorProvider {
             CciDataEntity oldCciDataEntity = bottomDataList.get(i);
             CciDataEntity newCciDataEntity = bottomDataList.get(i+1);
             if(newCciDataEntity.getCciValue() > oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() < oldCciDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI底背离(月)",newCciDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI底背离(月)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex()));
             }
         }
 

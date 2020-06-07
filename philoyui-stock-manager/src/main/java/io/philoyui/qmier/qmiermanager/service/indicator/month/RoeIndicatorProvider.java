@@ -6,10 +6,10 @@ import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -67,7 +67,7 @@ public class RoeIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        tagStockService.tagStocks(symbolResultList,"业绩上升",new Date());
+        tagStockService.tagStocks(symbolResultList,"业绩上升",new Date(), IntervalType.Month);
 
         //===========================================================
 
@@ -86,6 +86,6 @@ public class RoeIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        tagStockService.tagStocks(resultSet,"存股",new Date());
+        tagStockService.tagStocks(resultSet,"存股",new Date(), IntervalType.Month);
     }
 }

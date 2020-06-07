@@ -4,13 +4,16 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
+import com.google.common.collect.Lists;
 import io.philoyui.qmier.qmiermanager.dao.TagStockDao;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.utils.DealDateUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,21 +53,43 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     }
 
     @Override
-    public List<TagStockEntity> findTodayTagName(String tagName,String dayString) {
-        SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("tagName",tagName));
-        searchFilter.add(Restrictions.eq("dayString", dayString));
-        return list(searchFilter);
+    public List<TagStockEntity> findCurrentTagName(TagEntity tagEntity) {
+
+        switch (tagEntity.getIntervalType()){
+            case Day:
+                String dayString = DealDateUtils.getLastDealDayString();
+                SearchFilter searchFilter = SearchFilter.getDefault();
+                searchFilter.add(Restrictions.eq("tagName",tagEntity.getTagName()));
+                searchFilter.add(Restrictions.eq("dayString", dayString));
+                return list(searchFilter);
+            case Week:
+                searchFilter = SearchFilter.getDefault();
+                searchFilter.add(Restrictions.eq("tagName",tagEntity.getTagName()));
+                searchFilter.add(Restrictions.gt("createdTime", DateUtils.addDays(new Date(),-7)));
+                searchFilter.add(Restrictions.lt("createdTime", new Date()));
+                return list(searchFilter);
+            case Month:
+                searchFilter = SearchFilter.getDefault();
+                searchFilter.add(Restrictions.eq("tagName",tagEntity.getTagName()));
+                searchFilter.add(Restrictions.gt("createdTime", DateUtils.addDays(new Date(),-31)));
+                searchFilter.add(Restrictions.lt("createdTime", new Date()));
+                return list(searchFilter);
+        }
+
+        return Lists.newArrayList();
+
     }
 
     @Override
-    public TagStockEntity tagStock(String symbol, String tagName, Date day) {
+    public TagStockEntity tagStock(String symbol, String tagName, Date day, IntervalType intervalType,Integer lastIndex) {
 
         TagStockEntity tagStockEntity = new TagStockEntity();
         tagStockEntity.setSymbol(symbol);
         tagStockEntity.setTagName(tagName);
         tagStockEntity.setCreatedTime(day);
         tagStockEntity.setDayString(DateFormatUtils.format(day,"yyyy-MM-dd"));
+        tagStockEntity.setIntervalType(intervalType);
+        tagStockEntity.setLastIndex(lastIndex);
         this.insert(tagStockEntity);
 
         TagEntity tagEntity = tagService.findByTagName(tagName);
@@ -82,7 +107,7 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
     }
 
     @Override
-    public void tagStocks(List<String> stockSet, String tagName, Date date) {
+    public void tagStocks(List<String> stockSet, String tagName, Date date, IntervalType intervalType) {
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
         for (String symbol : stockSet) {
             TagStockEntity tagStockEntity = new TagStockEntity();
@@ -90,6 +115,8 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
             tagStockEntity.setTagName(tagName);
             tagStockEntity.setCreatedTime(date);
             tagStockEntity.setDayString(DateFormatUtils.format(date,"yyyy-MM-dd"));
+            tagStockEntity.setIntervalType(intervalType);
+            tagStockEntity.setLastIndex(-1);
             tagStockEntities.add(tagStockEntity);
         }
         this.batchInsert(tagStockEntities);

@@ -31,14 +31,14 @@ day_array = data_frame['day'].values
 macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
 
 
-def mark_macd_value(macd_type_string):
+def mark_macd_value(macd_type_string, last_index):
     global sql
     sql = "INSERT INTO macd_data_entity (close_value, day, day_String, hist_value, interval_type, macd_type, " \
-          "macd_value, signal_value, symbol) VALUES (" + str(close_array[-1 - i]) + \
+          "macd_value, signal_value, symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', " + str(hist_array[-1 - i]) + ", '" + interval_type + "', '" \
           + macd_type_string + "', " + str(macd_array[-1 - i]) + ", " + str(signal_array[-1 - i]) + ", '"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -48,10 +48,10 @@ for i in range(len(close_array)-2):
         break
 
     if macd_array[-1-i] > signal_array[-1-i] and macd_array[-2-i] < signal_array[-2-i]:
-        mark_macd_value("GOLDEN_CROSS")
+        mark_macd_value("GOLDEN_CROSS", -1-i)
     if macd_array[-1-i] < signal_array[-1-i] and macd_array[-2-i] > signal_array[-2-i]:
-        mark_macd_value("DEATH_CROSS")
+        mark_macd_value("DEATH_CROSS", -1-i)
     if macd_array[-1-i] > macd_array[-2-i] and macd_array[-2-i] < macd_array[-3-i]:
-        mark_macd_value("BOTTOM_DIFF")
+        mark_macd_value("BOTTOM_DIFF", -1-i)
     if macd_array[-1 - i] < macd_array[-2 - i] and macd_array[-2 - i] > macd_array[-3 - i]:
-        mark_macd_value("TOP_DIFF")
+        mark_macd_value("TOP_DIFF", -1-i)

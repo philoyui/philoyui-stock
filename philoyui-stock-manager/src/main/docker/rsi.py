@@ -33,14 +33,14 @@ low_array = data_frame['low'].values
 rsi = talib.RSI(close_array, timeperiod=14)
 
 
-def mark_rsi_value(rsi_type_string):
+def mark_rsi_value(rsi_type_string, last_index):
     global sql
     sql = "INSERT INTO rsi_data_entity (close_value, day, day_String, interval_type, rsi_type, " \
-          "symbol, rsi_value) VALUES (" + str(close_array[-1 - i]) + \
+          "symbol, rsi_value, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', '" + interval_type + "', '" \
           + rsi_type_string + "','"\
-          + symbol + "'," + str(rsi[-1 - i]) + ")"
+          + symbol + "'," + str(rsi[-1 - i]) + "," + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -50,16 +50,16 @@ for i in range(len(close_array)-2):
         break
 
     if rsi[-1-i] > 70 and rsi[-2-i] < 70:
-        mark_rsi_value("BREAK_70")
+        mark_rsi_value("BREAK_70", -1-i)
     if rsi[-1-i] < 30 and rsi[-2-i] > 30:
-        mark_rsi_value("FALL_30")
+        mark_rsi_value("FALL_30", -1-i)
     if rsi[-1 - i] < 70 and rsi[-2 - i] > 70:
-        mark_rsi_value("FALL_70")
+        mark_rsi_value("FALL_70", -1-i)
     if rsi[-1 - i] > 30 and rsi[-2 - i] < 30:
-        mark_rsi_value("BREAK_30")
+        mark_rsi_value("BREAK_30", -1-i)
     if rsi[-2 - i] > rsi[-3 - i] > 70 and rsi[-1 - i] < rsi[-2 - i] and rsi[-2 - i] > 70 and \
             rsi[-1 - i] > 70:
-        mark_rsi_value("TOP")
+        mark_rsi_value("TOP", -1-i)
     if rsi[-2 - i] < rsi[-3 - i] < 30 and rsi[-1 - i] > rsi[-2 - i] and rsi[-2 - i] < 30 and\
             rsi[-1 - i] < 30:
-        mark_rsi_value("BOTTOM")
+        mark_rsi_value("BOTTOM", -1-i)

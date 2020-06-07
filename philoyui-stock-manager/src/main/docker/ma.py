@@ -36,15 +36,15 @@ avg20 = talib.MA(close_array, timeperiod=20)
 avg30 = talib.MA(close_array, timeperiod=30)
 
 
-def mark_ma_value(ma_type_string):
+def mark_ma_value(ma_type_string, last_index):
     global sql
     sql = "INSERT INTO ma_data_entity (close_value, day, day_String, interval_type, ma_type, " \
-          "symbol, ma5Value, ma10Value, ma20Value, ma30Value) VALUES (" + str(close_array[-1 - i]) + \
+          "symbol, ma5Value, ma10Value, ma20Value, ma30Value, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', '" + interval_type + "', '" \
           + ma_type_string + "','"\
           + symbol + "'," + str(avg5[-1 - i]) + "," + str(avg10[-1 - i]) + ","\
-          + str(avg20[-1 - i]) + "," + str(avg30[-1 - i]) + ")"
+          + str(avg20[-1 - i]) + "," + str(avg30[-1 - i]) + "," + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -55,7 +55,7 @@ for i in range(len(close_array)-2):
 
     if avg5[-1-i] > avg5[-2-i] and avg10[-1-i] > avg10[-2-i] and avg30[-1-i] > avg30[-2-i] and avg30[-2-i] <\
             avg30[-3-i]:
-        mark_ma_value("UpTrend")
+        mark_ma_value("UpTrend", -1-i)
     if avg5[-1 - i] < avg5[-2 - i] and avg10[-1 - i] < avg10[-2 - i] and avg30[-1 - i] < avg30[-2 - i] \
             and avg30[-2 - i] > avg30[-3 - i]:
-        mark_ma_value("DownTrend")
+        mark_ma_value("DownTrend", -1-i)

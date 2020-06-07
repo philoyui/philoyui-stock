@@ -30,6 +30,8 @@ public class MyStockEntity implements Serializable {
 
     private String reason;
 
+    private Integer score;
+
     /**
      * 创建时间
      */
@@ -73,5 +75,13 @@ public class MyStockEntity implements Serializable {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

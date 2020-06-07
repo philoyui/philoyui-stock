@@ -37,6 +37,8 @@ public class MacdDataEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private IntervalType intervalType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -115,5 +117,13 @@ public class MacdDataEntity implements Serializable {
 
     public void setIntervalType(IntervalType intervalType) {
         this.intervalType = intervalType;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

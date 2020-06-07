@@ -1,5 +1,7 @@
 package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Restrictions;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Sets;
@@ -14,8 +16,6 @@ import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
-import io.philoyui.qmier.qmiermanager.utils.DealDateUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,42 +45,67 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     @Autowired
     private TagStockService tagStockService;
 
+    @Autowired
+    private MyStockService myStockService;
+
     @Override
     protected GenericDao<MyStockEntity, Long> getDao() {
         return myStockDao;
     }
 
-    @Transactional
-    public void obtainEveryDay(){
+    /**
+     * 遍历所有的股票
+     * 查看近3天的打标
+     *
+     */
+    public void obtainEveryDay() {
+        myStockService.deleteAll();
+        for (StockEntity stockEntity : stockDao.findAll()) {
+            Integer score = 0;
+            SearchFilter searchFilter = SearchFilter.getDefault();
+            searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
+            searchFilter.add(Restrictions.gt("lastIndex",-4));
+            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
+            for (TagStockEntity tagStockEntity : tagStockEntities) {
+                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
+                if(tagEntity!=null){
+                    if(tagStockEntity.getLastIndex()==-1){
+                        score += tagEntity.getLast1Score();
+                    }else if(tagStockEntity.getLastIndex()==-2){
+                        score += tagEntity.getLast2Score();
+                    }else if(tagStockEntity.getLastIndex()==-3){
+                        score += tagEntity.getLast3Score();
+                    }
+                }
+            }
 
-//        List<StockEntity> stockEntities = stockDao.findAll();
+            MyStockEntity myStockEntity = new MyStockEntity();
+            myStockEntity.setSymbol(stockEntity.getSymbol());
+            myStockEntity.setCreatedTime(new Date());
+            myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
+            myStockEntity.setScore(score);
+            myStockService.insert(myStockEntity);
+        }
+    }
 
-//        for (StockEntity stockEntity : stockEntities) {
-//            int score = 0;
-//            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
-//            for (TagStockEntity tagStockEntity : tagStockEntities) {
-//                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
-//
-//            }
-//        }
-
+    public void obtainEveryDay_back(){
 
         Set<StockAndReason> selectedStockSet = new HashSet<>();
 
-        String dayString = DealDateUtils.getLastDealDayString();
-
         List<TagEntity> addTags = tagService.findAdd();
         for (TagEntity addTag : addTags) {
-            List<TagStockEntity> addTagStocks = tagStockService.findTodayTagName(addTag.getTagName(),dayString);
+            List<TagStockEntity> addTagStocks = tagStockService.findCurrentTagName(addTag);
             selectedStockSet.addAll(addTagStocks.stream().map(TagStockEntity::buildStockAndReason).collect(Collectors.toSet()));
+            System.out.println("添加" + addTag.getTagName() + " : " + addTagStocks.size());
         }
 
         //4. 根据条件过滤股票
         List<TagEntity> reduceTags = tagService.findReduce();
         for (TagEntity reduceTag : reduceTags) {
-            List<TagStockEntity> reduceTagStocks = tagStockService.findTodayTagName(reduceTag.getTagName(),dayString);
+            List<TagStockEntity> reduceTagStocks = tagStockService.findCurrentTagName(reduceTag);
             Set<StockAndReason> reduceStockSet = reduceTagStocks.stream().map(TagStockEntity::buildStockAndReason).collect(Collectors.toSet());
             selectedStockSet = Sets.difference(selectedStockSet,reduceStockSet);
+            System.out.println("删除" + reduceTag.getTagName() + " : " + reduceTagStocks.size());
         }
 
         selectedStockSet = selectedStockSet.stream().filter(s -> !s.getSymbol().startsWith("30")&&!s.getSymbol().startsWith("sz30")).collect(Collectors.toSet());

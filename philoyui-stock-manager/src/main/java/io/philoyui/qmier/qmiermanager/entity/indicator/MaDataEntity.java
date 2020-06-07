@@ -36,6 +36,8 @@ public class MaDataEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private IntervalType intervalType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -122,5 +124,13 @@ public class MaDataEntity implements Serializable {
 
     public void setMa20Value(double ma20Value) {
         this.ma20Value = ma20Value;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

@@ -39,9 +39,9 @@ public class MaIndicatorProvider implements IndicatorProvider {
         for (MaDataEntity maDataEntity : maDataEntities) {
             switch (maDataEntity.getMaType()){
                 case UpTrend:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MA多头排列",maDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MA多头排列",maDataEntity.getDay(),IntervalType.Day,maDataEntity.getLastIndex()));
                 case DownTrend:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MA空头排列",maDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MA空头排列",maDataEntity.getDay(),IntervalType.Day,maDataEntity.getLastIndex()));
             }
 
         }

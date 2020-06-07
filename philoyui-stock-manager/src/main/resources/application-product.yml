@@ -4,10 +4,7 @@ logging:
   level:
     root: INFO
 application:
-  voice.base-url: http://114.67.84.99/voice/article/
-  voice.store-path: /app/data/voice/article/
   python.path: python3 /root/python/
-#  voice.store-path: C:/voice/
 spring:
   jpa:
     hibernate.ddl-auto: update
@@ -26,6 +23,3 @@ spring:
     test-on-borrow: false
     test-while-idle: true
     time-between-eviction-runs-millis: 18800
-  data:
-    mongodb:
-      uri: mongodb://114.67.84.99:27777/stock

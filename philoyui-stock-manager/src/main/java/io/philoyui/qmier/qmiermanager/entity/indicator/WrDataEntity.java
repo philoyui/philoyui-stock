@@ -30,6 +30,8 @@ public class WrDataEntity implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private IntervalType intervalType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class WrDataEntity implements Serializable {
 
     public void setWr20Value(double wr20Value) {
         this.wr20Value = wr20Value;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

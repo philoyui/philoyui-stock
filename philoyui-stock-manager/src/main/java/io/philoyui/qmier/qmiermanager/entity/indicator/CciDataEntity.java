@@ -30,6 +30,8 @@ public class CciDataEntity  implements Serializable {
     @Enumerated(value=EnumType.STRING)
     private CciType cciType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -92,5 +94,13 @@ public class CciDataEntity  implements Serializable {
 
     public void setCciType(CciType cciType) {
         this.cciType = cciType;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

@@ -33,14 +33,14 @@ low_array = data_frame['low'].values
 real = talib.SAR(high_array, low_array, acceleration=0.02, maximum=0.2)
 
 
-def mark_sar_value(sar_type_string):
+def mark_sar_value(sar_type_string, last_index):
     global sql
     sql = "INSERT INTO sar_data_entity (close_value, day, day_String, interval_type, sar_type, " \
-          "symbol) VALUES (" + str(close_array[-1 - i]) + \
+          "symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', '" + interval_type + "', '" \
           + sar_type_string + "','"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -50,6 +50,6 @@ for i in range(len(close_array)-2):
         break
 
     if real[-1-i] < close_array[-1-i] and real[-2-i] > close_array[-2-i]:
-        mark_sar_value("Buy")
+        mark_sar_value("Buy", -1-i)
     if real[-1-i] > close_array[-1-i] and real[-2-i] < close_array[-2-i]:
-        mark_sar_value("Sell")
+        mark_sar_value("Sell", -1-i)

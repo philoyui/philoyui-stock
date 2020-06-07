@@ -33,14 +33,14 @@ low_array = data_frame['low'].values
 result = talib.CCI(high_array, low_array, close_array, 14)
 
 
-def mark_cci_value(cci_type_string):
+def mark_cci_value(cci_type_string, last_index):
     global sql
     sql = "INSERT INTO cci_data_entity (close_value, day, day_String, interval_type, cci_type, " \
-          "cci_value, symbol) VALUES (" + str(close_array[-1 - i]) + \
+          "cci_value, symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', '" + interval_type + "', '" \
           + cci_type_string + "', " + str(result[-1 - i]) + ", '"\
-          + symbol + "')"
+          + symbol + "', " + str(last_index) + ")"
     conn.execute(sql)
 
 
@@ -50,16 +50,16 @@ for i in range(len(close_array)-2):
         break
 
     if result[-1-i] > 100 and result[-2-i] < 100:
-        mark_cci_value("BREAK_100")
+        mark_cci_value("BREAK_100", -1-i)
     if result[-1-i] < 100 and result[-2-i] > 100:
-        mark_cci_value("FALL_100")
+        mark_cci_value("FALL_100", -1-i)
     if result[-1-i] < -100 < result[-2-i]:
-        mark_cci_value("FALL_NEGATIVE_100")
+        mark_cci_value("FALL_NEGATIVE_100", -1-i)
     if result[-2-i] < -100 < result[-1-i]:
-        mark_cci_value("BREAK_NEGATIVE_100")
+        mark_cci_value("BREAK_NEGATIVE_100", -1-i)
     if result[-2 - i] > result[-3 - i] > 100 and result[-1 - i] < result[-2 - i] and result[-2 - i] > 100 and \
             result[-1 - i] > 100:
-        mark_cci_value("TOP")
+        mark_cci_value("TOP", -1-i)
     if result[-2 - i] < result[-3 - i] < -100 and result[-1 - i] > result[-2 - i] and result[-2 - i] < -100 and\
             result[-1 - i] < -100:
-        mark_cci_value("BOTTOM")
+        mark_cci_value("BOTTOM", -1-i)

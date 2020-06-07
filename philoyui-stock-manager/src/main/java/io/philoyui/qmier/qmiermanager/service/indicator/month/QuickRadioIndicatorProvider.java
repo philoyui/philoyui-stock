@@ -5,10 +5,10 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.FinancialReportEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.FinancialReportService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +49,7 @@ public class QuickRadioIndicatorProvider implements IndicatorProvider {
         searchFilter.add(Restrictions.eq("season", 4));
         List<FinancialReportEntity> financialReports = financialReportService.list(searchFilter);
         List<String> symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());
-        tagStockService.tagStocks(symbolList,"债务风险",new Date());
+        tagStockService.tagStocks(symbolList,"债务风险",new Date(), IntervalType.Month);
 
 
         searchFilter = SearchFilter.getDefault();
@@ -58,6 +58,6 @@ public class QuickRadioIndicatorProvider implements IndicatorProvider {
         searchFilter.add(Restrictions.eq("season", 4));
         financialReports = financialReportService.list(searchFilter);
         symbolList = financialReports.stream().map(FinancialReportEntity::getSymbol).collect(Collectors.toList());
-        tagStockService.tagStocks(symbolList,"债务正常",new Date());
+        tagStockService.tagStocks(symbolList,"债务正常",new Date(), IntervalType.Month);
     }
 }

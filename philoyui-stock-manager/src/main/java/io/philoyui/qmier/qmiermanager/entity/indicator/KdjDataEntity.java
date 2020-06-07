@@ -34,6 +34,8 @@ public class KdjDataEntity implements Serializable {
     @Enumerated(value=EnumType.STRING)
     private KdjType kdjType;
 
+    private Integer lastIndex;
+
     public Long getId() {
         return id;
     }
@@ -112,5 +114,13 @@ public class KdjDataEntity implements Serializable {
 
     public void setIntervalType(IntervalType intervalType) {
         this.intervalType = intervalType;
+    }
+
+    public Integer getLastIndex() {
+        return lastIndex;
+    }
+
+    public void setLastIndex(Integer lastIndex) {
+        this.lastIndex = lastIndex;
     }
 }

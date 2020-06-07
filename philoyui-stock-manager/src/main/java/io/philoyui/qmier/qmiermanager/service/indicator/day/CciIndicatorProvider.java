@@ -38,25 +38,19 @@ public class CciIndicatorProvider implements IndicatorProvider {
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
         for (CciDataEntity cciDataEntity : cciDataEntities) {
-            switch (cciDataEntity.getCciType()){
+            switch (cciDataEntity.getCciType()) {
                 case BREAK_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入强势(日)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(), "CCI进入强势(日)", cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case BREAK_NEGATIVE_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI多头开启(日)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(), "CCI多头开启(日)", cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case FALL_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI空头开启(日)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(), "CCI空头开启(日)", cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
                 case FALL_NEGATIVE_100:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI进入弱势(日)",cciDataEntity.getDay()));
+                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(), "CCI进入弱势(日)", cciDataEntity.getDay(), cciDataEntity.getIntervalType(), cciDataEntity.getLastIndex()));
                     break;
-//                case TOP:
-//                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束强势(日)",cciDataEntity.getDay()));
-//                    break;
-//                case BOTTOM:
-//                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI结束弱势(日)",cciDataEntity.getDay()));
-//                    break;
             }
         }
 
@@ -68,7 +62,7 @@ public class CciIndicatorProvider implements IndicatorProvider {
             CciDataEntity oldCciDataEntity = topDataList.get(i);
             CciDataEntity newCciDataEntity = topDataList.get(i+1);
             if(newCciDataEntity.getCciValue() < oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() > oldCciDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI顶背离(日)",newCciDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI顶背离(日)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex()));
             }
         }
 
@@ -76,7 +70,7 @@ public class CciIndicatorProvider implements IndicatorProvider {
             CciDataEntity oldCciDataEntity = bottomDataList.get(i);
             CciDataEntity newCciDataEntity = bottomDataList.get(i+1);
             if(newCciDataEntity.getCciValue() > oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() < oldCciDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI底背离(日)",newCciDataEntity.getDay()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI底背离(日)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex()));
             }
         }
 
