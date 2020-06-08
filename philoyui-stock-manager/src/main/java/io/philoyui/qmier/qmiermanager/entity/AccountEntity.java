@@ -21,12 +21,6 @@ public class AccountEntity implements Serializable {
 
     private String accessKeySecret;
 
-    // 空间
-    private String bucketName;
-
-    // 文件存储目录
-    private String fileDir ;
-
     public Long getId() {
         return id;
     }
@@ -59,19 +53,4 @@ public class AccountEntity implements Serializable {
         this.accessKeySecret = accessKeySecret;
     }
 
-    public String getBucketName() {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
-    }
-
-    public String getFileDir() {
-        return fileDir;
-    }
-
-    public void setFileDir(String fileDir) {
-        this.fileDir = fileDir;
-    }
 }
