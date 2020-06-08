@@ -69,7 +69,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "#operation_10"
         );
         pageConfig.withFilterDefinitions(
-                "symbol_like"
+                "symbol_like","stockName_like","reason_like"
         );
         pageConfig.withSortDefinitions("score_desc");
         pageConfig.withTableAction(

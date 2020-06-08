@@ -1,16 +1,21 @@
 package io.philoyui.qmier.qmiermanager.config;
 
 import cn.com.gome.page.plugins.upload.FileUploadPlugin;
+import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.ObjectMetadata;
+import io.philoyui.qmier.qmiermanager.dao.AccountDao;
+import io.philoyui.qmier.qmiermanager.entity.AccountEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.net.URL;
+import java.util.List;
 
 @Component
 public class AliYunUploadPlugin implements FileUploadPlugin {
@@ -33,16 +38,12 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
 
     private OSSClient ossClient;
 
-
-    @PostConstruct
-    public void before(){
-        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
-    }
+    @Autowired
+    private AccountDao accountDao;
 
     @Override
     public String fileUpload(MultipartFile multipartFile) {
 
-        URL url = null;
         //初始化OSSClient
         try {
             String path = multipartFile.getOriginalFilename();
@@ -58,8 +59,8 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
             metadata.setContentEncoding("utf-8");
             metadata.setContentType(getContentType(newFileName));
             metadata.setContentDisposition("filename/filesize=" + newFileName + "/" + multipartFile.getSize() + "Byte.");
-            ossClient.putObject(bucketName, filePath, multipartFile.getInputStream(), metadata);
-            ossClient.setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
+            getOssClient().putObject(bucketName, filePath, multipartFile.getInputStream(), metadata);
+            getOssClient().setBucketAcl(bucketName, CannedAccessControlList.PublicRead);
             return "https://" + bucketName + "." + endpoint + "/" + filePath;
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,12 +69,24 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
         return null;
     }
 
+    private OSS getOssClient() {
+        if(ossClient==null){
+            List<AccountEntity> accountEntityList = accountDao.findAll();
+            if(accountEntityList.size()>0){
+                AccountEntity accountEntity = accountEntityList.get(0);
+                ossClient = new OSSClient(accountEntity.getEndpoint(), accountEntity.getAccessKeyId(), accountEntity.getAccessKeySecret());
+            }
+
+        }
+        return ossClient;
+    }
+
     /**
      * 通过文件名判断并获取OSS服务文件上传时文件的contentType
      * @param fileName 文件名
      * @return 文件的contentType
      */
-    private static  String getContentType(String fileName){
+    private static String getContentType(String fileName){
         //文件的后缀名
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));
         if(".bmp".equalsIgnoreCase(fileExtension)) {

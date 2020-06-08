@@ -88,11 +88,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         dayDataService.deleteAll();
 
         List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
-        for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
-            IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
-            dayIndicatorProvider.cleanOldData();
-            dayIndicatorProvider.processGlobal();
-        }
 
         for (StockEntity stockEntity : stockService.findAll()) {
             executorService.execute(() -> {
@@ -111,6 +106,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
                 }
             });
         }
+
+        for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
+            IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
+            dayIndicatorProvider.cleanOldData();
+            dayIndicatorProvider.processGlobal();
+        }
     }
 
     @Override
@@ -119,11 +120,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
         weekDataService.deleteAll();
 
         List<StockIndicatorEntity> weekStockIndicators  = this.findWeekEnable();
-        for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
-            IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
-            weekIndicatorProvider.cleanOldData();
-            weekIndicatorProvider.processGlobal();
-        }
 
         for (StockEntity stockEntity : stockService.findAll()) {
             executorService.execute(() -> {
@@ -140,6 +136,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
                 }
             });
         }
+
+        for (StockIndicatorEntity weekStockIndicator : weekStockIndicators) {
+            IndicatorProvider weekIndicatorProvider = indicatorProviders.findByIdentifier(weekStockIndicator.getIdentifier());
+            weekIndicatorProvider.cleanOldData();
+            weekIndicatorProvider.processGlobal();
+        }
     }
 
     @Override
@@ -149,11 +151,6 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
         //清理指标数据
         List<StockIndicatorEntity> monthStockIndicators  = this.findMonthEnable();
-        for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
-            IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
-            monthIndicatorProvider.cleanOldData();
-            monthIndicatorProvider.processGlobal();
-        }
 
         //遍历所有的股票，下载历史数据，执行python脚本生成指标数据，找到指标处理器生成为股票打标，并记录打标日志
         for (StockEntity stockEntity : stockService.findAll()) {
@@ -170,6 +167,12 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
                     }
                 }
             });
+        }
+
+        for (StockIndicatorEntity monthStockIndicator : monthStockIndicators) {
+            IndicatorProvider monthIndicatorProvider = indicatorProviders.findByIdentifier(monthStockIndicator.getIdentifier());
+            monthIndicatorProvider.cleanOldData();
+            monthIndicatorProvider.processGlobal();
         }
     }
 
