@@ -1,9 +1,6 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,6 +25,7 @@ public class MyStockEntity implements Serializable {
      */
     private String dateString;
 
+    @Column(length = 2056)
     private String reason;
 
     private Integer score;

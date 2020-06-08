@@ -4,6 +4,7 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
@@ -16,15 +17,13 @@ import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -66,15 +65,19 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
             searchFilter.add(Restrictions.gt("lastIndex",-4));
             List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
+            ArrayList<String> reasons = Lists.newArrayList();
             for (TagStockEntity tagStockEntity : tagStockEntities) {
                 TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
                 if(tagEntity!=null){
                     if(tagStockEntity.getLastIndex()==-1){
                         score += tagEntity.getLast1Score();
+                        reasons.add(tagEntity.getTagName());
                     }else if(tagStockEntity.getLastIndex()==-2){
                         score += tagEntity.getLast2Score();
+                        reasons.add(tagEntity.getTagName());
                     }else if(tagStockEntity.getLastIndex()==-3){
                         score += tagEntity.getLast3Score();
+                        reasons.add(tagEntity.getTagName());
                     }
                 }
             }
@@ -84,6 +87,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             myStockEntity.setCreatedTime(new Date());
             myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
             myStockEntity.setScore(score);
+            myStockEntity.setReason( "<div>" +  StringUtils.join(reasons,"</div><div>") + "</div>");
             myStockService.insert(myStockEntity);
         }
     }
