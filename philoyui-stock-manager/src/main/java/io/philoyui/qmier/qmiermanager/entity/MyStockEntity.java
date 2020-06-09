@@ -21,6 +21,11 @@ public class MyStockEntity implements Serializable {
     private String symbol;
 
     /**
+     * 股票名称
+     */
+    private String stockName;
+
+    /**
      * 时间标识，如2020-01-28
      */
     private String dateString;
@@ -81,5 +86,13 @@ public class MyStockEntity implements Serializable {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public String getStockName() {
+        return stockName;
+    }
+
+    public void setStockName(String stockName) {
+        this.stockName = stockName;
     }
 }

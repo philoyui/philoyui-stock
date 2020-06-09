@@ -21,7 +21,7 @@ public class StockAnalysisTimer {
      * 3. 使用java代码，解析数据库中的指标数据，清理之前的标签数据，新数据入库，记录日志
      * 4. 判断是否加入自选
      */
-    @Scheduled(cron="0 0 16 * * 1-5")
+    @Scheduled(cron="0 0 17 * * 1-5")
     public void executeDayTask(){
         stockIndicatorService.executeDayTask();
     }

@@ -50,7 +50,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
         pageConfig.withFieldDefinitions(
                 new LongFieldDefinition("id", "ID"),
                 new StringFieldDefinition("symbol", "标识码"),
-                new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
+                new StringFieldDefinition("stockName", "股票名称"),
                 new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),

@@ -60,6 +60,9 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     public void obtainEveryDay() {
         myStockService.deleteAll();
         for (StockEntity stockEntity : stockDao.findAll()) {
+            if(stockEntity.getName().contains("ST")) {
+                continue;
+            }
             Integer score = 0;
             SearchFilter searchFilter = SearchFilter.getDefault();
             searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
@@ -88,7 +91,9 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
             myStockEntity.setScore(score);
             myStockEntity.setReason( "<div>" +  StringUtils.join(reasons,"</div><div>") + "</div>");
+            myStockEntity.setStockName(stockEntity.getName());
             myStockService.insert(myStockEntity);
+
         }
     }
 
