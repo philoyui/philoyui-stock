@@ -53,11 +53,11 @@ for i in range(len(close_array)-2):
     if avg5[-1-i] is None:
         break
 
-    if avg5[-1-i] > avg10[-1-i] and avg10[-2-i] < avg10[-2-i]:
+    if avg5[-1-i] > avg10[-1-i] and avg5[-2-i] < avg10[-2-i]:
         mark_volume_value("Cross_5_10_Golden", -1-i)
-    if avg5[-1 - i] > avg20[-1 - i] and avg10[-2 - i] < avg20[-2 - i]:
+    if avg5[-1 - i] > avg20[-1 - i] and avg5[-2 - i] < avg20[-2 - i]:
         mark_volume_value("Cross_5_20_Golden", -1 - i)
-    if avg5[-1 - i] < avg10[-1 - i] and avg10[-2 - i] > avg10[-2 - i]:
+    if avg5[-1 - i] < avg10[-1 - i] and avg5[-2 - i] > avg10[-2 - i]:
         mark_volume_value("Cross_5_10_Death", -1 - i)
-    if avg5[-1 - i] < avg20[-1 - i] and avg10[-2 - i] > avg20[-2 - i]:
+    if avg5[-1 - i] < avg20[-1 - i] and avg5[-2 - i] > avg20[-2 - i]:
         mark_volume_value("Cross_5_20_Death", -1 - i)
