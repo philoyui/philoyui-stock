@@ -8,7 +8,6 @@ import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,10 +37,9 @@ public class DishStockIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("大盘股",dayString);
-        tagStockService.deleteByTagNameAndDayString("中盘股",dayString);
-        tagStockService.deleteByTagNameAndDayString("小盘股",dayString);
+        tagStockService.deleteByTagName("大盘股");
+        tagStockService.deleteByTagName("中盘股");
+        tagStockService.deleteByTagName("小盘股");
     }
 
     @Override

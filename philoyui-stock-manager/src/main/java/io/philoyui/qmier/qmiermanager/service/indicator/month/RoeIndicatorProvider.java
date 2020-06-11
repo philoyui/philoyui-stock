@@ -72,7 +72,7 @@ public class RoeIndicatorProvider implements IndicatorProvider {
         //===========================================================
 
         searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.gte("year",2017));
+        searchFilter.add(Restrictions.gte("year",2015));
         searchFilter.add(Restrictions.gte("season", 4));
         searchFilter.add(Restrictions.gte("roe",18));
         financialReports = financialReportService.list(searchFilter);
@@ -81,7 +81,7 @@ public class RoeIndicatorProvider implements IndicatorProvider {
 
         List<String> resultSet = new ArrayList<>();
         for (Map.Entry<String, Long> stringLongEntry : symbolCountMap.entrySet()) {
-            if(stringLongEntry.getValue()==5){
+            if(stringLongEntry.getValue()==5||stringLongEntry.getValue()==10){
                 resultSet.add(stringLongEntry.getKey());
             }
         }
