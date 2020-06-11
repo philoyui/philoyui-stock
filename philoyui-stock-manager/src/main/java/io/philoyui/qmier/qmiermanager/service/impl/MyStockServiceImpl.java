@@ -74,13 +74,13 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
                 if(tagEntity!=null){
                     if(tagStockEntity.getLastIndex()==-1){
                         score += tagEntity.getLast1Score();
-                        reasons.add(tagEntity.getTagName());
+                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
                     }else if(tagStockEntity.getLastIndex()==-2){
                         score += tagEntity.getLast2Score();
-                        reasons.add(tagEntity.getTagName());
+                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
                     }else if(tagStockEntity.getLastIndex()==-3){
                         score += tagEntity.getLast3Score();
-                        reasons.add(tagEntity.getTagName());
+                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
                     }
                 }
             }
