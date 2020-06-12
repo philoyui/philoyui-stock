@@ -72,12 +72,10 @@ public class VolIndicatorProvider implements IndicatorProvider {
     @Override
     public void cleanOldData() {
         volumeDataService.deleteDayData();
-        tagStockService.deleteByTagName("均线5穿10金叉");
-        tagStockService.deleteByTagName("均线5穿20金叉");
-        tagStockService.deleteByTagName("均线5穿10死叉");
-        tagStockService.deleteByTagName("均线5穿20死叉");
-        tagStockService.deleteByTagName("MA多头排列");
-        tagStockService.deleteByTagName("MA空头排列");
+        tagStockService.deleteByTagName("量线5穿10金叉");
+        tagStockService.deleteByTagName("量线5穿20金叉");
+        tagStockService.deleteByTagName("量线5穿10死叉");
+        tagStockService.deleteByTagName("量线5穿20死叉");
     }
 
     @Override
