@@ -74,13 +74,13 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
                 if(tagEntity!=null){
                     if(tagStockEntity.getLastIndex()==-1){
                         score += tagEntity.getLast1Score();
-                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
+                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast1Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
                     }else if(tagStockEntity.getLastIndex()==-2){
                         score += tagEntity.getLast2Score();
-                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
+                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
                     }else if(tagStockEntity.getLastIndex()==-3){
                         score += tagEntity.getLast3Score();
-                        reasons.add(tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")");
+                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
                     }
                 }
             }
@@ -90,12 +90,17 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
             myStockEntity.setCreatedTime(new Date());
             myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
             myStockEntity.setScore(score);
-            myStockEntity.setReason( "<div>" +  StringUtils.join(reasons,"</div><div>") + "</div>");
+            myStockEntity.setReason(StringUtils.join(reasons,""));
             myStockEntity.setStockName(stockEntity.getName());
             myStockService.insert(myStockEntity);
 
         }
     }
+
+    private String buildColor(Integer last1Score) {
+        return null;
+    }
+
 
     public void obtainEveryDay_back(){
 

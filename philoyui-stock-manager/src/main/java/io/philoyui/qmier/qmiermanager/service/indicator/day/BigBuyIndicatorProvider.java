@@ -16,6 +16,7 @@ import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,11 +61,7 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
     @Override
     public void processGlobal() {
         String endData = DateFormatUtils.format(DateUtils.addHours(new Date(),-15), "yyyy-MM-dd");
-        String startData = DateFormatUtils.format(DateUtils.addHours(new Date(),-15), "yyyy-MM-dd");
-
-        List<String> stockSet = new ArrayList<>();
-        List<String> highVolumeStockSet = new ArrayList<>();
-        List<String> overflowStockSet = new ArrayList<>();
+        String startData = DateFormatUtils.format(DateUtils.addWeeks(new Date(),-1), "yyyy-MM-dd");
 
         String fetchUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=DZJYGGTJ&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st=Cjeltszb&sr=-1&p=1&ps=500&js={pages:(tp),data:(x)}&filter=((TDATE%3E=^" + startData + "^%20and%20TDATE%3C=^" + endData + "^))&rt=52607034";
         try {
@@ -79,21 +76,18 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
             BigBuyResponse bigBuyResponse = gson.fromJson(result, BigBuyResponse.class);
             for (BigBuyData bigBuyData : bigBuyResponse.getData()) {
-                stockSet.add(buildSymbol(bigBuyData.getSymbol()));
+                tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
                 if(bigBuyData.getDealAmount()>1000) {
-                    highVolumeStockSet.add(buildSymbol(bigBuyData.getSymbol()));
+                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大容量大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
                 }
                 if(bigBuyData.getPremiumDiscount()>0) {
-                    overflowStockSet.add(buildSymbol(bigBuyData.getSymbol()));
+                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"溢价大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        tagStockService.tagStocks(stockSet,"大宗交易",new Date(),IntervalType.Day);
-        tagStockService.tagStocks(highVolumeStockSet,"大容量大宗交易",new Date(),IntervalType.Day);
-        tagStockService.tagStocks(overflowStockSet,"溢价大宗交易",new Date(),IntervalType.Day);
     }
 
 }
