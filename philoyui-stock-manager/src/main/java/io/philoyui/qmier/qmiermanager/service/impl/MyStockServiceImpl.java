@@ -5,11 +5,9 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.dao.TagDao;
-import io.philoyui.qmier.qmiermanager.domain.StockAndReason;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TagEntity;
@@ -23,8 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> implements MyStockService {
@@ -74,13 +73,13 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
                 if(tagEntity!=null){
                     if(tagStockEntity.getLastIndex()==-1){
                         score += tagEntity.getLast1Score();
-                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast1Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
+                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast1Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +  tagEntity.getLast1Score() +"</div>");
                     }else if(tagStockEntity.getLastIndex()==-2){
                         score += tagEntity.getLast2Score();
-                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
+                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " + tagEntity.getLast2Score() + "</div>");
                     }else if(tagStockEntity.getLastIndex()==-3){
                         score += tagEntity.getLast3Score();
-                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ")</div>");
+                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +tagEntity.getLast3Score() + "</div>");
                     }
                 }
             }
@@ -98,54 +97,12 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     }
 
     private String buildColor(Integer last1Score) {
-        return null;
+        if(last1Score>0){
+            return "red";
+        }
+        return "green";
     }
 
-
-    public void obtainEveryDay_back(){
-
-        Set<StockAndReason> selectedStockSet = new HashSet<>();
-
-        List<TagEntity> addTags = tagService.findAdd();
-        for (TagEntity addTag : addTags) {
-            List<TagStockEntity> addTagStocks = tagStockService.findCurrentTagName(addTag);
-            selectedStockSet.addAll(addTagStocks.stream().map(TagStockEntity::buildStockAndReason).collect(Collectors.toSet()));
-            System.out.println("添加" + addTag.getTagName() + " : " + addTagStocks.size());
-        }
-
-        //4. 根据条件过滤股票
-        List<TagEntity> reduceTags = tagService.findReduce();
-        for (TagEntity reduceTag : reduceTags) {
-            List<TagStockEntity> reduceTagStocks = tagStockService.findCurrentTagName(reduceTag);
-            Set<StockAndReason> reduceStockSet = reduceTagStocks.stream().map(TagStockEntity::buildStockAndReason).collect(Collectors.toSet());
-            selectedStockSet = Sets.difference(selectedStockSet,reduceStockSet);
-            System.out.println("删除" + reduceTag.getTagName() + " : " + reduceTagStocks.size());
-        }
-
-        selectedStockSet = selectedStockSet.stream().filter(s -> !s.getSymbol().startsWith("30")&&!s.getSymbol().startsWith("sz30")).collect(Collectors.toSet());
-
-        String dateStr = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        for (StockAndReason stockAndReason : selectedStockSet) {
-
-            MyStockEntity myStockEntity = myStockDao.findBySymbol(stockAndReason.getSymbol());
-            if(myStockEntity!=null){
-                myStockEntity.setSymbol(stockAndReason.getSymbol());
-                myStockEntity.setCreatedTime(new Date());
-                myStockEntity.setDateString(dateStr);
-                myStockEntity.setReason(myStockEntity.getReason() + "<div>" + stockAndReason.getDayString() + " " + stockAndReason.getReason()+ "</div>");
-                myStockDao.save(myStockEntity);
-            }else{
-                myStockEntity = new MyStockEntity();
-                myStockEntity.setSymbol(stockAndReason.getSymbol());
-                myStockEntity.setCreatedTime(new Date());
-                myStockEntity.setDateString(dateStr);
-                myStockEntity.setReason( "<div>" + stockAndReason.getDayString() + " " + stockAndReason.getReason() + "</div>");
-                myStockDao.save(myStockEntity);
-            }
-
-        }
-
-    }
 
     @Transactional
     @Override

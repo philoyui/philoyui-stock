@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -60,9 +62,21 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void processGlobal() {
-        String endData = DateFormatUtils.format(DateUtils.addHours(new Date(),-15), "yyyy-MM-dd");
-        String startData = DateFormatUtils.format(DateUtils.addWeeks(new Date(),-1), "yyyy-MM-dd");
+        String endData1 = DateFormatUtils.format(DateUtils.addHours(new Date(),-15), "yyyy-MM-dd");
+        String startData1 = DateFormatUtils.format(DateUtils.addDays(new Date(),-29), "yyyy-MM-dd");
+        handleBigData(endData1, startData1,-1);
 
+        String endData2 = DateFormatUtils.format(DateUtils.addHours(new Date(),-30), "yyyy-MM-dd");
+        String startData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-43), "yyyy-MM-dd");
+        handleBigData(endData2, startData2,-2);
+
+
+        String endData3 = DateFormatUtils.format(DateUtils.addHours(new Date(),-30), "yyyy-MM-dd");
+        String startData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-43), "yyyy-MM-dd");
+        handleBigData(endData3, startData3,-3);
+    }
+
+    private void handleBigData(String endData, String startData, int lastIndex) {
         String fetchUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=DZJYGGTJ&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st=Cjeltszb&sr=-1&p=1&ps=500&js={pages:(tp),data:(x)}&filter=((TDATE%3E=^" + startData + "^%20and%20TDATE%3C=^" + endData + "^))&rt=52607034";
         try {
             Connection.Response response = Jsoup.connect(fetchUrl)
@@ -75,19 +89,19 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
                     .replaceAll("data", "\"data\"");
 
             BigBuyResponse bigBuyResponse = gson.fromJson(result, BigBuyResponse.class);
+
             for (BigBuyData bigBuyData : bigBuyResponse.getData()) {
-                tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
+                tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"), IntervalType.Day,lastIndex);
                 if(bigBuyData.getDealAmount()>1000) {
-                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大容量大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
+                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"大容量大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,lastIndex);
                 }
                 if(bigBuyData.getPremiumDiscount()>0) {
-                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"溢价大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,-1);
+                    tagStockService.tagStock(buildSymbol(bigBuyData.getSymbol()),"溢价大宗交易", DateUtils.parseDate(bigBuyData.getCreatedTime(),"yyyy-MM-dd'T'HH:mm:ss"),IntervalType.Day,lastIndex);
                 }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
 }
