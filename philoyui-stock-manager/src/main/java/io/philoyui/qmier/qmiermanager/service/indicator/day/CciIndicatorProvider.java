@@ -74,8 +74,6 @@ public class CciIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        cciDataService.delete(cciDataEntities);
-
         return tagStockEntities;
     }
 

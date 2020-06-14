@@ -106,8 +106,6 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        macdDataService.delete(macdDataEntities);
-
         return tagStockEntities;
     }
 

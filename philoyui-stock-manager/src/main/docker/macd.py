@@ -54,4 +54,5 @@ for i in range(len(close_array)-2):
     if macd_array[-1-i] > macd_array[-2-i] and macd_array[-2-i] < macd_array[-3-i]:
         mark_macd_value("BOTTOM_DIFF", -1-i)
     if macd_array[-1 - i] < macd_array[-2 - i] and macd_array[-2 - i] > macd_array[-3 - i]:
+
         mark_macd_value("TOP_DIFF", -1-i)

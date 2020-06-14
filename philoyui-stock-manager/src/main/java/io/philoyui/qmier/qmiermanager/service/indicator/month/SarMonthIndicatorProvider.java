@@ -45,8 +45,6 @@ public class SarMonthIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        sarDataService.delete(sarDataEntities);
-
         return tagStockEntities;
     }
 

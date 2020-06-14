@@ -45,8 +45,6 @@ public class WrIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        wrDataService.delete(wrDataEntities);
-
         return tagStockEntities;
     }
 

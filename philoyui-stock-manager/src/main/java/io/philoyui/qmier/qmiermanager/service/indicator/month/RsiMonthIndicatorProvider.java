@@ -68,8 +68,6 @@ public class RsiMonthIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        rsiDataService.delete(sarDataEntities);
-
         return tagStockEntities;
     }
 

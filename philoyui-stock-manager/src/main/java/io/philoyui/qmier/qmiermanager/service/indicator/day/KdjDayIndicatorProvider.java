@@ -81,8 +81,6 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        kdjDataService.delete(kdjDataEntities);
-
         return tagStockEntities;
     }
 

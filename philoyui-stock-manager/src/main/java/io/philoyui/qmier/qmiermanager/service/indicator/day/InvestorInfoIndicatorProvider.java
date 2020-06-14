@@ -8,6 +8,7 @@ import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.indicator.IndicatorProvider;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -40,14 +41,13 @@ public class InvestorInfoIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void cleanOldData() {
-        String dayString = DateFormatUtils.format(new Date(),"yyyy-MM-dd");
-        tagStockService.deleteByTagNameAndDayString("投资者关系活动记录表",dayString);
+        tagStockService.deleteByTagName("投资者关系活动记录表");
     }
 
     @Override
     public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        String startData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+        String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-3), "yyyy-MM-dd");
         List<String> stockList = new ArrayList<>();
         String fetchUrl = "http://ircs.p5w.net/ircs/interaction/moreIrmInfoList.do?pageNo=1&irmpagesize=40&beginDate=" + startData + "&endDate=" + endData;
         Connection connect = Jsoup.connect(fetchUrl);
