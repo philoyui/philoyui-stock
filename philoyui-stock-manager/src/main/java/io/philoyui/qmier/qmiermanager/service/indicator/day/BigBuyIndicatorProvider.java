@@ -62,17 +62,17 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void processGlobal() {
-        String endData1 = DateFormatUtils.format(DateUtils.addHours(new Date(),-15), "yyyy-MM-dd");
-        String startData1 = DateFormatUtils.format(DateUtils.addDays(new Date(),-29), "yyyy-MM-dd");
+        String endData1 = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+        String startData1 = DateFormatUtils.format(DateUtils.addDays(new Date(),-1), "yyyy-MM-dd");
         handleBigData(endData1, startData1,-1);
 
-        String endData2 = DateFormatUtils.format(DateUtils.addHours(new Date(),-30), "yyyy-MM-dd");
-        String startData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-43), "yyyy-MM-dd");
+        String endData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-1), "yyyy-MM-dd");
+        String startData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
         handleBigData(endData2, startData2,-2);
 
 
-        String endData3 = DateFormatUtils.format(DateUtils.addHours(new Date(),-30), "yyyy-MM-dd");
-        String startData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-43), "yyyy-MM-dd");
+        String endData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
+        String startData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-3), "yyyy-MM-dd");
         handleBigData(endData3, startData3,-3);
     }
 

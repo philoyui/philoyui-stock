@@ -59,7 +59,7 @@ public class SarIndicatorProvider implements IndicatorProvider {
     public void cleanOldData() {
         sarDataService.deleteDayData();
         tagStockService.deleteByTagName("SAR空头止损(日)");
-        tagStockService.deleteByTagName("SAR多头止损(日)");
+        tagStockService.deleteByTagName("SAR多头止盈(日)");
     }
 
     @Override

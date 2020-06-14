@@ -76,10 +76,10 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
                         reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast1Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +  tagEntity.getLast1Score() +"</div>");
                     }else if(tagStockEntity.getLastIndex()==-2){
                         score += tagEntity.getLast2Score();
-                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " + tagEntity.getLast2Score() + "</div>");
+                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " + tagEntity.getLast2Score() + "</div>");
                     }else if(tagStockEntity.getLastIndex()==-3){
                         score += tagEntity.getLast3Score();
-                        reasons.add("<div style=color:\"" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +tagEntity.getLast3Score() + "</div>");
+                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +tagEntity.getLast3Score() + "</div>");
                     }
                 }
             }

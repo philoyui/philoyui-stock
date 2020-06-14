@@ -64,8 +64,8 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "stockName_8",
                 "dayImage_20",
                 "weekImage_20",
-                "reason_20",
-                "score_10",
+                "reason_25",
+                "score_5",
                 "#operation_10"
         );
         pageConfig.withFilterDefinitions(
