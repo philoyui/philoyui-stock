@@ -51,14 +51,11 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         "stockName_10",
                         "symbol_10",
                         "tagName_10",
-                        "dayImage_20",
-                        "weekImage_20",
-                        "dayString_10",
-                        "tagList_15",
-                        "#operation_5"
+                        "dayImage_30",
+                        "weekImage_30",
+                        "dayString_10"
                 )
                 .withFilterDefinitions(
-                    "stockName",
                     "symbol",
                     "dayString_like",
                     "tagName",
@@ -66,12 +63,6 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                 )
                 .withSortDefinitions(
                     "createdTime_desc","createdTime_asc"
-                )
-                .withTableAction(
-                        new CreateOperation()
-                )
-                .withColumnAction(
-                        new DeleteOperation()
                 )
                 .withFormItemDefinition(
                         "symbol_rw",
