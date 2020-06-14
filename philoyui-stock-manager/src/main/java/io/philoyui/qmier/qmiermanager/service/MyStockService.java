@@ -11,4 +11,10 @@ public interface MyStockService extends GenericService<MyStockEntity,Long> {
     void obtainEveryDay();
 
     void deleteAll();
+
+    /**
+     * 加入关注列表
+     * @param id
+     */
+    void addFocus(Long id);
 }

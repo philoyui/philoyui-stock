@@ -50,6 +50,9 @@ public class FrontPageConfig {
                         new LeafItem("自选股","/admin/my_stock/page"),
                         new LeafItem("标签股票管理","/admin/tag_stock/page")
                 )
+                .addRootItem("关注管理","focus",
+                        new LeafItem("关注股票", "/admin/focus_stock/page")
+                )
                 .build();
 
         PageSettings pageSettings = new PageSettings();

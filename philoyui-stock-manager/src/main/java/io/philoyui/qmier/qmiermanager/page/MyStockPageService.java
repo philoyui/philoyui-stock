@@ -4,6 +4,7 @@ import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
+import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.LinkOperation;
 import cn.com.gome.page.button.column.NewPageOperation;
@@ -78,7 +79,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
         );
         pageConfig.withColumnAction(
                 new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
-                new DeleteOperation()
+                new ConfirmOperation("addFocus","加入关注")
         );
         return pageConfig;
     }

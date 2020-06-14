@@ -5,18 +5,18 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Lists;
+import io.philoyui.qmier.qmiermanager.FocusStock;
 import io.philoyui.qmier.qmiermanager.dao.MyStockDao;
 import io.philoyui.qmier.qmiermanager.dao.StockDao;
 import io.philoyui.qmier.qmiermanager.dao.TagDao;
-import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.*;
+import io.philoyui.qmier.qmiermanager.service.FocusStockService;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,6 +45,9 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     @Autowired
     private MyStockService myStockService;
+
+    @Autowired
+    private FocusStockService focusStockService;
 
     @Override
     protected GenericDao<MyStockEntity, Long> getDao() {
@@ -110,5 +113,16 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         myStockDao.deleteAll();
     }
 
+    @Override
+    public void addFocus(Long id) {
+        MyStockEntity myStock = myStockDao.getOne(id);
+        FocusStockEntity focusStockEntity = new FocusStockEntity();
+        focusStockEntity.setSymbol(myStock.getSymbol());
+        focusStockEntity.setStockName(myStock.getStockName());
+        focusStockEntity.setAddTime(new Date());
+        focusStockEntity.setAnalysisTime(new Date());
+        focusStockEntity.setAnalysisResult("");
+        focusStockService.insert(focusStockEntity);
+    }
 
 }

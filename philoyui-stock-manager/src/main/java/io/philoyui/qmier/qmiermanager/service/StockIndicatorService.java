@@ -17,6 +17,8 @@ public interface StockIndicatorService extends GenericService<StockIndicatorEnti
 
     List<StockIndicatorEntity> findMonthEnable();
 
+    List<StockIndicatorEntity> findMin30Enable();
+
     void executeDayTask();
 
     void executeWeekTask();

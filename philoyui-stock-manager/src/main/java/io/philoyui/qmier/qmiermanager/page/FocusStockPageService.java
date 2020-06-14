@@ -1,0 +1,101 @@
+package io.philoyui.qmier.qmiermanager.page;
+
+import cn.com.gome.cloud.openplatform.common.PageObject;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.CreateOperation;
+import cn.com.gome.page.button.column.DeleteOperation;
+import cn.com.gome.page.button.column.EditOperation;
+import cn.com.gome.page.core.PageConfig;
+import cn.com.gome.page.core.PageContext;
+import cn.com.gome.page.core.PageService;
+import cn.com.gome.page.field.DateFieldDefinition;
+import cn.com.gome.page.field.ImageFieldDefinition;
+import cn.com.gome.page.field.LongFieldDefinition;
+import cn.com.gome.page.field.StringFieldDefinition;
+import io.philoyui.qmier.qmiermanager.entity.FocusStockEntity;
+import io.philoyui.qmier.qmiermanager.service.FocusStockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
+
+    @Autowired
+    private FocusStockService focusStockService;
+
+    @Override
+    public PageObject<FocusStockEntity> paged(SearchFilter searchFilter) {
+        return focusStockService.paged(searchFilter);
+    }
+
+    @Override
+    protected PageConfig initializePageConfig(PageContext pageContext) {
+        PageConfig pageConfig = new PageConfig(pageContext)
+                .withDomainName("focus_stock")
+                .withDomainClass(FocusStockEntity.class)
+                .withDomainChineseName("关注股票")
+                .withFieldDefinitions(
+                        new LongFieldDefinition("id", "ID"),
+                        new StringFieldDefinition("symbol", "股票代码"),
+                        new StringFieldDefinition("stockName", "股票名称"),
+                        new DateFieldDefinition("addTime", "加入时间"),
+                        new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
+                        new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
+                        new DateFieldDefinition("analysisTime", "分析时间"),
+                        new StringFieldDefinition("analysisResult", "分析结果")
+                )
+                .withTableColumnDefinitions(
+                        "symbol_8",
+                        "stockName_8",
+                        "weekImage_20",
+                        "dayImage_20",
+                        "addTime_8",
+                        "analysisTime_8",
+                        "analysisResult_18",
+                        "#operation_10"
+                )
+                .withFilterDefinitions(
+                        "symbol_like","stockName_like"
+                )
+                .withSortDefinitions(
+                        "addTime_desc","analysisTime_desc"
+                )
+                .withTableAction(
+                        new CreateOperation()
+                )
+                .withColumnAction(
+                        new EditOperation(),
+                        new DeleteOperation()
+                )
+                .withFormItemDefinition(
+                        "id_rw",
+                        "symbol_rw",
+                        "stockName_rw",
+                        "addTime_rw",
+                        "analysisTime_rw",
+                        "analysisResult_rw"
+                );
+        return pageConfig;
+    }
+
+    @Override
+    public FocusStockEntity get(String id) {
+        return focusStockService.get(Long.parseLong(id));
+    }
+
+    @Override
+    public FocusStockEntity get(SearchFilter searchFilter) {
+        return focusStockService.get(searchFilter);
+    }
+
+    @Override
+    public void saveOrUpdate(FocusStockEntity focusStock) {
+        focusStockService.insert(focusStock);
+    }
+
+    @Override
+    public void delete(FocusStockEntity focusStock) {
+        focusStockService.delete(focusStock.getId());
+    }
+}
+

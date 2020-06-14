@@ -83,6 +83,14 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     }
 
     @Override
+    public List<StockIndicatorEntity> findMin30Enable() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.eq("enable",true));
+        searchFilter.add(Restrictions.eq("intervalType", IntervalType.Min30));
+        return this.list(searchFilter);
+    }
+
+    @Override
     public void executeDayTask() {
         //清理所有日线级别数据
         dayDataService.deleteAll();
