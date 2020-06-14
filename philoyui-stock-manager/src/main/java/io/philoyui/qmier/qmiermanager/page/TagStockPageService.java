@@ -58,6 +58,9 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         "#operation_5"
                 )
                 .withFilterDefinitions(
+                    "stockName",
+                    "symbol",
+                    "dayString_like",
                     "tagName",
                     "createdTime"
                 )
