@@ -62,22 +62,19 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
     @Override
     public void processGlobal() {
-        String endData1 = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        String startData1 = DateFormatUtils.format(DateUtils.addDays(new Date(),-1), "yyyy-MM-dd");
-        handleBigData(endData1, startData1,-1);
+        String dayString1 = DateFormatUtils.format(DateUtils.addHours(new Date(),-16), "yyyy-MM-dd");
+        handleBigData(dayString1,-1);
 
-        String endData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-1), "yyyy-MM-dd");
-        String startData2 = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
-        handleBigData(endData2, startData2,-2);
+        String dayString2 = DateFormatUtils.format(DateUtils.addDays(DateUtils.addHours(new Date(),-16),-1), "yyyy-MM-dd");
+        handleBigData(dayString2,-2);
 
 
-        String endData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-2), "yyyy-MM-dd");
-        String startData3 = DateFormatUtils.format(DateUtils.addDays(new Date(),-3), "yyyy-MM-dd");
-        handleBigData(endData3, startData3,-3);
+        String dayString3 = DateFormatUtils.format(DateUtils.addDays(DateUtils.addHours(new Date(),-16),-2), "yyyy-MM-dd");
+        handleBigData(dayString3,-3);
     }
 
-    private void handleBigData(String endData, String startData, int lastIndex) {
-        String fetchUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=DZJYGGTJ&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st=Cjeltszb&sr=-1&p=1&ps=500&js={pages:(tp),data:(x)}&filter=((TDATE%3E=^" + startData + "^%20and%20TDATE%3C=^" + endData + "^))&rt=52607034";
+    private void handleBigData(String datString, int lastIndex) {
+        String fetchUrl = "http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?type=DZJYGGTJ&token=70f12f2f4f091e459a279469fe49eca5&cmd=&st=Cjeltszb&sr=-1&p=1&ps=500&js={pages:(tp),data:(x)}&filter=((TDATE%3E=^" + datString + "^%20and%20TDATE%3C=^" + datString + "^))&rt=52607034";
         try {
             Connection.Response response = Jsoup.connect(fetchUrl)
                     .header("Content-Type", "application/json")
