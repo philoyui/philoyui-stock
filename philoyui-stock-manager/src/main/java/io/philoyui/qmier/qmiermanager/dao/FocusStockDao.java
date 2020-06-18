@@ -4,4 +4,5 @@ import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import io.philoyui.qmier.qmiermanager.entity.FocusStockEntity;
 
 public interface FocusStockDao extends GenericDao<FocusStockEntity,Long> {
+    FocusStockEntity findBySymbol(String symbol);
 }

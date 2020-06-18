@@ -12,8 +12,13 @@ import cn.com.gome.page.field.DateFieldDefinition;
 import cn.com.gome.page.field.ImageFieldDefinition;
 import cn.com.gome.page.field.LongFieldDefinition;
 import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.validator.IntFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.FocusStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.indicator.SarDataEntity;
 import io.philoyui.qmier.qmiermanager.service.FocusStockService;
+import io.philoyui.qmier.qmiermanager.service.MyStockService;
+import io.philoyui.qmier.qmiermanager.service.SarDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +28,26 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
     @Autowired
     private FocusStockService focusStockService;
 
+    @Autowired
+    private MyStockService myStockService;
+
+    @Autowired
+    private SarDataService sarDataService;
+
     @Override
     public PageObject<FocusStockEntity> paged(SearchFilter searchFilter) {
-        return focusStockService.paged(searchFilter);
+
+
+        PageObject<FocusStockEntity> paged = focusStockService.paged(searchFilter);
+
+        paged.getContent().stream().forEach(stock ->{
+            MyStockEntity myStockEntity = myStockService.findBySymbol(stock.getSymbol());
+            stock.setAnalysisResult(myStockEntity.getReason());
+            stock.setSarReason(sarDataService.findCurrent(stock.getSymbol()));
+            stock.setScore(myStockEntity.getScore());
+        });
+
+        return paged;
     }
 
     @Override
@@ -41,24 +63,26 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         new DateFieldDefinition("addTime", "加入时间"),
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
-                        new DateFieldDefinition("analysisTime", "分析时间"),
+                        new StringFieldDefinition("sarReason", "多空判断"),
+                        new IntFieldDefinition("score", "分数"),
                         new StringFieldDefinition("analysisResult", "分析结果")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_8",
-                        "stockName_8",
-                        "weekImage_20",
-                        "dayImage_20",
-                        "addTime_8",
-                        "analysisTime_8",
+                        "symbol_6",
+                        "stockName_6",
+                        "weekImage_18",
+                        "dayImage_18",
+                        "addTime_10",
                         "analysisResult_18",
+                        "score_5",
+                        "sarReason_10",
                         "#operation_10"
                 )
                 .withFilterDefinitions(
                         "symbol_like","stockName_like"
                 )
                 .withSortDefinitions(
-                        "addTime_desc","analysisTime_desc"
+                        "addTime_desc"
                 )
                 .withTableAction(
                         new CreateOperation()
@@ -72,7 +96,6 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "symbol_rw",
                         "stockName_rw",
                         "addTime_rw",
-                        "analysisTime_rw",
                         "analysisResult_rw"
                 );
         return pageConfig;

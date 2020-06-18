@@ -19,4 +19,8 @@ public class FocusStockServiceImpl extends GenericServiceImpl<FocusStockEntity,L
         return focusStockDao;
     }
 
+    @Override
+    public FocusStockEntity findBySymbol(String symbol) {
+        return focusStockDao.findBySymbol(symbol);
+    }
 }

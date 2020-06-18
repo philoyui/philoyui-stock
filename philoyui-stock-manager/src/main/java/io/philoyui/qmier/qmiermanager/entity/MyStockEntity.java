@@ -95,4 +95,5 @@ public class MyStockEntity implements Serializable {
     public void setStockName(String stockName) {
         this.stockName = stockName;
     }
+
 }

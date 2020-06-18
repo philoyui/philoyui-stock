@@ -115,14 +115,34 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
 
     @Override
     public void addFocus(Long id) {
-        MyStockEntity myStock = myStockDao.getOne(id);
-        FocusStockEntity focusStockEntity = new FocusStockEntity();
-        focusStockEntity.setSymbol(myStock.getSymbol());
-        focusStockEntity.setStockName(myStock.getStockName());
-        focusStockEntity.setAddTime(new Date());
-        focusStockEntity.setAnalysisTime(new Date());
-        focusStockEntity.setAnalysisResult("");
-        focusStockService.insert(focusStockEntity);
+        MyStockEntity myStock = this.get(id);
+
+        FocusStockEntity focusStockEntity = focusStockService.findBySymbol(myStock.getSymbol());
+
+        if(focusStockEntity==null){
+            focusStockEntity = new FocusStockEntity();
+            focusStockEntity.setSymbol(myStock.getSymbol());
+            focusStockEntity.setStockName(myStock.getStockName());
+            focusStockEntity.setAddTime(new Date());
+            focusStockEntity.setAnalysisTime(new Date());
+            focusStockEntity.setAnalysisResult("");
+            focusStockService.insert(focusStockEntity);
+        }
+
+    }
+
+    @Override
+    public String findReason(String symbol) {
+        MyStockEntity stockEntity = myStockDao.findBySymbol(symbol);
+        if(stockEntity!=null){
+            return stockEntity.getReason();
+        }
+        return "";
+    }
+
+    @Override
+    public MyStockEntity findBySymbol(String symbol) {
+        return myStockDao.findBySymbol(symbol);
     }
 
 }

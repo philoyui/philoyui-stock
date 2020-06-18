@@ -43,6 +43,10 @@ public class FocusStockEntity implements Serializable {
      */
     private String analysisResult;
 
+    private Integer score;
+
+    private String sarReason;
+
 
     public Long getId() {
         return id;
@@ -92,5 +96,19 @@ public class FocusStockEntity implements Serializable {
         this.analysisResult = analysisResult;
     }
 
+    public Integer getScore() {
+        return score;
+    }
 
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public String getSarReason() {
+        return sarReason;
+    }
+
+    public void setSarReason(String sarReason) {
+        this.sarReason = sarReason;
+    }
 }

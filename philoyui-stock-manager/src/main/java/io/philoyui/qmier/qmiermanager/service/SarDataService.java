@@ -9,4 +9,6 @@ public interface SarDataService extends GenericService<SarDataEntity,Long> {
     void deleteWeekData();
 
     void deleteMonthData();
+
+    String findCurrent(String symbol);
 }

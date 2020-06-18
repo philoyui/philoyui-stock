@@ -17,4 +17,8 @@ public interface MyStockService extends GenericService<MyStockEntity,Long> {
      * @param id
      */
     void addFocus(Long id);
+
+    String findReason(String symbol);
+
+    MyStockEntity findBySymbol(String symbol);
 }
