@@ -68,7 +68,7 @@ public class EnableFieldDefinition extends FieldDefinition{
             requestValue = BeanUtils.getPropertyValue(entity, fieldName);
         }
 
-        return currentStyle.buildSelectBoxFilterHtml(optionMap,fieldName,description,requestValue.toString());
+        return currentStyle.buildSelectBoxFilterHtml(optionMap,fieldName,description,requestValue==null?"":requestValue.toString());
     }
 
     private Map<String, String> getEnableStringMap() {
