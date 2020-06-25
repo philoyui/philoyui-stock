@@ -51,7 +51,7 @@ public class TradingViewPageService extends PageService<TradingViewEntity,Long> 
                         new StringFieldDefinition("sector", "板块"),
                         new StringFieldDefinition("industry", "行业"),
                         new DoubleFieldDefinition("quickRatio", "速动比率"),
-                        new LongFieldDefinition("numberOfShareholders", "股东数"),
+                        new DoubleFieldDefinition("numberOfShareholders", "股东数"),
                         new EnableFieldDefinition("blackCrows3", "三只乌鸦"),
                         new EnableFieldDefinition("hangingMan", "上吊线"),
                         new EnableFieldDefinition("invertedHammer", "倒锤子线"),

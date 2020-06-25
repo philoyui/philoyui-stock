@@ -84,7 +84,7 @@ public class TradingViewEntity implements Serializable {
     /**
      * 股东数
      */
-    private Long numberOfShareholders;
+    private Double numberOfShareholders;
 
     /**
      * 三只乌鸦
@@ -326,11 +326,11 @@ public class TradingViewEntity implements Serializable {
         this.quickRatio = quickRatio;
     }
 
-    public Long getNumberOfShareholders() {
+    public Double getNumberOfShareholders() {
         return numberOfShareholders;
     }
 
-    public void setNumberOfShareholders(Long numberOfShareholders) {
+    public void setNumberOfShareholders(Double numberOfShareholders) {
         this.numberOfShareholders = numberOfShareholders;
     }
 

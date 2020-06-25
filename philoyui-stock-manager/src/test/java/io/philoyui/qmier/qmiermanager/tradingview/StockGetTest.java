@@ -120,7 +120,7 @@ public class StockGetTest {
                     tradingViewEntity.setSector(dList.get(10));
                     tradingViewEntity.setIndustry(dList.get(11));
                     tradingViewEntity.setQuickRatio(dList.get(14) == null ? 0 : Double.parseDouble(dList.get(14)));
-                    tradingViewEntity.setNumberOfShareholders(dList.get(15) == null ? 0 : Long.parseLong(dList.get(15)));
+                    tradingViewEntity.setNumberOfShareholders(dList.get(15) == null ? 0 : Double.parseDouble(dList.get(15)));
                     tradingViewEntity.setBlackCrows3(!"0".equalsIgnoreCase(dList.get(16)));
                     tradingViewEntity.setHangingMan(!"0".equalsIgnoreCase(dList.get(17)));
                     tradingViewEntity.setInvertedHammer(!"0".equalsIgnoreCase(dList.get(18)));

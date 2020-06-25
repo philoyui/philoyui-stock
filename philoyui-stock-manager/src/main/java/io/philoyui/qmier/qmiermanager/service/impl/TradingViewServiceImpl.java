@@ -42,9 +42,9 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
 
         int index = 0;
 
-        while (index<1000) {
+        while (index<100000) {
 
-            TradingViewFilter tradingViewFilter = new TradingViewFilter(index, 150);
+            TradingViewFilter tradingViewFilter = new TradingViewFilter(index, index+150);
             tradingViewFilter.addFilter("Recommend.All", "nempty");
             tradingViewFilter.addFilter("type", "in_range", new String[]{"stock", "dr", "fund"});
             tradingViewFilter.addFilter("subtype", "in_range", new String[]{"common", "", "etf", "unit", "mutual", "money", "reit", "trust"});
@@ -117,61 +117,67 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                 List<TradingViewEntity> tradingViewEntities = new ArrayList<>();
 
                 for (TradingViewResult.DataBean dataBean : tradingViewResult.getData()) {
+
                     List<String> dList = dataBean.getD();
-                    TradingViewEntity tradingViewEntity = new TradingViewEntity();
-                    tradingViewEntity.setSymbol(buildSymbol(dList.get(0)));
-                    tradingViewEntity.setStockName(dList.get(12));
-                    tradingViewEntity.setClose(Double.parseDouble(dList.get(1)));
-                    tradingViewEntity.setTodayChange(Double.parseDouble(dList.get(2)));
-                    tradingViewEntity.setChangeAbs(Double.parseDouble(dList.get(3)));
-                    tradingViewEntity.setRecommendScore(Double.parseDouble(dList.get(4)));
-                    tradingViewEntity.setVolume(Long.parseLong(dList.get(5)));
-                    tradingViewEntity.setMarketCap(Double.parseDouble(dList.get(6)));
-                    tradingViewEntity.setPriceEarningsTtm(dList.get(7) == null ? null : Double.parseDouble(dList.get(7)));
-                    tradingViewEntity.setNumberOfEmployees(dList.get(9) == null ? 0 : Long.parseLong(dList.get(9)));
-                    tradingViewEntity.setSector(dList.get(10));
-                    tradingViewEntity.setIndustry(dList.get(11));
-                    tradingViewEntity.setQuickRatio(dList.get(14) == null ? 0 : Double.parseDouble(dList.get(14)));
-                    tradingViewEntity.setNumberOfShareholders(dList.get(15) == null ? 0 : Long.parseLong(dList.get(15)));
-                    tradingViewEntity.setBlackCrows3(!"0".equalsIgnoreCase(dList.get(16)));
-                    tradingViewEntity.setHangingMan(!"0".equalsIgnoreCase(dList.get(17)));
-                    tradingViewEntity.setInvertedHammer(!"0".equalsIgnoreCase(dList.get(18)));
-                    tradingViewEntity.setMarubozuWhite(!"0".equalsIgnoreCase(dList.get(19)));
-                    tradingViewEntity.setMarubozuBlack(!"0".equalsIgnoreCase(dList.get(20)));
-                    tradingViewEntity.setDoji(!"0".equalsIgnoreCase(dList.get(21)));
-                    tradingViewEntity.setMorningStar(!"0".equalsIgnoreCase(dList.get(22)));
-                    tradingViewEntity.setGravestone(!"0".equalsIgnoreCase(dList.get(23)));
-                    tradingViewEntity.setShootingStar(!"0".equalsIgnoreCase(dList.get(24)));
-                    tradingViewEntity.setWhiteSoldiers3(!"0".equalsIgnoreCase(dList.get(25)));
-                    tradingViewEntity.setSpinningTopWhite(!"0".equalsIgnoreCase(dList.get(26)));
-                    tradingViewEntity.setTriStarBullish(!"0".equalsIgnoreCase(dList.get(27)));
-                    tradingViewEntity.setKickingBullish(!"0".equalsIgnoreCase(dList.get(28)));
-                    tradingViewEntity.setEngulfingBullish(!"0".equalsIgnoreCase(dList.get(29)));
-                    tradingViewEntity.setHaramiBullish(!"0".equalsIgnoreCase(dList.get(30)));
-                    tradingViewEntity.setAbandonedBabyBullish(!"0".equalsIgnoreCase(dList.get(31)));
-                    tradingViewEntity.setTriStarBearish(!"0".equalsIgnoreCase(dList.get(32)));
-                    tradingViewEntity.setKickingBearish(!"0".equalsIgnoreCase(dList.get(33)));
-                    tradingViewEntity.setEngulfingBearish(!"0".equalsIgnoreCase(dList.get(34)));
-                    tradingViewEntity.setHaramiBearish(!"0".equalsIgnoreCase(dList.get(35)));
-                    tradingViewEntity.setAbandonedBabyBearish(!"0".equalsIgnoreCase(dList.get(36)));
-                    tradingViewEntity.setDojiDragonfly(!"0".equalsIgnoreCase(dList.get(37)));
-                    tradingViewEntity.setHammer(!"0".equalsIgnoreCase(dList.get(38)));
-                    tradingViewEntity.setLongShadowUpper(!"0".equalsIgnoreCase(dList.get(39)));
-                    tradingViewEntity.setSpinningTopBlack(!"0".equalsIgnoreCase(dList.get(40)));
-                    tradingViewEntity.setLongShadowLower(!"0".equalsIgnoreCase(dList.get(41)));
-                    tradingViewEntity.setEveningStar(!"0".equalsIgnoreCase(dList.get(42)));
-                    tradingViewEntities.add(tradingViewEntity);
+
+                    String symbol = buildSymbol(dList.get(0));
+
+                    TradingViewEntity tradingViewEntity = tradingViewDao.findBySymbol(symbol);
+
+                    if(tradingViewEntity==null){
+                        tradingViewEntity = new TradingViewEntity();
+                        tradingViewEntity.setSymbol(buildSymbol(dList.get(0)));
+                        tradingViewEntity.setStockName(dList.get(12));
+                        tradingViewEntity.setClose(Double.parseDouble(dList.get(1)));
+                        tradingViewEntity.setTodayChange(Double.parseDouble(dList.get(2)));
+                        tradingViewEntity.setChangeAbs(Double.parseDouble(dList.get(3)));
+                        tradingViewEntity.setRecommendScore(Double.parseDouble(dList.get(4)));
+                        tradingViewEntity.setVolume(Long.parseLong(dList.get(5)));
+                        tradingViewEntity.setMarketCap(dList.get(6)==null?null:Double.parseDouble(dList.get(6)));
+                        tradingViewEntity.setPriceEarningsTtm(dList.get(7) == null ? null : Double.parseDouble(dList.get(7)));
+                        tradingViewEntity.setNumberOfEmployees(dList.get(9) == null ? 0 : Long.parseLong(dList.get(9)));
+                        tradingViewEntity.setSector(dList.get(10));
+                        tradingViewEntity.setIndustry(dList.get(11));
+                        tradingViewEntity.setQuickRatio(dList.get(14) == null ? 0 : Double.parseDouble(dList.get(14)));
+                        tradingViewEntity.setNumberOfShareholders(dList.get(15) == null ? 0 : Double.parseDouble(dList.get(15)));
+                        tradingViewEntity.setBlackCrows3(!"0".equalsIgnoreCase(dList.get(16)));
+                        tradingViewEntity.setHangingMan(!"0".equalsIgnoreCase(dList.get(17)));
+                        tradingViewEntity.setInvertedHammer(!"0".equalsIgnoreCase(dList.get(18)));
+                        tradingViewEntity.setMarubozuWhite(!"0".equalsIgnoreCase(dList.get(19)));
+                        tradingViewEntity.setMarubozuBlack(!"0".equalsIgnoreCase(dList.get(20)));
+                        tradingViewEntity.setDoji(!"0".equalsIgnoreCase(dList.get(21)));
+                        tradingViewEntity.setMorningStar(!"0".equalsIgnoreCase(dList.get(22)));
+                        tradingViewEntity.setGravestone(!"0".equalsIgnoreCase(dList.get(23)));
+                        tradingViewEntity.setShootingStar(!"0".equalsIgnoreCase(dList.get(24)));
+                        tradingViewEntity.setWhiteSoldiers3(!"0".equalsIgnoreCase(dList.get(25)));
+                        tradingViewEntity.setSpinningTopWhite(!"0".equalsIgnoreCase(dList.get(26)));
+                        tradingViewEntity.setTriStarBullish(!"0".equalsIgnoreCase(dList.get(27)));
+                        tradingViewEntity.setKickingBullish(!"0".equalsIgnoreCase(dList.get(28)));
+                        tradingViewEntity.setEngulfingBullish(!"0".equalsIgnoreCase(dList.get(29)));
+                        tradingViewEntity.setHaramiBullish(!"0".equalsIgnoreCase(dList.get(30)));
+                        tradingViewEntity.setAbandonedBabyBullish(!"0".equalsIgnoreCase(dList.get(31)));
+                        tradingViewEntity.setTriStarBearish(!"0".equalsIgnoreCase(dList.get(32)));
+                        tradingViewEntity.setKickingBearish(!"0".equalsIgnoreCase(dList.get(33)));
+                        tradingViewEntity.setEngulfingBearish(!"0".equalsIgnoreCase(dList.get(34)));
+                        tradingViewEntity.setHaramiBearish(!"0".equalsIgnoreCase(dList.get(35)));
+                        tradingViewEntity.setAbandonedBabyBearish(!"0".equalsIgnoreCase(dList.get(36)));
+                        tradingViewEntity.setDojiDragonfly(!"0".equalsIgnoreCase(dList.get(37)));
+                        tradingViewEntity.setHammer(!"0".equalsIgnoreCase(dList.get(38)));
+                        tradingViewEntity.setLongShadowUpper(!"0".equalsIgnoreCase(dList.get(39)));
+                        tradingViewEntity.setSpinningTopBlack(!"0".equalsIgnoreCase(dList.get(40)));
+                        tradingViewEntity.setLongShadowLower(!"0".equalsIgnoreCase(dList.get(41)));
+                        tradingViewEntity.setEveningStar(!"0".equalsIgnoreCase(dList.get(42)));
+                        tradingViewEntities.add(tradingViewEntity);
+                    }
                 }
-
                 this.batchInsert(tradingViewEntities);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
             System.out.println("第" + index + "页下载完成");
 
-            index++;
+            index+=150;
 
             try {
                 Thread.sleep(1500);
