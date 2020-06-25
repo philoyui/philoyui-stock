@@ -204,17 +204,17 @@ public class TradingViewEntity implements Serializable {
     /**
      * 长上影线
      */
-    private Boolean LongShadowUpper;
+    private Boolean longShadowUpper;
 
     /**
      * 黑丝旋转陀螺
      */
-    private Boolean SpinningTopBlack;
+    private Boolean spinningTopBlack;
 
     /**
      * 长下影线
      */
-    private Boolean LongShadowLower;
+    private Boolean longShadowLower;
 
     /**
      * 黄昏星
@@ -519,27 +519,27 @@ public class TradingViewEntity implements Serializable {
     }
 
     public Boolean getLongShadowUpper() {
-        return LongShadowUpper;
+        return longShadowUpper;
     }
 
     public void setLongShadowUpper(Boolean LongShadowUpper) {
-        this.LongShadowUpper = LongShadowUpper;
+        this.longShadowUpper = LongShadowUpper;
     }
 
     public Boolean getSpinningTopBlack() {
-        return SpinningTopBlack;
+        return spinningTopBlack;
     }
 
     public void setSpinningTopBlack(Boolean SpinningTopBlack) {
-        this.SpinningTopBlack = SpinningTopBlack;
+        this.spinningTopBlack = SpinningTopBlack;
     }
 
     public Boolean getLongShadowLower() {
-        return LongShadowLower;
+        return longShadowLower;
     }
 
     public void setLongShadowLower(Boolean LongShadowLower) {
-        this.LongShadowLower = LongShadowLower;
+        this.longShadowLower = LongShadowLower;
     }
 
     public Boolean getEveningStar() {

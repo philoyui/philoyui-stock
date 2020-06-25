@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
     @Override
     public void fetchCurrent() {
 
-        tradingViewDao.deleteAll();
+        this.deleteAll();
 
         int index = 0;
 
@@ -178,6 +179,11 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                 e.printStackTrace();
             }
         }
+    }
+
+    @Transactional
+    private void deleteAll() {
+        tradingViewDao.deleteAll();
     }
 
     private String buildSymbol(String code) {
