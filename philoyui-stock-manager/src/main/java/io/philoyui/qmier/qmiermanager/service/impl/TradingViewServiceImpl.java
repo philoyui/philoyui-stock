@@ -1,6 +1,9 @@
-package io.philoyui.qmier.qmiermanager.tradingview;
+package io.philoyui.qmier.qmiermanager.service.impl;
 
+import cn.com.gome.cloud.openplatform.repository.GenericDao;
+import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.gson.GsonBuilder;
+import io.philoyui.qmier.qmiermanager.dao.TradingViewDao;
 import io.philoyui.qmier.qmiermanager.entity.TradingViewEntity;
 import io.philoyui.qmier.qmiermanager.service.TradingViewService;
 import io.philoyui.qmier.qmiermanager.to.TradingViewFilter;
@@ -8,25 +11,33 @@ import io.philoyui.qmier.qmiermanager.to.TradingViewResult;
 import io.philoyui.qmier.qmiermanager.to.TradingViewVo;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class StockGetTest {
+@Component
+public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity,Long> implements TradingViewService {
 
     @Autowired
-    private TradingViewService tradingViewService;
+    private TradingViewDao tradingViewDao;
 
-    @Test
-    public void test_get_stock(){
+    @Override
+    protected GenericDao<TradingViewEntity, Long> getDao() {
+        return tradingViewDao;
+    }
+
+    @Override
+    public void batchInsert(List<TradingViewEntity> tradingViewEntities) {
+        tradingViewDao.saveAll(tradingViewEntities);
+    }
+
+    @Override
+    public void fetchCurrent() {
+
+        tradingViewDao.deleteAll();
 
         int index = 0;
 
@@ -98,7 +109,7 @@ public class StockGetTest {
 
                 TradingViewResult tradingViewResult = new GsonBuilder().create().fromJson(response, TradingViewResult.class);
 
-                if(tradingViewResult.getData()==null||tradingViewResult.getData().size()==0){
+                if (tradingViewResult.getData() == null || tradingViewResult.getData().size() == 0) {
                     break;
                 }
 
@@ -151,13 +162,13 @@ public class StockGetTest {
                     tradingViewEntities.add(tradingViewEntity);
                 }
 
-                tradingViewService.batchInsert(tradingViewEntities);
+                this.batchInsert(tradingViewEntities);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            System.out.println("第" + index  + "页下载完成");
+            System.out.println("第" + index + "页下载完成");
 
             index++;
 
@@ -166,10 +177,7 @@ public class StockGetTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }
-
-
     }
 
     private String buildSymbol(String code) {

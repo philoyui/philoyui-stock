@@ -51,6 +51,9 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
     @Autowired
     private TaskLogService taskLogService;
 
+    @Autowired
+    private MyStockService myStockService;
+
     private ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
@@ -127,6 +130,9 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
             IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
             dayIndicatorProvider.processGlobal();
         }
+
+        myStockService.obtainEveryDay();
+
     }
 
     @Override
