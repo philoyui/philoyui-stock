@@ -68,12 +68,11 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         new StringFieldDefinition("analysisResult", "分析结果")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_6",
-                        "stockName_6",
-                        "weekImage_18",
-                        "dayImage_18",
-                        "addTime_10",
-                        "analysisResult_18",
+                        "symbol_8",
+                        "stockName_8",
+                        "weekImage_20",
+                        "dayImage_20",
+                        "analysisResult_20",
                         "score_5",
                         "sarReason_10",
                         "#operation_10"

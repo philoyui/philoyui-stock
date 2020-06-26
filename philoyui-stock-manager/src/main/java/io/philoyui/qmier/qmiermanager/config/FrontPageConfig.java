@@ -48,7 +48,8 @@ public class FrontPageConfig {
                         new LeafItem("打标管理","/admin/tag_stock/page"),
                         new LeafItem("股票指标", "/admin/stock_indicator/page"),
                         new LeafItem("标签管理", "/admin/tag/page"),
-                        new LeafItem("股票管理", "/admin/stock/page")
+                        new LeafItem("股票管理", "/admin/stock/page"),
+                        new LeafItem("TradingView数据","/admin/trading_view/page")
                 )
                 .addRootItem("关注管理","focus",
                         new LeafItem("关注股票", "/admin/focus_stock/page")

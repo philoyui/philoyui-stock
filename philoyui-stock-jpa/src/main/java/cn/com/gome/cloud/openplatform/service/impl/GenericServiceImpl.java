@@ -128,4 +128,5 @@ public abstract class GenericServiceImpl<T extends Serializable, D extends Seria
         Optional<T> option = getDao().findById(id);
         return option.orElse(null);
     }
+
 }
