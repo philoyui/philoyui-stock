@@ -85,6 +85,11 @@ public class PageConfig {
      */
     private PageContext pageContext;
 
+    /**
+     * 默认页面容量
+     */
+    private String defaultPageSize = "20";
+
     public PageConfig(PageContext pageContext) {
         this.pageContext = pageContext;
     }
@@ -235,5 +240,13 @@ public class PageConfig {
         return linkInFieldDomains;
     }
 
+    public String getDefaultPageSize() {
+        return defaultPageSize;
+    }
+
+    public PageConfig withDefaultPageSize(String defaultPageSize) {
+        this.defaultPageSize = defaultPageSize;
+        return this;
+    }
 }
 

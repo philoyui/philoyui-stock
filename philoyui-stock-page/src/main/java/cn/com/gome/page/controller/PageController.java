@@ -44,10 +44,10 @@ public class PageController {
 
         PageService pageService = pageManager.findServiceByDomainName(domainName);
 
-        String pageNo = extractRequestPageNo(request);
-        String pageSize = extractRequestPageSize(request);
-
         PageConfig pageConfig = pageService.getPageConfig();
+
+        String pageNo = extractRequestPageNo(request);
+        String pageSize = extractRequestPageSize(request,pageConfig);
 
         SearchFilter searchFilter = SearchFilter.getPagedSearchFilter(Integer.parseInt(pageNo), Integer.parseInt(pageSize));
         configQueryToSearchFilter(pageService,request, searchFilter);
@@ -176,12 +176,13 @@ public class PageController {
     /**
      * 提取请求中的pageSize
      * @param request
+     * @param pageConfig
      * @return
      */
-    private String extractRequestPageSize(HttpServletRequest request) {
+    private String extractRequestPageSize(HttpServletRequest request, PageConfig pageConfig) {
         String pageSize = request.getParameter("pagesize");
         if(Strings.isNullOrEmpty(pageSize)){
-            pageSize = "20";
+            pageSize = pageConfig.getDefaultPageSize();
         }
         return pageSize;
     }

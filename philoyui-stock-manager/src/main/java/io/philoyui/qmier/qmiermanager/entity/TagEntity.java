@@ -1,7 +1,6 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.entity.enu.StrategyType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,8 +17,6 @@ public class TagEntity implements Serializable {
     private Long id;
 
     private String tagName;
-
-    private StrategyType strategyType;
 
     private IntervalType intervalType;
 
@@ -53,14 +50,6 @@ public class TagEntity implements Serializable {
 
     public void setLastExecuteTime(Date lastExecuteTime) {
         this.lastExecuteTime = lastExecuteTime;
-    }
-
-    public StrategyType getStrategyType() {
-        return strategyType;
-    }
-
-    public void setStrategyType(StrategyType strategyType) {
-        this.strategyType = strategyType;
     }
 
     public Integer getLast1Score() {

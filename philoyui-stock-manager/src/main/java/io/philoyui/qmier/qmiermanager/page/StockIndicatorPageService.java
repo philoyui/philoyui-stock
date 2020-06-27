@@ -70,7 +70,9 @@ public class StockIndicatorPageService extends PageService<StockIndicatorEntity,
                         "pythonName_rw",
                         "enable_rw",
                         "intervalType_rw"
-                );
+                )
+                .withDefaultPageSize("100")
+                ;
         return pageConfig;
     }
 
