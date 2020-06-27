@@ -66,7 +66,6 @@ public class TradingViewProvider implements IndicatorProvider {
         tagStockService.deleteByTagName("长下影线");
         tagStockService.deleteByTagName("黄昏星");
 
-
     }
 
     @Override
@@ -233,5 +232,32 @@ public class TradingViewProvider implements IndicatorProvider {
         tradingViewEntities = tradingViewService.list(searchFilter);
         stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
         tagStockService.tagStocks(stockList,"黄昏星",new Date(), IntervalType.Day);
+
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("recommendScore",0.5));
+        tradingViewEntities = tradingViewService.list(searchFilter);
+        stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+        tagStockService.tagStocks(stockList,"TradingView强烈买入",new Date(), IntervalType.Day);
+
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lt("recommendScore",0.5));
+        searchFilter.add(Restrictions.gt("recommendScore",0));
+        tradingViewEntities = tradingViewService.list(searchFilter);
+        stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+        tagStockService.tagStocks(stockList,"TradingView买入",new Date(), IntervalType.Day);
+
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lt("recommendScore",0));
+        searchFilter.add(Restrictions.gte("recommendScore",-0.5));
+        tradingViewEntities = tradingViewService.list(searchFilter);
+        stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+        tagStockService.tagStocks(stockList,"TradingView卖出",new Date(), IntervalType.Day);
+
+        searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lt("recommendScore",-0.5));
+        tradingViewEntities = tradingViewService.list(searchFilter);
+        stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+        tagStockService.tagStocks(stockList,"TradingView强烈卖出",new Date(), IntervalType.Day);
+
     }
 }

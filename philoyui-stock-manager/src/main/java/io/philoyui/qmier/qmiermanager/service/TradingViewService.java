@@ -6,7 +6,11 @@ import io.philoyui.qmier.qmiermanager.entity.TradingViewEntity;
 import java.util.List;
 
 public interface TradingViewService extends GenericService<TradingViewEntity,Long> {
+
     void batchInsert(List<TradingViewEntity> tradingViewEntities);
 
     void fetchCurrent();
+
+    TradingViewEntity findBySymbol(String symbol);
+
 }
