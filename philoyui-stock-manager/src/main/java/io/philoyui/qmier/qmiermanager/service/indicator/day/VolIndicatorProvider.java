@@ -104,6 +104,7 @@ public class VolIndicatorProvider implements IndicatorProvider {
         tagStockService.deleteByTagName("量线5穿20金叉");
         tagStockService.deleteByTagName("量线5穿10死叉");
         tagStockService.deleteByTagName("量线5穿20死叉");
+        tagStockService.deleteByTagName("地量");
     }
 
     @Override

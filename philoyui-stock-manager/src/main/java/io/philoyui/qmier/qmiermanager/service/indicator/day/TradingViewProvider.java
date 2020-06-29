@@ -65,6 +65,10 @@ public class TradingViewProvider implements IndicatorProvider {
         tagStockService.deleteByTagName("黑色旋转陀螺");
         tagStockService.deleteByTagName("长下影线");
         tagStockService.deleteByTagName("黄昏星");
+        tagStockService.deleteByTagName("TradingView强烈买入");
+        tagStockService.deleteByTagName("TradingView买入");
+        tagStockService.deleteByTagName("TradingView卖出");
+        tagStockService.deleteByTagName("TradingView强烈卖出");
 
     }
 
