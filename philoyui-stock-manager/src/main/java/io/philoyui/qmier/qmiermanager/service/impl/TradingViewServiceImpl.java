@@ -187,6 +187,11 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
         }
     }
 
+    @Override
+    public TradingViewEntity findBySymbol(String symbol) {
+        return tradingViewDao.findBySymbol(symbol);
+    }
+
     @Transactional
     private void deleteAll() {
         tradingViewDao.deleteAll();

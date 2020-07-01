@@ -8,17 +8,17 @@ import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.DateFieldDefinition;
-import cn.com.gome.page.field.ImageFieldDefinition;
-import cn.com.gome.page.field.LongFieldDefinition;
-import cn.com.gome.page.field.StringFieldDefinition;
+import cn.com.gome.page.field.*;
 import cn.com.gome.page.field.validator.IntFieldDefinition;
+import io.philoyui.qmier.qmiermanager.TradingView;
 import io.philoyui.qmier.qmiermanager.entity.FocusStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
+import io.philoyui.qmier.qmiermanager.entity.TradingViewEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.SarDataEntity;
 import io.philoyui.qmier.qmiermanager.service.FocusStockService;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.SarDataService;
+import io.philoyui.qmier.qmiermanager.service.TradingViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +34,9 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
     @Autowired
     private SarDataService sarDataService;
 
+    @Autowired
+    private TradingViewService tradingViewService;
+
     @Override
     public PageObject<FocusStockEntity> paged(SearchFilter searchFilter) {
 
@@ -42,9 +45,11 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
 
         paged.getContent().stream().forEach(stock ->{
             MyStockEntity myStockEntity = myStockService.findBySymbol(stock.getSymbol());
-            stock.setAnalysisResult(myStockEntity.getReason());
+            if(myStockEntity!=null){
+                stock.setAnalysisResult(myStockEntity.getReason());
+                stock.setScore(myStockEntity.getScore());
+            }
             stock.setSarReason(sarDataService.findCurrent(stock.getSymbol()));
-            stock.setScore(myStockEntity.getScore());
         });
 
         return paged;
@@ -70,11 +75,11 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                 .withTableColumnDefinitions(
                         "symbol_8",
                         "stockName_8",
-                        "weekImage_20",
-                        "dayImage_20",
+                        "weekImage_18",
+                        "dayImage_18",
                         "analysisResult_20",
                         "score_5",
-                        "sarReason_10",
+                        "sarReason_8",
                         "#operation_10"
                 )
                 .withFilterDefinitions(

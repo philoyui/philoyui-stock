@@ -1,12 +1,11 @@
 package io.philoyui.qmier.qmiermanager.entity;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 public class FocusStockEntity implements Serializable {
@@ -46,7 +45,6 @@ public class FocusStockEntity implements Serializable {
     private Integer score;
 
     private String sarReason;
-
 
     public Long getId() {
         return id;
@@ -111,4 +109,5 @@ public class FocusStockEntity implements Serializable {
     public void setSarReason(String sarReason) {
         this.sarReason = sarReason;
     }
+
 }

@@ -43,21 +43,18 @@ public class TagPageService extends PageService<TagEntity,Long> implements PageD
                         new IntegerFieldDefinition("last2Score","前一次得分"),
                         new IntegerFieldDefinition("last3Score","前两次得分"),
                         new DateFieldDefinition("lastExecuteTime", "上次执行时间"),
-                        new EnumFieldDefinition("strategyType","策略类型",StrategyType.class),
                         new EnumFieldDefinition("intervalType","时间类型", IntervalType.class)
                 )
                 .withTableColumnDefinitions(
                         "tagName_15",
                         "intervalType_10",
                         "lastExecuteTime_15",
-                        "strategyType_10",
                         "last1Score_10",
                         "last2Score_10",
                         "last3Score_10",
                         "#operation_20"
                 )
                 .withFilterDefinitions(
-                        "strategyType",
                         "intervalType"
                 )
                 .withColumnAction(
@@ -66,12 +63,13 @@ public class TagPageService extends PageService<TagEntity,Long> implements PageD
                         new DeleteOperation()
                 ).withFormItemDefinition(
                         "tagName_rw",
-                        "strategyType_rw",
                         "last1Score_rw",
                         "last2Score_rw",
                         "last3Score_rw",
                         "intervalType_rw"
-                );
+                )
+                .withDefaultPageSize("100")
+                ;
         return pageConfig;
     }
 
