@@ -42,6 +42,8 @@ public class DetailController {
 
             if(propertyValue!=null){
                 detailField.setDetailHtml(fieldDefinition.formatColumnValue(pageConfig,propertyValue));
+            }else{
+                detailField.setDetailHtml("");
             }
 
         }
