@@ -70,7 +70,7 @@ public class VolIndicatorProvider implements IndicatorProvider {
         SearchFilter searchFilter1 = SearchFilter.getPagedSearchFilter(0,22);
         searchFilter1.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
         searchFilter1.add(Order.desc("day"));
-        List<DataDayEntity> dataDayEntities = dayDataService.paged(searchFilter).getContent();
+        List<DataDayEntity> dataDayEntities = dayDataService.paged(searchFilter1).getContent();
 
         Long maxVolume = dataDayEntities.stream().max(Comparator.comparing(DataDayEntity::getVolume)).get().getVolume();
         DataDayEntity dataDayEntity1 = dataDayEntities.get(0);
