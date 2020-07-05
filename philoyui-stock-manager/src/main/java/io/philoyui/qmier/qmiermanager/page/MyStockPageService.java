@@ -80,7 +80,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
         pageConfig.withColumnAction(
                 new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
                 new ConfirmOperation("addFocus","加入关注")
-        );
+        ).withDefaultPageSize("100");
         return pageConfig;
     }
 

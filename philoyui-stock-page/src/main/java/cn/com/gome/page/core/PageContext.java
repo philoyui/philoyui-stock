@@ -11,11 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PageContext {
 
     /**
-     * 全局配置
-     */
-    private PageSettings pageSettings;
-
-    /**
      * 全局样式
      */
     private StylePlugin stylePlugin;
@@ -38,7 +33,6 @@ public class PageContext {
 
 
     public PageContext(PageSettings pageSettings) {
-        this.pageSettings = pageSettings;
         this.stylePlugin = pageSettings.getStylePlugin();
         this.loginUserPlugin = pageSettings.getLoginUserPlugin();
     }

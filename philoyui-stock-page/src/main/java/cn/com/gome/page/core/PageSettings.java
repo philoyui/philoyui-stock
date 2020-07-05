@@ -1,17 +1,12 @@
 package cn.com.gome.page.core;
 
-import cn.com.gome.page.category.CategoryServiceProvider;
-import cn.com.gome.page.column.TableColumnFactory;
-import cn.com.gome.page.setting.AdminItems;
 import cn.com.gome.page.plugins.login.EmptyLoginUserPlugin;
 import cn.com.gome.page.plugins.login.LoginUserPlugin;
 import cn.com.gome.page.plugins.style.StylePlugin;
 import cn.com.gome.page.plugins.style.hui.HuiStylePlugin;
 import cn.com.gome.page.plugins.upload.EmptyUploadPlugin;
 import cn.com.gome.page.plugins.upload.FileUploadPlugin;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import cn.com.gome.page.setting.AdminItems;
 
 public class PageSettings {
 
@@ -38,9 +33,6 @@ public class PageSettings {
 
     private String title;
 
-    private TableColumnFactory tableColumnFactory = new TableColumnFactory();
-
-    private Map<String, CategoryServiceProvider> categoryServiceProviderMap = new ConcurrentHashMap<>();
 
     public void setAdminItems(AdminItems adminItems) {
         this.adminItems = adminItems;
@@ -64,22 +56,6 @@ public class PageSettings {
 
     public StylePlugin getStylePlugin() {
         return stylePlugin;
-    }
-
-    public TableColumnFactory getTableColumnFactory() {
-        return tableColumnFactory;
-    }
-
-    public void setTableColumnFactory(TableColumnFactory tableColumnFactory) {
-        this.tableColumnFactory = tableColumnFactory;
-    }
-
-    public Map<String, CategoryServiceProvider> getCategoryServiceProviderMap() {
-        return categoryServiceProviderMap;
-    }
-
-    public void setCategoryServiceProviderMap(Map<String, CategoryServiceProvider> categoryServiceProviderMap) {
-        this.categoryServiceProviderMap = categoryServiceProviderMap;
     }
 
     public FileUploadPlugin getFileUploadPlugin() {

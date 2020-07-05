@@ -86,7 +86,8 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "symbol_like","stockName_like"
                 )
                 .withSortDefinitions(
-                        "addTime_desc"
+                        "addTime_desc",
+                        "score_desc"
                 )
                 .withTableAction(
                         new CreateOperation()
@@ -101,7 +102,7 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "stockName_rw",
                         "addTime_rw",
                         "analysisResult_rw"
-                );
+                ).withDefaultPageSize("200");
         return pageConfig;
     }
 

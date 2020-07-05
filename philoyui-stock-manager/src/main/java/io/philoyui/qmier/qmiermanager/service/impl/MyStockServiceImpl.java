@@ -145,4 +145,13 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         return myStockDao.findBySymbol(symbol);
     }
 
+    @Override
+    public String findScore(String symbol) {
+        MyStockEntity bySymbol = this.findBySymbol(symbol);
+        if(bySymbol!=null){
+            return String.valueOf(bySymbol.getScore());
+        }
+        return "";
+    }
+
 }
