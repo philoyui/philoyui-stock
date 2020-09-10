@@ -4,7 +4,6 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
-import com.google.common.base.Strings;
 import io.philoyui.qmier.qmiermanager.dao.StockIndicatorDao;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.entity.StockIndicatorEntity;
@@ -95,37 +94,35 @@ public class StockIndicatorServiceImpl extends GenericServiceImpl<StockIndicator
 
     @Override
     public void executeDayTask() {
-        //清理所有日线级别数据
-        dayDataService.deleteAll();
 
         List<StockIndicatorEntity> dayStockIndicators  = this.findDayEnable();
 
+        //清理所有的指标数据
         for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
             IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
             dayIndicatorProvider.cleanOldData();
         }
 
+        //遍历股票
         for (StockEntity stockEntity : stockService.findAll()) {
             if(stockEntity.getName().contains("ST")) {
                 continue;
             }
-            executorService.execute(() -> {
-                System.out.println("下载股票" + stockEntity.getSymbol());
-                dayDataService.downloadHistory(stockEntity);
-                List<TagStockEntity> tagStockEntities = new ArrayList<>();
-                for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
-                    if(!Strings.isNullOrEmpty(dayStockIndicator.getPythonName())){
-                        parseIndicatorDataUsePython(dayStockIndicator.getPythonName(),stockEntity.getSymbol(),"Day");
-                    }
-                    IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
-                    List<TagStockEntity> tagEntityList = dayIndicatorProvider.processTags(stockEntity);
-                    if(tagEntityList!=null){
-                        tagStockEntities.addAll(tagEntityList);
-                    }
+            System.out.println("下载数据" + stockEntity.getSymbol());
+            //提取指标数据脚本
+            parseIndicatorDataUsePython("abstract_indicator.py",stockEntity.getSymbol(),"Day");
+            List<TagStockEntity> tagStockEntities = new ArrayList<>();
+            //解析指标，打标
+            for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
+                IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
+                List<TagStockEntity> tagEntityList = dayIndicatorProvider.processTags(stockEntity);
+                if(tagEntityList!=null){
+                    tagStockEntities.addAll(tagEntityList);
                 }
-            });
+            }
         }
 
+        //执行全局指标
         for (StockIndicatorEntity dayStockIndicator : dayStockIndicators) {
             IndicatorProvider dayIndicatorProvider = indicatorProviders.findByIdentifier(dayStockIndicator.getIdentifier());
             dayIndicatorProvider.processGlobal();

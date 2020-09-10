@@ -30,10 +30,10 @@ day_array = data_frame['day'].values
 high_array = data_frame['high'].values
 low_array = data_frame['low'].values
 
-avg5 = talib.MA(volume_array, timeperiod=5)
-avg10 = talib.MA(volume_array, timeperiod=10)
-avg20 = talib.MA(volume_array, timeperiod=20)
-avg30 = talib.MA(volume_array, timeperiod=30)
+volume_avg5 = talib.MA(volume_array, timeperiod=5)
+volume_avg10 = talib.MA(volume_array, timeperiod=10)
+volume_avg20 = talib.MA(volume_array, timeperiod=20)
+volume_avg30 = talib.MA(volume_array, timeperiod=30)
 
 
 def mark_volume_value(ma_type_string, last_index):
@@ -42,22 +42,22 @@ def mark_volume_value(ma_type_string, last_index):
           "symbol, ma5Value, ma10Value, ma20Value, ma30Value, last_index) VALUES (" + str(close_array[-1 - i]) + \
           ", str_to_date('" + date_string_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
           + date_string_array[-1 - i] + "', '" + interval_type + "', '" \
-          + ma_type_string + "','"\
-          + symbol + "'," + str(avg5[-1 - i]) + "," + str(avg10[-1 - i]) + ","\
-          + str(avg20[-1 - i]) + "," + str(avg30[-1 - i]) + "," + str(last_index) + ")"
+          + ma_type_string + "','" \
+          + symbol + "'," + str(volume_avg5[-1 - i]) + "," + str(volume_avg10[-1 - i]) + "," \
+          + str(volume_avg20[-1 - i]) + "," + str(volume_avg30[-1 - i]) + "," + str(last_index) + ")"
     conn.execute(sql)
 
 
 for i in range(len(close_array)-2):
 
-    if avg5[-1-i] is None:
+    if volume_avg5[-1 - i] is None:
         break
 
-    if avg5[-1-i] > avg10[-1-i] and avg5[-2-i] < avg10[-2-i]:
+    if volume_avg5[-1 - i] > volume_avg10[-1 - i] and volume_avg5[-2 - i] < volume_avg10[-2 - i]:
         mark_volume_value("Cross_5_10_Golden", -1-i)
-    if avg5[-1 - i] > avg20[-1 - i] and avg5[-2 - i] < avg20[-2 - i]:
+    if volume_avg5[-1 - i] > volume_avg20[-1 - i] and volume_avg5[-2 - i] < volume_avg20[-2 - i]:
         mark_volume_value("Cross_5_20_Golden", -1 - i)
-    if avg5[-1 - i] < avg10[-1 - i] and avg5[-2 - i] > avg10[-2 - i]:
+    if volume_avg5[-1 - i] < volume_avg10[-1 - i] and volume_avg5[-2 - i] > volume_avg10[-2 - i]:
         mark_volume_value("Cross_5_10_Death", -1 - i)
-    if avg5[-1 - i] < avg20[-1 - i] and avg5[-2 - i] > avg20[-2 - i]:
+    if volume_avg5[-1 - i] < volume_avg20[-1 - i] and volume_avg5[-2 - i] > volume_avg20[-2 - i]:
         mark_volume_value("Cross_5_20_Death", -1 - i)

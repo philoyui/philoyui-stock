@@ -33,7 +33,7 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
     @Override
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
 
-        //MACD底背离
+        //获取MACD指标数据，包括金叉死叉，头部，底部
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("intervalType",IntervalType.Day));
         searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
