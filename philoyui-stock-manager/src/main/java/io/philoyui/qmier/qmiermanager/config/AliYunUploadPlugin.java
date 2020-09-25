@@ -5,17 +5,10 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.CannedAccessControlList;
 import com.aliyun.oss.model.ObjectMetadata;
-import io.philoyui.qmier.qmiermanager.dao.AccountDao;
-import io.philoyui.qmier.qmiermanager.entity.AccountEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.annotation.PostConstruct;
-import java.net.URL;
-import java.util.List;
 
 @Component
 public class AliYunUploadPlugin implements FileUploadPlugin {
@@ -37,9 +30,6 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
     private String fileDir = "credit";
 
     private OSSClient ossClient;
-
-    @Autowired
-    private AccountDao accountDao;
 
     @Override
     public String fileUpload(MultipartFile multipartFile) {
@@ -70,14 +60,6 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
     }
 
     private OSS getOssClient() {
-        if(ossClient==null){
-            List<AccountEntity> accountEntityList = accountDao.findAll();
-            if(accountEntityList.size()>0){
-                AccountEntity accountEntity = accountEntityList.get(0);
-                ossClient = new OSSClient(accountEntity.getEndpoint(), accountEntity.getAccessKeyId(), accountEntity.getAccessKeySecret());
-            }
-
-        }
         return ossClient;
     }
 

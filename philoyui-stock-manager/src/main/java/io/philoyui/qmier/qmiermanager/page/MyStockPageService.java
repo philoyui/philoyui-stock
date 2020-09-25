@@ -5,22 +5,20 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.ConfirmOperation;
-import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.LinkOperation;
-import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.*;
+import cn.com.gome.page.field.DateFieldDefinition;
+import cn.com.gome.page.field.ImageFieldDefinition;
+import cn.com.gome.page.field.LongFieldDefinition;
+import cn.com.gome.page.field.StringFieldDefinition;
 import cn.com.gome.page.field.validator.IntFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class MyStockPageService extends PageService<MyStockEntity,String> {
@@ -30,12 +28,6 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
 
     @Autowired
     private TagStockService tagStockService;
-
-    @Autowired
-    private StockPageService stockPageService;
-
-    @Autowired
-    private FinancialMarketPageService financialMarketPageService;
 
     @Override
     public PageObject<MyStockEntity> paged(SearchFilter searchFilter) {

@@ -15,10 +15,6 @@ public interface StockService extends GenericService<StockEntity,Long> {
 
     List<StockEntity> findEnable();
 
-    void downloadHistoryData();
-
-    void allEnable();
-
     List<StockEntity> findAll();
 
     void fetchProductDataArray(String identifier,int pageSize);

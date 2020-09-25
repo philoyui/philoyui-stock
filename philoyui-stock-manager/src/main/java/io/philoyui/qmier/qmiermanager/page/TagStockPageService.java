@@ -2,15 +2,12 @@ package io.philoyui.qmier.qmiermanager.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.button.batch.CreateOperation;
-import cn.com.gome.page.button.column.DeleteOperation;
-import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import cn.com.gome.page.field.validator.IntFieldDefinition;
-import io.philoyui.qmier.qmiermanager.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +22,10 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
     private TagStockService tagStockService;
 
     @Autowired
-    private StockPageService stockPageService;
+    private MyStockService myStockService;
 
     @Autowired
-    private MyStockService myStockService;
+    private StockService stockService;
 
     @Override
     public PageObject<TagStockEntity> paged(SearchFilter searchFilter) {
@@ -44,22 +41,22 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "编码"),
-                        new StringFieldDefinition("symbol", "分数").beforeView(symbol -> myStockService.findScore((String)symbol)).aliasName("score"),
+                        new StringFieldDefinition("symbol", "分数").beforeView(symbol -> stockService.findBySymbol((String)symbol).getName()).aliasName("stockName"),
                         new StringFieldDefinition("tagName", "标签名称"),
                         new DateFieldDefinition("createdTime", "创建时间"),
                         new StringFieldDefinition("dayString", "时间标识"),
-                        new DomainStringFieldDefinition("symbol", "股票名称", stockPageService).aliasName("stockName"),
+                        new StringFieldDefinition("symbol", "股票名称"),
                         new ImageFieldDefinition("symbol", "周线图", 300, 200).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 300, 200).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableColumnDefinitions(
-                        "stockName_10",
                         "symbol_10",
-                        "tagName_10",
-                        "dayImage_30",
-                        "weekImage_30",
-                        "score_10"
+                        "stockName_15",
+                        "tagName_15",
+                        "dayString_10",
+                        "dayImage_25",
+                        "weekImage_25"
                 )
                 .withFilterDefinitions(
                     "symbol",
