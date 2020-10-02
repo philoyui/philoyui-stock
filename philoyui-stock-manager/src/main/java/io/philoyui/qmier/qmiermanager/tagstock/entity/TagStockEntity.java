@@ -3,17 +3,15 @@ package io.philoyui.qmier.qmiermanager.tagstock.entity;
 import io.philoyui.qmier.qmiermanager.domain.StockAndReason;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 股票标签
  */
-@Entity(name="stock_tag")
+@Entity
+@Table(name="stock_tag")
 public class TagStockEntity implements Serializable {
 
     @Id

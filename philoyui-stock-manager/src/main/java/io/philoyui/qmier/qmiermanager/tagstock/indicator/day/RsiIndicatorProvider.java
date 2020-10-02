@@ -4,13 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.RsiDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.RsiType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.RsiDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.RsiDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.RsiDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,19 +42,19 @@ public class RsiIndicatorProvider implements IndicatorProvider {
 
         List<RsiDataEntity> bottomDataList = sarDataEntities.stream().filter(e -> e.getRsiType() == RsiType.BOTTOM).collect(Collectors.toList());
 
-        for (int i = 0; i < topDataList.size()-1; i++) {
-            RsiDataEntity oldRsiDataEntity = topDataList.get(i);
-            RsiDataEntity newRsiDataEntity = topDataList.get(i+1);
+        if(topDataList.size()>1) {
+            RsiDataEntity oldRsiDataEntity = topDataList.get(0);
+            RsiDataEntity newRsiDataEntity = topDataList.get(1);
             if(newRsiDataEntity.getRsiValue() < oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() > oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(日)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI顶背离(日)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex(),oldRsiDataEntity.getDay()));
             }
         }
 
-        for (int i = 0; i < bottomDataList.size()-1; i++) {
-            RsiDataEntity oldRsiDataEntity = bottomDataList.get(i);
-            RsiDataEntity newRsiDataEntity = bottomDataList.get(i+1);
+        if(bottomDataList.size()>1) {
+            RsiDataEntity oldRsiDataEntity = bottomDataList.get(0);
+            RsiDataEntity newRsiDataEntity = bottomDataList.get(1);
             if(newRsiDataEntity.getRsiValue() > oldRsiDataEntity.getRsiValue() && newRsiDataEntity.getCloseValue() < oldRsiDataEntity.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(日)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI底背离(日)",newRsiDataEntity.getDay(),newRsiDataEntity.getIntervalType(),newRsiDataEntity.getLastIndex(),oldRsiDataEntity.getDay()));
             }
         }
 

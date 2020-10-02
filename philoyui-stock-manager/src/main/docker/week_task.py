@@ -35,6 +35,15 @@ def truncate_tables():
     conn.execute(truncate_wr_sql)
     truncate_wr_sql = "truncate table kdj_data_entity"
     conn.execute(truncate_wr_sql)
+    truncate_tag_sql = "delete from stock_tag where interval_type = 1"
+    conn.execute(truncate_tag_sql)
+
+
+def mark_tag_stock(symbol, tag_name):
+    tag_sql = "INSERT INTO stock_tag (created_time, symbol, tag_name, day_string, interval_type, last_index" \
+          ") VALUES (str_to_date('" + day_string + "', '%%Y-%%m-%%d') , '" \
+          + symbol + "', '" + tag_name + "', '" + day_string + "', 2, -1)"
+    conn.execute(tag_sql)
 
 
 def mark_macd_value(symbol, interval_type, macd_type_string, last_index):
@@ -106,29 +115,37 @@ for stock_code in stock_df["code"]:
         day_data_list.append(week_result.get_row_data())
     day_data_frame = pd.DataFrame(day_data_list, columns=week_result.fields)
 
-    open_array = day_data_frame['open'].astype(float).values
-    close_array = day_data_frame['close'].astype(float).values
-    day_array = day_data_frame['date'].values
-    high_array = day_data_frame['high'].astype(float).values
-    low_array = day_data_frame['low'].astype(float).values
+    try:
+        open_array = day_data_frame['open'].astype(float).values
+        close_array = day_data_frame['close'].astype(float).values
+        day_array = day_data_frame['date'].values
+        high_array = day_data_frame['high'].astype(float).values
+        low_array = day_data_frame['low'].astype(float).values
 
-    low_list = day_data_frame['low'].rolling(9, min_periods=9).min()
-    low_list.fillna(value=day_data_frame['low'].expanding().min(), inplace=True)
-    high_list = day_data_frame['high'].rolling(9, min_periods=9).max()
-    high_list.fillna(value=day_data_frame['high'].expanding().max(), inplace=True)
-    rsv = (close_array - low_list) / (high_list - low_list) * 100
-    k = pd.DataFrame(rsv).ewm(com=2).mean()
-    d = k.ewm(com=2).mean()
-    j = 3 * k - 2 * d
-    length = close_array.size
+        low_list = day_data_frame['low'].rolling(9, min_periods=9).min()
+        low_list.fillna(value=day_data_frame['low'].expanding().min(), inplace=True)
+        high_list = day_data_frame['high'].rolling(9, min_periods=9).max()
+        high_list.fillna(value=day_data_frame['high'].expanding().max(), inplace=True)
+        rsv = (close_array - low_list) / (high_list - low_list) * 100
+        k = pd.DataFrame(rsv).ewm(com=2).mean()
+        d = k.ewm(com=2).mean()
+        j = 3 * k - 2 * d
+        length = close_array.size
 
-    macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
+        macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
 
-    rsi = talib.RSI(close_array, timeperiod=14)
+        rsi = talib.RSI(close_array, timeperiod=14)
 
-    real = talib.SAR(high_array, low_array, acceleration=0.02, maximum=0.2)
+        real = talib.SAR(high_array, low_array, acceleration=0.02, maximum=0.2)
 
-    wr20 = talib.WILLR(high_array, low_array, close_array, timeperiod=20)
+        wr20 = talib.WILLR(high_array, low_array, close_array, timeperiod=20)
+
+    except ValueError:
+        print(symbol_string)
+    except ZeroDivisionError:
+        print(symbol_string)
+    else:
+        print(symbol_string)
 
     for i in range(len(close_array)-2):
 
@@ -137,10 +154,6 @@ for stock_code in stock_df["code"]:
                 mark_macd_value(symbol_string, interval_type_string, "GOLDEN_CROSS", -1-i)
             if macd_array[-1-i] < signal_array[-1-i] and macd_array[-2-i] > signal_array[-2-i]:
                 mark_macd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1-i)
-            if macd_array[-1-i] > macd_array[-2-i] and macd_array[-2-i] < macd_array[-3-i]:
-                mark_macd_value(symbol_string, interval_type_string, "BOTTOM_DIFF", -1-i)
-            if macd_array[-1 - i] < macd_array[-2 - i] and macd_array[-2 - i] > macd_array[-3 - i]:
-                mark_macd_value(symbol_string, interval_type_string, "TOP_DIFF", -1-i)
 
         if k.values[length - 1 - i] is not None:
             if d.values[length - 1 - i][0] < k.values[length - 1 - i][0] and d.values[length - 2 - i][0] > \
@@ -149,22 +162,8 @@ for stock_code in stock_df["code"]:
             if d.values[length - 1 - i][0] > k.values[length - 1 - i][0] and d.values[length - 2 - i][0] < \
                     k.values[length - 2 - i][0]:
                 mark_kjd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1 - i)
-            if k.values[length - 1 - i][0] > k.values[length - 2 - i][0] and k.values[length - 3 - i][0] > \
-                    k.values[length - 2 - i][0]:
-                mark_kjd_value(symbol_string, interval_type_string, "BOTTOM_TURNING", -1 - i)
-            if k.values[length - 1 - i][0] < k.values[length - 2 - i][0] and k.values[length - 3 - i][0] < \
-                    k.values[length - 2 - i][0]:
-                mark_kjd_value(symbol_string, interval_type_string, "TOP_TURNING", -1 - i)
 
         if rsi[-1-i] is not None:
-            if rsi[-1-i] > 70 and rsi[-2-i] < 70:
-                mark_rsi_value(symbol_string, interval_type_string, "BREAK_70", -1-i)
-            if rsi[-1-i] < 30 and rsi[-2-i] > 30:
-                mark_rsi_value(symbol_string, interval_type_string, "FALL_30", -1-i)
-            if rsi[-1 - i] < 70 and rsi[-2 - i] > 70:
-                mark_rsi_value(symbol_string, interval_type_string, "FALL_70", -1-i)
-            if rsi[-1 - i] > 30 and rsi[-2 - i] < 30:
-                mark_rsi_value(symbol_string, interval_type_string, "BREAK_30", -1-i)
             if rsi[-2 - i] > rsi[-3 - i] > 70 and rsi[-1 - i] < rsi[-2 - i] and rsi[-2 - i] > 70 and \
                     rsi[-1 - i] > 70:
                 mark_rsi_value(symbol_string, interval_type_string, "TOP", -1-i)
@@ -174,15 +173,9 @@ for stock_code in stock_df["code"]:
 
         if real[-1 - i] is not None:
             if real[-1 - i] < close_array[-1 - i] and real[-2 - i] > close_array[-2 - i]:
-                mark_sar_value(symbol_string, interval_type_string, "Buy", -1 - i)
+                mark_tag_stock(symbol_string, "SAR买入(周)")
             if real[-1 - i] > close_array[-1 - i] and real[-2 - i] < close_array[-2 - i]:
-                mark_sar_value(symbol_string, interval_type_string, "Sell", -1 - i)
-
-        if wr20[-1 - i] is not None:
-            if wr20[-1 - i] > -85 > wr20[-2 - i]:
-                mark_wr_value(symbol_string, interval_type_string, "Buy_Point_20", -1 - i)
-            if wr20[-1 - i] < -15 < wr20[-2 - i]:
-                mark_wr_value(symbol_string, interval_type_string, "Sell_Point_20", -1 - i)
+                mark_tag_stock(symbol_string, "SAR卖出(日)")
 
     print("parse " + symbol_string + " complete!!")
 

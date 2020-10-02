@@ -38,8 +38,6 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
 
         List<KdjDataEntity> goldenDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.GOLDEN_CROSS).collect(Collectors.toList());
         List<KdjDataEntity> deathDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.DEATH_CROSS).collect(Collectors.toList());
-        List<KdjDataEntity> bottomTurningDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.BOTTOM_TURNING).collect(Collectors.toList());
-        List<KdjDataEntity> topTurningDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.TOP_TURNING).collect(Collectors.toList());
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
@@ -49,10 +47,6 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
             if(kdjDataEntity_0.getjValue() > kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() < kdjDataEntity_1.getCloseValue()){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
             }
-            if(kdjDataEntity_0.getkValue()<24){
-                System.out.println("KDJ底部金叉(日)" + kdjDataEntity_0.getSymbol());
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底部金叉(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
         }
 
         if(deathDataList.size()>1){
@@ -60,25 +54,6 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
             KdjDataEntity kdjDataEntity_1 = deathDataList.get(1);
             if(kdjDataEntity_0.getjValue() < kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() > kdjDataEntity_1.getkValue()){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
-            if(kdjDataEntity_0.getkValue()>76){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶部死叉(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(bottomTurningDataList.size()>1){
-            KdjDataEntity kdjDataEntity_0 = bottomTurningDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = bottomTurningDataList.get(1);
-            if(kdjDataEntity_0.getkValue() > kdjDataEntity_1.getkValue() && kdjDataEntity_0.getCloseValue() < kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"K线(KDJ)底背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(topTurningDataList.size()>1){
-            KdjDataEntity kdjDataEntity_0 = topTurningDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = topTurningDataList.get(1);
-            if(kdjDataEntity_0.getkValue() < kdjDataEntity_1.getkValue() && kdjDataEntity_0.getCloseValue() > kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"K线(KDJ)顶背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
             }
         }
 

@@ -50,4 +50,13 @@ public class StockServiceImpl extends GenericServiceImpl<StockEntity,Long> imple
     public void fetchProductDataArray(String identifier, int pageSize) {
 
     }
+
+    @Override
+    public String findStockName(String symbol) {
+        StockEntity stockEntity = this.findBySymbol(symbol);
+        if(stockEntity==null){
+            return "";
+        }
+        return stockEntity.getName();
+    }
 }

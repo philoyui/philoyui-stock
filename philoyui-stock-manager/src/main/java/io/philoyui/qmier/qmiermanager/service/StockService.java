@@ -18,4 +18,6 @@ public interface StockService extends GenericService<StockEntity,Long> {
     List<StockEntity> findAll();
 
     void fetchProductDataArray(String identifier,int pageSize);
+
+    String findStockName(String symbol);
 }

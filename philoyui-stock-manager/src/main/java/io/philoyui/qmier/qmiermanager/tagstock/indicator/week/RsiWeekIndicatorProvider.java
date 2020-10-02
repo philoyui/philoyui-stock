@@ -38,16 +38,6 @@ public class RsiWeekIndicatorProvider implements IndicatorProvider {
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
-        for (RsiDataEntity rsiDataEntity : sarDataEntities) {
-            switch (rsiDataEntity.getRsiType()){
-                case BREAK_30:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI多头(周)",rsiDataEntity.getDay(),rsiDataEntity.getIntervalType(),rsiDataEntity.getLastIndex()));
-                    break;
-                case FALL_70:
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"RSI空头(周)",rsiDataEntity.getDay(),rsiDataEntity.getIntervalType(),rsiDataEntity.getLastIndex()));
-            }
-        }
-
         List<RsiDataEntity> topDataList = sarDataEntities.stream().filter(e -> e.getRsiType() == RsiType.TOP).collect(Collectors.toList());
 
         List<RsiDataEntity> bottomDataList = sarDataEntities.stream().filter(e -> e.getRsiType() == RsiType.BOTTOM).collect(Collectors.toList());

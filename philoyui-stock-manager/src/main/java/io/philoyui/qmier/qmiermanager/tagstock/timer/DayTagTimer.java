@@ -3,6 +3,7 @@ package io.philoyui.qmier.qmiermanager.tagstock.timer;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.day.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -31,6 +32,9 @@ public class DayTagTimer {
     private ThreeGoldenIndicatorProvider threeGoldenIndicatorProvider;
 
     @Autowired
+    private KdjDayIndicatorProvider kdjDayIndicatorProvider;
+
+    @Autowired
     private RsiIndicatorProvider rsiIndicatorProvider;
 
     @Autowired
@@ -39,6 +43,7 @@ public class DayTagTimer {
     @Autowired
     private TradingViewProvider tradingViewProvider;
 
+
     @Autowired
     private InvestorInfoIndicatorProvider investorInfoIndicatorProvider;
 
@@ -46,12 +51,15 @@ public class DayTagTimer {
     public void execute(){
         runPython("day_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
-            macdDayIndicatorProvider.processTags(stockEntity);
-            cciIndicatorProvider.processTags(stockEntity);
-            threeGoldenIndicatorProvider.processTags(stockEntity);
-            rsiIndicatorProvider.processTags(stockEntity);
+            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")){
+                macdDayIndicatorProvider.processTags(stockEntity);
+                cciIndicatorProvider.processTags(stockEntity);
+                rsiIndicatorProvider.processTags(stockEntity);
+                kdjDayIndicatorProvider.processTags(stockEntity);
+            }
         }
 
+        threeGoldenIndicatorProvider.processGlobal();
         bigBuyIndicatorProvider.processGlobal();
         investorInfoIndicatorProvider.processGlobal();
         tradingViewProvider.processGlobal();

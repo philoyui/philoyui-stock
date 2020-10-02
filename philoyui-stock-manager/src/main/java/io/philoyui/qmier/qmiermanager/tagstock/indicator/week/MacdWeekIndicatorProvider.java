@@ -4,13 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.MacdType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,29 +40,11 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
 
         List<MacdDataEntity> goldenDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.GOLDEN_CROSS).collect(Collectors.toList());
         List<MacdDataEntity> deathDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.DEATH_CROSS).collect(Collectors.toList());
-        List<MacdDataEntity> bottomDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.BOTTOM_DIFF).collect(Collectors.toList());
-        List<MacdDataEntity> topDataList = macdDataEntities.stream().filter(e -> e.getMacdType() == MacdType.TOP_DIFF).collect(Collectors.toList());
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
         Optional<MacdDataEntity> max = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue));
         Optional<MacdDataEntity> min = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue));
-
-        if(max.isPresent()&&min.isPresent()&&max.get().getMacdValue()>0&&min.get().getMacdValue()<0){
-            Double upper_macd_value_0 = (max.get().getMacdValue() - 0)/5;
-            Double lower_macd_value_0 = 0 - (0-min.get().getMacdValue())/5;
-            for (MacdDataEntity goldenData : goldenDataList) {
-                if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴金叉(周)",goldenData.getDay(),goldenData.getIntervalType(),goldenData.getLastIndex()));
-                }
-            }
-
-            for (MacdDataEntity deathData : deathDataList) {
-                if(deathData.getSignalValue() < 0 && deathData.getSignalValue() > lower_macd_value_0){
-                    tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD零轴死叉(周)",deathData.getDay(),deathData.getIntervalType(),deathData.getLastIndex()));
-                }
-            }
-        }
 
         if(goldenDataList.size()>1){
             MacdDataEntity macdDataEntity_0 = goldenDataList.get(0);
@@ -70,7 +52,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
@@ -80,27 +62,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(bottomDataList.size()>1){
-            MacdDataEntity macdDataEntity_0 = bottomDataList.get(0);
-            MacdDataEntity macdDataEntity_1 = bottomDataList.get(1);
-            if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
-                    macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
-                    macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF底背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(topDataList.size()>1){
-            MacdDataEntity macdDataEntity_0 = topDataList.get(0);
-            MacdDataEntity macdDataEntity_1 = topDataList.get(1);
-            if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
-                    macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
-                    macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(周)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 

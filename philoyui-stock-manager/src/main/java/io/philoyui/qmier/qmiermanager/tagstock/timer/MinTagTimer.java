@@ -36,18 +36,24 @@ public class MinTagTimer {
     public void execute() {
         runPython("min_60_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
-            macd60IndicatorProvider.processTags(stockEntity);
+            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {
+                macd60IndicatorProvider.processTags(stockEntity);
+            }
         }
 
         runPython("min_30_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
-            macd30IndicatorProvider.processTags(stockEntity);
+            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {
+                macd30IndicatorProvider.processTags(stockEntity);
+            }
         }
 
         runPython("min_15_task.py");
 
         for (StockEntity stockEntity : stockService.findAll()) {
-            macd15IndicatorProvider.processTags(stockEntity);
+            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {
+                macd15IndicatorProvider.processTags(stockEntity);
+            }
         }
     }
 

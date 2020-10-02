@@ -10,7 +10,7 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
+day_string = "2020-09-21"
 
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
@@ -44,7 +44,7 @@ for stock_code in stock_df["code"]:
 
     startDay = (datetime.datetime.now() - datetime.timedelta(days=5)).strftime("%Y-%m-%d")
 
-    interval_type_string = "15min"
+    interval_type_string = "Min15"
 
     min_15_result = bs.query_history_k_data_plus(stock_code, "date,code,open,high,low,close,volume,amount,adjustflag",
                                                  start_date=startDay, end_date='',

@@ -10,15 +10,14 @@ import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.tagstock.dao.TagStockDao;
 import io.philoyui.qmier.qmiermanager.tagstock.entity.TagEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.to.TagStatistics;
 import io.philoyui.qmier.qmiermanager.utils.DealDateUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long> implements TagStockService {
@@ -118,6 +117,16 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
         searchFilter.add(Restrictions.eq("symbol",symbol));
         searchFilter.add(Restrictions.eq("dayString", DealDateUtils.getLastDealDayString()));
         return list(searchFilter);
+    }
+
+    @Override
+    public Map<String,String> findTagStatisticOptions() {
+        List<TagStatistics> tagStatistics = tagStockDao.findTagStatistics();
+        Map<String,String> keyValues = new HashMap<>();
+        for (TagStatistics tagStatistic : tagStatistics) {
+            keyValues.put(tagStatistic.getTagName(),tagStatistic.getTagName());
+        }
+        return keyValues;
     }
 
 }

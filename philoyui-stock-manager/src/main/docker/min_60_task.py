@@ -44,7 +44,7 @@ for stock_code in stock_df["code"]:
 
     startDay = (datetime.datetime.now() - datetime.timedelta(days=18)).strftime("%Y-%m-%d")
 
-    interval_type_string = "Hour"
+    interval_type_string = "Min60"
 
     hour_result = bs.query_history_k_data_plus(stock_code, "date,code,open,high,low,close,"
                                                           "volume,amount,adjustflag",

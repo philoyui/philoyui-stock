@@ -11,10 +11,12 @@ import io.philoyui.qmier.qmiermanager.entity.indicator.enu.CciType;
 import io.philoyui.qmier.qmiermanager.tagstock.service.CciDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,17 +43,18 @@ public class CciIndicatorProvider implements IndicatorProvider {
 
         List<CciDataEntity> bottomDataList = cciDataEntities.stream().filter(e -> e.getCciType() == CciType.BOTTOM).collect(Collectors.toList());
 
-        for (int i = 0; i < topDataList.size()-1; i++) {
-            CciDataEntity oldCciDataEntity = topDataList.get(i);
-            CciDataEntity newCciDataEntity = topDataList.get(i+1);
+
+        if(topDataList.size()>1&& topDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-8).getTime()) {
+            CciDataEntity oldCciDataEntity = topDataList.get(0);
+            CciDataEntity newCciDataEntity = topDataList.get(1);
             if(newCciDataEntity.getCciValue() < oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() > oldCciDataEntity.getCloseValue()){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI顶背离(日)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex(),oldCciDataEntity.getDay()));
             }
         }
 
-        for (int i = 0; i < bottomDataList.size()-1; i++) {
-            CciDataEntity oldCciDataEntity = bottomDataList.get(i);
-            CciDataEntity newCciDataEntity = bottomDataList.get(i+1);
+        if(bottomDataList.size()>1&& bottomDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-8).getTime()) {
+            CciDataEntity oldCciDataEntity = bottomDataList.get(0);
+            CciDataEntity newCciDataEntity = bottomDataList.get(1);
             if(newCciDataEntity.getCciValue() > oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() < oldCciDataEntity.getCloseValue()){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"CCI底背离(日)",newCciDataEntity.getDay(),newCciDataEntity.getIntervalType(),newCciDataEntity.getLastIndex(),oldCciDataEntity.getDay()));
             }

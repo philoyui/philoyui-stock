@@ -6,10 +6,10 @@ import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import io.philoyui.qmier.qmiermanager.service.StockService;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
+import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,31 +41,31 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "编码"),
-                        new StringFieldDefinition("symbol", "分数").beforeView(symbol -> stockService.findBySymbol((String)symbol).getName()).aliasName("stockName"),
-                        new StringFieldDefinition("tagName", "标签名称"),
+                        new StringFieldDefinition("symbol", "股票名").beforeView(symbol -> stockService.findStockName((String)symbol)).aliasName("stockName"),
+                        new MapStringFieldDefinition("tagName", "标签名称",tagStockService.findTagStatisticOptions()),
                         new DateFieldDefinition("createdTime", "创建时间"),
                         new StringFieldDefinition("dayString", "时间标识"),
+                        new StringFieldDefinition("lastDayString","时间标识2"),
                         new StringFieldDefinition("symbol", "股票名称"),
                         new ImageFieldDefinition("symbol", "周线图", 300, 200).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 300, 200).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_10",
-                        "stockName_15",
-                        "tagName_15",
+                        "symbol_8",
+                        "stockName_8",
+                        "tagName_14",
                         "dayString_10",
+                        "lastDayString_10",
                         "dayImage_25",
                         "weekImage_25"
                 )
                 .withFilterDefinitions(
                     "symbol",
-                    "dayString_like",
-                    "tagName",
-                    "createdTime"
+                    "tagName_like"
                 )
                 .withSortDefinitions(
-                    "createdTime_desc","createdTime_asc"
+                    "dayString_desc","dayString_asc"
                 )
                 .withFormItemDefinition(
                         "symbol_rw",

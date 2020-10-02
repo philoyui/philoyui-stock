@@ -4,13 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.MacdType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,7 +70,7 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
@@ -80,7 +80,7 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
@@ -90,7 +90,7 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF底背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF底背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
@@ -100,7 +100,7 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"DIFF顶背离(月)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 

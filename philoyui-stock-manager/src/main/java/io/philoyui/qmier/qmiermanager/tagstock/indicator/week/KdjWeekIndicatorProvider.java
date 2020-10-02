@@ -4,13 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.KdjDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.KdjType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.KdjDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.KdjDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.KdjDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,10 +38,6 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
 
         List<KdjDataEntity> goldenDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.GOLDEN_CROSS).collect(Collectors.toList());
         List<KdjDataEntity> deathDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.DEATH_CROSS).collect(Collectors.toList());
-        List<KdjDataEntity> overSellDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.OVER_SELL).collect(Collectors.toList());
-        List<KdjDataEntity> overBuyDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.OVER_BUY).collect(Collectors.toList());
-        List<KdjDataEntity> bottomTurningDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.BOTTOM_TURNING).collect(Collectors.toList());
-        List<KdjDataEntity> topTurningDataList = kdjDataEntities.stream().filter(e -> e.getKdjType() == KdjType.TOP_TURNING).collect(Collectors.toList());
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
@@ -64,22 +60,6 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
             }
             if(kdjDataEntity_0.getkValue()>76){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶部死叉(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(bottomTurningDataList.size()>1){
-            KdjDataEntity kdjDataEntity_0 = bottomTurningDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = bottomTurningDataList.get(1);
-            if(kdjDataEntity_0.getkValue() > kdjDataEntity_1.getkValue() && kdjDataEntity_0.getCloseValue() < kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"K线(KDJ)底背离(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
-        }
-
-        if(topTurningDataList.size()>1){
-            KdjDataEntity kdjDataEntity_0 = topTurningDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = topTurningDataList.get(1);
-            if(kdjDataEntity_0.getkValue() < kdjDataEntity_1.getkValue() && kdjDataEntity_0.getCloseValue() > kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"K线(KDJ)顶背离(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
             }
         }
 

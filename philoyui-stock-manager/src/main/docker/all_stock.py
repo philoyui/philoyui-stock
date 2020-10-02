@@ -35,6 +35,7 @@ truncate_tables()
 
 for index, row in stock_df.iterrows():
     symbol_string = row["code"][0:2] + row["code"][3:9]
-    persist_stock_entity(symbol_string, row["code_name"])
+    if not symbol_string.startswith("sh00"):
+        persist_stock_entity(symbol_string, row["code_name"])
 
 bs.logout()

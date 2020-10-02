@@ -4,6 +4,9 @@ import io.philoyui.qmier.qmiermanager.entity.StockEntity;
 import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.day.KdjDayIndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.KdjWeekIndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.MacdWeekIndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.RsiWeekIndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.SarWeekIndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,11 +28,25 @@ public class WeekTagTimer {
     @Autowired
     private KdjWeekIndicatorProvider kdjWeekIndicatorProvider;
 
+    @Autowired
+    private SarWeekIndicatorProvider sarWeekIndicatorProvider;
+
+    @Autowired
+    private MacdWeekIndicatorProvider macdWeekIndicatorProvider;
+
+    @Autowired
+    private RsiWeekIndicatorProvider rsiWeekIndicatorProvider;
+
     @Scheduled(cron="0 30 3 ? * 7") //每周六
     public void execute() {
         runPython("week_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
-            kdjWeekIndicatorProvider.processTags(stockEntity);
+            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {
+                kdjWeekIndicatorProvider.processTags(stockEntity);
+                sarWeekIndicatorProvider.processTags(stockEntity);
+                macdWeekIndicatorProvider.processTags(stockEntity);
+                rsiWeekIndicatorProvider.processTags(stockEntity);
+            }
         }
     }
 

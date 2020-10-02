@@ -50,7 +50,7 @@ public class Macd30IndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
                     macdDataEntity_0.getMacdValue() > macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() < macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(日)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD底背离(30min)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
@@ -60,7 +60,7 @@ public class Macd30IndicatorProvider implements IndicatorProvider {
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
                     macdDataEntity_0.getMacdValue() < macdDataEntity_1.getMacdValue() &&
                     macdDataEntity_0.getCloseValue() > macdDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(日)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"MACD顶背离(30min)",macdDataEntity_0.getDay(),macdDataEntity_0.getIntervalType(),macdDataEntity_0.getLastIndex(),macdDataEntity_1.getDay()));
             }
         }
 
