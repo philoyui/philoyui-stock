@@ -11,10 +11,12 @@ import io.philoyui.qmier.qmiermanager.tagstock.entity.KdjDataEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.service.KdjDataService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +43,7 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
-        if(goldenDataList.size()>1){
+        if(goldenDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-10).getTime()){
             KdjDataEntity kdjDataEntity_0 = goldenDataList.get(0);
             KdjDataEntity kdjDataEntity_1 = goldenDataList.get(1);
             if(kdjDataEntity_0.getjValue() > kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() < kdjDataEntity_1.getCloseValue()){
@@ -52,7 +54,7 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(deathDataList.size()>1){
+        if(deathDataList.size()>1 && deathDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-10).getTime()){
             KdjDataEntity kdjDataEntity_0 = deathDataList.get(0);
             KdjDataEntity kdjDataEntity_1 = deathDataList.get(1);
             if(kdjDataEntity_0.getjValue() < kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() > kdjDataEntity_1.getkValue()){
@@ -64,25 +66,6 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "kdj_week";
-    }
-
-    @Override
-    public void cleanOldData() {
-        kdjDataService.deleteWeekData();
-        tagStockService.deleteByTagName("KDJ底背离(周)");
-        tagStockService.deleteByTagName("KDJ底部金叉(周)");
-        tagStockService.deleteByTagName("KDJ顶背离(周)");
-        tagStockService.deleteByTagName("KDJ顶部死叉(周)");
-        tagStockService.deleteByTagName("KDJ超卖(周)");
-        tagStockService.deleteByTagName("KDJ超买(周)");
-        tagStockService.deleteByTagName("K线(KDJ)底背离(周)");
-        tagStockService.deleteByTagName("K线(KDJ)顶背离(周)");
-
     }
 
     @Override

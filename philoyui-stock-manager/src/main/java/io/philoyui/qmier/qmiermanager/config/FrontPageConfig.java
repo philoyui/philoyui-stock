@@ -29,11 +29,6 @@ public class FrontPageConfig {
         AdminItems adminItems = new AdminItemsBuilder()
                 .addRootItem("选股管理","filter",
                         new LeafItem("打标管理","/admin/tag_stock/page"),
-                        new LeafItem("标签管理", "/admin/tag/page"),
-                        new LeafItem("TradingView数据","/admin/trading_view/page")
-                )
-                .addRootItem("关注管理","focus",
-                        new LeafItem("打分管理","/admin/my_stock/page"),
                         new LeafItem("关注股票", "/admin/focus_stock/page")
                 )
                 .build();

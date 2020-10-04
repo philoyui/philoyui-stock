@@ -21,17 +21,6 @@ public class QuickRadioIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "quick_radio";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("债务风险");
-        tagStockService.deleteByTagName("债务正常");
-    }
-
-    @Override
     public void processGlobal() {
 //        SearchFilter searchFilter = SearchFilter.getDefault();
 //        searchFilter.add(Restrictions.lt("quickRatio",1));

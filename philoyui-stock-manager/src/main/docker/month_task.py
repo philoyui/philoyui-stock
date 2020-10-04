@@ -71,6 +71,12 @@ for stock_code in stock_df["code"]:
 
     symbol_string = stock_code[0:2] + stock_code[3:9]
 
+    if symbol_string.startswith("sh00"):
+        continue
+
+    if symbol_string.startswith("sz399"):
+        continue
+
     profit_list_1 = []
     profit_list_2 = []
     profit_list_3 = []
@@ -86,28 +92,30 @@ for stock_code in stock_df["code"]:
         profit_list_2.append(rs_profit_2.get_row_data())
         profit_list_3.append(rs_profit_3.get_row_data())
         balance_list.append(rs_balance.get_row_data())
+    try:
+        result_profit_1 = pd.DataFrame(profit_list_1, columns=rs_profit_1.fields)
+        result_profit_2 = pd.DataFrame(profit_list_2, columns=rs_profit_2.fields)
+        result_profit_3 = pd.DataFrame(profit_list_3, columns=rs_profit_3.fields)
+        result_balance = pd.DataFrame(balance_list, columns=rs_balance.fields)
 
-    result_profit_1 = pd.DataFrame(profit_list_1, columns=rs_profit_1.fields)
-    result_profit_2 = pd.DataFrame(profit_list_2, columns=rs_profit_2.fields)
-    result_profit_3 = pd.DataFrame(profit_list_3, columns=rs_profit_3.fields)
-    result_balance = pd.DataFrame(balance_list, columns=rs_balance.fields)
+        if result_profit_1.size > 0:
+            try:
+                if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
+                        result_profit_3["roeAvg"][0]) >= 0.18:
+                    mark_tag_stock(symbol_string, "大白马")
+                if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
+                        float(result_profit_3["roeAvg"][0]):
+                    mark_tag_stock(symbol_string, "三年业绩上升")
+            except ValueError:
+                print(stock_code)
 
-    if result_profit_1.size > 0:
-        try:
-            if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
-                    result_profit_3["roeAvg"][0]) >= 0.18:
-                mark_tag_stock(symbol_string, "大白马")
-            if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
-                    float(result_profit_3["roeAvg"][0]):
-                mark_tag_stock(symbol_string, "三年业绩上升")
-        except ValueError:
-            print(stock_code)
-
-    if result_balance.size > 0:
-        try:
-            if float(result_balance["quickRatio"][0]) < 1.0:
-                mark_tag_stock(symbol_string, "债务风险")
-        except ValueError:
-            print(stock_code)
+        if result_balance.size > 0:
+            try:
+                if float(result_balance["quickRatio"][0]) < 1.0:
+                    mark_tag_stock(symbol_string, "债务风险")
+            except ValueError:
+                print(stock_code)
+    except AssertionError:
+        print(stock_code)
 
 

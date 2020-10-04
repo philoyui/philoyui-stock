@@ -1,8 +1,8 @@
 package io.philoyui.qmier.qmiermanager.tagstock.indicator.month;
 
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,17 +19,6 @@ public class RoeIndicatorProvider implements IndicatorProvider {
     @Override
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
         return null;
-    }
-
-    @Override
-    public String identifier() {
-        return "roe";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("业绩上升");
-        tagStockService.deleteByTagName("存股");
     }
 
     @Override

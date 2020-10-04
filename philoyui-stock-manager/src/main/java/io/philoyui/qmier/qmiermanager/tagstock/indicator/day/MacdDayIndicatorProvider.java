@@ -4,18 +4,17 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.MacdType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -91,23 +90,6 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "macd_day";
-    }
-
-    @Transactional
-    @Override
-    public void cleanOldData() {
-        macdDataService.deleteDayData();
-        tagStockService.deleteByTagName("DIFF顶背离(日)");
-        tagStockService.deleteByTagName("DIFF底背离(日)");
-        tagStockService.deleteByTagName("MACD顶背离(日)");
-        tagStockService.deleteByTagName("MACD底背离(日)");
-        tagStockService.deleteByTagName("MACD零轴死叉(日)");
-        tagStockService.deleteByTagName("MACD零轴金叉(日)");
     }
 
     @Override

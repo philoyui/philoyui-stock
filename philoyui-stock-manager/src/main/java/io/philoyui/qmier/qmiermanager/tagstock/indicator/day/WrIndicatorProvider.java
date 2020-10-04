@@ -49,18 +49,6 @@ public class WrIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "wr_day";
-    }
-
-    @Override
-    public void cleanOldData() {
-        wrDataService.deleteDayData();
-        tagStockService.deleteByTagName("WR多头(日)");
-        tagStockService.deleteByTagName("WR空头(日)");
-    }
-
-    @Override
     public void processGlobal() {
 
     }

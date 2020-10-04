@@ -1,26 +1,25 @@
 package io.philoyui.qmier.qmiermanager.tagstock.timer;
 
-import io.philoyui.qmier.qmiermanager.service.StockService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * 抓取股票信息
+ */
 @Component
-public class MonthTagTimer {
-
-    @Autowired
-    private StockService stockService;
+public class StockFetchTimer {
 
     @Value("${application.python.path}")
     private String pythonPath;
 
-//    @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
-    public void execute() {
-        runPython("min_60_task.py");
+    @Scheduled(cron="0 30 17 * * 1-5")
+    public void execute(){
+        runPython("all_stock.py");
     }
 
     private void runPython(String pythonName) {
@@ -38,4 +37,5 @@ public class MonthTagTimer {
             e.printStackTrace();
         }
     }
+
 }

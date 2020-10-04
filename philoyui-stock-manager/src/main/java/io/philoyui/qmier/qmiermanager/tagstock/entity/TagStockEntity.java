@@ -115,4 +115,7 @@ public class TagStockEntity implements Serializable {
     public void setLastDayString(String lastDayString) {
         this.lastDayString = lastDayString;
     }
+
+
+
 }

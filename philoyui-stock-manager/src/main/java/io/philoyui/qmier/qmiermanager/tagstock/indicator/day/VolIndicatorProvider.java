@@ -4,12 +4,12 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.VolumeDataEntity;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
-import io.philoyui.qmier.qmiermanager.tagstock.service.VolumeDataService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.VolumeDataEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.VolumeDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,21 +60,6 @@ public class VolIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "vol_day";
-    }
-
-    @Override
-    public void cleanOldData() {
-        volumeDataService.deleteDayData();
-        tagStockService.deleteByTagName("量线5穿10金叉");
-        tagStockService.deleteByTagName("量线5穿20金叉");
-        tagStockService.deleteByTagName("量线5穿10死叉");
-        tagStockService.deleteByTagName("量线5穿20死叉");
-        tagStockService.deleteByTagName("地量");
     }
 
     @Override

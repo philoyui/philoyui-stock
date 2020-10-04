@@ -11,7 +11,7 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = "2020-09-29"
+day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
 
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
@@ -144,6 +144,9 @@ for stock_code in stock_df["code"]:
     if symbol_string.startswith("sh00"):
         continue
 
+    if symbol_string.startswith("sz399"):
+        continue
+
     startDay = (datetime.datetime.now() - datetime.timedelta(days=120)).strftime("%Y-%m-%d")
 
     interval_type_string = "Day"
@@ -251,12 +254,6 @@ for stock_code in stock_df["code"]:
             if rsi[-2 - i] < rsi[-3 - i] < 50 and rsi[-1 - i] > rsi[-2 - i] and rsi[-2 - i] < 30 and\
                     rsi[-1 - i] < 50:
                 mark_rsi_value(symbol_string, interval_type_string, "BOTTOM", -1-i)
-
-        if real[-1 - i] is not None:
-            if real[-1 - i] < close_array[-1 - i] and real[-2 - i] > close_array[-2 - i]:
-                mark_tag_stock(symbol_string, "SAR买入(日)")
-            if real[-1 - i] > close_array[-1 - i] and real[-2 - i] < close_array[-2 - i]:
-                mark_tag_stock(symbol_string, "SAR卖出(日)")
 
         if volume_avg5[-1 - i] is not None:
             if volume_avg5[-1 - i] > volume_avg10[-1 - i] and volume_avg5[-2 - i] < volume_avg10[-2 - i]:

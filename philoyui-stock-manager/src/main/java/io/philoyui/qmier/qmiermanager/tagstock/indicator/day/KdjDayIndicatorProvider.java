@@ -4,17 +4,19 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.KdjDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.KdjType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.KdjDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.KdjDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.KdjDataService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,42 +43,23 @@ public class KdjDayIndicatorProvider implements IndicatorProvider {
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
-        if(goldenDataList.size()>1){
+        if(goldenDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-2).getTime()){
             KdjDataEntity kdjDataEntity_0 = goldenDataList.get(0);
             KdjDataEntity kdjDataEntity_1 = goldenDataList.get(1);
             if(kdjDataEntity_0.getjValue() > kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() < kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex(),kdjDataEntity_1.getDay()));
             }
         }
 
-        if(deathDataList.size()>1){
+        if(deathDataList.size()>1 && deathDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-2).getTime()){
             KdjDataEntity kdjDataEntity_0 = deathDataList.get(0);
             KdjDataEntity kdjDataEntity_1 = deathDataList.get(1);
             if(kdjDataEntity_0.getjValue() < kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() > kdjDataEntity_1.getkValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
+                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶背离(日)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex(),kdjDataEntity_1.getDay()));
             }
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "kdj_day";
-    }
-
-    @Override
-    public void cleanOldData() {
-        kdjDataService.deleteDayData();
-        tagStockService.deleteByTagName("KDJ底背离(日)");
-        tagStockService.deleteByTagName("KDJ底部金叉(日)");
-        tagStockService.deleteByTagName("KDJ顶背离(日)");
-        tagStockService.deleteByTagName("KDJ顶部死叉(日)");
-        tagStockService.deleteByTagName("KDJ超卖(日)");
-        tagStockService.deleteByTagName("KDJ超买(日)");
-        tagStockService.deleteByTagName("K线(KDJ)底背离(日)");
-        tagStockService.deleteByTagName("K线(KDJ)顶背离(日)");
-
     }
 
     @Override

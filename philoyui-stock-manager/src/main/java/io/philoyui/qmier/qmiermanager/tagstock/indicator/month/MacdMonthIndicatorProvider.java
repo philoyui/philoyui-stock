@@ -108,22 +108,6 @@ public class MacdMonthIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "macd_month";
-    }
-
-    @Override
-    public void cleanOldData() {
-        macdDataService.deleteMonthData();
-        tagStockService.deleteByTagName("DIFF顶背离(月)");
-        tagStockService.deleteByTagName("DIFF底背离(月)");
-        tagStockService.deleteByTagName("MACD顶背离(月)");
-        tagStockService.deleteByTagName("MACD底背离(月)");
-        tagStockService.deleteByTagName("MACD零轴死叉(月)");
-        tagStockService.deleteByTagName("MACD零轴金叉(月)");
-    }
-
-    @Override
     public void processGlobal() {
 
     }

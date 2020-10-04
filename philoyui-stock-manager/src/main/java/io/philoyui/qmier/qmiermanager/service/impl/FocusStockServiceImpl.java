@@ -23,4 +23,9 @@ public class FocusStockServiceImpl extends GenericServiceImpl<FocusStockEntity,L
     public FocusStockEntity findBySymbol(String symbol) {
         return focusStockDao.findBySymbol(symbol);
     }
+
+    @Override
+    public void deleteAll() {
+        focusStockDao.deleteAll();
+    }
 }

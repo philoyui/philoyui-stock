@@ -3,11 +3,11 @@ package io.philoyui.qmier.qmiermanager.tagstock.indicator.day;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.TradingViewEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.service.TradingViewService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,47 +28,6 @@ public class TradingViewProvider implements IndicatorProvider {
     @Override
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
         return null;
-    }
-
-    @Override
-    public String identifier() {
-        return "trading_view";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("三只乌鸦");
-        tagStockService.deleteByTagName("上吊线");
-        tagStockService.deleteByTagName("倒锤子线");
-        tagStockService.deleteByTagName("光头阳线");
-        tagStockService.deleteByTagName("光头阳线");
-        tagStockService.deleteByTagName("十字星");
-        tagStockService.deleteByTagName("启明星");
-        tagStockService.deleteByTagName("墓碑线");
-        tagStockService.deleteByTagName("流星线");
-        tagStockService.deleteByTagName("白三兵");
-        tagStockService.deleteByTagName("白色旋转陀螺");
-        tagStockService.deleteByTagName("看涨三星");
-        tagStockService.deleteByTagName("看涨反冲形态");
-        tagStockService.deleteByTagName("看涨吞没");
-        tagStockService.deleteByTagName("看涨孕线");
-        tagStockService.deleteByTagName("看涨弃婴");
-        tagStockService.deleteByTagName("看跌三星");
-        tagStockService.deleteByTagName("看跌反冲形态");
-        tagStockService.deleteByTagName("看跌吞没");
-        tagStockService.deleteByTagName("看跌孕线");
-        tagStockService.deleteByTagName("看跌弃婴");
-        tagStockService.deleteByTagName("蜻蜓线");
-        tagStockService.deleteByTagName("锤子线");
-        tagStockService.deleteByTagName("长上影线");
-        tagStockService.deleteByTagName("黑色旋转陀螺");
-        tagStockService.deleteByTagName("长下影线");
-        tagStockService.deleteByTagName("黄昏星");
-        tagStockService.deleteByTagName("TradingView强烈买入");
-        tagStockService.deleteByTagName("TradingView买入");
-        tagStockService.deleteByTagName("TradingView卖出");
-        tagStockService.deleteByTagName("TradingView强烈卖出");
-
     }
 
     @Override

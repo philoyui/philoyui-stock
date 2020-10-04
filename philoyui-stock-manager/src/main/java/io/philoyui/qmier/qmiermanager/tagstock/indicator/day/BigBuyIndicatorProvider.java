@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import io.philoyui.qmier.qmiermanager.client.east.data.BigBuyData;
 import io.philoyui.qmier.qmiermanager.client.east.response.BigBuyResponse;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
@@ -42,18 +42,6 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
     @Override
     public List<TagStockEntity> processTags(StockEntity stockEntity) {
         return null;
-    }
-
-    @Override
-    public String identifier() {
-        return "big_buy";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("大宗交易");
-        tagStockService.deleteByTagName("大容量大宗交易");
-        tagStockService.deleteByTagName("溢价大宗交易");
     }
 
     @Override

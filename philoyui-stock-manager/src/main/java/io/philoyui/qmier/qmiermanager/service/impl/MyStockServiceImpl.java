@@ -122,10 +122,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         if(focusStockEntity==null){
             focusStockEntity = new FocusStockEntity();
             focusStockEntity.setSymbol(myStock.getSymbol());
-            focusStockEntity.setStockName(myStock.getStockName());
             focusStockEntity.setAddTime(new Date());
-            focusStockEntity.setAnalysisTime(new Date());
-            focusStockEntity.setAnalysisResult("");
             focusStockService.insert(focusStockEntity);
         }
 

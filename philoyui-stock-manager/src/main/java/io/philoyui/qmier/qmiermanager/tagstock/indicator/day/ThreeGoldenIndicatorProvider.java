@@ -46,16 +46,6 @@ public class ThreeGoldenIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "three_golden";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("三金叉选股");
-    }
-
-    @Override
     public void processGlobal() {
 
         SearchFilter macdSearchFilter = SearchFilter.getDefault();

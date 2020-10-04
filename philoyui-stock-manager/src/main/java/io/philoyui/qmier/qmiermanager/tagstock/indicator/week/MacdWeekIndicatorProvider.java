@@ -11,13 +11,11 @@ import io.philoyui.qmier.qmiermanager.tagstock.entity.MacdDataEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.service.MacdDataService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -46,7 +44,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
         Optional<MacdDataEntity> max = macdDataEntities.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue));
         Optional<MacdDataEntity> min = macdDataEntities.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue));
 
-        if(goldenDataList.size()>1){
+        if(goldenDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-8).getTime()){
             MacdDataEntity macdDataEntity_0 = goldenDataList.get(0);
             MacdDataEntity macdDataEntity_1 = goldenDataList.get(1);
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
@@ -56,7 +54,7 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(deathDataList.size()>1){
+        if(deathDataList.size()>1 && deathDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-8).getTime()){
             MacdDataEntity macdDataEntity_0 = deathDataList.get(0);
             MacdDataEntity macdDataEntity_1 = deathDataList.get(1);
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
@@ -67,22 +65,6 @@ public class MacdWeekIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "macd_week";
-    }
-
-    @Override
-    public void cleanOldData() {
-        macdDataService.deleteWeekData();
-        tagStockService.deleteByTagName("DIFF顶背离(周)");
-        tagStockService.deleteByTagName("DIFF底背离(周)");
-        tagStockService.deleteByTagName("MACD顶背离(周)");
-        tagStockService.deleteByTagName("MACD底背离(周)");
-        tagStockService.deleteByTagName("MACD零轴死叉(周)");
-        tagStockService.deleteByTagName("MACD零轴金叉(周)");
     }
 
     @Override

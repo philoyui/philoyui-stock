@@ -35,16 +35,6 @@ public class InvestorInfoIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "investor_info";
-    }
-
-    @Override
-    public void cleanOldData() {
-        tagStockService.deleteByTagName("投资者关系活动记录表");
-    }
-
-    @Override
     public void processGlobal() {
         String endData = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         String startData = DateFormatUtils.format(DateUtils.addDays(new Date(),-3), "yyyy-MM-dd");

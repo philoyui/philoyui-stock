@@ -4,12 +4,12 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.SarDataEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.service.SarDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.SarDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.SarDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,18 +46,6 @@ public class SarWeekIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "sar_week";
-    }
-
-    @Override
-    public void cleanOldData() {
-        sarDataService.deleteWeekData();
-        tagStockService.deleteByTagName("SAR空头止损(周)");
-        tagStockService.deleteByTagName("SAR多头止盈(周)");
     }
 
     @Override

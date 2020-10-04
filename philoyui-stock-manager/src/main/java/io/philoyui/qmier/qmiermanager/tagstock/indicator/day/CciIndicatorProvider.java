@@ -4,13 +4,13 @@ import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
-import io.philoyui.qmier.qmiermanager.tagstock.entity.CciDataEntity;
 import io.philoyui.qmier.qmiermanager.entity.indicator.enu.CciType;
-import io.philoyui.qmier.qmiermanager.tagstock.service.CciDataService;
 import io.philoyui.qmier.qmiermanager.service.TagStockService;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.CciDataEntity;
+import io.philoyui.qmier.qmiermanager.tagstock.entity.TagStockEntity;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.IndicatorProvider;
+import io.philoyui.qmier.qmiermanager.tagstock.service.CciDataService;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,25 +61,6 @@ public class CciIndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "cci_day";
-    }
-
-    @Override
-    public void cleanOldData() {
-        cciDataService.deleteDayData();
-        tagStockService.deleteByTagName("CCI进入强势(日)");
-        tagStockService.deleteByTagName("CCI多头开启(日)");
-        tagStockService.deleteByTagName("CCI空头开启(日)");
-        tagStockService.deleteByTagName("CCI进入弱势(日)");
-        tagStockService.deleteByTagName("CCI结束强势(日)");
-        tagStockService.deleteByTagName("CCI结束弱势(日)");
-        tagStockService.deleteByTagName("CCI顶背离(日)");
-        tagStockService.deleteByTagName("CCI底背离(日)");
-
     }
 
     @Override

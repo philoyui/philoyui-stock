@@ -15,8 +15,9 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -63,23 +64,6 @@ public class Macd60IndicatorProvider implements IndicatorProvider {
         }
 
         return tagStockEntities;
-    }
-
-    @Override
-    public String identifier() {
-        return "macd_day";
-    }
-
-    @Transactional
-    @Override
-    public void cleanOldData() {
-        macdDataService.deleteDayData();
-        tagStockService.deleteByTagName("DIFF顶背离(日)");
-        tagStockService.deleteByTagName("DIFF底背离(日)");
-        tagStockService.deleteByTagName("MACD顶背离(日)");
-        tagStockService.deleteByTagName("MACD底背离(日)");
-        tagStockService.deleteByTagName("MACD零轴死叉(日)");
-        tagStockService.deleteByTagName("MACD零轴金叉(日)");
     }
 
     @Override

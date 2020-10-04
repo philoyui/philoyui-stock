@@ -62,20 +62,6 @@ public class RsiIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "rsi_day";
-    }
-
-    @Override
-    public void cleanOldData() {
-        rsiDataService.deleteDayData();
-        tagStockService.deleteByTagName("RSI多头(日)");
-        tagStockService.deleteByTagName("RSI空头(日)");
-        tagStockService.deleteByTagName("RSI顶背离(日)");
-        tagStockService.deleteByTagName("RSI底背离(日)");
-    }
-
-    @Override
     public void processGlobal() {
 
     }

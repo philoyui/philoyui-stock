@@ -102,6 +102,12 @@ for stock_code in stock_df["code"]:
 
     symbol_string = stock_code[0:2] + stock_code[3:9]
 
+    if symbol_string.startswith("sh00"):
+        continue
+
+    if symbol_string.startswith("sz399"):
+        continue
+
     startDay = (datetime.datetime.now() - datetime.timedelta(days=504)).strftime("%Y-%m-%d")
 
     interval_type_string = "Week"
@@ -170,12 +176,6 @@ for stock_code in stock_df["code"]:
             if rsi[-2 - i] < rsi[-3 - i] < 30 and rsi[-1 - i] > rsi[-2 - i] and rsi[-2 - i] < 30 and\
                     rsi[-1 - i] < 30:
                 mark_rsi_value(symbol_string, interval_type_string, "BOTTOM", -1-i)
-
-        if real[-1 - i] is not None:
-            if real[-1 - i] < close_array[-1 - i] and real[-2 - i] > close_array[-2 - i]:
-                mark_tag_stock(symbol_string, "SAR买入(周)")
-            if real[-1 - i] > close_array[-1 - i] and real[-2 - i] < close_array[-2 - i]:
-                mark_tag_stock(symbol_string, "SAR卖出(日)")
 
     print("parse " + symbol_string + " complete!!")
 

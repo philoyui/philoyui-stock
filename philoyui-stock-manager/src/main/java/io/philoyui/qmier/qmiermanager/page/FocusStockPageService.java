@@ -1,21 +1,22 @@
 package io.philoyui.qmier.qmiermanager.page;
 
+import cn.com.gome.cloud.openplatform.common.Order;
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.button.batch.CreateOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
+import cn.com.gome.page.button.column.LinkOperation;
+import cn.com.gome.page.button.column.NewPageOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import cn.com.gome.page.field.validator.IntFieldDefinition;
 import io.philoyui.qmier.qmiermanager.entity.FocusStockEntity;
-import io.philoyui.qmier.qmiermanager.entity.MyStockEntity;
 import io.philoyui.qmier.qmiermanager.service.FocusStockService;
 import io.philoyui.qmier.qmiermanager.service.MyStockService;
-import io.philoyui.qmier.qmiermanager.tagstock.service.SarDataService;
+import io.philoyui.qmier.qmiermanager.service.StockService;
 import io.philoyui.qmier.qmiermanager.service.TradingViewService;
+import io.philoyui.qmier.qmiermanager.tagstock.service.SarDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,24 +33,15 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
     private SarDataService sarDataService;
 
     @Autowired
+    private StockService stockService;
+
+    @Autowired
     private TradingViewService tradingViewService;
 
     @Override
     public PageObject<FocusStockEntity> paged(SearchFilter searchFilter) {
-
-
-        PageObject<FocusStockEntity> paged = focusStockService.paged(searchFilter);
-
-        paged.getContent().stream().forEach(stock ->{
-            MyStockEntity myStockEntity = myStockService.findBySymbol(stock.getSymbol());
-            if(myStockEntity!=null){
-                stock.setAnalysisResult(myStockEntity.getReason());
-                stock.setScore(myStockEntity.getScore());
-            }
-            stock.setSarReason(sarDataService.findCurrent(stock.getSymbol()));
-        });
-
-        return paged;
+        searchFilter.add(Order.asc("level"));
+        return focusStockService.paged(searchFilter);
     }
 
     @Override
@@ -61,44 +53,29 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "股票代码"),
-                        new StringFieldDefinition("stockName", "股票名称"),
+                        new StringFieldDefinition("symbol", "股票名").beforeView(symbol -> stockService.findStockName((String)symbol)).aliasName("stockName"),
                         new DateFieldDefinition("addTime", "加入时间"),
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
-                        new StringFieldDefinition("sarReason", "多空判断"),
-                        new IntFieldDefinition("score", "分数"),
-                        new StringFieldDefinition("analysisResult", "分析结果")
+                        new StringFieldDefinition("reason", "原因"),
+                        new IntegerFieldDefinition("level","等级")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_8",
-                        "stockName_8",
-                        "weekImage_18",
-                        "dayImage_18",
-                        "analysisResult_20",
-                        "score_5",
-                        "sarReason_8",
-                        "#operation_10"
+                        "symbol_10",
+                        "stockName_10",
+                        "weekImage_20",
+                        "dayImage_20",
+                        "level_5",
+                        "reason_20",
+                        "#operation_15"
                 )
                 .withFilterDefinitions(
-                        "symbol_like","stockName_like"
-                )
-                .withSortDefinitions(
-                        "addTime_desc",
-                        "score_desc"
-                )
-                .withTableAction(
-                        new CreateOperation()
+                        "symbol","level"
                 )
                 .withColumnAction(
+                        new NewPageOperation("标签详细信息","/admin/tag_stock/page?symbol=#symbol#","标签详细信息","symbol"),
                         new EditOperation(),
                         new DeleteOperation()
-                )
-                .withFormItemDefinition(
-                        "id_rw",
-                        "symbol_rw",
-                        "stockName_rw",
-                        "addTime_rw",
-                        "analysisResult_rw"
                 ).withDefaultPageSize("200");
         return pageConfig;
     }

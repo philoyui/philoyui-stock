@@ -9,9 +9,5 @@ public interface IndicatorProvider {
 
     List<TagStockEntity> processTags(StockEntity stockEntity);
 
-    String identifier();
-
-    void cleanOldData();
-
     void processGlobal();
 }

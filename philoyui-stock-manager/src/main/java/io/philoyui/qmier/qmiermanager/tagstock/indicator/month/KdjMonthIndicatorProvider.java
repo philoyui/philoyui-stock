@@ -85,25 +85,6 @@ public class KdjMonthIndicatorProvider implements IndicatorProvider {
     }
 
     @Override
-    public String identifier() {
-        return "kdj_month";
-    }
-
-    @Override
-    public void cleanOldData() {
-        kdjDataService.deleteMonthData();
-        tagStockService.deleteByTagName("KDJ底背离(月)");
-        tagStockService.deleteByTagName("KDJ底部金叉(月)");
-        tagStockService.deleteByTagName("KDJ顶背离(月)");
-        tagStockService.deleteByTagName("KDJ顶部死叉(月)");
-        tagStockService.deleteByTagName("KDJ超卖(月)");
-        tagStockService.deleteByTagName("KDJ超买(月)");
-        tagStockService.deleteByTagName("K线(KDJ)底背离(月");
-        tagStockService.deleteByTagName("K线(KDJ)顶背离(月)");
-
-    }
-
-    @Override
     public void processGlobal() {
 
     }
