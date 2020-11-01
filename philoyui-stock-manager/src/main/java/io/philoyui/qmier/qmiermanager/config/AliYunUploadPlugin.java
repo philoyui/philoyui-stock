@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class AliYunUploadPlugin implements FileUploadPlugin {
 
@@ -30,6 +32,11 @@ public class AliYunUploadPlugin implements FileUploadPlugin {
     private String fileDir = "credit";
 
     private OSSClient ossClient;
+
+    @PostConstruct
+    public void before(){
+        ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
+    }
 
     @Override
     public String fileUpload(MultipartFile multipartFile) {

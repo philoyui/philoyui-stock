@@ -62,7 +62,9 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "#operation_10"
         );
         pageConfig.withFilterDefinitions(
-                "symbol_like","stockName_like","reason_like"
+                "symbol_like",
+                "stockName_like",
+                "reason_like"
         );
         pageConfig.withSortDefinitions("score_desc");
         pageConfig.withTableAction(
@@ -72,7 +74,8 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
         pageConfig.withColumnAction(
                 new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
                 new ConfirmOperation("addFocus","加入关注")
-        ).withDefaultPageSize("100");
+        );
+        pageConfig.withDefaultPageSize("100");
         return pageConfig;
     }
 

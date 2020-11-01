@@ -76,7 +76,8 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         new NewPageOperation("标签详细信息","/admin/tag_stock/page?symbol=#symbol#","标签详细信息","symbol"),
                         new EditOperation(),
                         new DeleteOperation()
-                ).withDefaultPageSize("200");
+                )
+                .withDefaultPageSize("200");
         return pageConfig;
     }
 

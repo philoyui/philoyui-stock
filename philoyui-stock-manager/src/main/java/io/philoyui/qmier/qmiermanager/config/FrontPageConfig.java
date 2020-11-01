@@ -31,6 +31,9 @@ public class FrontPageConfig {
                         new LeafItem("打标管理","/admin/tag_stock/page"),
                         new LeafItem("关注股票", "/admin/focus_stock/page")
                 )
+                .addRootItem("素材管理","material",
+                        new LeafItem("文章管理","/admin/article/page")
+                )
                 .build();
 
         PageSettings pageSettings = new PageSettings();
