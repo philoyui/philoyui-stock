@@ -51,12 +51,10 @@ public class DayTagTimer {
     public void execute(){
         runPython("day_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
-            if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")){
-                macdDayIndicatorProvider.processTags(stockEntity);
-                cciIndicatorProvider.processTags(stockEntity);
-                rsiIndicatorProvider.processTags(stockEntity);
-                kdjDayIndicatorProvider.processTags(stockEntity);
-            }
+            macdDayIndicatorProvider.processTags(stockEntity);
+            cciIndicatorProvider.processTags(stockEntity);
+            rsiIndicatorProvider.processTags(stockEntity);
+            kdjDayIndicatorProvider.processTags(stockEntity);
         }
 
         threeGoldenIndicatorProvider.processGlobal();

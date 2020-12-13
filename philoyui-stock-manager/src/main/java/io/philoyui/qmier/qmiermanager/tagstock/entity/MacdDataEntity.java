@@ -19,16 +19,16 @@ public class MacdDataEntity implements Serializable {
 
     private String symbol;
 
-    private Double macdValue;
+    private Double macdValue = 0.0;
 
     /**
      * 慢线
      */
-    private Double signalValue;
+    private Double signalValue = 0.0;
 
-    private Double histValue;
+    private Double histValue = 0.0;
 
-    private Double closeValue;
+    private Double closeValue = 0.0;
 
     private Date day;
 
