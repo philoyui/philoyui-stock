@@ -37,7 +37,7 @@ public class ListToStringFieldDefinition extends FieldDefinition{
     @Override
     public String formatColumnValue(PageConfig pageConfig, Object value) {
         List<String> tagNameList = stringToListFunction.apply(value);
-        return StringUtils.join(tagNameList,",");
+        return StringUtils.join(tagNameList,"<br/>");
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ListToStringFieldDefinition extends FieldDefinition{
     @Override
     public String generateFormItemReadHtml(PageConfig pageConfig, HttpServletRequest request, Object entity) {
         List<String> tagNameList = stringToListFunction.apply(entity);
-        return StringUtils.join(tagNameList,",");
+        return StringUtils.join(tagNameList,"<br/>");
     }
 
     @Override
