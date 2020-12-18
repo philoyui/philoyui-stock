@@ -1,7 +1,9 @@
 package io.philoyui.qmier.qmiermanager.tagstock.timer;
 
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.KdjWeekIndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.MacdWeekIndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.week.RsiWeekIndicatorProvider;
@@ -32,8 +34,14 @@ public class WeekTagTimer {
     @Autowired
     private RsiWeekIndicatorProvider rsiWeekIndicatorProvider;
 
+    @Autowired
+    private TagStockService tagStockService;
+
     @Scheduled(cron="0 30 3 ? * 7") //每周六
     public void execute() {
+
+        tagStockService.cleanOld(IntervalType.Week);
+
         runPython("week_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
             if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {

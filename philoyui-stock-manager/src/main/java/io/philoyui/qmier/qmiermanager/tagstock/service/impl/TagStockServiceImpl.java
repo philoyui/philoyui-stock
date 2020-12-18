@@ -129,4 +129,12 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
         return keyValues;
     }
 
+    @Override
+    public void cleanOld(IntervalType day) {
+        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 10000);
+        pagedSearchFilter.add(Restrictions.eq("",""));
+        List<TagStockEntity> tagStockEntities = this.list(pagedSearchFilter);
+        tagStockDao.deleteInBatch(tagStockEntities);
+    }
+
 }

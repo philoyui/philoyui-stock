@@ -1,7 +1,9 @@
 package io.philoyui.qmier.qmiermanager.tagstock.timer;
 
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.day.*;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +45,17 @@ public class DayTagTimer {
     @Autowired
     private TradingViewProvider tradingViewProvider;
 
+    @Autowired
+    private TagStockService tagStockService;
 
     @Autowired
     private InvestorInfoIndicatorProvider investorInfoIndicatorProvider;
 
     @Scheduled(cron="0 30 18 * * 1-5")
     public void execute(){
+
+        tagStockService.cleanOld(IntervalType.Day);
+
         runPython("day_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
             macdDayIndicatorProvider.processTags(stockEntity);

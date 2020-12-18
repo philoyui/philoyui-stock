@@ -142,7 +142,7 @@ public class FocusStockTimer {
             List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(symbol);
             StringBuilder reasonBuilder = new StringBuilder();
             for (TagStockEntity tagStockEntity : tagStockEntities) {
-                reasonBuilder.append(tagStockEntity.getTagName()).append(" ");
+                reasonBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
             }
             focusStockEntity.setReason(reasonBuilder.toString());
             focusStockEntity.setLevel(level);

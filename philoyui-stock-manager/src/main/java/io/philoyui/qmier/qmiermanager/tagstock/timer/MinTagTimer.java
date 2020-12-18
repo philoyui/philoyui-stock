@@ -1,7 +1,9 @@
 package io.philoyui.qmier.qmiermanager.tagstock.timer;
 
 import io.philoyui.qmier.qmiermanager.entity.StockEntity;
+import io.philoyui.qmier.qmiermanager.entity.enu.IntervalType;
 import io.philoyui.qmier.qmiermanager.service.StockService;
+import io.philoyui.qmier.qmiermanager.service.TagStockService;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.minute.Macd15IndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.minute.Macd30IndicatorProvider;
 import io.philoyui.qmier.qmiermanager.tagstock.indicator.minute.Macd60IndicatorProvider;
@@ -32,8 +34,16 @@ public class MinTagTimer {
     @Autowired
     private Macd60IndicatorProvider macd60IndicatorProvider;
 
+    @Autowired
+    private TagStockService tagStockService;
+
     @Scheduled(cron="0 0 21 * * 1-5")
     public void execute() {
+
+        tagStockService.cleanOld(IntervalType.Min15);
+        tagStockService.cleanOld(IntervalType.Min30);
+        tagStockService.cleanOld(IntervalType.Min60);
+
         runPython("min_60_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
             if(!stockEntity.getSymbol().startsWith("*ST")||!stockEntity.getSymbol().startsWith("ST")) {
