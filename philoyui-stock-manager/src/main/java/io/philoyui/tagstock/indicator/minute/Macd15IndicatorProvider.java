@@ -11,10 +11,12 @@ import io.philoyui.tagstock.entity.MacdDataEntity;
 import io.philoyui.tagstock.entity.TagStockEntity;
 import io.philoyui.tagstock.indicator.IndicatorProvider;
 import io.philoyui.tagstock.service.MacdDataService;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +43,7 @@ public class Macd15IndicatorProvider implements IndicatorProvider {
 
         List<TagStockEntity> tagStockEntities = new ArrayList<>();
 
-        if(goldenDataList.size()>1){
+        if(goldenDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-2).getTime()){
             MacdDataEntity macdDataEntity_0 = goldenDataList.get(0);
             MacdDataEntity macdDataEntity_1 = goldenDataList.get(1);
             if(macdDataEntity_0.getMacdValue() < 0 && macdDataEntity_1.getMacdValue() < 0 &&
@@ -51,7 +53,7 @@ public class Macd15IndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(deathDataList.size()>1){
+        if(deathDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-2).getTime()){
             MacdDataEntity macdDataEntity_0 = deathDataList.get(0);
             MacdDataEntity macdDataEntity_1 = deathDataList.get(1);
             if(macdDataEntity_0.getMacdValue() > 0 && macdDataEntity_1.getMacdValue() > 0 &&
