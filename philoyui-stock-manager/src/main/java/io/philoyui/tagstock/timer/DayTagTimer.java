@@ -33,9 +33,6 @@ public class DayTagTimer {
     private ThreeGoldenIndicatorProvider threeGoldenIndicatorProvider;
 
     @Autowired
-    private KdjDayIndicatorProvider kdjDayIndicatorProvider;
-
-    @Autowired
     private RsiIndicatorProvider rsiIndicatorProvider;
 
     @Autowired
@@ -60,7 +57,6 @@ public class DayTagTimer {
             macdDayIndicatorProvider.processTags(stockEntity);
             cciIndicatorProvider.processTags(stockEntity);
             rsiIndicatorProvider.processTags(stockEntity);
-            kdjDayIndicatorProvider.processTags(stockEntity);
         }
 
         threeGoldenIndicatorProvider.processGlobal();

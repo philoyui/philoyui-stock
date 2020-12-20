@@ -38,6 +38,11 @@ public class FocusStockTimer {
         Set<String> stockName8 = findByTagName("RSI底背离(日)");
         Set<String> stockName9 = findByTagName("CCI底背离(日)");
         Set<String> stockName10 = findByTagName("启明星");
+        Set<String> stockName6 = findByTagName("三金叉选股");
+
+
+        Set<String> stockName7 = findByTagName("大宗交易");
+
 
         Set<String> stockName11 = findByTagName("债务风险");
         Set<String> stockName12 = findByTagName("市盈率泡沫");
@@ -47,10 +52,15 @@ public class FocusStockTimer {
         stockSet.addAll(stockName3);
         stockSet.addAll(stockName4);
         stockSet.addAll(stockName5);
+        stockSet.addAll(stockName6);
+        stockSet.addAll(stockName7);
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
         stockSet.addAll(stockName10);
 
+        persistStock(stockSet,5);
+
+        stockSet.removeAll(stockName7);
         persistStock(stockSet,4);
 
         stockSet.removeAll(stockName12);
