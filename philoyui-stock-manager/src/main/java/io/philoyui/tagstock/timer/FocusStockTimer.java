@@ -40,9 +40,13 @@ public class FocusStockTimer {
         Set<String> stockName10 = findByTagName("启明星");
         Set<String> stockName6 = findByTagName("三金叉选股");
 
-
-        Set<String> stockName7 = findByTagName("大宗交易");
-
+        Set<String> stockName14 = findByTagName("MACD底背离(日)");
+        Set<String> stockName15 = findByTagName("MACD底背离(15min)");
+        Set<String> stockName16 = findByTagName("MACD底背离(30min)");
+        Set<String> stockName17 = findByTagName("MACD底背离(60min)");
+        Set<String> stockName18 = findByTagName("MACD底背离(周)");
+        Set<String> stockName19 = findByTagName("RSI底背离(日)");
+        Set<String> stockName20 = findByTagName("CCI底背离(日)");
 
         Set<String> stockName11 = findByTagName("债务风险");
         Set<String> stockName12 = findByTagName("市盈率泡沫");
@@ -53,15 +57,19 @@ public class FocusStockTimer {
         stockSet.addAll(stockName4);
         stockSet.addAll(stockName5);
         stockSet.addAll(stockName6);
-        stockSet.addAll(stockName7);
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
         stockSet.addAll(stockName10);
+        stockSet.removeAll(stockName14);
+        stockSet.removeAll(stockName15);
+        stockSet.removeAll(stockName16);
+        stockSet.removeAll(stockName17);
+        stockSet.removeAll(stockName18);
+        stockSet.removeAll(stockName19);
+        stockSet.removeAll(stockName20);
+
 
         persistStock(stockSet,5);
-
-        stockSet.removeAll(stockName7);
-        persistStock(stockSet,4);
 
         stockSet.removeAll(stockName12);
         persistStock(stockSet,3);

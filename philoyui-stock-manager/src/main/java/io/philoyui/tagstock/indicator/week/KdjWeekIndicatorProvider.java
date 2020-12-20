@@ -45,10 +45,6 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
 
         if(goldenDataList.size()>1 && goldenDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-10).getTime()){
             KdjDataEntity kdjDataEntity_0 = goldenDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = goldenDataList.get(1);
-            if(kdjDataEntity_0.getjValue() > kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() < kdjDataEntity_1.getCloseValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底背离(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
             if(kdjDataEntity_0.getkValue()<24){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ底部金叉(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
             }
@@ -56,10 +52,6 @@ public class KdjWeekIndicatorProvider implements IndicatorProvider {
 
         if(deathDataList.size()>1 && deathDataList.get(0).getDay().getTime() > DateUtils.addWeeks(new Date(),-10).getTime()){
             KdjDataEntity kdjDataEntity_0 = deathDataList.get(0);
-            KdjDataEntity kdjDataEntity_1 = deathDataList.get(1);
-            if(kdjDataEntity_0.getjValue() < kdjDataEntity_0.getkValue() && kdjDataEntity_1.getjValue() > kdjDataEntity_1.getkValue()){
-                tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶背离(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
-            }
             if(kdjDataEntity_0.getkValue()>76){
                 tagStockEntities.add(tagStockService.tagStock(stockEntity.getSymbol(),"KDJ顶部死叉(周)",kdjDataEntity_0.getDay(),kdjDataEntity_0.getIntervalType(),kdjDataEntity_0.getLastIndex()));
             }
