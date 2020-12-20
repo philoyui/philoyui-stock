@@ -131,10 +131,15 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
 
     @Override
     public void cleanOld(IntervalType intervalType) {
-        SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 1000);
-        pagedSearchFilter.add(Restrictions.eq("intervalType",intervalType));
-        List<TagStockEntity> tagStockEntities = this.paged(pagedSearchFilter).getContent();
-        tagStockDao.deleteInBatch(tagStockEntities);
+        while(true){
+            SearchFilter pagedSearchFilter = SearchFilter.getPagedSearchFilter(0, 200);
+            pagedSearchFilter.add(Restrictions.eq("intervalType",intervalType));
+            List<TagStockEntity> tagStockEntities = this.paged(pagedSearchFilter).getContent();
+            if(tagStockEntities.size()==0){
+                break;
+            }
+            tagStockDao.deleteInBatch(tagStockEntities);
+        }
     }
 
 }
