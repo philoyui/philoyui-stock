@@ -1,7 +1,7 @@
-package io.philoyui.stock.controller;
+package io.philoyui.mystock.controller;
 
-import io.philoyui.stock.service.FocusStockService;
-import io.philoyui.stock.service.MyStockService;
+import io.philoyui.focus.service.FocusStockService;
+import io.philoyui.mystock.service.MyStockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

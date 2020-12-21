@@ -1,17 +1,17 @@
-package io.philoyui.stock.service.impl;
+package io.philoyui.mystock.service.impl;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Lists;
-import io.philoyui.stock.dao.MyStockDao;
+import io.philoyui.mystock.dao.MyStockDao;
 import io.philoyui.stock.dao.StockDao;
-import io.philoyui.stock.entity.FocusStockEntity;
-import io.philoyui.stock.entity.MyStockEntity;
+import io.philoyui.focus.entity.FocusStockEntity;
+import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.stock.entity.StockEntity;
-import io.philoyui.stock.service.FocusStockService;
-import io.philoyui.stock.service.MyStockService;
+import io.philoyui.focus.service.FocusStockService;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.service.TagService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.dao.TagDao;

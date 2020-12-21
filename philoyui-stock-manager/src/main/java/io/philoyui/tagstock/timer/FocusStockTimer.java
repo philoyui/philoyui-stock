@@ -2,8 +2,8 @@ package io.philoyui.tagstock.timer;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import io.philoyui.stock.entity.FocusStockEntity;
-import io.philoyui.stock.service.FocusStockService;
+import io.philoyui.focus.entity.FocusStockEntity;
+import io.philoyui.focus.service.FocusStockService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.entity.TagStockEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +38,14 @@ public class FocusStockTimer {
         Set<String> stockName8 = findByTagName("RSI底背离(日)");
         Set<String> stockName9 = findByTagName("CCI底背离(日)");
         Set<String> stockName10 = findByTagName("启明星");
-        Set<String> stockName6 = findByTagName("三金叉选股");
 
-        Set<String> stockName14 = findByTagName("MACD底背离(日)");
-        Set<String> stockName15 = findByTagName("MACD底背离(15min)");
-        Set<String> stockName16 = findByTagName("MACD底背离(30min)");
-        Set<String> stockName17 = findByTagName("MACD底背离(60min)");
-        Set<String> stockName18 = findByTagName("MACD底背离(周)");
-        Set<String> stockName19 = findByTagName("RSI底背离(日)");
-        Set<String> stockName20 = findByTagName("CCI底背离(日)");
+        Set<String> stockName14 = findByTagName("MACD顶背离(日)");
+        Set<String> stockName15 = findByTagName("MACD顶背离(15min)");
+        Set<String> stockName16 = findByTagName("MACD顶背离(30min)");
+        Set<String> stockName17 = findByTagName("MACD顶背离(60min)");
+        Set<String> stockName18 = findByTagName("MACD顶背离(周)");
+        Set<String> stockName19 = findByTagName("RSI顶背离(日)");
+        Set<String> stockName20 = findByTagName("CCI顶背离(日)");
 
         Set<String> stockName11 = findByTagName("债务风险");
         Set<String> stockName12 = findByTagName("市盈率泡沫");
@@ -56,7 +55,6 @@ public class FocusStockTimer {
         stockSet.addAll(stockName3);
         stockSet.addAll(stockName4);
         stockSet.addAll(stockName5);
-        stockSet.addAll(stockName6);
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
         stockSet.addAll(stockName10);

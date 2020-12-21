@@ -5,6 +5,7 @@ import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
+import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.button.column.NewPageOperation;
@@ -12,9 +13,9 @@ import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import io.philoyui.stock.entity.FocusStockEntity;
-import io.philoyui.stock.service.FocusStockService;
-import io.philoyui.stock.service.MyStockService;
+import io.philoyui.focus.entity.FocusStockEntity;
+import io.philoyui.focus.service.FocusStockService;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.service.StockService;
 import io.philoyui.stock.service.TradingViewService;
 import io.philoyui.tagstock.service.SarDataService;
@@ -77,9 +78,8 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "symbol","level"
                 )
                 .withColumnAction(
-                        new NewPageOperation("标签详细信息","/admin/tag_stock/page?symbol=#symbol#","标签详细信息","symbol"),
-                        new EditOperation(),
-                        new DeleteOperation()
+                        new NewPageOperation("标签","/admin/tag_stock/page?symbol=#symbol#","标签","symbol"),
+                        new ConfirmOperation("addMyStock","加入自选")
                 )
                 .withDefaultPageSize("200");
         return pageConfig;

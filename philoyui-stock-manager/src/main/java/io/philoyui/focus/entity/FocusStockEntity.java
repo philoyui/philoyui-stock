@@ -1,4 +1,4 @@
-package io.philoyui.stock.entity;
+package io.philoyui.focus.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

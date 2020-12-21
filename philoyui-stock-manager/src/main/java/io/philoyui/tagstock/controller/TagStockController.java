@@ -1,10 +1,10 @@
 package io.philoyui.tagstock.controller;
 
 import io.philoyui.tagstock.timer.DayTagTimer;
-import io.philoyui.tagstock.timer.FocusStockTimer;
 import io.philoyui.tagstock.timer.MinTagTimer;
 import io.philoyui.tagstock.timer.WeekTagTimer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,18 +22,21 @@ public class TagStockController {
     private WeekTagTimer weekTagTimer;
 
     @RequestMapping("/dayTask")
-    public void dayTask(){
+    public ResponseEntity<String> dayTask(){
         dayTagTimer.execute();
+        return ResponseEntity.ok("success");
     }
 
     @RequestMapping("/minTask")
-    public void minTask(){
+    public ResponseEntity<String> minTask(){
         minTagTimer.execute();
+        return ResponseEntity.ok("success");
     }
 
     @RequestMapping("/weekTagTimer")
-    public void weekTagTimer(){
+    public ResponseEntity<String> weekTagTimer(){
         weekTagTimer.execute();
+        return ResponseEntity.ok("success");
     }
 
 }

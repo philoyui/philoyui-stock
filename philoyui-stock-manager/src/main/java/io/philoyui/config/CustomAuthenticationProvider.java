@@ -1,4 +1,4 @@
-package io.philoyui.stock.config;
+package io.philoyui.config;
 
 
 import org.springframework.security.authentication.AuthenticationProvider;

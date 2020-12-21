@@ -1,4 +1,4 @@
-package io.philoyui.stock.config;
+package io.philoyui.config;
 
 import cn.com.gome.page.plugins.upload.FileUploadPlugin;
 import com.aliyun.oss.OSS;

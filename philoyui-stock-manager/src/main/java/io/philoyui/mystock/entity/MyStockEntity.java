@@ -1,4 +1,4 @@
-package io.philoyui.stock.entity;
+package io.philoyui.mystock.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;

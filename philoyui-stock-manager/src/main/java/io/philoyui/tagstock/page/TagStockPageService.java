@@ -3,14 +3,12 @@ package io.philoyui.tagstock.page;
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
-import cn.com.gome.page.button.batch.ConfirmOperation;
-import cn.com.gome.page.button.batch.TableAction;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import io.philoyui.stock.service.MyStockService;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.service.StockService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.entity.TagStockEntity;
@@ -56,10 +54,9 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
                 )
                 .withTableAction(
-                        new TableOperation("dayTask","dayTask", ButtonStyle.Blue),
-                        new TableOperation("minTask","minTask", ButtonStyle.Orange),
-                        new TableOperation("weekTask","weekTask", ButtonStyle.Green),
-                        new TableOperation("focusTask","focusTask", ButtonStyle.Blue)
+                        new TableOperation("日任务","dayTask", ButtonStyle.Blue),
+                        new TableOperation("分钟任务","minTask", ButtonStyle.Orange),
+                        new TableOperation("周任务","weekTask", ButtonStyle.Green)
                 )
                 .withTableColumnDefinitions(
                         "symbol_8",
