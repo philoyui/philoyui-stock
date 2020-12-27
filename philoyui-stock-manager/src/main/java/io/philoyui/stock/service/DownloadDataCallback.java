@@ -1,10 +1,10 @@
 package io.philoyui.stock.service;
 
-import io.philoyui.stock.entity.StockEntity;
+import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.stock.to.KLineData;
 
 public interface DownloadDataCallback {
 
-    void process(StockEntity stockEntity, KLineData[] KLineDataArray);
+    void process(MyStockEntity stockEntity, KLineData[] KLineDataArray);
 
 }

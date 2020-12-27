@@ -1,7 +1,10 @@
 package io.philoyui.stock.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.philoyui.mystock.entity.MyStockEntity;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.entity.StockEntity;
 import io.philoyui.stock.entity.enu.TaskType;
 import io.philoyui.stock.service.DownloadDataCallback;
@@ -24,7 +27,7 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
     private static final Logger LOG = LoggerFactory.getLogger(KLineDataDownloaderImpl.class);
 
     @Autowired
-    private StockService stockService;
+    private MyStockService myStockService;
 
     private static Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -32,9 +35,9 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
 
     @Override
     public void download(TaskType taskType, DownloadDataCallback downloadDataCallback) {
-        List<StockEntity> financialProductEntities = stockService.findEnable();
-        for (StockEntity financialProduct : financialProductEntities) {
-            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+financialProduct.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
+        List<MyStockEntity> stockEntityList = myStockService.list(SearchFilter.getDefault());
+        for (MyStockEntity myStockEntity : stockEntityList) {
+            String fetchUrl = "http://money.finance.sina.com.cn/quotes_service/api/json_v2.php/CN_MarketData.getKLineData?symbol="+myStockEntity.getSymbol()+"&scale="+ taskType.getMinute()+"&ma=no&datalen=80";
             try {
                 Connection.Response response = Jsoup.connect(fetchUrl)
                         .header("Content-Type", "application/json")
@@ -44,9 +47,9 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
 
                 KLineData[] KLineDataArray = gson.fromJson(response.body(), KLineData[].class);
 
-                downloadDataCallback.process(financialProduct, KLineDataArray);
+                downloadDataCallback.process(myStockEntity, KLineDataArray);
 
-                LOG.info("下载历史数据成功：" + taskType + " " + financialProduct.getSymbol());
+                LOG.info("下载历史数据成功：" + taskType + " " + myStockEntity.getSymbol());
 
             } catch (IOException e) {
                 e.printStackTrace();

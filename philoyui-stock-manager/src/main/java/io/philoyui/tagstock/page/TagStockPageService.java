@@ -48,7 +48,6 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         new DateFieldDefinition("createdTime", "创建时间"),
                         new StringFieldDefinition("dayString", "时间标识"),
                         new StringFieldDefinition("lastDayString","时间标识2"),
-                        new StringFieldDefinition("symbol", "股票名称"),
                         new ImageFieldDefinition("symbol", "周线图", 300, 200).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 300, 200).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new ListToStringFieldDefinition("symbol","标签", symbol -> tagStockService.findLastBySymbol((String)symbol).stream().map(TagStockEntity::getTagName).collect(Collectors.toList())).aliasName("tagList")
@@ -56,7 +55,8 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                 .withTableAction(
                         new TableOperation("日任务","dayTask", ButtonStyle.Blue),
                         new TableOperation("分钟任务","minTask", ButtonStyle.Orange),
-                        new TableOperation("周任务","weekTask", ButtonStyle.Green)
+                        new TableOperation("周任务","weekTask", ButtonStyle.Green),
+                        new TableOperation("月任务","monthTask", ButtonStyle.Blue)
                 )
                 .withTableColumnDefinitions(
                         "symbol_8",

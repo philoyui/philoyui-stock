@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author DELL
+ */
 public class KLineData implements Serializable {
 
     private Date day;
