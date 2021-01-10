@@ -64,7 +64,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),
                 new IntFieldDefinition("score","得分"),
-                new IntFieldDefinition("reason","原因"),
+                new StringFieldDefinition("reason","原因"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(

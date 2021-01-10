@@ -1,11 +1,11 @@
 package io.philoyui.stock.tradingview;
 
 import com.google.gson.GsonBuilder;
-import io.philoyui.stock.entity.TradingViewEntity;
-import io.philoyui.stock.service.TradingViewService;
-import io.philoyui.stock.to.TradingViewFilter;
-import io.philoyui.stock.to.TradingViewResult;
-import io.philoyui.stock.to.TradingViewVo;
+import io.philoyui.tradingview.entity.TradingViewEntity;
+import io.philoyui.tradingview.service.TradingViewService;
+import io.philoyui.tradingview.to.TradingViewFilter;
+import io.philoyui.tradingview.to.TradingViewResult;
+import io.philoyui.tradingview.to.TradingViewVo;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.junit.Test;

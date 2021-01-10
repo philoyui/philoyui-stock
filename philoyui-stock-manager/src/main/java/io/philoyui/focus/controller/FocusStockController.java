@@ -1,8 +1,7 @@
 package io.philoyui.focus.controller;
 
 import io.philoyui.focus.service.FocusStockService;
-import io.philoyui.mystock.service.MyStockService;
-import io.philoyui.tagstock.timer.FocusStockTimer;
+import io.philoyui.focus.timer.FocusStockTimer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

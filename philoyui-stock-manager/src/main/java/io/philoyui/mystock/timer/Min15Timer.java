@@ -8,9 +8,12 @@ import io.philoyui.stock.service.DownloadDataCallback;
 import io.philoyui.stock.service.KLineDataDownloader;
 import io.philoyui.stock.to.KLineData;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,7 @@ public class Min15Timer {
     @Autowired
     private KLineDataDownloader kLineDataDownloader;
 
+    @Scheduled(cron="0 0,15,30,45 9,10,11,13,14 * * 1-5")
     public void execute(){
 
         min15DataService.deleteAll();

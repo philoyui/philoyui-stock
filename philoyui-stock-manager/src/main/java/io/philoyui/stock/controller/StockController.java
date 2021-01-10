@@ -2,7 +2,6 @@ package io.philoyui.stock.controller;
 
 
 import io.philoyui.stock.service.StockService;
-import io.philoyui.stock.service.TradingViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

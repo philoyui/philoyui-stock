@@ -48,7 +48,7 @@ engine = create_engine(build_mysql_connection())
 conn = engine.connect()
 
 # 获取指定日期的指数、股票数据
-stock_rs = bs.query_all_stock("2020-09-01")
+stock_rs = bs.query_all_stock("2021-01-01")
 stock_df = stock_rs.get_data()
 data_df = pd.DataFrame()
 
