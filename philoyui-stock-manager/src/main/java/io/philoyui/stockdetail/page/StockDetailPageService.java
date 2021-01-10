@@ -2,12 +2,14 @@ package io.philoyui.stockdetail.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
-import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
-import cn.com.gome.page.field.*;
-import io.philoyui.stock.entity.StockEntity;
+import cn.com.gome.page.field.DateFieldDefinition;
+import cn.com.gome.page.field.DoubleFieldDefinition;
+import cn.com.gome.page.field.LongFieldDefinition;
+import cn.com.gome.page.field.StringFieldDefinition;
+import io.philoyui.stock.service.StockService;
 import io.philoyui.stockdetail.entity.StockDetailEntity;
 import io.philoyui.stockdetail.service.StockDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StockDetailPageService extends PageService<StockDetailEntity,Long> {
+
+    @Autowired
+    private StockService stockService;
 
     @Autowired
     private StockDetailService stockDetailService;
@@ -33,24 +38,44 @@ public class StockDetailPageService extends PageService<StockDetailEntity,Long> 
                 .withFieldDefinitions(
                         new LongFieldDefinition("id", "ID"),
                         new StringFieldDefinition("symbol", "股票编码"),
-                        new StringFieldDefinition("cashInfo","现金详情"),
-                        new StringFieldDefinition("epsInfo","市盈率信息"),
-                        new StringFieldDefinition("turnOverInfo","换手率"),
-                        new DateFieldDefinition("createdTime","创建时间"),
-                        new DateFieldDefinition("modifyTime","修改时间")
-
+                        new StringFieldDefinition("symbol", "股票名").beforeView(symbol -> stockService.findStockName((String)symbol)).aliasName("stockName"),
+                        new DoubleFieldDefinition("caToAssetValue","现金占比值"),
+                        new DoubleFieldDefinition("gpMarginValue","毛利率"),
+                        new DoubleFieldDefinition("npMarginValue","净利率"),
+                        new DoubleFieldDefinition("roeAvgValue","回报率"),
+                        new DoubleFieldDefinition("nrTurnDaysValue","应收账款周转天数"),
+                        new DoubleFieldDefinition("assetTurnRatioValue","总资产周转率值"),
+                        new DoubleFieldDefinition("invTurnDaysValue","存货周转率值"),
+                        new DoubleFieldDefinition("liabilityToAssetValue","资产负债值"),
+                        new DoubleFieldDefinition("quickRatioValue","速动比率值")
                 )
                 .withTableColumnDefinitions(
-                        "symbol_10",
-                        "cashInfo_10",
-                        "epsInfo_10",
-                        "turnOverInfo_10",
-                        "createdTime_10",
-                        "modifyTime_10",
-                        "#operation_40"
+                        "symbol_8",
+                        "stockName_8",
+                        "caToAssetValue_8",
+                        "gpMarginValue_8",
+                        "npMarginValue_8",
+                        "roeAvgValue_8",
+                        "nrTurnDaysValue_8",
+                        "assetTurnRatioValue_8",
+                        "invTurnDaysValue_8",
+                        "liabilityToAssetValue_8",
+                        "quickRatioValue_8",
+                        "#operation_12"
                 )
                 .withFilterDefinitions(
-                        "symbol","cashInfo","epsInfo","turnOverInfo"
+                        "symbol","caToAssetValue","gpMarginValue","npMarginValue","roeAvgValue","nrTurnDaysValue","assetTurnRatioValue","invTurnDaysValue","liabilityToAssetValue","quickRatioValue"
+                )
+                .withSortDefinitions(
+                        "caToAssetValue_desc",
+                        "gpMarginValue_desc",
+                        "npMarginValue_desc",
+                        "roeAvgValue_desc",
+                        "nrTurnDaysValue_desc",
+                        "assetTurnRatioValue_desc",
+                        "invTurnDaysValue_desc",
+                        "liabilityToAssetValue_desc",
+                        "quickRatioValue_desc"
                 )
                 .withDefaultPageSize("100")
                 ;
