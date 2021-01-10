@@ -37,13 +37,13 @@ public class TagStockController {
         return ResponseEntity.ok("success");
     }
 
-    @RequestMapping("/weekTagTimer")
+    @RequestMapping("/weekTask")
     public ResponseEntity<String> weekTagTimer(){
         weekTagTimer.execute();
         return ResponseEntity.ok("success");
     }
 
-    @RequestMapping("/monthTagTimer")
+    @RequestMapping("/monthTask")
     public ResponseEntity<String> monthTagTimer(){
         monthTagTimer.execute();
         return ResponseEntity.ok("success");
