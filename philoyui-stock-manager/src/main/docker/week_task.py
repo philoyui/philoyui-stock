@@ -1,102 +1,82 @@
-import math
-
 import datetime
-from datetime import timedelta
 
+from sqlalchemy import create_engine
+from base import build_mysql_connection
 import baostock as bs
 import pandas as pd
-import talib
-from sqlalchemy import create_engine
-
-from base import build_mysql_connection
+import urllib3
+import logging
 
 bs.login()
+
+current_month = datetime.date.today().month
+current_year = datetime.date.today().year
+quarter = (current_month-1) // 3 + 1
+
+
+# 去年三季度
+if current_month < 5:
+    assign_year = current_year - 1
+    assign_quarter = 3
+    last_year_1 = current_year - 2
+    last_year_2 = current_year - 3
+    last_year_3 = current_year - 4
+# 可查询一季报和去年年报
+if 5 <= current_month <= 8:
+    assign_year = current_year
+    assign_quarter = 1
+    last_year_1 = current_year - 1
+    last_year_2 = current_year - 2
+    last_year_3 = current_year - 3
+# 可查询二季度
+if 9 <= current_month <= 10:
+    assign_year = current_year
+    assign_quarter = 2
+    last_year_1 = current_year - 1
+    last_year_2 = current_year - 2
+    last_year_3 = current_year - 3
+# 可查三季度
+if 11 <= current_month <= 12:
+    assign_year = current_year
+    assign_quarter = 3
+    last_year_1 = current_year - 1
+    last_year_2 = current_year - 2
+    last_year_3 = current_year - 3
 
 now = datetime.datetime.now()
 day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
 
+engine = create_engine(build_mysql_connection())
+conn = engine.connect()
+http = urllib3.PoolManager()
+
 # 获取指定日期的指数、股票数据
-stock_rs = bs.query_all_stock(day_string)
+stock_rs = bs.query_all_stock("2021-01-06")
 stock_df = stock_rs.get_data()
 data_df = pd.DataFrame()
 
-engine = create_engine(build_mysql_connection())
-conn = engine.connect()
-
 
 def truncate_tables():
-    truncate_macd_sql = "truncate table macd_data_entity"
-    conn.execute(truncate_macd_sql)
-    truncate_rsi_sql = "truncate table rsi_data_entity"
-    conn.execute(truncate_rsi_sql)
-    truncate_sar_sql = "truncate table sar_data_entity"
-    conn.execute(truncate_sar_sql)
-    truncate_wr_sql = "truncate table wr_data_entity"
-    conn.execute(truncate_wr_sql)
-    truncate_wr_sql = "truncate table kdj_data_entity"
-    conn.execute(truncate_wr_sql)
-    truncate_tag_sql = "delete from stock_tag where interval_type = 1"
+    truncate_tag_sql = "delete from stock_tag where interval_type = 2"
     conn.execute(truncate_tag_sql)
 
 
 def mark_tag_stock(symbol, tag_name):
     tag_sql = "INSERT INTO stock_tag (created_time, symbol, tag_name, day_string, interval_type, last_index" \
-          ") VALUES (str_to_date('" + day_string + "', '%%Y-%%m-%%d') , '" \
-          + symbol + "', '" + tag_name + "', '" + day_string + "', 2, -1)"
+              ") VALUES (str_to_date('" + day_string + "', '%%Y-%%m-%%d') , '" \
+              + symbol + "', '" + tag_name + "', '" + day_string + "', 2, -1)"
     conn.execute(tag_sql)
 
 
-def mark_macd_value(symbol, interval_type, macd_type_string, last_index):
-    macd_sql = "INSERT INTO macd_data_entity (close_value, day, day_String, hist_value, interval_type, macd_type, " \
-          "macd_value, signal_value, symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
-          ", str_to_date('" + day_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
-          + day_array[-1 - i] + "', " + str(hist_array[-1 - i]) + ", '" + interval_type + "', '" \
-          + macd_type_string + "', " + str(macd_array[-1 - i]) + ", " + str(signal_array[-1 - i]) + ", '"\
-          + symbol + "', " + str(last_index) + ")"
-    conn.execute(macd_sql)
-
-
-def mark_rsi_value(symbol, interval_type, rsi_type_string, last_index):
-    rsi_sql = "INSERT INTO rsi_data_entity (close_value, day, day_String, interval_type, rsi_type, " \
-          "symbol, rsi_value, last_index) VALUES (" + str(close_array[-1 - i]) + \
-          ", str_to_date('" + day_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
-          + day_array[-1 - i] + "', '" + interval_type + "', '" \
-          + rsi_type_string + "','"\
-          + symbol + "'," + str(rsi[-1 - i]) + "," + str(last_index) + ")"
-    conn.execute(rsi_sql)
-
-
-def mark_sar_value(symbol, interval_type, sar_type_string, last_index):
-    sar_sql = "INSERT INTO sar_data_entity (close_value, day, day_String, interval_type, sar_type, " \
-          "symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
-          ", str_to_date('" + day_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
-          + day_array[-1 - i] + "', '" + interval_type + "', '" \
-          + sar_type_string + "','"\
-          + symbol + "', " + str(last_index) + ")"
-    conn.execute(sar_sql)
-
-
-def mark_wr_value(symbol, interval_type, wr_type_string, last_index):
-    wr_sql = "INSERT INTO wr_data_entity (close_value, day, day_String, wr20value, interval_type, wr_type, " \
-          " symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
-          ", str_to_date('" + day_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
-             + day_array[-1 - i] + "', " + str(wr20[-1 - i]) + ", '" + interval_type + "', '" \
-             + wr_type_string + "', '" \
-             + symbol + "', " + str(last_index) + ")"
-    conn.execute(wr_sql)
-
-
-def mark_kjd_value(symbol, interval_type, kdj_type_string, last_index):
-    kdj_sql = "INSERT INTO kdj_data_entity (close_value, day, day_String, k_value, interval_type, kdj_type, " \
-          "d_value, j_value, symbol, last_index) VALUES (" + str(close_array[-1 - i]) + \
-          ", str_to_date('" + day_array[-1 - i] + "', '%%Y-%%m-%%d %%H:%%i:%%s') , '" \
-          + day_array[-1 - i] + "', " + str(k.values[length-1-i][0]) + ", '" + interval_type + "', '" \
-          + kdj_type_string + "', " + str(d.values[length-1-i][0]) + ", " + str(j.values[length-1-i][0]) + ", '"\
-          + symbol + "', " + str(last_index) + ")"
-    conn.execute(kdj_sql)
+def mark_symbol_detail(symbol, field, info ,value):
+    http.request('GET', "http://localhost:8081/api/stock_detail/editField?symbol=" + symbol + "&field=" + field +
+                 "&info=" + info + "&value=" + value).read()
+    pass
 
 
 truncate_tables()
+
+print(stock_df)
 
 for stock_code in stock_df["code"]:
 
@@ -108,75 +88,155 @@ for stock_code in stock_df["code"]:
     if symbol_string.startswith("sz399"):
         continue
 
-    startDay = (datetime.datetime.now() - datetime.timedelta(days=504)).strftime("%Y-%m-%d")
+    profit_list_1 = []
+    profit_list_2 = []
+    profit_list_3 = []
+    balance_list = []
+    cash_flow_list = []
+    operation_list = []
 
-    interval_type_string = "Week"
+    rs_profit_1 = bs.query_profit_data(code=stock_code, year=last_year_1, quarter=4)
+    rs_profit_2 = bs.query_profit_data(code=stock_code, year=last_year_2, quarter=4)
+    rs_profit_3 = bs.query_profit_data(code=stock_code, year=last_year_3, quarter=4)
+    rs_balance = bs.query_balance_data(code=stock_code, year=assign_year, quarter=assign_quarter)
+    rs_cash_flow = bs.query_cash_flow_data(code=stock_code, year=assign_year, quarter=assign_quarter)
+    rs_operation = bs.query_operation_data(code=stock_code, year=assign_year, quarter=assign_quarter)
 
-    week_result = bs.query_history_k_data_plus(stock_code, "date,code,open,high,low,close,volume,amount,adjustflag",
-                                               start_date=startDay, end_date='',
-                                               frequency="w", adjustflag="2")
-
-    day_data_list = []
-    while (week_result.error_code == '0') & week_result.next():
-        day_data_list.append(week_result.get_row_data())
-    day_data_frame = pd.DataFrame(day_data_list, columns=week_result.fields)
-
+    while (rs_profit_1.error_code == '0') & rs_profit_1.next():
+        profit_list_1.append(rs_profit_1.get_row_data())
+        profit_list_2.append(rs_profit_2.get_row_data())
+        profit_list_3.append(rs_profit_3.get_row_data())
+        balance_list.append(rs_balance.get_row_data())
+        cash_flow_list.append(rs_cash_flow.get_row_data())
+        operation_list.append(rs_operation.get_row_data())
     try:
-        open_array = day_data_frame['open'].astype(float).values
-        close_array = day_data_frame['close'].astype(float).values
-        day_array = day_data_frame['date'].values
-        high_array = day_data_frame['high'].astype(float).values
-        low_array = day_data_frame['low'].astype(float).values
+        result_profit_1 = pd.DataFrame(profit_list_1, columns=rs_profit_1.fields)
+        result_profit_2 = pd.DataFrame(profit_list_2, columns=rs_profit_2.fields)
+        result_profit_3 = pd.DataFrame(profit_list_3, columns=rs_profit_3.fields)
+        result_balance = pd.DataFrame(balance_list, columns=rs_balance.fields)
+        result_cash_flow = pd.DataFrame(cash_flow_list, columns=rs_cash_flow.fields)
+        result_operation = pd.DataFrame(operation_list, columns=rs_operation.fields)
 
-        low_list = day_data_frame['low'].rolling(9, min_periods=9).min()
-        low_list.fillna(value=day_data_frame['low'].expanding().min(), inplace=True)
-        high_list = day_data_frame['high'].rolling(9, min_periods=9).max()
-        high_list.fillna(value=day_data_frame['high'].expanding().max(), inplace=True)
-        rsv = (close_array - low_list) / (high_list - low_list) * 100
-        k = pd.DataFrame(rsv).ewm(com=2).mean()
-        d = k.ewm(com=2).mean()
-        j = 3 * k - 2 * d
-        length = close_array.size
+        if result_profit_1.size > 0:
+            try:
+                if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
+                        result_profit_3["roeAvg"][0]) >= 0.18:
+                    mark_tag_stock(symbol_string, "大白马")
+                if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
+                        float(result_profit_3["roeAvg"][0]):
+                    mark_tag_stock(symbol_string, "三年业绩上升")
 
-        macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
+                if float(result_profit_1["gpMargin"][0]) < 0.1:
+                    mark_symbol_detail(symbol_string, "gpMargin", "生意很难做", result_profit_1["gpMargin"][0])
+                if 0.1 <= float(result_profit_1["gpMargin"][0]) < 0.2:
+                    mark_symbol_detail(symbol_string, "gpMargin", "生意很艰辛", result_profit_1["gpMargin"][0])
+                if 0.2 <= float(result_profit_1["gpMargin"][0]) < 0.3:
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还可以", result_profit_1["gpMargin"][0])
+                if 0.3 <= float(result_profit_1["gpMargin"][0]) < 0.4:
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还不错", result_profit_1["gpMargin"][0])
+                if 0.4 <= float(result_profit_1["gpMargin"][0]) < 0.55:
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利很高", result_profit_1["gpMargin"][0])
+                if 0.5 <= float(result_profit_1["gpMargin"][0]) < 0.7:
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利超高", result_profit_1["gpMargin"][0])
+                if float(result_profit_1["gpMargin"][0]) >= 0.7:
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利堪比卖白粉", result_profit_1["gpMargin"][0])
 
-        rsi = talib.RSI(close_array, timeperiod=14)
+                if float(result_profit_1["npMargin"][0]) < 0:
+                    mark_symbol_detail(symbol_string, "npMargin", "这个生意赚不到钱", result_profit_1["npMargin"][0])
+                if 0 <= float(result_profit_1["npMargin"][0]) < 10:
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润一般", result_profit_1["npMargin"][0])
+                if 10 <= float(result_profit_1["npMargin"][0]) < 20:
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润不错", result_profit_1["npMargin"][0])
+                if 20 <= float(result_profit_1["npMargin"][0]) < 30:
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润优异", result_profit_1["npMargin"][0])
+                if float(result_profit_1["npMargin"][0]) >= 30:
+                    mark_symbol_detail(symbol_string, "npMargin", "即使税后也非常赚钱", result_profit_1["npMargin"][0])
 
-        real = talib.SAR(high_array, low_array, acceleration=0.02, maximum=0.2)
+                if float(result_profit_1["roeAvg"][0]) < 0:
+                    mark_symbol_detail(symbol_string, "roeAvg", "股东在亏损", result_profit_1["roeAvg"][0])
+                if 0 <= float(result_profit_1["roeAvg"][0]) < 0.1:
+                    mark_symbol_detail(symbol_string, "roeAvg", "收益率不高.", result_profit_1["roeAvg"][0])
+                if 0.1 <= float(result_profit_1["roeAvg"][0]) < 0.15:
+                    mark_symbol_detail(symbol_string, "roeAvg", "还可以的收益", result_profit_1["roeAvg"][0])
+                if 0.15 <= float(result_profit_1["roeAvg"][0]) < 0.2:
+                    mark_symbol_detail(symbol_string, "roeAvg", "不错的回报率", result_profit_1["roeAvg"][0])
+                if 0.2 <= float(result_profit_1["roeAvg"][0]) < 0.3:
+                    mark_symbol_detail(symbol_string, "roeAvg", "能够打败巴菲特的回报率", result_profit_1["roeAvg"][0])
+                if float(result_profit_1["roeAvg"][0]) > 0.3:
+                    mark_symbol_detail(symbol_string, "roeAvg", "很牛逼的回报率", result_profit_1["roeAvg"][0])
+            except ValueError as e:
+                logging.exception(e)
 
-        wr20 = talib.WILLR(high_array, low_array, close_array, timeperiod=20)
+        if result_cash_flow.size > 0:
+            try:
+                if float(result_cash_flow["CAToAsset"][0]) < 0.1:
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气很短", result_cash_flow["CAToAsset"][0])
+                if 0.1 <= float(result_cash_flow["CAToAsset"][0]) < 0.15:
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气一般", result_cash_flow["CAToAsset"][0])
+                if 0.15 <= float(result_cash_flow["CAToAsset"][0]) < 0.25:
+                    mark_symbol_detail(symbol_string, "CAToAsset", "现金充足", result_cash_flow["CAToAsset"][0])
+                if float(result_cash_flow["CAToAsset"][0]) >= 0.25:
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气很长", result_cash_flow["CAToAsset"][0])
+            except ValueError as e:
+                logging.exception(e)
 
-    except ValueError:
-        print(symbol_string)
-    except ZeroDivisionError:
-        print(symbol_string)
-    else:
-        print(symbol_string)
+        if result_operation.size > 0:
+            try:
+                if float(result_operation["NRTurnDays"][0]) < 15:
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "天天收现金", result_operation["NRTurnDays"][0])
+                if 15 <= float(result_operation["NRTurnDays"][0]) < 80:
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款很快", result_operation["NRTurnDays"][0])
+                if 80 <= float(result_operation["NRTurnDays"][0]) < 100:
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度一般", result_operation["NRTurnDays"][0])
+                if 100 <= float(result_operation["NRTurnDays"][0]) < 150:
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度很慢", result_operation["NRTurnDays"][0])
+                if float(result_operation["NRTurnDays"][0]) >= 150:
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度也太慢了吧!", result_operation["NRTurnDays"][0])
 
-    for i in range(len(close_array)-2):
+                if float(result_operation["AssetTurnRatio"][0]) < 1:
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "重资产,周转很慢，风险高，需关注现金", result_operation["AssetTurnRatio"][0])
+                if 1 <= float(result_operation["AssetTurnRatio"][0]) < 1.5:
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营稳健,还不错.", result_operation["AssetTurnRatio"][0])
+                if 1.5 <= float(result_operation["AssetTurnRatio"][0]) < 2:
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营效率优异", result_operation["AssetTurnRatio"][0])
+                if float(result_operation["AssetTurnRatio"][0]) >= 2:
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "团队运营超一流!", result_operation["AssetTurnRatio"][0])
 
-        if macd_array[-1-i] is not None:
-            if macd_array[-1-i] > signal_array[-1-i] and macd_array[-2-i] < signal_array[-2-i]:
-                mark_macd_value(symbol_string, interval_type_string, "GOLDEN_CROSS", -1-i)
-            if macd_array[-1-i] < signal_array[-1-i] and macd_array[-2-i] > signal_array[-2-i]:
-                mark_macd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1-i)
+                if float(result_operation["INVTurnDays"][0]) < 10:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "基本无存货,产品火爆.", result_operation["INVTurnDays"][0])
+                if 10 <= float(result_operation["INVTurnDays"][0]) < 30:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的很快,口碑好", result_operation["INVTurnDays"][0])
+                if 30 <= float(result_operation["INVTurnDays"][0]) < 60:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的不错", result_operation["INVTurnDays"][0])
+                if 60 <= float(result_operation["INVTurnDays"][0]) < 100:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的一般.", result_operation["INVTurnDays"][0])
+                if 100 <= float(result_operation["INVTurnDays"][0]) < 150:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "卖货很慢,属于原物料或低频消费品.", result_operation["INVTurnDays"][0])
+                if float(result_operation["INVTurnDays"][0]) >= 150:
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "产品可能不好卖,特殊产业除外(酒类,地产等).", result_operation["INVTurnDays"][0])
+            except ValueError as e:
+                logging.exception(e)
 
-        if k.values[length - 1 - i] is not None:
-            if d.values[length - 1 - i][0] < k.values[length - 1 - i][0] and d.values[length - 2 - i][0] > \
-                    k.values[length - 2 - i][0]:
-                mark_kjd_value(symbol_string, interval_type_string, "GOLDEN_CROSS", -1 - i)
-            if d.values[length - 1 - i][0] > k.values[length - 1 - i][0] and d.values[length - 2 - i][0] < \
-                    k.values[length - 2 - i][0]:
-                mark_kjd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1 - i)
+        if result_balance.size > 0:
+            try:
+                if float(result_balance["liabilityToAsset"][0]) < 0.3:
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "基本没什么杆杠，看来股东非常看好公司", result_balance["liabilityToAsset"][0])
+                if 0.3 <= float(result_balance["liabilityToAsset"][0]) < 0.4:
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "不用举债就能存活很好.", result_balance["liabilityToAsset"][0])
+                if 0.4 <= float(result_balance["liabilityToAsset"][0]) < 0.6:
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠稳健", result_balance["liabilityToAsset"][0])
+                if 0.6 <= float(result_balance["liabilityToAsset"][0]) < 0.8:
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠偏高.", result_balance["liabilityToAsset"][0])
+                if float(result_balance["liabilityToAsset"][0]) >= 0.8:
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠过大,风险偏高", result_balance["liabilityToAsset"][0])
 
-        if rsi[-1-i] is not None:
-            if rsi[-2 - i] > rsi[-3 - i] > 70 and rsi[-1 - i] < rsi[-2 - i] and rsi[-2 - i] > 70 and \
-                    rsi[-1 - i] > 70:
-                mark_rsi_value(symbol_string, interval_type_string, "TOP", -1-i)
-            if rsi[-2 - i] < rsi[-3 - i] < 30 and rsi[-1 - i] > rsi[-2 - i] and rsi[-2 - i] < 30 and\
-                    rsi[-1 - i] < 30:
-                mark_rsi_value(symbol_string, interval_type_string, "BOTTOM", -1-i)
-
-    print("parse " + symbol_string + " complete!!")
-
-bs.logout()
+                if float(result_balance["quickRatio"][0]) < 1.0:
+                    mark_symbol_detail(symbol_string, "quickRatio", "如果发生债务纠纷,可能缺乏立即清偿能力.", result_balance["quickRatio"][0])
+                if 1.0 <= float(result_balance["quickRatio"][0]) < 1.5:
+                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司清偿问题不大.", result_balance["quickRatio"][0])
+                if float(result_balance["quickRatio"][0]) > 1.5:
+                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司也能立即清偿.", result_balance["quickRatio"][0])
+            except ValueError as e:
+                logging.exception(e)
+    except AssertionError as e:
+        logging.exception(e)

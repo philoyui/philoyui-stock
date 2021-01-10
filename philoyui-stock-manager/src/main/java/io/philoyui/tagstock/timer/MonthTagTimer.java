@@ -21,7 +21,7 @@ public class MonthTagTimer {
 
     @Scheduled(cron="0 0 3 1 * ?") //每月1号3点
     public void execute() {
-        runPython("min_60_task.py");
+        runPython("month_task.py");
     }
 
     private void runPython(String pythonName) {
