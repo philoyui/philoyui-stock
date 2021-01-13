@@ -76,8 +76,6 @@ def mark_symbol_detail(symbol, field, info ,value):
 
 truncate_tables()
 
-print(stock_df)
-
 for stock_code in stock_df["code"]:
 
     symbol_string = stock_code[0:2] + stock_code[3:9]
