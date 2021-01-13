@@ -14,28 +14,24 @@ current_year = datetime.date.today().year
 quarter = (current_month-1) // 3 + 1
 
 
-# 去年三季度
 if current_month < 5:
     assign_year = current_year - 1
     assign_quarter = 3
     last_year_1 = current_year - 2
     last_year_2 = current_year - 3
     last_year_3 = current_year - 4
-# 可查询一季报和去年年报
 if 5 <= current_month <= 8:
     assign_year = current_year
     assign_quarter = 1
     last_year_1 = current_year - 1
     last_year_2 = current_year - 2
     last_year_3 = current_year - 3
-# 可查询二季度
 if 9 <= current_month <= 10:
     assign_year = current_year
     assign_quarter = 2
     last_year_1 = current_year - 1
     last_year_2 = current_year - 2
     last_year_3 = current_year - 3
-# 可查三季度
 if 11 <= current_month <= 12:
     assign_year = current_year
     assign_quarter = 3
@@ -50,7 +46,6 @@ engine = create_engine(build_mysql_connection())
 conn = engine.connect()
 http = urllib3.PoolManager()
 
-# 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock("2021-01-06")
 stock_df = stock_rs.get_data()
 data_df = pd.DataFrame()
