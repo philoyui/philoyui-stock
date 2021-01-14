@@ -1,5 +1,6 @@
+#coding:utf-8
+from __future__ import unicode_literals
 import datetime
-
 from sqlalchemy import create_engine
 from base import build_mysql_connection
 import baostock as bs

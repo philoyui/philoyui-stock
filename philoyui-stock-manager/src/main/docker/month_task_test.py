@@ -14,28 +14,24 @@ current_year = datetime.date.today().year
 quarter = (current_month-1) // 3 + 1
 
 
-# å»å¹´ä¸‰å­£åº¦
 if current_month < 5:
     assign_year = current_year - 1
     assign_quarter = 3
     last_year_1 = current_year - 2
     last_year_2 = current_year - 3
     last_year_3 = current_year - 4
-# å¯æŸ¥è¯¢ä¸€å­£æŠ¥å’Œå»å¹´å¹´æŠ¥
 if 5 <= current_month <= 8:
     assign_year = current_year
     assign_quarter = 1
     last_year_1 = current_year - 1
     last_year_2 = current_year - 2
     last_year_3 = current_year - 3
-# å¯æŸ¥è¯¢äºŒå­£åº¦
 if 9 <= current_month <= 10:
     assign_year = current_year
     assign_quarter = 2
     last_year_1 = current_year - 1
     last_year_2 = current_year - 2
     last_year_3 = current_year - 3
-# å¯æŸ¥ä¸‰å­£åº¦
 if 11 <= current_month <= 12:
     assign_year = current_year
     assign_quarter = 3
@@ -62,8 +58,8 @@ def truncate_tables():
 
 def mark_tag_stock(symbol, tag_name):
     tag_sql = "INSERT INTO stock_tag (created_time, symbol, tag_name, day_string, interval_type, last_index" \
-          ") VALUES (str_to_date('" + day_string + "', '%%Y-%%m-%%d') , '" \
-          + symbol + "', '" + tag_name + "', '" + day_string + "', 2, -1)"
+              ") VALUES (str_to_date('" + day_string + "', '%%Y-%%m-%%d') , '" \
+              + symbol + "', '" + tag_name + "', '" + day_string + "', 2, -1)"
     conn.execute(tag_sql)
 
 
@@ -74,8 +70,6 @@ def mark_symbol_detail(symbol, field, info ,value):
 
 
 truncate_tables()
-
-print(stock_df)
 
 for stock_code in stock_df["code"]:
 
@@ -120,121 +114,121 @@ for stock_code in stock_df["code"]:
             try:
                 if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
                         result_profit_3["roeAvg"][0]) >= 0.18:
-                    mark_tag_stock(symbol_string, u"å¤§ç™½é©¬")
+                    mark_tag_stock(symbol_string, "´ó°×Âí")
                 if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
                         float(result_profit_3["roeAvg"][0]):
-                    mark_tag_stock(symbol_string, u"ä¸‰å¹´ä¸šç»©ä¸Šå‡")
+                    mark_tag_stock(symbol_string, "ÈıÄêÒµ¼¨ÉÏÉı")
 
                 if float(result_profit_1["gpMargin"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"ç”Ÿæ„å¾ˆéš¾åš", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "ÉúÒâºÜÄÑ×ö", result_profit_1["gpMargin"][0])
                 if 0.1 <= float(result_profit_1["gpMargin"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"ç”Ÿæ„å¾ˆè‰°è¾›", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "ÉúÒâºÜ¼èĞÁ", result_profit_1["gpMargin"][0])
                 if 0.2 <= float(result_profit_1["gpMargin"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"æ¯›åˆ©è¿˜å¯ä»¥", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "Ã«Àû»¹¿ÉÒÔ", result_profit_1["gpMargin"][0])
                 if 0.3 <= float(result_profit_1["gpMargin"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"æ¯›åˆ©è¿˜ä¸é”™", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "Ã«Àû»¹²»´í", result_profit_1["gpMargin"][0])
                 if 0.4 <= float(result_profit_1["gpMargin"][0]) < 0.55:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"æ¯›åˆ©å¾ˆé«˜", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "Ã«ÀûºÜ¸ß", result_profit_1["gpMargin"][0])
                 if 0.5 <= float(result_profit_1["gpMargin"][0]) < 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"æ¯›åˆ©è¶…é«˜", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "Ã«Àû³¬¸ß", result_profit_1["gpMargin"][0])
                 if float(result_profit_1["gpMargin"][0]) >= 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", u"æ¯›åˆ©å ªæ¯”å–ç™½ç²‰", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "Ã«Àû¿°±ÈÂô°×·Û", result_profit_1["gpMargin"][0])
 
                 if float(result_profit_1["npMargin"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "npMargin", u"è¿™ä¸ªç”Ÿæ„èµšä¸åˆ°é’±", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "Õâ¸öÉúÒâ×¬²»µ½Ç®", result_profit_1["npMargin"][0])
                 if 0 <= float(result_profit_1["npMargin"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "npMargin", u"ç¨ååˆ©æ¶¦ä¸€èˆ¬", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "Ë°ºóÀûÈóÒ»°ã", result_profit_1["npMargin"][0])
                 if 10 <= float(result_profit_1["npMargin"][0]) < 20:
-                    mark_symbol_detail(symbol_string, "npMargin", u"ç¨ååˆ©æ¶¦ä¸é”™", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "Ë°ºóÀûÈó²»´í", result_profit_1["npMargin"][0])
                 if 20 <= float(result_profit_1["npMargin"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "npMargin", u"ç¨ååˆ©æ¶¦ä¼˜å¼‚", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "Ë°ºóÀûÈóÓÅÒì", result_profit_1["npMargin"][0])
                 if float(result_profit_1["npMargin"][0]) >= 30:
-                    mark_symbol_detail(symbol_string, "npMargin", u"å³ä½¿ç¨åä¹Ÿéå¸¸èµšé’±", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "¼´Ê¹Ë°ºóÒ²·Ç³£×¬Ç®", result_profit_1["npMargin"][0])
 
                 if float(result_profit_1["roeAvg"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"è‚¡ä¸œåœ¨äºæŸ", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "¹É¶«ÔÚ¿÷Ëğ", result_profit_1["roeAvg"][0])
                 if 0 <= float(result_profit_1["roeAvg"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"æ”¶ç›Šç‡ä¸é«˜.", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "ÊÕÒæÂÊ²»¸ß.", result_profit_1["roeAvg"][0])
                 if 0.1 <= float(result_profit_1["roeAvg"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"è¿˜å¯ä»¥çš„æ”¶ç›Š", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "»¹¿ÉÒÔµÄÊÕÒæ", result_profit_1["roeAvg"][0])
                 if 0.15 <= float(result_profit_1["roeAvg"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"ä¸é”™çš„å›æŠ¥ç‡", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "²»´íµÄ»Ø±¨ÂÊ", result_profit_1["roeAvg"][0])
                 if 0.2 <= float(result_profit_1["roeAvg"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"èƒ½å¤Ÿæ‰“è´¥å·´è²ç‰¹çš„å›æŠ¥ç‡", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "ÄÜ¹»´ò°Ü°Í·ÆÌØµÄ»Ø±¨ÂÊ", result_profit_1["roeAvg"][0])
                 if float(result_profit_1["roeAvg"][0]) > 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", u"å¾ˆç‰›é€¼çš„å›æŠ¥ç‡", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "ºÜÅ£±ÆµÄ»Ø±¨ÂÊ", result_profit_1["roeAvg"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_cash_flow.size > 0:
             try:
                 if float(result_cash_flow["CAToAsset"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "CAToAsset", u"æ°”å¾ˆçŸ­", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "ÆøºÜ¶Ì", result_cash_flow["CAToAsset"][0])
                 if 0.1 <= float(result_cash_flow["CAToAsset"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "CAToAsset", u"æ°”ä¸€èˆ¬", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "ÆøÒ»°ã", result_cash_flow["CAToAsset"][0])
                 if 0.15 <= float(result_cash_flow["CAToAsset"][0]) < 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", u"ç°é‡‘å……è¶³", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "ÏÖ½ğ³ä×ã", result_cash_flow["CAToAsset"][0])
                 if float(result_cash_flow["CAToAsset"][0]) >= 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", u"æ°”å¾ˆé•¿", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "ÆøºÜ³¤", result_cash_flow["CAToAsset"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_operation.size > 0:
             try:
                 if float(result_operation["NRTurnDays"][0]) < 15:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", u"å¤©å¤©æ”¶ç°é‡‘", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "ÌìÌìÊÕÏÖ½ğ", result_operation["NRTurnDays"][0])
                 if 15 <= float(result_operation["NRTurnDays"][0]) < 80:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", u"æ”¶æ¬¾å¾ˆå¿«", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "ÊÕ¿îºÜ¿ì", result_operation["NRTurnDays"][0])
                 if 80 <= float(result_operation["NRTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", u"æ”¶æ¬¾é€Ÿåº¦ä¸€èˆ¬", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "ÊÕ¿îËÙ¶ÈÒ»°ã", result_operation["NRTurnDays"][0])
                 if 100 <= float(result_operation["NRTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", u"æ”¶æ¬¾é€Ÿåº¦å¾ˆæ…¢", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "ÊÕ¿îËÙ¶ÈºÜÂı", result_operation["NRTurnDays"][0])
                 if float(result_operation["NRTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", u"æ”¶æ¬¾é€Ÿåº¦ä¹Ÿå¤ªæ…¢äº†å§!", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "ÊÕ¿îËÙ¶ÈÒ²Ì«ÂıÁË°É!", result_operation["NRTurnDays"][0])
 
                 if float(result_operation["AssetTurnRatio"][0]) < 1:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", u"é‡èµ„äº§,å‘¨è½¬å¾ˆæ…¢ï¼Œé£é™©é«˜ï¼Œéœ€å…³æ³¨ç°é‡‘", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "ÖØ×Ê²ú,ÖÜ×ªºÜÂı£¬·çÏÕ¸ß£¬Ğè¹Ø×¢ÏÖ½ğ", result_operation["AssetTurnRatio"][0])
                 if 1 <= float(result_operation["AssetTurnRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", u"ç»è¥ç¨³å¥,è¿˜ä¸é”™.", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "¾­ÓªÎÈ½¡,»¹²»´í.", result_operation["AssetTurnRatio"][0])
                 if 1.5 <= float(result_operation["AssetTurnRatio"][0]) < 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", u"ç»è¥æ•ˆç‡ä¼˜å¼‚", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "¾­ÓªĞ§ÂÊÓÅÒì", result_operation["AssetTurnRatio"][0])
                 if float(result_operation["AssetTurnRatio"][0]) >= 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", u"å›¢é˜Ÿè¿è¥è¶…ä¸€æµ!", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "ÍÅ¶ÓÔËÓª³¬Ò»Á÷!", result_operation["AssetTurnRatio"][0])
 
                 if float(result_operation["INVTurnDays"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"åŸºæœ¬æ— å­˜è´§,äº§å“ç«çˆ†.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "»ù±¾ÎŞ´æ»õ,²úÆ·»ğ±¬.", result_operation["INVTurnDays"][0])
                 if 10 <= float(result_operation["INVTurnDays"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"è´§å–çš„å¾ˆå¿«,å£ç¢‘å¥½", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "»õÂôµÄºÜ¿ì,¿Ú±®ºÃ", result_operation["INVTurnDays"][0])
                 if 30 <= float(result_operation["INVTurnDays"][0]) < 60:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"è´§å–çš„ä¸é”™", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "»õÂôµÄ²»´í", result_operation["INVTurnDays"][0])
                 if 60 <= float(result_operation["INVTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"è´§å–çš„ä¸€èˆ¬.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "»õÂôµÄÒ»°ã.", result_operation["INVTurnDays"][0])
                 if 100 <= float(result_operation["INVTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"å–è´§å¾ˆæ…¢,å±äºåŸç‰©æ–™æˆ–ä½é¢‘æ¶ˆè´¹å“.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "Âô»õºÜÂı,ÊôÓÚÔ­ÎïÁÏ»òµÍÆµÏû·ÑÆ·.", result_operation["INVTurnDays"][0])
                 if float(result_operation["INVTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", u"äº§å“å¯èƒ½ä¸å¥½å–,ç‰¹æ®Šäº§ä¸šé™¤å¤–(é…’ç±»,åœ°äº§ç­‰).", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "²úÆ·¿ÉÄÜ²»ºÃÂô,ÌØÊâ²úÒµ³ıÍâ(¾ÆÀà,µØ²úµÈ).", result_operation["INVTurnDays"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_balance.size > 0:
             try:
                 if float(result_balance["liabilityToAsset"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", u"åŸºæœ¬æ²¡ä»€ä¹ˆæ†æ ï¼Œçœ‹æ¥è‚¡ä¸œéå¸¸çœ‹å¥½å…¬å¸", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "»ù±¾Ã»Ê²Ã´¸Ë¸Ü£¬¿´À´¹É¶«·Ç³£¿´ºÃ¹«Ë¾", result_balance["liabilityToAsset"][0])
                 if 0.3 <= float(result_balance["liabilityToAsset"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", u"ä¸ç”¨ä¸¾å€ºå°±èƒ½å­˜æ´»å¾ˆå¥½.", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "²»ÓÃ¾ÙÕ®¾ÍÄÜ´æ»îºÜºÃ.", result_balance["liabilityToAsset"][0])
                 if 0.4 <= float(result_balance["liabilityToAsset"][0]) < 0.6:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", u"æ†æ ç¨³å¥", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "¸Ë¸ÜÎÈ½¡", result_balance["liabilityToAsset"][0])
                 if 0.6 <= float(result_balance["liabilityToAsset"][0]) < 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", u"æ†æ åé«˜.", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "¸Ë¸ÜÆ«¸ß.", result_balance["liabilityToAsset"][0])
                 if float(result_balance["liabilityToAsset"][0]) >= 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", u"æ†æ è¿‡å¤§,é£é™©åé«˜", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "¸Ë¸Ü¹ı´ó,·çÏÕÆ«¸ß", result_balance["liabilityToAsset"][0])
 
                 if float(result_balance["quickRatio"][0]) < 1.0:
-                    mark_symbol_detail(symbol_string, "quickRatio", u"å¦‚æœå‘ç”Ÿå€ºåŠ¡çº çº·,å¯èƒ½ç¼ºä¹ç«‹å³æ¸…å¿èƒ½åŠ›.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "Èç¹û·¢ÉúÕ®Îñ¾À·×,¿ÉÄÜÈ±·¦Á¢¼´Çå³¥ÄÜÁ¦.", result_balance["quickRatio"][0])
                 if 1.0 <= float(result_balance["quickRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", u"å³ä½¿å‘ç”Ÿå€ºåŠ¡çº çº·,å…¬å¸æ¸…å¿é—®é¢˜ä¸å¤§.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "¼´Ê¹·¢ÉúÕ®Îñ¾À·×,¹«Ë¾Çå³¥ÎÊÌâ²»´ó.", result_balance["quickRatio"][0])
                 if float(result_balance["quickRatio"][0]) > 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", u"å³ä½¿å‘ç”Ÿå€ºåŠ¡çº çº·,å…¬å¸ä¹Ÿèƒ½ç«‹å³æ¸…å¿.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "¼´Ê¹·¢ÉúÕ®Îñ¾À·×,¹«Ë¾Ò²ÄÜÁ¢¼´Çå³¥.", result_balance["quickRatio"][0])
             except ValueError as e:
                 logging.exception(e)
     except AssertionError as e:
