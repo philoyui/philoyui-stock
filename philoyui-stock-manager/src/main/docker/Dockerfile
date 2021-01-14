@@ -1,6 +1,8 @@
 FROM philoyui/talib-jdk:6.0
 
-ENV LANG en_US.UTF-8
+ENV LANG=zh_CN.UTF-8 \
+LANGUAGE=zh_CN:zh \
+LC_ALL=zh_CN.UTF-8
 
 ADD *.jar app.jar
 
