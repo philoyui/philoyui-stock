@@ -115,125 +115,122 @@ for stock_code in stock_df["code"]:
             try:
                 if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
                         result_profit_3["roeAvg"][0]) >= 0.18:
-                    mark_tag_stock(symbol_string, "大白马")
+                    mark_tag_stock(symbol_string, "大白马".encode('ascii', 'ignore').decode('ascii'))
                 if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
                         float(result_profit_3["roeAvg"][0]):
-                    mark_tag_stock(symbol_string, "三年业绩上升")
+                    mark_tag_stock(symbol_string, "三年业绩上升".encode('ascii', 'ignore').decode('ascii'))
 
                 if float(result_profit_1["gpMargin"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "gpMargin", "生意很难做", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "生意很难做".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if 0.1 <= float(result_profit_1["gpMargin"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "gpMargin", "生意很艰辛", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "生意很艰辛".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if 0.2 <= float(result_profit_1["gpMargin"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还可以", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还可以".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if 0.3 <= float(result_profit_1["gpMargin"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还不错", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利还不错".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if 0.4 <= float(result_profit_1["gpMargin"][0]) < 0.55:
-                    mark_symbol_detail(symbol_string, "gpMargin", "毛利很高", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利很高".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if 0.5 <= float(result_profit_1["gpMargin"][0]) < 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", "毛利超高", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利超高".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
                 if float(result_profit_1["gpMargin"][0]) >= 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", "毛利堪比卖白粉", result_profit_1["gpMargin"][0])
+                    mark_symbol_detail(symbol_string, "gpMargin", "毛利堪比卖白粉".encode('ascii', 'ignore').decode('ascii'), result_profit_1["gpMargin"][0])
 
                 if float(result_profit_1["npMargin"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "npMargin", "这个生意赚不到钱", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "这个生意赚不到钱".encode('ascii', 'ignore').decode('ascii'), result_profit_1["npMargin"][0])
                 if 0 <= float(result_profit_1["npMargin"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "npMargin", "税后利润一般", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润一般".encode('ascii', 'ignore').decode('ascii'), result_profit_1["npMargin"][0])
                 if 10 <= float(result_profit_1["npMargin"][0]) < 20:
-                    mark_symbol_detail(symbol_string, "npMargin", "税后利润不错", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润不错".encode('ascii', 'ignore').decode('ascii'), result_profit_1["npMargin"][0])
                 if 20 <= float(result_profit_1["npMargin"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "npMargin", "税后利润优异", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "税后利润优异".encode('ascii', 'ignore').decode('ascii'), result_profit_1["npMargin"][0])
                 if float(result_profit_1["npMargin"][0]) >= 30:
-                    mark_symbol_detail(symbol_string, "npMargin", "即使税后也非常赚钱", result_profit_1["npMargin"][0])
+                    mark_symbol_detail(symbol_string, "npMargin", "即使税后也非常赚钱".encode('ascii', 'ignore').decode('ascii'), result_profit_1["npMargin"][0])
 
                 if float(result_profit_1["roeAvg"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "roeAvg", "股东在亏损", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "股东在亏损".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
                 if 0 <= float(result_profit_1["roeAvg"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "roeAvg", "收益率不高.", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "收益率不高.".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
                 if 0.1 <= float(result_profit_1["roeAvg"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "roeAvg", "还可以的收益", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "还可以的收益".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
                 if 0.15 <= float(result_profit_1["roeAvg"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "roeAvg", "不错的回报率", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "不错的回报率".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
                 if 0.2 <= float(result_profit_1["roeAvg"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", "能够打败巴菲特的回报率", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "能够打败巴菲特的回报率".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
                 if float(result_profit_1["roeAvg"][0]) > 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", "很牛逼的回报率", result_profit_1["roeAvg"][0])
+                    mark_symbol_detail(symbol_string, "roeAvg", "很牛逼的回报率".encode('ascii', 'ignore').decode('ascii'), result_profit_1["roeAvg"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_cash_flow.size > 0:
             try:
                 if float(result_cash_flow["CAToAsset"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "气很短", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气很短".encode('ascii', 'ignore').decode('ascii'), result_cash_flow["CAToAsset"][0])
                 if 0.1 <= float(result_cash_flow["CAToAsset"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "气一般", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气一般".encode('ascii', 'ignore').decode('ascii'), result_cash_flow["CAToAsset"][0])
                 if 0.15 <= float(result_cash_flow["CAToAsset"][0]) < 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "现金充足", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "现金充足".encode('ascii', 'ignore').decode('ascii'), result_cash_flow["CAToAsset"][0])
                 if float(result_cash_flow["CAToAsset"][0]) >= 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "气很长", result_cash_flow["CAToAsset"][0])
+                    mark_symbol_detail(symbol_string, "CAToAsset", "气很长".encode('ascii', 'ignore').decode('ascii'), result_cash_flow["CAToAsset"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_operation.size > 0:
             try:
                 if float(result_operation["NRTurnDays"][0]) < 15:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "天天收现金", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "天天收现金".encode('ascii', 'ignore').decode('ascii'), result_operation["NRTurnDays"][0])
                 if 15 <= float(result_operation["NRTurnDays"][0]) < 80:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款很快", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款很快".encode('ascii', 'ignore').decode('ascii'), result_operation["NRTurnDays"][0])
                 if 80 <= float(result_operation["NRTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度一般", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度一般".encode('ascii', 'ignore').decode('ascii'), result_operation["NRTurnDays"][0])
                 if 100 <= float(result_operation["NRTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度很慢", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度很慢".encode('ascii', 'ignore').decode('ascii'), result_operation["NRTurnDays"][0])
                 if float(result_operation["NRTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度也太慢了吧!", result_operation["NRTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "NRTurnDays", "收款速度也太慢了吧!".encode('ascii', 'ignore').decode('ascii'), result_operation["NRTurnDays"][0])
 
                 if float(result_operation["AssetTurnRatio"][0]) < 1:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "重资产,周转很慢，风险高，需关注现金", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "重资产,周转很慢，风险高，需关注现金".encode('ascii', 'ignore').decode('ascii'), result_operation["AssetTurnRatio"][0])
                 if 1 <= float(result_operation["AssetTurnRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营稳健,还不错.", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营稳健,还不错.".encode('ascii', 'ignore').decode('ascii'), result_operation["AssetTurnRatio"][0])
                 if 1.5 <= float(result_operation["AssetTurnRatio"][0]) < 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营效率优异", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "经营效率优异".encode('ascii', 'ignore').decode('ascii'), result_operation["AssetTurnRatio"][0])
                 if float(result_operation["AssetTurnRatio"][0]) >= 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "团队运营超一流!", result_operation["AssetTurnRatio"][0])
+                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "团队运营超一流!".encode('ascii', 'ignore').decode('ascii'), result_operation["AssetTurnRatio"][0])
 
                 if float(result_operation["INVTurnDays"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "基本无存货,产品火爆.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "基本无存货,产品火爆.".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
                 if 10 <= float(result_operation["INVTurnDays"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的很快,口碑好", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的很快,口碑好".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
                 if 30 <= float(result_operation["INVTurnDays"][0]) < 60:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的不错", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的不错".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
                 if 60 <= float(result_operation["INVTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的一般.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "货卖的一般.".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
                 if 100 <= float(result_operation["INVTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "卖货很慢,属于原物料或低频消费品.", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "卖货很慢,属于原物料或低频消费品.".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
                 if float(result_operation["INVTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "产品可能不好卖,特殊产业除外(酒类,地产等).", result_operation["INVTurnDays"][0])
+                    mark_symbol_detail(symbol_string, "INVTurnDays", "产品可能不好卖,特殊产业除外(酒类,地产等).".encode('ascii', 'ignore').decode('ascii'), result_operation["INVTurnDays"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_balance.size > 0:
             try:
                 if float(result_balance["liabilityToAsset"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "基本没什么杆杠，看来股东非常看好公司", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "基本没什么杆杠，看来股东非常看好公司".encode('ascii', 'ignore').decode('ascii'), result_balance["liabilityToAsset"][0])
                 if 0.3 <= float(result_balance["liabilityToAsset"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "不用举债就能存活很好.", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "不用举债就能存活很好.".encode('ascii', 'ignore').decode('ascii'), result_balance["liabilityToAsset"][0])
                 if 0.4 <= float(result_balance["liabilityToAsset"][0]) < 0.6:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠稳健", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠稳健".encode('ascii', 'ignore').decode('ascii'), result_balance["liabilityToAsset"][0])
                 if 0.6 <= float(result_balance["liabilityToAsset"][0]) < 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠偏高.", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠偏高.".encode('ascii', 'ignore').decode('ascii'), result_balance["liabilityToAsset"][0])
                 if float(result_balance["liabilityToAsset"][0]) >= 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠过大,风险偏高", result_balance["liabilityToAsset"][0])
+                    mark_symbol_detail(symbol_string, "liabilityToAsset", "杆杠过大,风险偏高".encode('ascii', 'ignore').decode('ascii'), result_balance["liabilityToAsset"][0])
 
                 if float(result_balance["quickRatio"][0]) < 1.0:
-                    mark_symbol_detail(symbol_string, "quickRatio", "如果发生债务纠纷,可能缺乏立即清偿能力.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "如果发生债务纠纷,可能缺乏立即清偿能力.".encode('ascii', 'ignore').decode('ascii'), result_balance["quickRatio"][0])
                 if 1.0 <= float(result_balance["quickRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司清偿问题不大.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司清偿问题不大.".encode('ascii', 'ignore').decode('ascii'), result_balance["quickRatio"][0])
                 if float(result_balance["quickRatio"][0]) > 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司也能立即清偿.", result_balance["quickRatio"][0])
+                    mark_symbol_detail(symbol_string, "quickRatio", "即使发生债务纠纷,公司也能立即清偿.".encode('ascii', 'ignore').decode('ascii'), result_balance["quickRatio"][0])
             except ValueError as e:
                 logging.exception(e)
     except AssertionError as e:
         logging.exception(e)
-
-
-
