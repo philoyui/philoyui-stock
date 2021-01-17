@@ -82,6 +82,8 @@ for stock_code in stock_df["code"]:
     if symbol_string.startswith("sz399"):
         continue
 
+    print(stock_code)
+
     profit_list_1 = []
     profit_list_2 = []
     profit_list_3 = []

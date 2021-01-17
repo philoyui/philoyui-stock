@@ -12,12 +12,6 @@ public interface MyStockService extends GenericService<MyStockEntity,Long> {
 
     void deleteAll();
 
-    /**
-     * 加入关注列表
-     * @param id
-     */
-    void addFocus(Long id);
-
     String findReason(String symbol);
 
     MyStockEntity findBySymbol(String symbol);

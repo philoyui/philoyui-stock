@@ -5,13 +5,12 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.common.collect.Lists;
-import io.philoyui.mystock.dao.MyStockDao;
-import io.philoyui.stock.dao.StockDao;
-import io.philoyui.focus.entity.FocusStockEntity;
-import io.philoyui.mystock.entity.MyStockEntity;
-import io.philoyui.stock.entity.StockEntity;
 import io.philoyui.focus.service.FocusStockService;
+import io.philoyui.mystock.dao.MyStockDao;
+import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.mystock.service.MyStockService;
+import io.philoyui.stock.dao.StockDao;
+import io.philoyui.stock.entity.StockEntity;
 import io.philoyui.stock.service.TagService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.dao.TagDao;
@@ -61,6 +60,7 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
      * 查看近3天的打标
      *
      */
+    @Override
     public void obtainEveryDay() {
         myStockService.deleteAll();
         for (StockEntity stockEntity : stockDao.findAll()) {
@@ -113,21 +113,6 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     @Override
     public void deleteAll() {
         myStockDao.deleteAll();
-    }
-
-    @Override
-    public void addFocus(Long id) {
-        MyStockEntity myStock = this.get(id);
-
-        FocusStockEntity focusStockEntity = focusStockService.findBySymbol(myStock.getSymbol());
-
-        if(focusStockEntity==null){
-            focusStockEntity = new FocusStockEntity();
-            focusStockEntity.setSymbol(myStock.getSymbol());
-            focusStockEntity.setAddTime(new Date());
-            focusStockService.insert(focusStockEntity);
-        }
-
     }
 
     @Override

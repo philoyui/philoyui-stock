@@ -29,11 +29,4 @@ public class MyStockController {
         return ResponseEntity.ok("success");
     }
 
-
-    @RequestMapping("/addFocus")
-    public ResponseEntity<String> addFocus(Long id){
-        myStockService.addFocus(id);
-        return ResponseEntity.ok("success");
-    }
-
 }

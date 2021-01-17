@@ -1,11 +1,16 @@
 package io.philoyui.stockdetail.entity;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class StockDetailEntity implements Serializable {
@@ -320,5 +325,49 @@ public class StockDetailEntity implements Serializable {
 
     public void setInvTurnDaysValue(Double invTurnDaysValue) {
         this.invTurnDaysValue = invTurnDaysValue;
+    }
+
+    public List<String> buildDescribeItems() {
+        ArrayList<String> describeItems = Lists.newArrayList();
+        if(!Strings.isNullOrEmpty(caToAssetInfo)){
+            describeItems.add(caToAssetInfo);
+        }
+        if(!Strings.isNullOrEmpty(gpMarginInfo)){
+            describeItems.add(gpMarginInfo);
+        }
+        if(!Strings.isNullOrEmpty(npMarginInfo)){
+            describeItems.add(npMarginInfo);
+        }
+        if(!Strings.isNullOrEmpty(nrTurnDaysInfo)){
+            describeItems.add(nrTurnDaysInfo);
+        }
+        if(!Strings.isNullOrEmpty(roeAvgInfo)){
+            describeItems.add(roeAvgInfo);
+        }
+        if(!Strings.isNullOrEmpty(nrTurnDaysInfo)){
+            describeItems.add(nrTurnDaysInfo);
+        }
+        if(!Strings.isNullOrEmpty(assetTurnRatioInfo)){
+            describeItems.add(assetTurnRatioInfo);
+        }
+        if(!Strings.isNullOrEmpty(invTurnDaysInfo)){
+            describeItems.add(invTurnDaysInfo);
+        }
+        if(!Strings.isNullOrEmpty(liabilityToAssetInfo)){
+            describeItems.add(liabilityToAssetInfo);
+        }
+
+        if(!Strings.isNullOrEmpty(quickRatioInfo)){
+            describeItems.add(quickRatioInfo);
+        }
+
+        if(!Strings.isNullOrEmpty(epsInfo)){
+            describeItems.add(epsInfo);
+        }
+
+        if(!Strings.isNullOrEmpty(turnOverInfo)){
+            describeItems.add(turnOverInfo);
+        }
+        return describeItems;
     }
 }

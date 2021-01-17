@@ -15,6 +15,8 @@ import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.service.StockService;
 import io.philoyui.stock.service.TagStockService;
+import io.philoyui.stockdetail.entity.StockDetailEntity;
+import io.philoyui.stockdetail.service.StockDetailService;
 import io.philoyui.tagstock.entity.TagStockEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,7 +35,8 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
     @Autowired
     private StockService stockService;
 
-
+    @Autowired
+    private StockDetailService stockDetailService;
 
     @Override
     public PageObject<MyStockEntity> paged(SearchFilter searchFilter) {
@@ -44,6 +47,14 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
             for (TagStockEntity tagStockEntity : tagStockService.findBySymbol(myStockEntity.getSymbol())) {
                 stringBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
             }
+            StockDetailEntity stockDetailEntity = stockDetailService.findBySymbol(myStockEntity.getSymbol());
+            if(stockDetailEntity!=null){
+                List<String> describeItems = stockDetailEntity.buildDescribeItems();
+                for (String describeItem : describeItems) {
+                    stringBuilder.append("<p>").append(describeItem).append("</p>");
+                }
+            }
+
             myStockEntity.setReason(stringBuilder.toString());
         }
 
@@ -88,8 +99,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new TableOperation("清空", "deleteAll", ButtonStyle.Blue)
         );
         pageConfig.withColumnAction(
-                new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
-                new ConfirmOperation("addFocus","加入关注")
+                new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol")
         );
         pageConfig.withDefaultPageSize("100");
         return pageConfig;
