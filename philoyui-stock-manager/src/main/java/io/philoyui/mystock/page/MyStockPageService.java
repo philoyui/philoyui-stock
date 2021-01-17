@@ -74,7 +74,6 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),
-                new IntFieldDefinition("score","得分"),
                 new StringFieldDefinition("reason","原因"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
@@ -84,8 +83,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "stockName_8",
                 "dayImage_20",
                 "weekImage_20",
-                "reason_25",
-                "score_5",
+                "reason_30",
                 "#operation_10"
         );
         pageConfig.withFilterDefinitions(
@@ -93,9 +91,7 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 "stockName_like",
                 "reason_like"
         );
-        pageConfig.withSortDefinitions("score_desc");
         pageConfig.withTableAction(
-                new TableOperation("手动执行", "obtainEveryDay", ButtonStyle.Orange),
                 new TableOperation("清空", "deleteAll", ButtonStyle.Blue)
         );
         pageConfig.withColumnAction(

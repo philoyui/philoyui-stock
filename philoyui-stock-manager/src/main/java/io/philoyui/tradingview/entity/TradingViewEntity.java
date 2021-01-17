@@ -221,6 +221,16 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean eveningStar;
 
+    /**
+     * 流通股
+     */
+    private Double outstandingShares;
+
+    /**
+     * 换手率
+     */
+    private Double turnOver;
+
 
     public Long getId() {
         return id;
@@ -556,5 +566,21 @@ public class TradingViewEntity implements Serializable {
 
     public void setMarketCap(Double marketCap) {
         this.marketCap = marketCap;
+    }
+
+    public Double getOutstandingShares() {
+        return outstandingShares;
+    }
+
+    public void setOutstandingShares(Double outstandingShares) {
+        this.outstandingShares = outstandingShares;
+    }
+
+    public Double getTurnOver() {
+        return turnOver;
+    }
+
+    public void setTurnOver(Double turnOver) {
+        this.turnOver = turnOver;
     }
 }

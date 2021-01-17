@@ -1,8 +1,11 @@
 package io.philoyui.tradingview.service.impl;
 
+import cn.com.gome.cloud.openplatform.common.Restrictions;
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
 import com.google.gson.GsonBuilder;
+import io.philoyui.stockdetail.service.StockDetailService;
 import io.philoyui.tradingview.dao.TradingViewDao;
 import io.philoyui.tradingview.entity.TradingViewEntity;
 import io.philoyui.tradingview.service.TradingViewService;
@@ -18,12 +21,16 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity,Long> implements TradingViewService {
 
     @Autowired
     private TradingViewDao tradingViewDao;
+
+    @Autowired
+    private StockDetailService stockDetailService;
 
     @Override
     protected GenericDao<TradingViewEntity, Long> getDao() {
@@ -91,7 +98,9 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                     "Candle.LongShadow.Upper",//长上影线
                     "Candle.LongShadow.Lower",//长下影线
                     "Candle.EveningStar",//黄昏星
-                    "Candle.SpinningTop.Black"//黑丝旋转陀螺
+                    "Candle.SpinningTop.Black",//黑丝旋转陀螺
+                    "total_shares_outstanding_fundamental",//流通股
+                    "Volatility.D"//换手率
             );
             TradingViewVo tradingViewVo = tradingViewFilter.build();
             String postUrl = "https://scanner.tradingview.com/china/scan";
@@ -167,6 +176,8 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setSpinningTopBlack(!"0".equalsIgnoreCase(dList.get(40)));
                         tradingViewEntity.setLongShadowLower(!"0".equalsIgnoreCase(dList.get(41)));
                         tradingViewEntity.setEveningStar(!"0".equalsIgnoreCase(dList.get(42)));
+                        tradingViewEntity.setOutstandingShares(dList.get(43)==null?null:Double.parseDouble(dList.get(43)));
+                        tradingViewEntity.setTurnOver(dList.get(44)==null?null:Double.parseDouble(dList.get(44)));
                         tradingViewEntities.add(tradingViewEntity);
                     }
                 }
@@ -185,6 +196,122 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                 e.printStackTrace();
             }
         }
+
+        stockDetailService.updateDealInfo(this.findBigBigDeal(),"超大盘股");
+        stockDetailService.updateDealInfo(this.findBigDeal(),"大盘股");
+        stockDetailService.updateDealInfo(this.findMiddleDeal(),"中盘股");
+        stockDetailService.updateDealInfo(this.findSmallDeal(),"小盘股");
+        stockDetailService.updateDealInfo(this.findSmallSmallDeal(),"袖珍股");
+
+        stockDetailService.updateTurnOver(this.fetchHighTurnOver(),"换手活跃");
+        stockDetailService.updateTurnOver(this.fetchHighHighTurnOver(),"庄控股大换手");
+        stockDetailService.updateTurnOver(this.fetchCommonTurnOver(),"换手正常");
+        stockDetailService.updateTurnOver(this.fetchLowTurnOver(),"低换手，地量");
+
+
+        stockDetailService.updateEpsInfo(this.fetchLowEps(),"低市盈率");
+        stockDetailService.updateEpsInfo(this.fetchCommonEps(),"正常市盈率");
+        stockDetailService.updateEpsInfo(this.fetchHighEps(),"高市盈率");
+        stockDetailService.updateEpsInfo(this.fetchHighHighEps(),"市盈率泡沫");
+    }
+
+    private List<String> fetchHighHighEps() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("priceEarningsTtm",28));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchHighEps() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("priceEarningsTtm",28));
+        searchFilter.add(Restrictions.gte("priceEarningsTtm",21));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchCommonEps() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("priceEarningsTtm",21));
+        searchFilter.add(Restrictions.gte("priceEarningsTtm",13));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchLowEps() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("priceEarningsTtm",13));
+        searchFilter.add(Restrictions.gte("priceEarningsTtm",0));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+
+    private List<String> fetchLowTurnOver() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("turnOver",1));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchCommonTurnOver() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("turnOver",1));
+        searchFilter.add(Restrictions.lte("turnOver",3));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchHighHighTurnOver() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("turnOver",10));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> fetchHighTurnOver() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("turnOver",10));
+        searchFilter.add(Restrictions.gte("turnOver",3));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> findSmallSmallDeal() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("outstandingShares",100000000L));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    private List<String> findBigBigDeal() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.gte("outstandingShares",10000000000L));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取小盘股
+     * @return
+     */
+    private List<String> findSmallDeal() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("outstandingShares",500000000L));
+        searchFilter.add(Restrictions.gte("outstandingShares",100000000L));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取中盘股
+     * @return
+     */
+    private List<String> findMiddleDeal() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("outstandingShares",1000000000L));
+        searchFilter.add(Restrictions.gte("outstandingShares",500000000L));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取大盘股
+     * @return
+     */
+    private List<String> findBigDeal() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.lte("outstandingShares",10000000000L));
+        searchFilter.add(Restrictions.gte("outstandingShares",1000000000L));
+        return this.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
     }
 
     @Override

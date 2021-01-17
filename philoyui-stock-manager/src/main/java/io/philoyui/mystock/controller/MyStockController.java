@@ -17,12 +17,6 @@ public class MyStockController {
     @Autowired
     private FocusStockService focusStockService;
 
-    @RequestMapping("/obtainEveryDay")
-    public ResponseEntity<String> obtainEveryDay(){
-        myStockService.obtainEveryDay();
-        return ResponseEntity.ok("success");
-    }
-
     @RequestMapping("/deleteAll")
     public ResponseEntity<String> deleteAll(){
         myStockService.deleteAll();

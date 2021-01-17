@@ -8,6 +8,9 @@ import io.philoyui.stockdetail.service.StockDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+import java.util.List;
+
 @Component
 public class StockDetailServiceImpl extends GenericServiceImpl<StockDetailEntity,Long> implements StockDetailService {
 
@@ -22,5 +25,27 @@ public class StockDetailServiceImpl extends GenericServiceImpl<StockDetailEntity
     @Override
     public StockDetailEntity findBySymbol(String symbol) {
         return stockDetailDao.findBySymbol(symbol);
+    }
+
+    /**
+     * @param symbols
+     * @param dealInfo
+     */
+    @Transactional
+    @Override
+    public void updateDealInfo(List<String> symbols, String dealInfo) {
+        stockDetailDao.updateDealInfo(symbols,dealInfo);
+    }
+
+    @Transactional
+    @Override
+    public void updateTurnOver(List<String> symbols, String turnOverInfo) {
+        stockDetailDao.updateTurnOver(symbols,turnOverInfo);
+    }
+
+    @Transactional
+    @Override
+    public void updateEpsInfo(List<String> epsList, String epsInfo) {
+        stockDetailDao.updateEpsInfo(epsList,epsInfo);
     }
 }

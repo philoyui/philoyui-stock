@@ -193,6 +193,7 @@ for stock_code in stock_df["code"]:
         volume_avg10 = talib.MA(volume_array, timeperiod=10)
         volume_avg20 = talib.MA(volume_array, timeperiod=20)
         volume_avg30 = talib.MA(volume_array, timeperiod=30)
+
         low_volume_percent = float(day_data_frame['volume'].head(n=1)) / float(day_data_frame['volume'].head(n=32).max())
 
         wr14 = talib.WILLR(high_array, low_array, close_array, timeperiod=14)
@@ -283,15 +284,6 @@ for stock_code in stock_df["code"]:
             mark_kjd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1 - i)
 
     try:
-        if 3.0 < float(turn_array[-1]) <= 10.0:
-            mark_tag_stock(symbol_string, "换手活跃")
-
-        if float(turn_array[-1]) > 10.0:
-            mark_tag_stock(symbol_string, "庄控股大换手")
-    except ValueError:
-        print(turn_array[-1])
-
-    try:
         if float(rsi[-1]) < 30.0:
             mark_tag_stock(symbol_string, "RSI超卖")
 
@@ -309,12 +301,6 @@ for stock_code in stock_df["code"]:
     try:
         if float(peTTM_array[-1]) <= 0.0:
             mark_tag_stock(symbol_string, "市盈率为负不盈利")
-        if 0.0 < float(peTTM_array[-1]) <= 13.0:
-            mark_tag_stock(symbol_string, "低市盈率")
-        if 21.0 < float(peTTM_array[-1]) <= 28.0:
-            mark_tag_stock(symbol_string, "高市盈率")
-        if float(peTTM_array[-1]) > 28.0:
-            mark_tag_stock(symbol_string, "市盈率泡沫")
     except ValueError:
         print(peTTM_array[-1])
 
@@ -325,9 +311,6 @@ for stock_code in stock_df["code"]:
             mark_tag_stock(symbol_string, "市销率风险")
     except ValueError:
         print(psTTM_array[-1])
-
-    if low_volume_percent < 0.2 and day_data_frame['volume'].size > 72:
-        mark_tag_stock(symbol_string, "地量")
 
     print("parse " + symbol_string + " complete!!")
 

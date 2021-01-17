@@ -55,59 +55,6 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
         return myStockDao;
     }
 
-    /**
-     * 遍历所有的股票
-     * 查看近3天的打标
-     *
-     */
-    @Override
-    public void obtainEveryDay() {
-        myStockService.deleteAll();
-        for (StockEntity stockEntity : stockDao.findAll()) {
-            if(stockEntity.getName().contains("ST")) {
-                continue;
-            }
-            Integer score = 0;
-            SearchFilter searchFilter = SearchFilter.getDefault();
-            searchFilter.add(Restrictions.eq("symbol",stockEntity.getSymbol()));
-            searchFilter.add(Restrictions.gt("lastIndex",-4));
-            List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(stockEntity.getSymbol());
-            ArrayList<String> reasons = Lists.newArrayList();
-            for (TagStockEntity tagStockEntity : tagStockEntities) {
-                TagEntity tagEntity = tagService.findByTagName(tagStockEntity.getTagName());
-                if(tagEntity!=null){
-                    if(tagStockEntity.getLastIndex()==-1){
-                        score += tagEntity.getLast1Score();
-                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast1Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +  tagEntity.getLast1Score() +"</div>");
-                    }else if(tagStockEntity.getLastIndex()==-2){
-                        score += tagEntity.getLast2Score();
-                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast2Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " + tagEntity.getLast2Score() + "</div>");
-                    }else if(tagStockEntity.getLastIndex()==-3){
-                        score += tagEntity.getLast3Score();
-                        reasons.add("<div style=\"color:" + buildColor(tagEntity.getLast3Score()) + "\">" + tagEntity.getTagName() + "(" + tagStockEntity.getDayString() + ") " +tagEntity.getLast3Score() + "</div>");
-                    }
-                }
-            }
-
-            MyStockEntity myStockEntity = new MyStockEntity();
-            myStockEntity.setSymbol(stockEntity.getSymbol());
-            myStockEntity.setCreatedTime(new Date());
-            myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
-            myStockEntity.setScore(score);
-            myStockEntity.setReason(StringUtils.join(reasons,""));
-            myStockEntity.setStockName(stockEntity.getName());
-            myStockService.insert(myStockEntity);
-
-        }
-    }
-
-    private String buildColor(Integer last1Score) {
-        if(last1Score>0){
-            return "red";
-        }
-        return "green";
-    }
-
 
     @Transactional
     @Override

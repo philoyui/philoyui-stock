@@ -126,6 +126,11 @@ public class StockDetailEntity implements Serializable {
     private String turnOverInfo;
 
     /**
+     * 大盘中盘小盘
+     */
+    private String dealInfo;
+
+    /**
      * 创建时间
      */
     private Date createdTime = new Date();
@@ -327,6 +332,14 @@ public class StockDetailEntity implements Serializable {
         this.invTurnDaysValue = invTurnDaysValue;
     }
 
+    public String getDealInfo() {
+        return dealInfo;
+    }
+
+    public void setDealInfo(String dealInfo) {
+        this.dealInfo = dealInfo;
+    }
+
     public List<String> buildDescribeItems() {
         ArrayList<String> describeItems = Lists.newArrayList();
         if(!Strings.isNullOrEmpty(caToAssetInfo)){
@@ -343,9 +356,6 @@ public class StockDetailEntity implements Serializable {
         }
         if(!Strings.isNullOrEmpty(roeAvgInfo)){
             describeItems.add(roeAvgInfo);
-        }
-        if(!Strings.isNullOrEmpty(nrTurnDaysInfo)){
-            describeItems.add(nrTurnDaysInfo);
         }
         if(!Strings.isNullOrEmpty(assetTurnRatioInfo)){
             describeItems.add(assetTurnRatioInfo);
@@ -368,6 +378,11 @@ public class StockDetailEntity implements Serializable {
         if(!Strings.isNullOrEmpty(turnOverInfo)){
             describeItems.add(turnOverInfo);
         }
+
+        if(!Strings.isNullOrEmpty(dealInfo)){
+            describeItems.add(dealInfo);
+        }
+
         return describeItems;
     }
 }

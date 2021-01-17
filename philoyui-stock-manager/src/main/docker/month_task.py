@@ -100,8 +100,10 @@ for stock_code in stock_df["code"]:
 
     while (rs_profit_1.error_code == '0') & rs_profit_1.next():
         profit_list_1.append(rs_profit_1.get_row_data())
-        profit_list_2.append(rs_profit_2.get_row_data())
-        profit_list_3.append(rs_profit_3.get_row_data())
+        if rs_profit_2.cur_row_num != 0:
+            profit_list_2.append(rs_profit_2.get_row_data())
+        if rs_profit_2.cur_row_num != 0:
+            profit_list_3.append(rs_profit_3.get_row_data())
         balance_list.append(rs_balance.get_row_data())
         cash_flow_list.append(rs_cash_flow.get_row_data())
         operation_list.append(rs_operation.get_row_data())
@@ -115,123 +117,133 @@ for stock_code in stock_df["code"]:
 
         if result_profit_1.size > 0:
             try:
-                if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
-                        result_profit_3["roeAvg"][0]) >= 0.18:
-                    mark_tag_stock(symbol_string, "1")
-                if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
-                        float(result_profit_3["roeAvg"][0]):
-                    mark_tag_stock(symbol_string, "2")
+                if result_profit_1["roeAvg"][0] != "" and result_profit_2.size > 0 and result_profit_3.size > 0:
+                    if float(result_profit_1["roeAvg"][0]) >= 0.18 and float(result_profit_2["roeAvg"][0]) >= 0.18 and float(
+                            result_profit_3["roeAvg"][0]) >= 0.18:
+                        mark_tag_stock(symbol_string, "1")
+                    if float(result_profit_1["roeAvg"][0]) >= float(result_profit_2["roeAvg"][0]) >= \
+                            float(result_profit_3["roeAvg"][0]):
+                        mark_tag_stock(symbol_string, "2")
 
-                if float(result_profit_1["gpMargin"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "gpMargin", "3", result_profit_1["gpMargin"][0])
-                if 0.1 <= float(result_profit_1["gpMargin"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "gpMargin", "4", result_profit_1["gpMargin"][0])
-                if 0.2 <= float(result_profit_1["gpMargin"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "gpMargin", "5", result_profit_1["gpMargin"][0])
-                if 0.3 <= float(result_profit_1["gpMargin"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "gpMargin", "6", result_profit_1["gpMargin"][0])
-                if 0.4 <= float(result_profit_1["gpMargin"][0]) < 0.55:
-                    mark_symbol_detail(symbol_string, "gpMargin", "7", result_profit_1["gpMargin"][0])
-                if 0.5 <= float(result_profit_1["gpMargin"][0]) < 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", "8", result_profit_1["gpMargin"][0])
-                if float(result_profit_1["gpMargin"][0]) >= 0.7:
-                    mark_symbol_detail(symbol_string, "gpMargin", "9", result_profit_1["gpMargin"][0])
+                if result_profit_1["gpMargin"][0] != "":
+                    if float(result_profit_1["gpMargin"][0]) < 0.1:
+                        mark_symbol_detail(symbol_string, "gpMargin", "3", result_profit_1["gpMargin"][0])
+                    if 0.1 <= float(result_profit_1["gpMargin"][0]) < 0.2:
+                        mark_symbol_detail(symbol_string, "gpMargin", "4", result_profit_1["gpMargin"][0])
+                    if 0.2 <= float(result_profit_1["gpMargin"][0]) < 0.3:
+                        mark_symbol_detail(symbol_string, "gpMargin", "5", result_profit_1["gpMargin"][0])
+                    if 0.3 <= float(result_profit_1["gpMargin"][0]) < 0.4:
+                        mark_symbol_detail(symbol_string, "gpMargin", "6", result_profit_1["gpMargin"][0])
+                    if 0.4 <= float(result_profit_1["gpMargin"][0]) < 0.55:
+                        mark_symbol_detail(symbol_string, "gpMargin", "7", result_profit_1["gpMargin"][0])
+                    if 0.5 <= float(result_profit_1["gpMargin"][0]) < 0.7:
+                        mark_symbol_detail(symbol_string, "gpMargin", "8", result_profit_1["gpMargin"][0])
+                    if float(result_profit_1["gpMargin"][0]) >= 0.7:
+                        mark_symbol_detail(symbol_string, "gpMargin", "9", result_profit_1["gpMargin"][0])
 
-                if float(result_profit_1["npMargin"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "npMargin", "10", result_profit_1["npMargin"][0])
-                if 0 <= float(result_profit_1["npMargin"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "npMargin", "11", result_profit_1["npMargin"][0])
-                if 10 <= float(result_profit_1["npMargin"][0]) < 20:
-                    mark_symbol_detail(symbol_string, "npMargin", "12", result_profit_1["npMargin"][0])
-                if 20 <= float(result_profit_1["npMargin"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "npMargin", "13", result_profit_1["npMargin"][0])
-                if float(result_profit_1["npMargin"][0]) >= 30:
-                    mark_symbol_detail(symbol_string, "npMargin", "14", result_profit_1["npMargin"][0])
+                if result_profit_1["npMargin"][0] != "":
+                    if float(result_profit_1["npMargin"][0]) < 0:
+                        mark_symbol_detail(symbol_string, "npMargin", "10", result_profit_1["npMargin"][0])
+                    if 0 <= float(result_profit_1["npMargin"][0]) < 10:
+                        mark_symbol_detail(symbol_string, "npMargin", "11", result_profit_1["npMargin"][0])
+                    if 10 <= float(result_profit_1["npMargin"][0]) < 20:
+                        mark_symbol_detail(symbol_string, "npMargin", "12", result_profit_1["npMargin"][0])
+                    if 20 <= float(result_profit_1["npMargin"][0]) < 30:
+                        mark_symbol_detail(symbol_string, "npMargin", "13", result_profit_1["npMargin"][0])
+                    if float(result_profit_1["npMargin"][0]) >= 30:
+                        mark_symbol_detail(symbol_string, "npMargin", "14", result_profit_1["npMargin"][0])
 
-                if float(result_profit_1["roeAvg"][0]) < 0:
-                    mark_symbol_detail(symbol_string, "roeAvg", "15", result_profit_1["roeAvg"][0])
-                if 0 <= float(result_profit_1["roeAvg"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "roeAvg", "16", result_profit_1["roeAvg"][0])
-                if 0.1 <= float(result_profit_1["roeAvg"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "roeAvg", "17", result_profit_1["roeAvg"][0])
-                if 0.15 <= float(result_profit_1["roeAvg"][0]) < 0.2:
-                    mark_symbol_detail(symbol_string, "roeAvg", "18", result_profit_1["roeAvg"][0])
-                if 0.2 <= float(result_profit_1["roeAvg"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", "19", result_profit_1["roeAvg"][0])
-                if float(result_profit_1["roeAvg"][0]) > 0.3:
-                    mark_symbol_detail(symbol_string, "roeAvg", "20", result_profit_1["roeAvg"][0])
+                if result_profit_1["roeAvg"][0] != "":
+                    if float(result_profit_1["roeAvg"][0]) < 0:
+                        mark_symbol_detail(symbol_string, "roeAvg", "15", result_profit_1["roeAvg"][0])
+                    if 0 <= float(result_profit_1["roeAvg"][0]) < 0.1:
+                        mark_symbol_detail(symbol_string, "roeAvg", "16", result_profit_1["roeAvg"][0])
+                    if 0.1 <= float(result_profit_1["roeAvg"][0]) < 0.15:
+                        mark_symbol_detail(symbol_string, "roeAvg", "17", result_profit_1["roeAvg"][0])
+                    if 0.15 <= float(result_profit_1["roeAvg"][0]) < 0.2:
+                        mark_symbol_detail(symbol_string, "roeAvg", "18", result_profit_1["roeAvg"][0])
+                    if 0.2 <= float(result_profit_1["roeAvg"][0]) < 0.3:
+                        mark_symbol_detail(symbol_string, "roeAvg", "19", result_profit_1["roeAvg"][0])
+                    if float(result_profit_1["roeAvg"][0]) > 0.3:
+                        mark_symbol_detail(symbol_string, "roeAvg", "20", result_profit_1["roeAvg"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_cash_flow.size > 0:
             try:
-                if float(result_cash_flow["CAToAsset"][0]) < 0.1:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "21", result_cash_flow["CAToAsset"][0])
-                if 0.1 <= float(result_cash_flow["CAToAsset"][0]) < 0.15:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "22", result_cash_flow["CAToAsset"][0])
-                if 0.15 <= float(result_cash_flow["CAToAsset"][0]) < 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "23", result_cash_flow["CAToAsset"][0])
-                if float(result_cash_flow["CAToAsset"][0]) >= 0.25:
-                    mark_symbol_detail(symbol_string, "CAToAsset", "24", result_cash_flow["CAToAsset"][0])
+                if result_cash_flow["CAToAsset"][0] != "":
+                    if float(result_cash_flow["CAToAsset"][0]) < 0.1:
+                        mark_symbol_detail(symbol_string, "CAToAsset", "21", result_cash_flow["CAToAsset"][0])
+                    if 0.1 <= float(result_cash_flow["CAToAsset"][0]) < 0.15:
+                        mark_symbol_detail(symbol_string, "CAToAsset", "22", result_cash_flow["CAToAsset"][0])
+                    if 0.15 <= float(result_cash_flow["CAToAsset"][0]) < 0.25:
+                        mark_symbol_detail(symbol_string, "CAToAsset", "23", result_cash_flow["CAToAsset"][0])
+                    if float(result_cash_flow["CAToAsset"][0]) >= 0.25:
+                        mark_symbol_detail(symbol_string, "CAToAsset", "24", result_cash_flow["CAToAsset"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_operation.size > 0:
             try:
-                if float(result_operation["NRTurnDays"][0]) < 15:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "25", result_operation["NRTurnDays"][0])
-                if 15 <= float(result_operation["NRTurnDays"][0]) < 80:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "26", result_operation["NRTurnDays"][0])
-                if 80 <= float(result_operation["NRTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "27", result_operation["NRTurnDays"][0])
-                if 100 <= float(result_operation["NRTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "28", result_operation["NRTurnDays"][0])
-                if float(result_operation["NRTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "NRTurnDays", "29", result_operation["NRTurnDays"][0])
+                if result_operation["NRTurnDays"][0] != "":
+                    if float(result_operation["NRTurnDays"][0]) < 15:
+                        mark_symbol_detail(symbol_string, "NRTurnDays", "25", result_operation["NRTurnDays"][0])
+                    if 15 <= float(result_operation["NRTurnDays"][0]) < 80:
+                        mark_symbol_detail(symbol_string, "NRTurnDays", "26", result_operation["NRTurnDays"][0])
+                    if 80 <= float(result_operation["NRTurnDays"][0]) < 100:
+                        mark_symbol_detail(symbol_string, "NRTurnDays", "27", result_operation["NRTurnDays"][0])
+                    if 100 <= float(result_operation["NRTurnDays"][0]) < 150:
+                        mark_symbol_detail(symbol_string, "NRTurnDays", "28", result_operation["NRTurnDays"][0])
+                    if float(result_operation["NRTurnDays"][0]) >= 150:
+                        mark_symbol_detail(symbol_string, "NRTurnDays", "29", result_operation["NRTurnDays"][0])
 
-                if float(result_operation["AssetTurnRatio"][0]) < 1:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "30", result_operation["AssetTurnRatio"][0])
-                if 1 <= float(result_operation["AssetTurnRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "31", result_operation["AssetTurnRatio"][0])
-                if 1.5 <= float(result_operation["AssetTurnRatio"][0]) < 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "32", result_operation["AssetTurnRatio"][0])
-                if float(result_operation["AssetTurnRatio"][0]) >= 2:
-                    mark_symbol_detail(symbol_string, "AssetTurnRatio", "33", result_operation["AssetTurnRatio"][0])
+                if result_operation["AssetTurnRatio"][0] != "":
+                    if float(result_operation["AssetTurnRatio"][0]) < 1:
+                        mark_symbol_detail(symbol_string, "AssetTurnRatio", "30", result_operation["AssetTurnRatio"][0])
+                    if 1 <= float(result_operation["AssetTurnRatio"][0]) < 1.5:
+                        mark_symbol_detail(symbol_string, "AssetTurnRatio", "31", result_operation["AssetTurnRatio"][0])
+                    if 1.5 <= float(result_operation["AssetTurnRatio"][0]) < 2:
+                        mark_symbol_detail(symbol_string, "AssetTurnRatio", "32", result_operation["AssetTurnRatio"][0])
+                    if float(result_operation["AssetTurnRatio"][0]) >= 2:
+                        mark_symbol_detail(symbol_string, "AssetTurnRatio", "33", result_operation["AssetTurnRatio"][0])
 
-                if float(result_operation["INVTurnDays"][0]) < 10:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "34", result_operation["INVTurnDays"][0])
-                if 10 <= float(result_operation["INVTurnDays"][0]) < 30:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "35", result_operation["INVTurnDays"][0])
-                if 30 <= float(result_operation["INVTurnDays"][0]) < 60:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "36", result_operation["INVTurnDays"][0])
-                if 60 <= float(result_operation["INVTurnDays"][0]) < 100:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "37", result_operation["INVTurnDays"][0])
-                if 100 <= float(result_operation["INVTurnDays"][0]) < 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "38", result_operation["INVTurnDays"][0])
-                if float(result_operation["INVTurnDays"][0]) >= 150:
-                    mark_symbol_detail(symbol_string, "INVTurnDays", "39", result_operation["INVTurnDays"][0])
+                if result_operation["INVTurnDays"][0] != "":
+                    if float(result_operation["INVTurnDays"][0]) < 10:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "34", result_operation["INVTurnDays"][0])
+                    if 10 <= float(result_operation["INVTurnDays"][0]) < 30:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "35", result_operation["INVTurnDays"][0])
+                    if 30 <= float(result_operation["INVTurnDays"][0]) < 60:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "36", result_operation["INVTurnDays"][0])
+                    if 60 <= float(result_operation["INVTurnDays"][0]) < 100:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "37", result_operation["INVTurnDays"][0])
+                    if 100 <= float(result_operation["INVTurnDays"][0]) < 150:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "38", result_operation["INVTurnDays"][0])
+                    if float(result_operation["INVTurnDays"][0]) >= 150:
+                        mark_symbol_detail(symbol_string, "INVTurnDays", "39", result_operation["INVTurnDays"][0])
             except ValueError as e:
                 logging.exception(e)
 
         if result_balance.size > 0:
             try:
-                if float(result_balance["liabilityToAsset"][0]) < 0.3:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "40", result_balance["liabilityToAsset"][0])
-                if 0.3 <= float(result_balance["liabilityToAsset"][0]) < 0.4:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "41.", result_balance["liabilityToAsset"][0])
-                if 0.4 <= float(result_balance["liabilityToAsset"][0]) < 0.6:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "42", result_balance["liabilityToAsset"][0])
-                if 0.6 <= float(result_balance["liabilityToAsset"][0]) < 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "43", result_balance["liabilityToAsset"][0])
-                if float(result_balance["liabilityToAsset"][0]) >= 0.8:
-                    mark_symbol_detail(symbol_string, "liabilityToAsset", "44", result_balance["liabilityToAsset"][0])
+                if result_balance["liabilityToAsset"][0] != "":
+                    if float(result_balance["liabilityToAsset"][0]) < 0.3:
+                        mark_symbol_detail(symbol_string, "liabilityToAsset", "40", result_balance["liabilityToAsset"][0])
+                    if 0.3 <= float(result_balance["liabilityToAsset"][0]) < 0.4:
+                        mark_symbol_detail(symbol_string, "liabilityToAsset", "41.", result_balance["liabilityToAsset"][0])
+                    if 0.4 <= float(result_balance["liabilityToAsset"][0]) < 0.6:
+                        mark_symbol_detail(symbol_string, "liabilityToAsset", "42", result_balance["liabilityToAsset"][0])
+                    if 0.6 <= float(result_balance["liabilityToAsset"][0]) < 0.8:
+                        mark_symbol_detail(symbol_string, "liabilityToAsset", "43", result_balance["liabilityToAsset"][0])
+                    if float(result_balance["liabilityToAsset"][0]) >= 0.8:
+                        mark_symbol_detail(symbol_string, "liabilityToAsset", "44", result_balance["liabilityToAsset"][0])
 
-                if float(result_balance["quickRatio"][0]) < 1.0:
-                    mark_symbol_detail(symbol_string, "quickRatio", "45", result_balance["quickRatio"][0])
-                if 1.0 <= float(result_balance["quickRatio"][0]) < 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", "46", result_balance["quickRatio"][0])
-                if float(result_balance["quickRatio"][0]) > 1.5:
-                    mark_symbol_detail(symbol_string, "quickRatio", "47", result_balance["quickRatio"][0])
+                if result_balance["quickRatio"][0] != "":
+                    if float(result_balance["quickRatio"][0]) < 1.0:
+                        mark_symbol_detail(symbol_string, "quickRatio", "45", result_balance["quickRatio"][0])
+                    if 1.0 <= float(result_balance["quickRatio"][0]) < 1.5:
+                        mark_symbol_detail(symbol_string, "quickRatio", "46", result_balance["quickRatio"][0])
+                    if float(result_balance["quickRatio"][0]) > 1.5:
+                        mark_symbol_detail(symbol_string, "quickRatio", "47", result_balance["quickRatio"][0])
             except ValueError as e:
                 logging.exception(e)
     except AssertionError as e:

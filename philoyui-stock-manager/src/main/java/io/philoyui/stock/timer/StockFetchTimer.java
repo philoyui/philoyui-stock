@@ -25,7 +25,7 @@ public class StockFetchTimer {
     private void runPython(String pythonName) {
         Process process;
         try {
-            process = Runtime.getRuntime().exec(pythonPath + pythonName);// 执行py文件
+            process = Runtime.getRuntime().exec(pythonPath + pythonName);
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
