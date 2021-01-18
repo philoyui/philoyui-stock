@@ -1,5 +1,6 @@
 package io.philoyui.tagstock.controller;
 
+import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.timer.DayTagTimer;
 import io.philoyui.tagstock.timer.MinTagTimer;
 import io.philoyui.tagstock.timer.MonthTagTimer;
@@ -25,6 +26,9 @@ public class TagStockController {
     @Autowired
     private MonthTagTimer monthTagTimer;
 
+    @Autowired
+    private TagStockService tagStockService;
+
     @RequestMapping("/dayTask")
     public ResponseEntity<String> dayTask(){
         dayTagTimer.execute();
@@ -46,6 +50,12 @@ public class TagStockController {
     @RequestMapping("/monthTask")
     public ResponseEntity<String> monthTagTimer(){
         monthTagTimer.execute();
+        return ResponseEntity.ok("success");
+    }
+
+    @RequestMapping("/addMyStock")
+    public ResponseEntity<String> fetch(Long id) {
+        tagStockService.addToMyStock(id);
         return ResponseEntity.ok("success");
     }
 }

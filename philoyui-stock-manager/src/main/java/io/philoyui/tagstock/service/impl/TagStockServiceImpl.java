@@ -4,6 +4,8 @@ import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
+import io.philoyui.mystock.entity.MyStockEntity;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.entity.enu.IntervalType;
 import io.philoyui.stock.service.TagService;
 import io.philoyui.stock.service.TagStockService;
@@ -27,6 +29,9 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
 
     @Autowired
     private TagService tagService;
+
+    @Autowired
+    private MyStockService myStockService;
 
     @Override
     protected GenericDao<TagStockEntity, Long> getDao() {
@@ -139,6 +144,22 @@ public class TagStockServiceImpl extends GenericServiceImpl<TagStockEntity,Long>
                 break;
             }
             tagStockDao.deleteInBatch(tagStockEntities);
+        }
+    }
+
+    @Override
+    public void addToMyStock(Long id) {
+        TagStockEntity tagStockEntity = this.get(id);
+
+        MyStockEntity myStockEntity = myStockService.findBySymbol(tagStockEntity.getSymbol());
+
+        if(myStockEntity==null){
+            myStockEntity = new MyStockEntity();
+            myStockEntity.setDateString(DateFormatUtils.format(new Date(),"yyyy-MM-dd"));
+            myStockEntity.setStockName(myStockEntity.getStockName());
+            myStockEntity.setSymbol(tagStockEntity.getSymbol());
+            myStockEntity.setCreatedTime(new Date());
+            myStockService.insert(myStockEntity);
         }
     }
 

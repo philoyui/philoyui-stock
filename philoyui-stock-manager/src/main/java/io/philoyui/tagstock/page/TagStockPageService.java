@@ -4,6 +4,7 @@ import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
+import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
@@ -64,8 +65,9 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                         "tagName_14",
                         "dayString_10",
                         "lastDayString_10",
-                        "dayImage_25",
-                        "weekImage_25"
+                        "dayImage_20",
+                        "weekImage_20",
+                        "#operation_10"
                 )
                 .withFilterDefinitions(
                     "symbol",
@@ -73,6 +75,9 @@ public class TagStockPageService extends PageService<TagStockEntity,Long> {
                 )
                 .withSortDefinitions(
                     "dayString_desc","dayString_asc"
+                )
+                .withColumnAction(
+                        new ConfirmOperation("addMyStock","加入自选")
                 )
                 .withFormItemDefinition(
                         "symbol_rw",

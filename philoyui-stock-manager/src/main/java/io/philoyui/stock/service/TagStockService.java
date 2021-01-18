@@ -27,4 +27,6 @@ public interface TagStockService extends GenericService<TagStockEntity,Long> {
     Map<String,String> findTagStatisticOptions();
 
     void cleanOld(IntervalType day);
+
+    void addToMyStock(Long id);
 }

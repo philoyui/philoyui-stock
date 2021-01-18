@@ -5,6 +5,7 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.ConfirmOperation;
+import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.LinkOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
@@ -95,7 +96,8 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new TableOperation("清空", "deleteAll", ButtonStyle.Blue)
         );
         pageConfig.withColumnAction(
-                new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol")
+                new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
+                new DeleteOperation()
         );
         pageConfig.withDefaultPageSize("100");
         return pageConfig;
