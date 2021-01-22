@@ -30,10 +30,15 @@ public class MyStockEntity implements Serializable {
      */
     private String dateString;
 
-    @Column(length = 2056)
-    private String reason;
+    /**
+     * 财报信息
+     */
+    private String financialReport;
 
-    private Integer score;
+    /**
+     * 技术指标信息
+     */
+    private String technicalIndex;
 
     /**
      * 创建时间
@@ -72,22 +77,6 @@ public class MyStockEntity implements Serializable {
         this.dateString = dateString;
     }
 
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public Integer getScore() {
-        return score;
-    }
-
-    public void setScore(Integer score) {
-        this.score = score;
-    }
-
     public String getStockName() {
         return stockName;
     }
@@ -96,4 +85,19 @@ public class MyStockEntity implements Serializable {
         this.stockName = stockName;
     }
 
+    public String getFinancialReport() {
+        return financialReport;
+    }
+
+    public void setFinancialReport(String financialReport) {
+        this.financialReport = financialReport;
+    }
+
+    public String getTechnicalIndex() {
+        return technicalIndex;
+    }
+
+    public void setTechnicalIndex(String technicalIndex) {
+        this.technicalIndex = technicalIndex;
+    }
 }

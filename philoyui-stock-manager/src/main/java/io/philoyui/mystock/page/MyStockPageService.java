@@ -4,14 +4,12 @@ import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
-import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
 import cn.com.gome.page.button.column.LinkOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
 import cn.com.gome.page.core.PageService;
 import cn.com.gome.page.field.*;
-import cn.com.gome.page.field.validator.IntFieldDefinition;
 import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.service.StockService;
@@ -44,19 +42,26 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
 
         PageObject<MyStockEntity> pageObject = myStockService.paged(searchFilter);
         for (MyStockEntity myStockEntity : pageObject.getContent()) {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder reportBuilder = new StringBuilder();
+            StringBuilder technicalBuilder = new StringBuilder();
+
             for (TagStockEntity tagStockEntity : tagStockService.findBySymbol(myStockEntity.getSymbol())) {
-                stringBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
-            }
-            StockDetailEntity stockDetailEntity = stockDetailService.findBySymbol(myStockEntity.getSymbol());
-            if(stockDetailEntity!=null){
-                List<String> describeItems = stockDetailEntity.buildDescribeItems();
-                for (String describeItem : describeItems) {
-                    stringBuilder.append("<p>").append(describeItem).append("</p>");
-                }
+                technicalBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
             }
 
-            myStockEntity.setReason(stringBuilder.toString());
+            StockDetailEntity stockDetailEntity = stockDetailService.findBySymbol(myStockEntity.getSymbol());
+            if(stockDetailEntity!=null){
+                List<String> reportItems = stockDetailEntity.buildReportItems();
+                for (String describeItem : reportItems) {
+                    reportBuilder.append("<p>").append(describeItem).append("</p>");
+                }
+                List<String> technicalItems = stockDetailEntity.buildTechnicalItems();
+                for (String technicalItem : technicalItems) {
+                    technicalBuilder.append("<p>").append(technicalItem).append("</p>");
+                }
+            }
+            myStockEntity.setFinancialReport(reportBuilder.toString());
+            myStockEntity.setTechnicalIndex(technicalBuilder.toString());
         }
 
         return myStockService.paged(searchFilter);
@@ -75,22 +80,25 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                 new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                 new StringFieldDefinition("dateString", "日期"),
-                new StringFieldDefinition("reason","原因"),
+                new StringFieldDefinition("financialReport","财报"),
+                new StringFieldDefinition("technicalIndex","技术指标"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(
                 "#checkbox_4",
                 "symbol_8",
                 "stockName_8",
-                "dayImage_20",
-                "weekImage_20",
-                "reason_30",
-                "#operation_10"
+                "dayImage_16",
+                "weekImage_16",
+                "financialReport_20",
+                "technicalIndex_10",
+                "#operation_8"
         );
         pageConfig.withFilterDefinitions(
                 "symbol_like",
                 "stockName_like",
-                "reason_like"
+                "financialReport_like",
+                "technicalIndex_like"
         );
         pageConfig.withTableAction(
                 new TableOperation("清空", "deleteAll", ButtonStyle.Blue)

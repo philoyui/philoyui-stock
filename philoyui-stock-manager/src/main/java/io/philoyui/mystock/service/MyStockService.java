@@ -7,9 +7,6 @@ public interface MyStockService extends GenericService<MyStockEntity,Long> {
 
     void deleteAll();
 
-    String findReason(String symbol);
-
     MyStockEntity findBySymbol(String symbol);
 
-    String findScore(String symbol);
 }

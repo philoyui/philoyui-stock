@@ -340,7 +340,7 @@ public class StockDetailEntity implements Serializable {
         this.dealInfo = dealInfo;
     }
 
-    public List<String> buildDescribeItems() {
+    public List<String> buildReportItems() {
         ArrayList<String> describeItems = Lists.newArrayList();
         if(!Strings.isNullOrEmpty(caToAssetInfo)){
             describeItems.add(caToAssetInfo);
@@ -370,6 +370,12 @@ public class StockDetailEntity implements Serializable {
         if(!Strings.isNullOrEmpty(quickRatioInfo)){
             describeItems.add(quickRatioInfo);
         }
+
+        return describeItems;
+    }
+
+    public List<String> buildTechnicalItems() {
+        ArrayList<String> describeItems = Lists.newArrayList();
 
         if(!Strings.isNullOrEmpty(epsInfo)){
             describeItems.add(epsInfo);

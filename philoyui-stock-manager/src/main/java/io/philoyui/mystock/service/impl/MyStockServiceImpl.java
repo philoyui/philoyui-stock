@@ -63,26 +63,8 @@ public class MyStockServiceImpl extends GenericServiceImpl<MyStockEntity,Long> i
     }
 
     @Override
-    public String findReason(String symbol) {
-        MyStockEntity stockEntity = myStockDao.findBySymbol(symbol);
-        if(stockEntity!=null){
-            return stockEntity.getReason();
-        }
-        return "";
-    }
-
-    @Override
     public MyStockEntity findBySymbol(String symbol) {
         return myStockDao.findBySymbol(symbol);
-    }
-
-    @Override
-    public String findScore(String symbol) {
-        MyStockEntity bySymbol = this.findBySymbol(symbol);
-        if(bySymbol!=null){
-            return String.valueOf(bySymbol.getScore());
-        }
-        return "";
     }
 
 }
