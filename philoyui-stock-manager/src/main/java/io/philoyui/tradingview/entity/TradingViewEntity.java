@@ -129,7 +129,9 @@ public class TradingViewEntity implements Serializable {
     /**
      * 流星线
      */
+
     private Boolean shootingStar;
+
 
     /**
      * 白三兵
@@ -231,6 +233,10 @@ public class TradingViewEntity implements Serializable {
      */
     private Double turnOver;
 
+    /**
+     * 指数移动平均线 多头
+     */
+    private Boolean ema20;
 
     public Long getId() {
         return id;
@@ -582,5 +588,13 @@ public class TradingViewEntity implements Serializable {
 
     public void setTurnOver(Double turnOver) {
         this.turnOver = turnOver;
+    }
+
+    public Boolean getEma20() {
+        return ema20;
+    }
+
+    public void setEma20(Boolean ema20) {
+        this.ema20 = ema20;
     }
 }

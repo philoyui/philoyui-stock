@@ -6,6 +6,8 @@ import io.philoyui.focus.entity.FocusStockEntity;
 import io.philoyui.focus.service.FocusStockService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.entity.TagStockEntity;
+import io.philoyui.tradingview.entity.TradingViewEntity;
+import io.philoyui.tradingview.service.TradingViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,9 @@ public class FocusStockTimer {
     private TagStockService tagStockService;
 
     @Autowired
+    private TradingViewService tradingViewService;
+
+    @Autowired
     private FocusStockService focusStockService;
 
 
@@ -29,6 +34,8 @@ public class FocusStockTimer {
     public void execute(){
 
         focusStockService.deleteAll();
+
+        Set<String> downStockSet = findEma20FromTradingView();
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
         Set<String> stockName2 = findByTagName("MACD底背离(15min)");
@@ -65,6 +72,7 @@ public class FocusStockTimer {
         stockSet.removeAll(stockName18);
         stockSet.removeAll(stockName19);
         stockSet.removeAll(stockName20);
+        stockSet.removeAll(downStockSet);
 
 
         persistStock(stockSet,5);
@@ -77,6 +85,12 @@ public class FocusStockTimer {
 
         stockSet.removeAll(stockName11);
         persistStock(stockSet,1);
+    }
+
+    private Set<String> findEma20FromTradingView() {
+        SearchFilter searchFilter = SearchFilter.getDefault();
+        searchFilter.add(Restrictions.eq("ema20",1));
+        return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
     private Set<String> pickLevel2Stocks() {

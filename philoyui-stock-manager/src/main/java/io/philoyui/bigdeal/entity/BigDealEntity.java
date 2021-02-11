@@ -1,119 +1,142 @@
-package io.philoyui.stock.client.east.data;
+package io.philoyui.bigdeal.entity;
 
 import com.google.gson.annotations.SerializedName;
+import io.philoyui.stock.client.east.data.BigBuyData;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
 
-public class BigBuyData implements Serializable {
+@Entity
+public class BigDealEntity implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     /**
      * 录入时间
      */
-    @SerializedName("TDATE")
     private String createdTime;
 
     /**
      * 股票代码
      */
-    @SerializedName("SECUCODE")
     private String symbol;
 
     /**
      * 股票名称
      */
-    @SerializedName("SNAME")
     private String stockName;
 
     /**
      * 涨跌幅
      */
-    @SerializedName("RCHANGE")
-    private double range;
+    private double stockRange;
 
     /**
      * 收盘价
      */
-    @SerializedName("CPRICE")
     private double closePrice;
 
     /**
      * 成交价
      */
-    @SerializedName("PRICE")
     private double dealPrice;
 
     /**
      * 折溢率
      */
-    @SerializedName("Zyl")
     private double premiumDiscount;
 
     /**
      * 成交笔数
      */
-    @SerializedName("CJCount")
     private int dealCount;
 
     /**
      * 成交总额
      */
-    @SerializedName("CJZE")
     private double dealAmount;
 
     /**
      * 成交总量
      */
-    @SerializedName("CJZL")
     private double dealVolume;
 
     /**
      * 成交总额/流通市值
      */
-    @SerializedName("Cjeltszb")
-    private double Cjeltszb;
+    private double cjeltszb;
 
     /**
      * 一天后涨幅
      */
-    @SerializedName("RCHANGE1DC")
     private String increase1;
 
     /**
      * 五天后涨幅
      */
-    @SerializedName("RCHANGE5DC")
     private String increase5;
 
     /**
      * 十天后涨幅
      */
-    @SerializedName("RCHANGE10DC")
     private String increase10;
 
     /**
      * 二十天后涨幅
      */
-    @SerializedName("RCHANGE20DC")
     private String increase20;
 
     /**
      * 买家
      */
-    @SerializedName("BUYERNAME")
     private String buyerName;
 
-    @SerializedName("BUYERCODE")
     private String buyerCode;
 
     /**
      * 卖家
      */
-    @SerializedName("SALESNAME")
     private String salesName;
 
-    @SerializedName("SALESCODE")
     private String salesCode;
+
+    public static BigDealEntity constructFrom(BigBuyData bigBuyData) {
+        BigDealEntity bigDealEntity = new BigDealEntity();
+        bigDealEntity.setCreatedTime(bigBuyData.getCreatedTime());
+        bigDealEntity.setSymbol(bigBuyData.getSymbol());
+        bigDealEntity.setStockName(bigBuyData.getStockName());
+        bigDealEntity.setStockRange(bigBuyData.getRange());
+        bigDealEntity.setClosePrice(bigBuyData.getClosePrice());
+        bigDealEntity.setDealPrice(bigBuyData.getDealPrice());
+        bigDealEntity.setPremiumDiscount(bigBuyData.getPremiumDiscount());
+        bigDealEntity.setDealCount(bigBuyData.getDealCount());
+        bigDealEntity.setDealAmount(bigBuyData.getDealCount());
+        bigDealEntity.setDealVolume(bigBuyData.getDealAmount());
+        bigDealEntity.setCjeltszb(bigBuyData.getCjeltszb());
+        bigDealEntity.setIncrease1(bigBuyData.getIncrease1());
+        bigDealEntity.setIncrease5(bigBuyData.getIncrease5());
+        bigDealEntity.setIncrease10(bigBuyData.getIncrease10());
+        bigDealEntity.setIncrease20(bigBuyData.getIncrease20());
+        bigDealEntity.setBuyerCode(bigBuyData.getBuyerCode());
+        bigDealEntity.setBuyerName(bigBuyData.getBuyerName());
+        bigDealEntity.setSalesName(bigBuyData.getSalesName());
+        bigDealEntity.setSalesCode(bigBuyData.getSalesCode());
+        return bigDealEntity;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCreatedTime() {
         return createdTime;
@@ -139,12 +162,12 @@ public class BigBuyData implements Serializable {
         this.stockName = stockName;
     }
 
-    public double getRange() {
-        return range;
+    public double getStockRange() {
+        return stockRange;
     }
 
-    public void setRange(double range) {
-        this.range = range;
+    public void setStockRange(double stockRange) {
+        this.stockRange = stockRange;
     }
 
     public double getClosePrice() {
@@ -195,20 +218,12 @@ public class BigBuyData implements Serializable {
         this.dealVolume = dealVolume;
     }
 
-    public void setDealAmount(int dealAmount) {
-        this.dealAmount = dealAmount;
-    }
-
-    public void setDealVolume(int dealVolume) {
-        this.dealVolume = dealVolume;
-    }
-
     public double getCjeltszb() {
-        return Cjeltszb;
+        return cjeltszb;
     }
 
     public void setCjeltszb(double cjeltszb) {
-        Cjeltszb = cjeltszb;
+        this.cjeltszb = cjeltszb;
     }
 
     public String getIncrease1() {

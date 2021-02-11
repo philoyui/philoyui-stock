@@ -12,6 +12,7 @@ import io.philoyui.tradingview.service.TradingViewService;
 import io.philoyui.tradingview.to.TradingViewFilter;
 import io.philoyui.tradingview.to.TradingViewResult;
 import io.philoyui.tradingview.to.TradingViewVo;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +101,8 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                     "Candle.EveningStar",//黄昏星
                     "Candle.SpinningTop.Black",//黑丝旋转陀螺
                     "total_shares_outstanding_fundamental",//流通股
-                    "Volatility.D"//换手率
+                    "Volatility.D",//换手率
+                    "EMA20"
             );
             TradingViewVo tradingViewVo = tradingViewFilter.build();
             String postUrl = "https://scanner.tradingview.com/china/scan";
@@ -144,7 +146,7 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setVolume(Long.parseLong(dList.get(5)));
                         tradingViewEntity.setMarketCap(dList.get(6)==null?null:Double.parseDouble(dList.get(6)));
                         tradingViewEntity.setPriceEarningsTtm(dList.get(7) == null ? null : Double.parseDouble(dList.get(7)));
-                        tradingViewEntity.setNumberOfEmployees(dList.get(9) == null ? 0 : Long.parseLong(dList.get(9)));
+                        tradingViewEntity.setNumberOfEmployees(dList.get(9) == null ? 0 : NumberUtils.toLong(dList.get(9),0));
                         tradingViewEntity.setSector(dList.get(10));
                         tradingViewEntity.setIndustry(dList.get(11));
                         tradingViewEntity.setQuickRatio(dList.get(14) == null ? 0 : Double.parseDouble(dList.get(14)));
@@ -178,6 +180,7 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setEveningStar(!"0".equalsIgnoreCase(dList.get(42)));
                         tradingViewEntity.setOutstandingShares(dList.get(43)==null?null:Double.parseDouble(dList.get(43)));
                         tradingViewEntity.setTurnOver(dList.get(44)==null?null:Double.parseDouble(dList.get(44)));
+                        tradingViewEntity.setEma20(NumberUtils.toDouble(dList.get(44),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
                         tradingViewEntities.add(tradingViewEntity);
                     }
                 }

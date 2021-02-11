@@ -40,45 +40,44 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
         List<MacdDataEntity> deathList = macdList.stream().filter(e -> e.getMacdType() == MacdType.DEATH_CROSS).collect(Collectors.toList());
 
         MacdDataEntity max = macdList.stream().max(Comparator.comparing(MacdDataEntity::getMacdValue)).orElse(new MacdDataEntity());
-
         MacdDataEntity min = macdList.stream().min(Comparator.comparing(MacdDataEntity::getMacdValue)).orElse(new MacdDataEntity());
 
         List<TagStockEntity> tagStocks = new ArrayList<>();
 
         if(max.getMacdValue() > 0 && min.getMacdValue() < 0){
-            Double upper_macd_value_0 = (max.getMacdValue() - 0)/5;
+            Double upperMacdValue0 = (max.getMacdValue() - 0)/5;
             for (MacdDataEntity goldenData : goldenList) {
                 if(goldenData.getDay().getTime() < DateUtils.addDays(new Date(),-5).getTime()){
                     continue;
                 }
-                if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upper_macd_value_0){
+                if(goldenData.getSignalValue() > 0 && goldenData.getSignalValue() < upperMacdValue0){
                     tagStocks.add(tagStockService.tagStock(stock.getSymbol(),"MACD零轴金叉(日)",goldenData.getDay(),goldenData.getIntervalType(),goldenData.getLastIndex()));
                 }
             }
         }
 
         if(goldenList.size()>1 && goldenList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-5).getTime()){
-            MacdDataEntity macdData_0 = goldenList.get(0);
-            MacdDataEntity macdData_1 = goldenList.get(1);
-            if(macdData_0.getMacdValue() < 0 && macdData_1.getMacdValue() < 0 &&
-                    macdData_0.getMacdValue() > macdData_1.getMacdValue() &&
-                    macdData_0.getCloseValue() < macdData_1.getCloseValue() &&
-                    macdData_0.getDay().getTime() > DateUtils.addWeeks(macdData_1.getDay(),2).getTime()
+            MacdDataEntity macdData0 = goldenList.get(0);
+            MacdDataEntity macdData1 = goldenList.get(1);
+            if(macdData0.getMacdValue() < 0 && macdData1.getMacdValue() < 0 &&
+                    macdData0.getMacdValue() > macdData1.getMacdValue() &&
+                    macdData0.getCloseValue() < macdData1.getCloseValue() &&
+                    macdData0.getDay().getTime() > DateUtils.addWeeks(macdData1.getDay(),2).getTime()
             ){
 
-                tagStocks.add(tagStockService.tagStock(stock.getSymbol(), "MACD底背离(日)", macdData_0.getDay(), macdData_0.getIntervalType(), macdData_0.getLastIndex(), macdData_1.getDay()));
+                tagStocks.add(tagStockService.tagStock(stock.getSymbol(), "MACD底背离(日)", macdData0.getDay(), macdData0.getIntervalType(), macdData0.getLastIndex(), macdData1.getDay()));
             }
         }
 
         if(deathList.size()>1 && deathList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-5).getTime()){
-            MacdDataEntity macdData_0 = deathList.get(0);
-            MacdDataEntity macdData_1 = deathList.get(1);
-            if(macdData_0.getMacdValue() > 0 && macdData_1.getMacdValue() > 0 &&
-                    macdData_0.getMacdValue() < macdData_1.getMacdValue() &&
-                    macdData_0.getCloseValue() > macdData_1.getCloseValue() &&
-                    macdData_0.getDay().getTime() > DateUtils.addWeeks(macdData_1.getDay(),2).getTime()
+            MacdDataEntity macdData0 = deathList.get(0);
+            MacdDataEntity macdData1 = deathList.get(1);
+            if(macdData0.getMacdValue() > 0 && macdData1.getMacdValue() > 0 &&
+                    macdData0.getMacdValue() < macdData1.getMacdValue() &&
+                    macdData0.getCloseValue() > macdData1.getCloseValue() &&
+                    macdData0.getDay().getTime() > DateUtils.addWeeks(macdData1.getDay(),2).getTime()
             ){
-                tagStocks.add(tagStockService.tagStock(stock.getSymbol(),"MACD顶背离(日)",macdData_0.getDay(),macdData_0.getIntervalType(),macdData_0.getLastIndex(),macdData_1.getDay()));
+                tagStocks.add(tagStockService.tagStock(stock.getSymbol(),"MACD顶背离(日)",macdData0.getDay(),macdData0.getIntervalType(),macdData0.getLastIndex(),macdData1.getDay()));
             }
         }
 
