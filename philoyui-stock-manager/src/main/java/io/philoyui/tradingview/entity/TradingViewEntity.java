@@ -238,6 +238,11 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean ema20;
 
+    /**
+     * 移动平均线 多头
+     */
+    private Boolean sma30;
+
     public Long getId() {
         return id;
     }
@@ -596,5 +601,13 @@ public class TradingViewEntity implements Serializable {
 
     public void setEma20(Boolean ema20) {
         this.ema20 = ema20;
+    }
+
+    public Boolean getSma30() {
+        return sma30;
+    }
+
+    public void setSma30(Boolean sma30) {
+        this.sma30 = sma30;
     }
 }

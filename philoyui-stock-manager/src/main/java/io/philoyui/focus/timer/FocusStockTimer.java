@@ -35,7 +35,7 @@ public class FocusStockTimer {
 
         focusStockService.deleteAll();
 
-        Set<String> downStockSet = findEma20FromTradingView();
+        Set<String> downStockSet = findSma30FromTradingView();
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
         Set<String> stockName2 = findByTagName("MACD底背离(15min)");
@@ -87,9 +87,9 @@ public class FocusStockTimer {
         persistStock(stockSet,1);
     }
 
-    private Set<String> findEma20FromTradingView() {
+    private Set<String> findSma30FromTradingView() {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("ema20",0));
+        searchFilter.add(Restrictions.eq("sma30",0));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
