@@ -89,7 +89,7 @@ public class FocusStockTimer {
 
     private Set<String> findEma20FromTradingView() {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("ema20",1));
+        searchFilter.add(Restrictions.eq("ema20",0));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
