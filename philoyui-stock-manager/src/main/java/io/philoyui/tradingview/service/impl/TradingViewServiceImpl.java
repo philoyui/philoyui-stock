@@ -103,7 +103,8 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                     "total_shares_outstanding_fundamental",//流通股
                     "Volatility.D",//换手率
                     "EMA20",
-                    "SMA30"
+                    "SMA30",
+                    "SMA50"
             );
             TradingViewVo tradingViewVo = tradingViewFilter.build();
             String postUrl = "https://scanner.tradingview.com/china/scan";
@@ -183,6 +184,7 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setTurnOver(dList.get(44)==null?null:Double.parseDouble(dList.get(44)));
                         tradingViewEntity.setEma20(NumberUtils.toDouble(dList.get(44),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
                         tradingViewEntity.setSma30(NumberUtils.toDouble(dList.get(45),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
+                        tradingViewEntity.setSma50(NumberUtils.toDouble(dList.get(46),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
                         tradingViewEntities.add(tradingViewEntity);
                     }
                 }

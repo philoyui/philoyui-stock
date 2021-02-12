@@ -70,10 +70,9 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
             if(tradingViewEntity!=null){
                 List<String> tradingViewReports = tradingViewEntity.buildTradingViewItems();
                 for (String describeItem : tradingViewReports) {
-                    reportBuilder.append("<p>").append(describeItem).append("</p>");
+                    technicalBuilder.append("<p>").append(describeItem).append("</p>");
                 }
             }
-
 
             myStockEntity.setFinancialReport(reportBuilder.toString());
             myStockEntity.setTechnicalIndex(technicalBuilder.toString());

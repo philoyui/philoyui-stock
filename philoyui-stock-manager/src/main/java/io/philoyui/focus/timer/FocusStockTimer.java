@@ -35,7 +35,7 @@ public class FocusStockTimer {
 
         focusStockService.deleteAll();
 
-        Set<String> downStockSet = findSma30FromTradingView();
+        Set<String> downStockSet = findSma50FromTradingView();
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
         Set<String> stockName2 = findByTagName("MACD底背离(15min)");
@@ -65,6 +65,9 @@ public class FocusStockTimer {
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
         stockSet.addAll(stockName10);
+
+
+        //排除顶背离，
         stockSet.removeAll(stockName14);
         stockSet.removeAll(stockName15);
         stockSet.removeAll(stockName16);
@@ -72,24 +75,25 @@ public class FocusStockTimer {
         stockSet.removeAll(stockName18);
         stockSet.removeAll(stockName19);
         stockSet.removeAll(stockName20);
+
+        //50均线下行
         stockSet.removeAll(downStockSet);
 
-
-        persistStock(stockSet,5);
+        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行");
 
         stockSet.removeAll(stockName12);
-        persistStock(stockSet,3);
+        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率泡沫");
 
         stockSet.removeAll(stockName13);
-        persistStock(stockSet,2);
+        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率为负不盈利 - 市盈率泡沫");
 
         stockSet.removeAll(stockName11);
-        persistStock(stockSet,1);
+        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率为负不盈利 - 市盈率泡沫 - 债务风险");
     }
 
-    private Set<String> findSma30FromTradingView() {
+    private Set<String> findSma50FromTradingView() {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("sma30",0));
+        searchFilter.add(Restrictions.eq("sma50",0));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
@@ -160,7 +164,7 @@ public class FocusStockTimer {
         return stockSet;
     }
 
-    private void persistStock(Set<String> stockSet, Integer level) {
+    private void persistStock(Set<String> stockSet, String reason) {
         for (String symbol : stockSet) {
             FocusStockEntity focusStockEntity = new FocusStockEntity();
             focusStockEntity.setSymbol(symbol);
@@ -170,8 +174,8 @@ public class FocusStockTimer {
             for (TagStockEntity tagStockEntity : tagStockEntities) {
                 reasonBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
             }
-            focusStockEntity.setReason(reasonBuilder.toString());
-            focusStockEntity.setLevel(level);
+            focusStockEntity.setTags(reasonBuilder.toString());
+            focusStockEntity.setReason(reason);
             focusStockService.insert(focusStockEntity);
         }
     }

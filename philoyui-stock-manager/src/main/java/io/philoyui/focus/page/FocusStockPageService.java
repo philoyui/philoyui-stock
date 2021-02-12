@@ -58,7 +58,7 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         new ImageFieldDefinition("symbol", "周线图", 200, 150).aliasName("weekImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/weekly/n/" + symbol + ".gif"),
                         new ImageFieldDefinition("symbol", "日线图", 200, 150).aliasName("dayImage").beforeView(symbol -> "http://image.sinajs.cn/newchart/daily/n/" + symbol + ".gif"),
                         new StringFieldDefinition("reason", "原因"),
-                        new IntegerFieldDefinition("level","等级")
+                        new StringFieldDefinition("tags", "标签")
                 )
                 .withTableAction(
                         new TableOperation("重新生成","focusTask", ButtonStyle.Green)
@@ -68,12 +68,12 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "stockName_10",
                         "weekImage_20",
                         "dayImage_20",
-                        "level_5",
-                        "reason_20",
-                        "#operation_15"
+                        "tags_15",
+                        "reason_15",
+                        "#operation_10"
                 )
                 .withFilterDefinitions(
-                        "symbol","level"
+                        "symbol","tags"
                 )
                 .withColumnAction(
                         new NewPageOperation("标签","/admin/tag_stock/page?symbol=#symbol#","标签","symbol"),

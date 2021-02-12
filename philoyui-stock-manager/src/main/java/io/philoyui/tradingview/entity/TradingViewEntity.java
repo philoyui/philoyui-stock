@@ -256,6 +256,8 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean sma30;
 
+    private Boolean sma50;
+
     public Long getId() {
         return id;
     }
@@ -622,6 +624,14 @@ public class TradingViewEntity implements Serializable {
 
     public void setSma30(Boolean sma30) {
         this.sma30 = sma30;
+    }
+
+    public Boolean getSma50() {
+        return sma50;
+    }
+
+    public void setSma50(Boolean sma50) {
+        this.sma50 = sma50;
     }
 
     public List<String> buildTradingViewItems() {

@@ -33,6 +33,11 @@ public class FocusStockEntity implements Serializable {
     private String reason;
 
     /**
+     * 相关标签
+     */
+    private String tags;
+
+    /**
      * 等级
      */
     private Integer level;
@@ -75,5 +80,13 @@ public class FocusStockEntity implements Serializable {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }
