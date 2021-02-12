@@ -17,6 +17,8 @@ import io.philoyui.stock.service.TagStockService;
 import io.philoyui.stockdetail.entity.StockDetailEntity;
 import io.philoyui.stockdetail.service.StockDetailService;
 import io.philoyui.tagstock.entity.TagStockEntity;
+import io.philoyui.tradingview.entity.TradingViewEntity;
+import io.philoyui.tradingview.service.TradingViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,9 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
 
     @Autowired
     private StockDetailService stockDetailService;
+
+    @Autowired
+    private TradingViewService tradingViewService;
 
     @Override
     public PageObject<MyStockEntity> paged(SearchFilter searchFilter) {
@@ -60,6 +65,16 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                     technicalBuilder.append("<p>").append(technicalItem).append("</p>");
                 }
             }
+
+            TradingViewEntity tradingViewEntity = tradingViewService.findBySymbol(myStockEntity.getSymbol());
+            if(tradingViewEntity!=null){
+                List<String> tradingViewReports = tradingViewEntity.buildTradingViewItems();
+                for (String describeItem : tradingViewReports) {
+                    reportBuilder.append("<p>").append(describeItem).append("</p>");
+                }
+            }
+
+
             myStockEntity.setFinancialReport(reportBuilder.toString());
             myStockEntity.setTechnicalIndex(technicalBuilder.toString());
         }
@@ -85,13 +100,12 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(
-                "#checkbox_4",
                 "symbol_8",
                 "stockName_8",
                 "dayImage_16",
                 "weekImage_16",
-                "financialReport_20",
-                "technicalIndex_10",
+                "financialReport_15",
+                "technicalIndex_15",
                 "#operation_8"
         );
         pageConfig.withFilterDefinitions(

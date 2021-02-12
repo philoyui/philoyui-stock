@@ -241,12 +241,6 @@ for stock_code in stock_df["code"]:
                 mark_ma_value(symbol_string, interval_type_string, "Cross_5_10_Death", -1 - i)
             if avg5[-1 - i] < avg20[-1 - i] and avg5[-2 - i] > avg20[-2 - i]:
                 mark_ma_value(symbol_string, interval_type_string, "Cross_5_20_Death", -1 - i)
-            if avg5[-1-i] > avg5[-2-i] and avg10[-1-i] > avg10[-2-i] and avg30[-1-i] > avg30[-2-i] and avg30[-2-i] <\
-                    avg30[-3-i]:
-                mark_ma_value(symbol_string, interval_type_string, "UpTrend", -1-i)
-            if avg5[-1 - i] < avg5[-2 - i] and avg10[-1 - i] < avg10[-2 - i] and avg30[-1 - i] < avg30[-2 - i] \
-                    and avg30[-2 - i] > avg30[-3 - i]:
-                mark_ma_value(symbol_string, interval_type_string, "DownTrend", -1 - i)
 
         if rsi[-1-i] is not None:
             if rsi[-2 - i] > rsi[-3 - i] > 50 and rsi[-1 - i] < rsi[-2 - i] and rsi[-2 - i] > 70 and \

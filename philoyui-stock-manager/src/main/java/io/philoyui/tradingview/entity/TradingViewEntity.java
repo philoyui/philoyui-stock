@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class TradingViewEntity implements Serializable {
@@ -96,6 +98,9 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean hangingMan;
 
+
+
+
     /**
      * 倒锤子线
      */
@@ -105,6 +110,8 @@ public class TradingViewEntity implements Serializable {
      * 光头阳线
      */
     private Boolean marubozuWhite;
+
+
 
     /**
      * 光头阴线
@@ -126,6 +133,7 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean gravestone;
 
+
     /**
      * 流星线
      */
@@ -137,6 +145,7 @@ public class TradingViewEntity implements Serializable {
      * 白三兵
      */
     private Boolean whiteSoldiers3;
+
 
     /**
      * 白色旋转陀螺
@@ -167,6 +176,8 @@ public class TradingViewEntity implements Serializable {
      * 看涨弃婴
      */
     private Boolean abandonedBabyBullish;
+
+
 
     /**
      * 看跌三星
@@ -207,6 +218,8 @@ public class TradingViewEntity implements Serializable {
      * 长上影线
      */
     private Boolean longShadowUpper;
+
+
 
     /**
      * 黑丝旋转陀螺
@@ -610,4 +623,92 @@ public class TradingViewEntity implements Serializable {
     public void setSma30(Boolean sma30) {
         this.sma30 = sma30;
     }
+
+    public List<String> buildTradingViewItems() {
+        List<String> tradingViewItems = new ArrayList<>();
+        if(eveningStar){
+            tradingViewItems.add("黄昏星");
+        }
+        if(spinningTopBlack){
+            tradingViewItems.add("黑丝旋转陀螺");
+        }
+        if(longShadowLower){
+            tradingViewItems.add("长下影线");
+        }
+        if(hammer){
+            tradingViewItems.add("锤子线");
+        }
+        if(longShadowUpper){
+            tradingViewItems.add("长上影线");
+        }
+        if(abandonedBabyBearish){
+            tradingViewItems.add("看跌弃婴");
+        }
+        if(dojiDragonfly){
+            tradingViewItems.add("蜻蜓线");
+        }
+        if(engulfingBearish){
+            tradingViewItems.add("看跌吞没");
+        }
+        if(haramiBearish){
+            tradingViewItems.add("看跌孕线");
+        }
+        if(triStarBearish){
+            tradingViewItems.add("看跌三星");
+        }
+        if(kickingBearish){
+            tradingViewItems.add("看跌反冲形态");
+        }
+        if(haramiBullish){
+            tradingViewItems.add("看涨孕线");
+        }
+        if(abandonedBabyBullish){
+            tradingViewItems.add("看涨弃婴");
+        }
+        if(kickingBullish){
+            tradingViewItems.add("看涨反冲形态");
+        }
+        if(engulfingBullish){
+            tradingViewItems.add("看涨吞没");
+        }
+        if(spinningTopWhite){
+            tradingViewItems.add("白色旋转陀螺");
+        }
+        if(triStarBullish){
+            tradingViewItems.add("看涨三星");
+        }
+        if(shootingStar){
+            tradingViewItems.add("流星线");
+        }
+        if(whiteSoldiers3){
+            tradingViewItems.add("白三兵");
+        }
+        if(morningStar){
+            tradingViewItems.add("启明星");
+        }
+        if(gravestone){
+            tradingViewItems.add("墓碑线");
+        }
+        if(marubozuBlack){
+            tradingViewItems.add("光头阴线");
+        }
+        if(doji){
+            tradingViewItems.add("十字星");
+        }
+        if(invertedHammer){
+            tradingViewItems.add("倒锤子线");
+        }
+        if(marubozuWhite){
+            tradingViewItems.add("光头阳线");
+        }
+        if(blackCrows3){
+            tradingViewItems.add("三只乌鸦");
+        }
+        if(hangingMan){
+            tradingViewItems.add("上吊线");
+        }
+        return tradingViewItems;
+    }
+
+
 }
