@@ -34,16 +34,9 @@ public class TradingViewProvider implements IndicatorProvider {
     public void processGlobal() {
 
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("invertedHammer",true));
+        searchFilter.add(Restrictions.eq("morningStar",true));
         List<TradingViewEntity> tradingViewEntities = tradingViewService.list(searchFilter);
         List<String> stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
-        tagStockService.tagStocks(stockList,"倒锤子线",new Date(), IntervalType.Day);
-
-
-        searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("morningStar",true));
-        tradingViewEntities = tradingViewService.list(searchFilter);
-        stockList = tradingViewEntities.stream().map(TradingViewEntity::getSymbol).collect(Collectors.toList());
         tagStockService.tagStocks(stockList,"启明星",new Date(), IntervalType.Day);
 
         searchFilter = SearchFilter.getDefault();
