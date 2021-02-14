@@ -86,20 +86,11 @@ public class FocusStockTimer {
 
         persistStock(stockSet,"底背离 - 顶背离 - 50均线下行",5);
 
-        handleUpFromPattern(stockSet);
-
-        stockSet.removeAll(stockName12);
-        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率泡沫",4);
-
-        stockSet.removeAll(stockName13);
-        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率为负不盈利 - 市盈率泡沫",3);
-
-        stockSet.removeAll(stockName11);
-        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行 - 市盈率为负不盈利 - 市盈率泡沫 - 债务风险",2);
+        handlePattern(stockSet);
 
     }
 
-    private void handleUpFromPattern(Set<String> stockSet) {
+    private void handlePattern(Set<String> stockSet) {
         SearchFilter searchFilter10 = SearchFilter.getDefault();
         searchFilter10.add(Restrictions.or(Restrictions.eq("morningStar",true),Restrictions.eq("triStarBullish",true),Restrictions.eq("kickingBullish",true)
                 ,Restrictions.eq("engulfingBullish",true),Restrictions.eq("haramiBullish",true),Restrictions.eq("abandonedBabyBullish",true)
