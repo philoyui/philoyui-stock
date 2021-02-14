@@ -258,6 +258,26 @@ public class TradingViewEntity implements Serializable {
 
     private Boolean sma50;
 
+    /**
+     * BOLL上轨
+     */
+    private Double bollUp;
+
+    /**
+     * BOLL中轨
+     */
+    private Double bollMiddle;
+
+    /**
+     * BOLL下轨
+     */
+    private Double bollLower;
+
+    /**
+     * 是否位于上轨
+     */
+    private Boolean isInUpperBoll;
+
     public Long getId() {
         return id;
     }
@@ -634,6 +654,38 @@ public class TradingViewEntity implements Serializable {
         this.sma50 = sma50;
     }
 
+    public Double getBollUp() {
+        return bollUp;
+    }
+
+    public void setBollUp(Double bollUp) {
+        this.bollUp = bollUp;
+    }
+
+    public Double getBollMiddle() {
+        return bollMiddle;
+    }
+
+    public void setBollMiddle(Double bollMiddle) {
+        this.bollMiddle = bollMiddle;
+    }
+
+    public Double getBollLower() {
+        return bollLower;
+    }
+
+    public void setBollLower(Double bollLower) {
+        this.bollLower = bollLower;
+    }
+
+    public Boolean getInUpperBoll() {
+        return isInUpperBoll;
+    }
+
+    public void setInUpperBoll(Boolean inUpperBoll) {
+        isInUpperBoll = inUpperBoll;
+    }
+
     public List<String> buildTradingViewItems() {
         List<String> tradingViewItems = new ArrayList<>();
         if(eveningStar){
@@ -716,6 +768,12 @@ public class TradingViewEntity implements Serializable {
         }
         if(hangingMan){
             tradingViewItems.add("上吊线");
+        }
+        if(isInUpperBoll){
+            tradingViewItems.add("位于BOLL上轨");
+        }
+        if(!isInUpperBoll){
+            tradingViewItems.add("位于BOLL下轨");
         }
         return tradingViewItems;
     }

@@ -113,7 +113,7 @@ public class FocusStockTimer {
 
     private Set<String> findSma50FromTradingView() {
         SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("sma50",0));
+        searchFilter.add(Restrictions.eq("isInUpperBoll",0));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 

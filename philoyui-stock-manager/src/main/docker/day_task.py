@@ -177,6 +177,7 @@ for stock_code in stock_df["code"]:
         pbMRQ_array = day_data_frame['pbMRQ'].values
 
         macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
+        boll_upper, boll_middle, boll_lower = talib.BBANDS(close_array, timeperiod=20, nbdevup=2, nbdevdn=2, matype=0)
 
         cci_array = talib.CCI(high_array, low_array, close_array, 14)
 

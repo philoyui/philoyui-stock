@@ -104,7 +104,9 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                     "Volatility.D",//换手率
                     "EMA20",
                     "SMA30",
-                    "SMA50"
+                    "SMA50",
+                    "BB.upper",
+                    "BB.lower"
             );
             TradingViewVo tradingViewVo = tradingViewFilter.build();
             String postUrl = "https://scanner.tradingview.com/china/scan";
@@ -185,6 +187,10 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setEma20(NumberUtils.toDouble(dList.get(44),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
                         tradingViewEntity.setSma30(NumberUtils.toDouble(dList.get(45),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
                         tradingViewEntity.setSma50(NumberUtils.toDouble(dList.get(46),0) - NumberUtils.toDouble(dList.get(1),0) < 0 );
+                        tradingViewEntity.setBollUp(NumberUtils.toDouble(dList.get(47),0));
+                        tradingViewEntity.setBollLower(NumberUtils.toDouble(dList.get(48),0));
+                        tradingViewEntity.setBollMiddle((NumberUtils.toDouble(dList.get(47),0) + NumberUtils.toDouble(dList.get(48),0))/2);
+                        tradingViewEntity.setInUpperBoll(tradingViewEntity.getClose() >= tradingViewEntity.getBollMiddle());
                         tradingViewEntities.add(tradingViewEntity);
                     }
                 }
