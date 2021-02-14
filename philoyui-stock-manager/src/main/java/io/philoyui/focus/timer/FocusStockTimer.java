@@ -189,6 +189,7 @@ public class FocusStockTimer {
 
             List<TagStockEntity> tagStockEntities = tagStockService.findBySymbol(symbol);
             StringBuilder reasonBuilder = new StringBuilder();
+            StringBuilder reportBuilder = new StringBuilder();
             for (TagStockEntity tagStockEntity : tagStockEntities) {
                 reasonBuilder.append("<p>").append(tagStockEntity.getTagName()).append("</p>");
             }
@@ -196,8 +197,12 @@ public class FocusStockTimer {
             StockDetailEntity stockDetailEntity = stockDetailService.findBySymbol(symbol);
             if(stockDetailEntity!=null){
                 List<String> technicalItems = stockDetailEntity.buildTechnicalItems();
+                List<String> reportItems = stockDetailEntity.buildReportItems();
                 for (String technicalItem : technicalItems) {
                     reasonBuilder.append("<p>").append(technicalItem).append("</p>");
+                }
+                for (String describeItem : reportItems) {
+                    reportBuilder.append("<p>").append(describeItem).append("</p>");
                 }
             }
 
@@ -212,6 +217,7 @@ public class FocusStockTimer {
             focusStockEntity.setTags(reasonBuilder.toString());
             focusStockEntity.setReason(reason);
             focusStockEntity.setLevel(level);
+            focusStockEntity.setFinancialReport(reportBuilder.toString());
             focusStockService.insert(focusStockEntity);
         }
     }

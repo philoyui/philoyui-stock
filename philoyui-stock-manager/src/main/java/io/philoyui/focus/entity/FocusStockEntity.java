@@ -42,6 +42,11 @@ public class FocusStockEntity implements Serializable {
      */
     private Integer level;
 
+    /**
+     * 财务报表
+     */
+    private String financialReport;
+
     public Long getId() {
         return id;
     }
@@ -88,5 +93,13 @@ public class FocusStockEntity implements Serializable {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getFinancialReport() {
+        return financialReport;
+    }
+
+    public void setFinancialReport(String financialReport) {
+        this.financialReport = financialReport;
     }
 }
