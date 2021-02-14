@@ -60,9 +60,16 @@ public class FocusStockTimer {
         Set<String> stockName19 = findByTagName("RSI顶背离(日)");
         Set<String> stockName20 = findByTagName("CCI顶背离(日)");
 
+
+
+
         Set<String> stockName11 = findByTagName("债务风险");
         Set<String> stockName12 = findByTagName("市盈率泡沫");
         Set<String> stockName13 = findByTagName("市盈率为负不盈利");
+
+        Set<String> stockName21 = findByTagName("大宗交易");
+        Set<String> stockName22 = findByTagName("大容量大宗交易");
+        Set<String> stockName23 = findByTagName("溢价大宗交易");
 
         stockSet.addAll(stockName2);
         stockSet.addAll(stockName3);
@@ -71,6 +78,9 @@ public class FocusStockTimer {
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
         stockSet.addAll(stockName10);
+        stockSet.addAll(stockName21);
+        stockSet.addAll(stockName22);
+        stockSet.addAll(stockName23);
 
 
         //排除顶背离，
@@ -84,7 +94,7 @@ public class FocusStockTimer {
 
         stockSet = Sets.intersection(bollUpStockSet,stockSet);
 
-        persistStock(stockSet,"底背离 - 顶背离 - 50均线下行",5);
+        persistStock(stockSet,"底背离-顶背离-BOLL上轨道",5);
 
         handlePattern(stockSet);
 
@@ -105,70 +115,6 @@ public class FocusStockTimer {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("isInUpperBoll",1));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
-    }
-
-    private Set<String> pickLevel2Stocks() {
-        Set<String> stockSet = findByTagName("MACD底背离(日)");
-        Set<String> stockName2 = findByTagName("MACD底背离(15min)");
-        Set<String> stockName3 = findByTagName("MACD底背离(30min)");
-        Set<String> stockName4 = findByTagName("MACD底背离(60min)");
-        Set<String> stockName5 = findByTagName("MACD底背离(周)");
-        Set<String> stockName6 = findByTagName("KDJ底背离(周)");
-        Set<String> stockName7 = findByTagName("KDJ底背离(日)");
-        Set<String> stockName8 = findByTagName("RSI底背离(日)");
-        Set<String> stockName9 = findByTagName("CCI底背离(日)");
-        Set<String> stockName10 = findByTagName("启明星");
-
-        Set<String> stockName11 = findByTagName("债务风险");
-        Set<String> stockName12 = findByTagName("市盈率泡沫");
-        Set<String> stockName13 = findByTagName("市盈率为负不盈利");
-
-        stockSet.addAll(stockName2);
-        stockSet.addAll(stockName3);
-        stockSet.addAll(stockName4);
-        stockSet.addAll(stockName5);
-        stockSet.addAll(stockName6);
-        stockSet.addAll(stockName7);
-        stockSet.addAll(stockName8);
-        stockSet.addAll(stockName9);
-        stockSet.addAll(stockName10);
-
-        stockSet.removeAll(stockName11);
-        stockSet.removeAll(stockName12);
-        stockSet.removeAll(stockName13);
-        return stockSet;
-    }
-
-    private Set<String> pickLevel1Stocks() {
-        Set<String> stockSet = findByTagName("MACD底背离(日)");
-        Set<String> stockName2 = findByTagName("MACD底背离(15min)");
-        Set<String> stockName3 = findByTagName("MACD底背离(30min)");
-        Set<String> stockName4 = findByTagName("MACD底背离(60min)");
-        Set<String> stockName5 = findByTagName("MACD底背离(周)");
-        Set<String> stockName6 = findByTagName("KDJ底背离(周)");
-        Set<String> stockName7 = findByTagName("KDJ底背离(日)");
-        Set<String> stockName8 = findByTagName("RSI底背离(日)");
-        Set<String> stockName9 = findByTagName("CCI底背离(日)");
-        Set<String> stockName10 = findByTagName("启明星");
-
-        Set<String> stockName11 = findByTagName("债务风险");
-        Set<String> stockName12 = findByTagName("市盈率泡沫");
-        Set<String> stockName13 = findByTagName("市盈率为负不盈利");
-
-        stockSet.addAll(stockName2);
-        stockSet.addAll(stockName3);
-        stockSet.addAll(stockName4);
-        stockSet.addAll(stockName5);
-        stockSet.addAll(stockName6);
-        stockSet.addAll(stockName7);
-        stockSet.addAll(stockName8);
-        stockSet.addAll(stockName9);
-        stockSet.addAll(stockName10);
-
-        stockSet.removeAll(stockName11);
-        stockSet.removeAll(stockName12);
-        stockSet.removeAll(stockName13);
-        return stockSet;
     }
 
     private void persistStock(Set<String> stockSet, String reason,int level) {

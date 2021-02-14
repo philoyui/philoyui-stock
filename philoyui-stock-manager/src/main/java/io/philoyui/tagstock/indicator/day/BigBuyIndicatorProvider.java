@@ -54,7 +54,7 @@ public class BigBuyIndicatorProvider implements IndicatorProvider {
 
 
         String dayString3 = DateFormatUtils.format(DateUtils.addDays(DateUtils.addHours(new Date(),-16),-2), "yyyy-MM-dd");
-        handleBigData(dayString3,-3);
+        handleBigData(dayString3,-7);
     }
 
     private void handleBigData(String datString, int lastIndex) {
