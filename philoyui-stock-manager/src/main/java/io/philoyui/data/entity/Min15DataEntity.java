@@ -1,4 +1,4 @@
-package io.philoyui.mystock.entity;
+package io.philoyui.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 

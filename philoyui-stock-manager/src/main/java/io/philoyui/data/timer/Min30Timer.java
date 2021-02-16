@@ -1,8 +1,8 @@
-package io.philoyui.mystock.timer;
+package io.philoyui.data.timer;
 
-import io.philoyui.mystock.entity.Min30DataEntity;
+import io.philoyui.data.entity.Min30DataEntity;
 import io.philoyui.mystock.entity.MyStockEntity;
-import io.philoyui.mystock.service.Min30DataService;
+import io.philoyui.data.service.Min30DataService;
 import io.philoyui.stock.entity.enu.TaskType;
 import io.philoyui.stock.service.DownloadDataCallback;
 import io.philoyui.stock.service.KLineDataDownloader;

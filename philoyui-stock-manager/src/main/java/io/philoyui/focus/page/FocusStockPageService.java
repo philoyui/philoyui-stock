@@ -71,13 +71,12 @@ public class FocusStockPageService extends PageService<FocusStockEntity,Long> {
                         "stockName_7",
                         "weekImage_20",
                         "dayImage_20",
-                        "tags_12",
+                        "tags_15",
                         "financialReport_15",
-                        "level_5",
-                        "#operation_15"
+                        "#operation_17"
                 )
                 .withFilterDefinitions(
-                        "symbol","tags","level"
+                        "symbol","tags"
                 )
                 .withColumnAction(
                         new NewPageOperation("标签","/admin/tag_stock/page?symbol=#symbol#","标签","symbol"),

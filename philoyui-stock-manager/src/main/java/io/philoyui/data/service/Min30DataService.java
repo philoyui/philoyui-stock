@@ -1,7 +1,7 @@
-package io.philoyui.mystock.service;
+package io.philoyui.data.service;
 
 import cn.com.gome.cloud.openplatform.service.GenericService;
-import io.philoyui.mystock.entity.Min30DataEntity;
+import io.philoyui.data.entity.Min30DataEntity;
 
 import java.util.List;
 

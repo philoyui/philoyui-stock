@@ -1,8 +1,8 @@
-package io.philoyui.mystock.timer;
+package io.philoyui.data.timer;
 
-import io.philoyui.mystock.entity.HourDataEntity;
+import io.philoyui.data.entity.HourDataEntity;
 import io.philoyui.mystock.entity.MyStockEntity;
-import io.philoyui.mystock.service.HourDataService;
+import io.philoyui.data.service.HourDataService;
 import io.philoyui.stock.entity.enu.TaskType;
 import io.philoyui.stock.service.DownloadDataCallback;
 import io.philoyui.stock.service.KLineDataDownloader;
@@ -39,8 +39,11 @@ public class HourTimer {
     }
 
     private void handleHourTask() {
+
+        //删除原来数据
         hourDataService.deleteAll();
 
+        //下载最新数据
         kLineDataDownloader.download(TaskType.Min_15, new DownloadDataCallback() {
             @Override
             public void process(MyStockEntity stockEntity, KLineData[] kLineDataArray) {
@@ -62,6 +65,9 @@ public class HourTimer {
                 hourDataService.insertAll(hourDataEntityList);
             }
         });
+
+        //
+
     }
 
 

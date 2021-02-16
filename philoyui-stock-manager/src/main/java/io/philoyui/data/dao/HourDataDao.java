@@ -1,7 +1,7 @@
-package io.philoyui.mystock.dao;
+package io.philoyui.data.dao;
 
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
-import io.philoyui.mystock.entity.HourDataEntity;
+import io.philoyui.data.entity.HourDataEntity;
 
 public interface HourDataDao extends GenericDao<HourDataEntity,Long> {
 }

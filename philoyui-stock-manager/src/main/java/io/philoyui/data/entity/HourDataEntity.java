@@ -1,4 +1,4 @@
-package io.philoyui.mystock.entity;
+package io.philoyui.data.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Min30DataEntity implements Serializable {
+public class HourDataEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

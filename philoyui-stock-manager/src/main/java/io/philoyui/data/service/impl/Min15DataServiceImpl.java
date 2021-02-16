@@ -1,10 +1,10 @@
-package io.philoyui.mystock.service.impl;
+package io.philoyui.data.service.impl;
 
 import cn.com.gome.cloud.openplatform.repository.GenericDao;
 import cn.com.gome.cloud.openplatform.service.impl.GenericServiceImpl;
-import io.philoyui.mystock.dao.Min15DataDao;
-import io.philoyui.mystock.entity.Min15DataEntity;
-import io.philoyui.mystock.service.Min15DataService;
+import io.philoyui.data.dao.Min15DataDao;
+import io.philoyui.data.entity.Min15DataEntity;
+import io.philoyui.data.service.Min15DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

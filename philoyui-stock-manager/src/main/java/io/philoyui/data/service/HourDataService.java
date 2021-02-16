@@ -1,7 +1,7 @@
-package io.philoyui.mystock.service;
+package io.philoyui.data.service;
 
 import cn.com.gome.cloud.openplatform.service.GenericService;
-import io.philoyui.mystock.entity.HourDataEntity;
+import io.philoyui.data.entity.HourDataEntity;
 
 import java.util.List;
 
