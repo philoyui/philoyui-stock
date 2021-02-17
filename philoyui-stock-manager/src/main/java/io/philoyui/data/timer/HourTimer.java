@@ -53,7 +53,7 @@ public class HourTimer {
         hourDataService.deleteAll();
 
         //下载最新数据
-        kLineDataDownloader.download(TaskType.Min_15, new DownloadDataCallback() {
+        kLineDataDownloader.download(TaskType.Hour, new DownloadDataCallback() {
             @Override
             public void process(MyStockEntity stockEntity, KLineData[] kLineDataArray) {
                 List<HourDataEntity> hourDataEntityList = new ArrayList<>();
