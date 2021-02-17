@@ -116,6 +116,12 @@
             <version>2.8.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-weixin</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
