@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/resources/**","/api/**").permitAll()
+                .antMatchers("/resources/**","/api/**","/weixin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
