@@ -1,12 +1,15 @@
 package io.philoyui.data.timer;
 
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.data.entity.HourDataEntity;
 import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.data.service.HourDataService;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.entity.enu.TaskType;
 import io.philoyui.stock.service.DownloadDataCallback;
 import io.philoyui.stock.service.KLineDataDownloader;
 import io.philoyui.stock.to.KLineData;
+import io.philoyui.utils.PythonUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +24,12 @@ import java.util.List;
  */
 @Component
 public class HourTimer {
+
+    @Autowired
+    private PythonUtils pythonUtils;
+
+    @Autowired
+    private MyStockService myStockService;
 
     @Autowired
     private HourDataService hourDataService;
@@ -66,10 +75,11 @@ public class HourTimer {
             }
         });
 
-        //
+        List<MyStockEntity> stockEntityList = myStockService.list(SearchFilter.getDefault());
+        for (MyStockEntity myStockEntity : stockEntityList) {
+            pythonUtils.runPython("macd.py " + myStockEntity.getSymbol() + " hour");
+        }
 
     }
-
-
 
 }

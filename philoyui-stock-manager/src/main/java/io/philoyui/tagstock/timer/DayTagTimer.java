@@ -5,6 +5,7 @@ import io.philoyui.stock.entity.enu.IntervalType;
 import io.philoyui.stock.service.StockService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.tagstock.indicator.day.*;
+import io.philoyui.utils.PythonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,10 +19,10 @@ import java.io.InputStreamReader;
 public class DayTagTimer {
 
     @Autowired
-    private StockService stockService;
+    private PythonUtils pythonUtils;
 
-    @Value("${application.python.path}")
-    private String pythonPath;
+    @Autowired
+    private StockService stockService;
 
     @Autowired
     private MacdDayIndicatorProvider macdDayIndicatorProvider;
@@ -52,7 +53,7 @@ public class DayTagTimer {
 
         tagStockService.cleanOld(IntervalType.Day);
 
-        runPython("day_task.py");
+        pythonUtils.runPython("day_task.py");
         for (StockEntity stockEntity : stockService.findAll()) {
             macdDayIndicatorProvider.processTags(stockEntity);
             cciIndicatorProvider.processTags(stockEntity);
@@ -65,20 +66,6 @@ public class DayTagTimer {
         tradingViewProvider.processGlobal();
     }
 
-    private void runPython(String pythonName) {
-        Process process;
-        try {
-            process = Runtime.getRuntime().exec(pythonPath + pythonName);// 执行py文件
-            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            process.waitFor();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
 
 }

@@ -1,12 +1,15 @@
 package io.philoyui.data.timer;
 
+import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import io.philoyui.data.entity.Min30DataEntity;
 import io.philoyui.mystock.entity.MyStockEntity;
 import io.philoyui.data.service.Min30DataService;
+import io.philoyui.mystock.service.MyStockService;
 import io.philoyui.stock.entity.enu.TaskType;
 import io.philoyui.stock.service.DownloadDataCallback;
 import io.philoyui.stock.service.KLineDataDownloader;
 import io.philoyui.stock.to.KLineData;
+import io.philoyui.utils.PythonUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,11 +23,16 @@ import java.util.List;
 public class Min30Timer {
 
     @Autowired
+    private PythonUtils pythonUtils;
+
+    @Autowired
+    private MyStockService myStockService;
+
+    @Autowired
     private Min30DataService min30DataService;
 
     @Autowired
     private KLineDataDownloader kLineDataDownloader;
-
 
     @Scheduled(cron="0 30,0 9,10,11,13,14 * * 1-5")
     public void execute(){
@@ -52,6 +60,11 @@ public class Min30Timer {
                 min30DataService.insertAll(Min30DataEntityList);
             }
         });
+
+        List<MyStockEntity> stockEntityList = myStockService.list(SearchFilter.getDefault());
+        for (MyStockEntity myStockEntity : stockEntityList) {
+            pythonUtils.runPython("macd.py " + myStockEntity.getSymbol() + " min30");
+        }
 
     }
 
