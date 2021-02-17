@@ -23,3 +23,11 @@ spring:
     test-on-borrow: false
     test-while-idle: true
     time-between-eviction-runs-millis: 18800
+
+dream:
+  weixin:
+    wx-configs:
+      - appId: wx7834dc191378a252
+        appSecret: d122217936541f396454677c68579b03
+        token: 5f6e779a4d1043dba588afee04985286
+        encodingAesKey: ZynfLkPjWQrPpnhJiy930XEXhr1N9iwI0nnWR3WBjSc
