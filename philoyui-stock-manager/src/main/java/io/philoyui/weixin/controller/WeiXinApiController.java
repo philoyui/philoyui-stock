@@ -25,7 +25,6 @@ public class WeiXinApiController {
     @ResponseBody
     public String getMenu(){
         ApiResult menu = MenuApi.getMenu();
-        System.out.println("----------------" + menu.getJson());
         return menu.getJson();
     }
 

@@ -10,16 +10,9 @@ import net.dreamlu.weixin.spring.DreamMsgControllerAdapter;
 @WxMsgController("/weixin/wx")
 public class WeiXinMsgController extends DreamMsgControllerAdapter {
 
-
     @Override
     protected void processInFollowEvent(InFollowEvent inFollowEvent) {
         OutTextMsg defaultMsg = new OutTextMsg(inFollowEvent);
-        // 关注
-        if(InFollowEvent.EVENT_INFOLLOW_SUBSCRIBE.equals(inFollowEvent.getEvent())){
-            // 可将关注用户录入db，此处可以获取到用户openid
-            String openId = inFollowEvent.getFromUserName();
-
-        }
         // 取消关注
         if(InFollowEvent.EVENT_INFOLLOW_UNSUBSCRIBE.equals(inFollowEvent.getEvent())){
             // 此处可以将取消关注的用户更新db

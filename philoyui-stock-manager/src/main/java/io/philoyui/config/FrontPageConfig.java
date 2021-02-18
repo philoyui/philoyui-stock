@@ -40,6 +40,9 @@ public class FrontPageConfig {
                 .addRootItem("素材管理","material",
                         new LeafItem("文章管理","/admin/article/page")
                 )
+                .addRootItem("微信管理","material",
+                        new LeafItem("消息管理","/admin/we_chat_msg/page")
+                )
                 .build();
 
         PageSettings pageSettings = new PageSettings();
