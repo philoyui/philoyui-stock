@@ -307,6 +307,4 @@ for stock_code in stock_df["code"]:
     except ValueError:
         print(psTTM_array[-1])
 
-    print("parse " + symbol_string + " complete!!")
-
 bs.logout()

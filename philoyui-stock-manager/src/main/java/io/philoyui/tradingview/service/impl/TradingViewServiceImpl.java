@@ -199,8 +199,6 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                 e.printStackTrace();
             }
 
-            System.out.println("第" + index + "页下载完成");
-
             index+=150;
 
             try {

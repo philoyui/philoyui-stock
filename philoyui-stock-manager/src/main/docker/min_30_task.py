@@ -76,6 +76,4 @@ for stock_code in stock_df["code"]:
             if macd_array[-1-i] < signal_array[-1-i] and macd_array[-2-i] > signal_array[-2-i]:
                 mark_macd_value(symbol_string, interval_type_string, "DEATH_CROSS", -1-i)
 
-    print("parse " + symbol_string + " complete!!")
-
 bs.logout()

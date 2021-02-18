@@ -157,8 +157,6 @@ public class StockGetTest {
                 e.printStackTrace();
             }
 
-            System.out.println("第" + index  + "页下载完成");
-
             index++;
 
             try {
