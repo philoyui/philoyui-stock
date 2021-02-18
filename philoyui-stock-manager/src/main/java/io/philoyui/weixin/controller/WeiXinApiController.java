@@ -38,6 +38,8 @@ public class WeiXinApiController {
 
         ApiResult deleteResult = MenuApi.deleteMenu();
 
+        System.out.println(gson.toJson(deleteResult));
+
         if(!deleteResult.isSucceed()){
             throw new GmosException("清理微信公众平台菜单失败：" + deleteResult.getErrorMsg());
         }
@@ -71,6 +73,9 @@ public class WeiXinApiController {
         menu.setButton(new Button[]{button11,button21,button});
 
         ApiResult createResult = MenuApi.createMenu(gson.toJson(menu));
+
+        System.out.println(gson.toJson(createResult));
+
         if(!createResult.isSucceed()){
             throw new GmosException("创建微信公众平台菜单成功");
         }
