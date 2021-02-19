@@ -33,8 +33,10 @@ day_array = data_frame['day'].values
 macd_array, signal_array, hist_array = talib.MACD(close_array, fastperiod=12, slowperiod=26, signalperiod=9)
 
 
-def alert(msg):
-    http.request('GET', "http://localhost:8081/api/notify/alert?symbol=" + symbol + "&msg=" + msg).read()
+def alert(type, close1, close2, macd1, macd2):
+    http.request('GET', "http://localhost:8081/api/notify/alert?symbol=" + symbol + "&intervalType=" + interval_type +
+                 "&type=" + type + "&close1=" + close1 + "&close2=" + close2 + "&macd1=" + macd1 + "&macd2=" + macd2
+                 ).read()
     pass
 
 
@@ -55,11 +57,7 @@ if macd_array[0] > signal_array[0] and macd_array[1] < signal_array[1]:
                 death_macd_set.append(macd_array[-1 - i])
 
     if len(golden_macd_set) > 1 and golden_macd_set[0] > golden_macd_set[1] and golden_close_set[0] < golden_close_set[1]:
-        alert("发现" + interval_type + "底背离信息，当前信息close："
-              + str(golden_close_set[0]) + " " + str(golden_close_set[1])
-              + " macd: " + str(golden_macd_set[0]) + " " + str(golden_macd_set[1]))
+        alert("1", str(golden_close_set[0]), str(golden_close_set[1]), str(golden_macd_set[0]), str(golden_macd_set[1]))
 
     if len(death_macd_set) > 1 and death_macd_set[0] < death_macd_set[1] and death_close_set[0] > death_close_set[1]:
-        alert("发现" + interval_type + "顶背离信息，当前信息close："
-              + str(golden_close_set[0]) + " " + str(golden_close_set[1])
-              + " macd: " + str(golden_macd_set[0]) + " " + str(golden_macd_set[1]))
+        alert("0", str(golden_close_set[0]), str(golden_close_set[1]), str(golden_macd_set[0]), str(golden_macd_set[1]))
