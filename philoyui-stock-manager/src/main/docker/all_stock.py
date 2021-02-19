@@ -10,7 +10,7 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = "2021-2-19"
+day_string = "2021-2-18"
 
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
