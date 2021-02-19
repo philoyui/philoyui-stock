@@ -23,6 +23,14 @@ spring:
     test-on-borrow: false
     test-while-idle: true
     time-between-eviction-runs-millis: 18800
+  mail:
+    host: smtp.163.com
+    username: yang7551735@163.com
+    password: 267417551735
+    default-encoding: UTF-8
+mail:
+  fromMail:
+    addr: yang7551735@163.com
 
 dream:
   weixin:

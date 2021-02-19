@@ -49,8 +49,6 @@ public class KLineDataDownloaderImpl implements KLineDataDownloader {
 
                 downloadDataCallback.process(myStockEntity, KLineDataArray);
 
-                LOG.info("下载历史数据成功：" + taskType + " " + myStockEntity.getSymbol());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
