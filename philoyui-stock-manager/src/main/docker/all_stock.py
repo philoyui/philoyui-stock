@@ -10,7 +10,7 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
+day_string = "2021-2-19"
 
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
@@ -31,11 +31,13 @@ def truncate_tables():
     conn.execute(truncate_stock_sql)
 
 
-truncate_tables()
+if len(stock_df.columns) != 0:
+    truncate_tables()
 
-for index, row in stock_df.iterrows():
-    symbol_string = row["code"][0:2] + row["code"][3:9]
-    if not symbol_string.startswith("sh00"):
-        persist_stock_entity(symbol_string, row["code_name"])
+    for index, row in stock_df.iterrows():
+        symbol_string = row["code"][0:2] + row["code"][3:9]
+        if not symbol_string.startswith("sh00"):
+            persist_stock_entity(symbol_string, row["code_name"])
+
 
 bs.logout()

@@ -2,6 +2,8 @@ package io.philoyui.stock.page;
 
 import cn.com.gome.cloud.openplatform.common.PageObject;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import cn.com.gome.page.button.batch.ButtonStyle;
+import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.ConfirmOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
@@ -45,6 +47,9 @@ public class StockPageService extends PageService<StockEntity,Long> {
                         "weekImage_25",
                         "dayImage_25",
                         "#operation_20"
+                )
+                .withTableAction(
+                        new TableOperation("重新抓取","reload", ButtonStyle.Blue)
                 )
                 .withFilterDefinitions(
                         "symbol","name"
