@@ -5,6 +5,7 @@ import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import cn.com.gome.page.button.batch.ButtonStyle;
 import cn.com.gome.page.button.batch.TableOperation;
 import cn.com.gome.page.button.column.DeleteOperation;
+import cn.com.gome.page.button.column.EditOperation;
 import cn.com.gome.page.button.column.LinkOperation;
 import cn.com.gome.page.core.PageConfig;
 import cn.com.gome.page.core.PageContext;
@@ -96,16 +97,18 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
                 new StringFieldDefinition("dateString", "日期"),
                 new StringFieldDefinition("financialReport","财报"),
                 new StringFieldDefinition("technicalIndex","技术指标"),
+                new StringFieldDefinition("reason","原因"),
                 new DateFieldDefinition("createdTime", "创建时间")
         );
         pageConfig.withTableColumnDefinitions(
                 "symbol_8",
-                "stockName_8",
-                "dayImage_16",
-                "weekImage_16",
-                "financialReport_15",
-                "technicalIndex_15",
-                "#operation_8"
+                "stockName_6",
+                "dayImage_15",
+                "weekImage_15",
+                "financialReport_14",
+                "technicalIndex_12",
+                "reason_10",
+                "#operation_6"
         );
         pageConfig.withFilterDefinitions(
                 "symbol_like",
@@ -118,7 +121,11 @@ public class MyStockPageService extends PageService<MyStockEntity,String> {
         );
         pageConfig.withColumnAction(
                 new LinkOperation("详情","http://quote.eastmoney.com/concept/#symbol#.html","symbol"),
+                new EditOperation(),
                 new DeleteOperation()
+        );
+        pageConfig.withFormItemDefinition(
+                "reason_rw"
         );
         pageConfig.withDefaultPageSize("100");
         return pageConfig;

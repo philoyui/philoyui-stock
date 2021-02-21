@@ -45,6 +45,11 @@ public class MyStockEntity implements Serializable {
      */
     private Date createdTime;
 
+    /**
+     * 原因
+     */
+    private String reason;
+
     public Long getId() {
         return id;
     }
@@ -99,5 +104,13 @@ public class MyStockEntity implements Serializable {
 
     public void setTechnicalIndex(String technicalIndex) {
         this.technicalIndex = technicalIndex;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }
