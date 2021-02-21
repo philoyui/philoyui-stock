@@ -278,6 +278,11 @@ public class TradingViewEntity implements Serializable {
      */
     private Boolean isInUpperBoll;
 
+    /**
+     * 一个月涨幅，Perf.1M
+     */
+    private Double monthRange;
+
     public Long getId() {
         return id;
     }
@@ -684,6 +689,14 @@ public class TradingViewEntity implements Serializable {
 
     public void setInUpperBoll(Boolean inUpperBoll) {
         isInUpperBoll = inUpperBoll;
+    }
+
+    public Double getMonthRange() {
+        return monthRange;
+    }
+
+    public void setMonthRange(Double monthRange) {
+        this.monthRange = monthRange;
     }
 
     public List<String> buildTradingViewItems() {

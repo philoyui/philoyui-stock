@@ -57,7 +57,9 @@ if macd_array[0] > signal_array[0] and macd_array[1] < signal_array[1]:
                 death_macd_set.append(macd_array[-1 - i])
 
     if len(golden_macd_set) > 1 and golden_macd_set[0] > golden_macd_set[1] and golden_close_set[0] < golden_close_set[1]:
+        print("发现底背离")
         alert("1", str(golden_close_set[0]), str(golden_close_set[1]), str(golden_macd_set[0]), str(golden_macd_set[1]))
 
     if len(death_macd_set) > 1 and death_macd_set[0] < death_macd_set[1] and death_close_set[0] > death_close_set[1]:
+        print("发现顶背离")
         alert("0", str(golden_close_set[0]), str(golden_close_set[1]), str(golden_macd_set[0]), str(golden_macd_set[1]))

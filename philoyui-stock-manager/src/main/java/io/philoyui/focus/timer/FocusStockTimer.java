@@ -2,9 +2,11 @@ package io.philoyui.focus.timer;
 
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import io.philoyui.focus.entity.FocusStockEntity;
 import io.philoyui.focus.service.FocusStockService;
+import io.philoyui.stock.service.StockService;
 import io.philoyui.stock.service.TagStockService;
 import io.philoyui.stockdetail.entity.StockDetailEntity;
 import io.philoyui.stockdetail.service.StockDetailService;
@@ -35,13 +37,16 @@ public class FocusStockTimer {
     @Autowired
     private StockDetailService stockDetailService;
 
+    @Autowired
+    private StockService stockService;
+
 
     @Scheduled(cron="0 0 6 * * 2-6")
     public void execute(){
 
         focusStockService.deleteAll();
 
-        Set<String> bollUpStockSet = findBollUp();
+        Set<String> bollUpStockSet = findBollUpAndNotBigUpInMonth();
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
 //        Set<String> stockName2 = findByTagName("MACD底背离(15min)");
@@ -111,14 +116,24 @@ public class FocusStockTimer {
         persistStock(Sets.difference(stockName21, stockSet),"看涨形态",6);
     }
 
-    private Set<String> findBollUp() {
+    private Set<String> findBollUpAndNotBigUpInMonth() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("isInUpperBoll",1));
+        searchFilter.add(Restrictions.gt("monthRange",20));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
     private void persistStock(Set<String> stockSet, String reason,int level) {
         for (String symbol : stockSet) {
+
+            String stockName = stockService.findStockName(symbol);
+            if(Strings.isNullOrEmpty(stockName)){
+               continue;
+            }
+            if(stockName.startsWith("ST")||stockName.startsWith("*ST")){
+                continue;
+            }
+
             FocusStockEntity focusStockEntity = new FocusStockEntity();
             focusStockEntity.setSymbol(symbol);
             focusStockEntity.setAddTime(new Date());
