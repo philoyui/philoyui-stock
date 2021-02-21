@@ -107,7 +107,8 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                     "SMA50",
                     "BB.upper",
                     "BB.lower",
-                    "Perf.1M"
+                    "Perf.1M",
+                    "Perf.W"
             );
             TradingViewVo tradingViewVo = tradingViewFilter.build();
             String postUrl = "https://scanner.tradingview.com/china/scan";
@@ -193,6 +194,7 @@ public class TradingViewServiceImpl extends GenericServiceImpl<TradingViewEntity
                         tradingViewEntity.setBollMiddle((NumberUtils.toDouble(dList.get(47),0) + NumberUtils.toDouble(dList.get(48),0))/2);
                         tradingViewEntity.setInUpperBoll(tradingViewEntity.getClose() >= tradingViewEntity.getBollMiddle());
                         tradingViewEntity.setMonthRange(NumberUtils.toDouble(dList.get(48),0));
+                        tradingViewEntity.setWeekRange(NumberUtils.toDouble(dList.get(49),0));
                         tradingViewEntities.add(tradingViewEntity);
                     }
                 }

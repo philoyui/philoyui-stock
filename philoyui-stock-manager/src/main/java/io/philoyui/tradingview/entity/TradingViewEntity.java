@@ -283,6 +283,11 @@ public class TradingViewEntity implements Serializable {
      */
     private Double monthRange;
 
+    /**
+     * 一周的涨幅，Perf.W
+     */
+    private Double weekRange;
+
     public Long getId() {
         return id;
     }
@@ -697,6 +702,14 @@ public class TradingViewEntity implements Serializable {
 
     public void setMonthRange(Double monthRange) {
         this.monthRange = monthRange;
+    }
+
+    public Double getWeekRange() {
+        return weekRange;
+    }
+
+    public void setWeekRange(Double weekRange) {
+        this.weekRange = weekRange;
     }
 
     public List<String> buildTradingViewItems() {

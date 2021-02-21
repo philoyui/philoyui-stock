@@ -119,7 +119,8 @@ public class FocusStockTimer {
     private Set<String> findBollUpAndNotBigUpInMonth() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("isInUpperBoll",1));
-        searchFilter.add(Restrictions.gt("monthRange",20));
+        searchFilter.add(Restrictions.lt("monthRange",20));
+        searchFilter.add(Restrictions.lt("weekRange",15));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
