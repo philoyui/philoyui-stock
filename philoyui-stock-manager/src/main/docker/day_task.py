@@ -11,8 +11,8 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
-
+#day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
+day_string = "2021-01-05"
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
 stock_df = stock_rs.get_data()
