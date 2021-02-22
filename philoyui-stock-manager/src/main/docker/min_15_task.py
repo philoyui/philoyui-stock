@@ -10,7 +10,7 @@ from base import build_mysql_connection
 bs.login()
 
 now = datetime.datetime.now()
-day_string = "2020-09-21"
+day_string = (now - datetime.timedelta(days=now.weekday())).strftime("%Y-%m-%d")
 
 # 获取指定日期的指数、股票数据
 stock_rs = bs.query_all_stock(day_string)
