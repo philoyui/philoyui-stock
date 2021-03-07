@@ -77,7 +77,7 @@ public class FocusStockTimer {
 //        Set<String> stockName23 = findByTagName("溢价大宗交易");
 
 //        stockSet.addAll(stockName2);
-//        stockSet.addAll(stockName3);
+        stockSet.addAll(stockName3);
         stockSet.addAll(stockName4);
         stockSet.addAll(stockName5);
         stockSet.addAll(stockName8);
