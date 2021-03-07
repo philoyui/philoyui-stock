@@ -56,7 +56,7 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(goldenList.size()>1 && goldenList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-5).getTime()){
+        if(goldenList.size()>1 && goldenList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-14).getTime()){
             MacdDataEntity macdData0 = goldenList.get(0);
             MacdDataEntity macdData1 = goldenList.get(1);
             if(macdData0.getMacdValue() < 0 && macdData1.getMacdValue() < 0 &&
@@ -69,7 +69,7 @@ public class MacdDayIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(deathList.size()>1 && deathList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-5).getTime()){
+        if(deathList.size()>1 && deathList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-14).getTime()){
             MacdDataEntity macdData0 = deathList.get(0);
             MacdDataEntity macdData1 = deathList.get(1);
             if(macdData0.getMacdValue() > 0 && macdData1.getMacdValue() > 0 &&

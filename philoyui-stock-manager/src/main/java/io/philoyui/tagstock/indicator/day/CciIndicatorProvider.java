@@ -44,7 +44,7 @@ public class CciIndicatorProvider implements IndicatorProvider {
         List<CciDataEntity> bottomDataList = cciDataEntities.stream().filter(e -> e.getCciType() == CciType.BOTTOM).collect(Collectors.toList());
 
 
-        if(topDataList.size()>1&& topDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-8).getTime()) {
+        if(topDataList.size()>1&& topDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-14).getTime()) {
             CciDataEntity oldCciDataEntity = topDataList.get(0);
             CciDataEntity newCciDataEntity = topDataList.get(1);
             if(newCciDataEntity.getCciValue() < oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() > oldCciDataEntity.getCloseValue()){
@@ -52,7 +52,7 @@ public class CciIndicatorProvider implements IndicatorProvider {
             }
         }
 
-        if(bottomDataList.size()>1&& bottomDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-8).getTime()) {
+        if(bottomDataList.size()>1&& bottomDataList.get(0).getDay().getTime() > DateUtils.addDays(new Date(),-14).getTime()) {
             CciDataEntity oldCciDataEntity = bottomDataList.get(0);
             CciDataEntity newCciDataEntity = bottomDataList.get(1);
             if(newCciDataEntity.getCciValue() > oldCciDataEntity.getCciValue() && newCciDataEntity.getCloseValue() < oldCciDataEntity.getCloseValue()){
