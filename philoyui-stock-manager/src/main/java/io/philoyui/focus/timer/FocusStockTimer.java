@@ -101,7 +101,7 @@ public class FocusStockTimer {
 
         persistStock(stockSet,"底背离-顶背离-BOLL上轨道",5);
 
-        handlePattern(stockSet);
+//        handlePattern(stockSet);
 
     }
 
