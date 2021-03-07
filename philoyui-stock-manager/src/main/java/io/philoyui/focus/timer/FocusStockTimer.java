@@ -3,7 +3,6 @@ package io.philoyui.focus.timer;
 import cn.com.gome.cloud.openplatform.common.Restrictions;
 import cn.com.gome.cloud.openplatform.common.SearchFilter;
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 import io.philoyui.focus.entity.FocusStockEntity;
 import io.philoyui.focus.service.FocusStockService;
 import io.philoyui.stock.service.StockService;
@@ -13,6 +12,8 @@ import io.philoyui.stockdetail.service.StockDetailService;
 import io.philoyui.tagstock.entity.TagStockEntity;
 import io.philoyui.tradingview.entity.TradingViewEntity;
 import io.philoyui.tradingview.service.TradingViewService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class FocusStockTimer {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FocusStockTimer.class);
 
     @Autowired
     private TagStockService tagStockService;
@@ -44,6 +47,8 @@ public class FocusStockTimer {
     @Scheduled(cron="0 0 6 * * 2-6")
     public void execute(){
 
+        LOG.info("----定时器（提取待关注股票）开始执行：");
+
         focusStockService.deleteAll();
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
@@ -53,7 +58,6 @@ public class FocusStockTimer {
         Set<String> stockName5 = findByTagName("MACD底背离(周)");
         Set<String> stockName8 = findByTagName("RSI底背离(日)");
         Set<String> stockName9 = findByTagName("CCI底背离(日)");
-//        Set<String> stockName10 = findByTagName("启明星");
 
         Set<String> stockName14 = findByTagName("MACD顶背离(日)");
         Set<String> stockName15 = findByTagName("MACD顶背离(15min)");
@@ -63,28 +67,15 @@ public class FocusStockTimer {
         Set<String> stockName19 = findByTagName("RSI顶背离(日)");
         Set<String> stockName20 = findByTagName("CCI顶背离(日)");
 
-
-
-
         Set<String> stockName11 = findByTagName("债务风险");
         Set<String> stockName12 = findByTagName("市盈率泡沫");
         Set<String> stockName13 = findByTagName("市盈率为负不盈利");
 
-//        Set<String> stockName21 = findByTagName("大宗交易");
-//        Set<String> stockName22 = findByTagName("大容量大宗交易");
-//        Set<String> stockName23 = findByTagName("溢价大宗交易");
-
-//        stockSet.addAll(stockName2);
         stockSet.addAll(stockName3);
         stockSet.addAll(stockName4);
         stockSet.addAll(stockName5);
         stockSet.addAll(stockName8);
         stockSet.addAll(stockName9);
-//        stockSet.addAll(stockName10);
-//        stockSet.addAll(stockName21);
-//        stockSet.addAll(stockName22);
-//        stockSet.addAll(stockName23);
-
 
         //排除顶背离，
         stockSet.removeAll(stockName14);
@@ -97,25 +88,7 @@ public class FocusStockTimer {
 
         persistStock(stockSet,"底背离-顶背离-BOLL上轨道",5);
 
-//        handlePattern(stockSet);
 
-    }
-
-    private void handlePattern(Set<String> stockSet) {
-        SearchFilter searchFilter10 = SearchFilter.getDefault();
-        searchFilter10.add(Restrictions.or(Restrictions.eq("morningStar",true),Restrictions.eq("triStarBullish",true),Restrictions.eq("kickingBullish",true)
-                ,Restrictions.eq("engulfingBullish",true),Restrictions.eq("haramiBullish",true),Restrictions.eq("abandonedBabyBullish",true)
-                ,Restrictions.eq("haramiBullish",true),Restrictions.eq("longShadowLower",true),Restrictions.eq("dojiDragonfly",true)
-        ));
-
-        Set<String> stockName21 = tradingViewService.list(searchFilter10).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
-        persistStock(Sets.difference(stockName21, stockSet),"看涨形态",6);
-    }
-
-    private Set<String> findBollUp() {
-        SearchFilter searchFilter = SearchFilter.getDefault();
-        searchFilter.add(Restrictions.eq("isInUpperBoll",1));
-        return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
     private void persistStock(Set<String> stockSet, String reason,int level) {
@@ -171,7 +144,9 @@ public class FocusStockTimer {
     private Set<String> findByTagName(String tagName) {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("tagName",tagName));
-        return tagStockService.list(searchFilter).stream().map(TagStockEntity::getSymbol).collect(Collectors.toSet());
+        Set<String> collect = tagStockService.list(searchFilter).stream().map(TagStockEntity::getSymbol).collect(Collectors.toSet());
+        LOG.info("发现" + tagName + "股票共" + collect.size() + "条");
+        return collect;
     }
 
 }
