@@ -50,7 +50,7 @@ public class FocusStockTimer {
 
         Set<String> stockSet = findByTagName("MACD底背离(日)");
 //        Set<String> stockName2 = findByTagName("MACD底背离(15min)");
-//        Set<String> stockName3 = findByTagName("MACD底背离(30min)");
+        Set<String> stockName3 = findByTagName("MACD底背离(30min)");
         Set<String> stockName4 = findByTagName("MACD底背离(60min)");
         Set<String> stockName5 = findByTagName("MACD底背离(周)");
         Set<String> stockName8 = findByTagName("RSI底背离(日)");
