@@ -46,8 +46,6 @@ public class FocusStockTimer {
 
         focusStockService.deleteAll();
 
-        Set<String> bollUpStockSet = findBollUpAndNotBigUpInMonth();
-
         Set<String> stockSet = findByTagName("MACD底背离(日)");
 //        Set<String> stockName2 = findByTagName("MACD底背离(15min)");
         Set<String> stockName3 = findByTagName("MACD底背离(30min)");
@@ -97,8 +95,6 @@ public class FocusStockTimer {
         stockSet.removeAll(stockName19);
         stockSet.removeAll(stockName20);
 
-        stockSet = Sets.intersection(bollUpStockSet,stockSet);
-
         persistStock(stockSet,"底背离-顶背离-BOLL上轨道",5);
 
 //        handlePattern(stockSet);
@@ -116,11 +112,9 @@ public class FocusStockTimer {
         persistStock(Sets.difference(stockName21, stockSet),"看涨形态",6);
     }
 
-    private Set<String> findBollUpAndNotBigUpInMonth() {
+    private Set<String> findBollUp() {
         SearchFilter searchFilter = SearchFilter.getDefault();
         searchFilter.add(Restrictions.eq("isInUpperBoll",1));
-        searchFilter.add(Restrictions.lt("monthRange",20));
-        searchFilter.add(Restrictions.lt("weekRange",15));
         return tradingViewService.list(searchFilter).stream().map(TradingViewEntity::getSymbol).collect(Collectors.toSet());
     }
 
